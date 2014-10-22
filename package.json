@@ -1,0 +1,14 @@
+{
+    "name": "openabr",
+    "version": "0.0.1",
+    "dependencies": {
+    "restify": "2.8.x"
+    },
+    "devDependencies": {
+
+    },
+    "engines": {
+        "node": "0.10.32",
+        "npm": "2.1.4"
+    }
+}
