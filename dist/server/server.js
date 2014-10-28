@@ -1,18 +1,19 @@
-var restify = require('restify');
+(function() {
+  var port, restify, server;
 
-var port = process.env.PORT || 8080;
+  restify = require('restify');
 
-function respond(req, res, next) {
-    res.send('hello ' + req.params.name);
-    next();
-}
+  port = process.env.PORT || 8080;
 
-var server = restify.createServer();
-server.get('/hello/:name', respond);
-server.head('/hello/:name', respond);
+  server = restify.createServer();
 
-server.listen(port, function() {
-    console.log('%s listening at %s', server.name, server.url);
-});
+  server.get('/test/:name', function(req, res, next) {
+    res.send('Hello there... ' + req.params.name);
+    return next();
+  });
 
+  server.listen(port, function() {
+    return console.log('%s listening at %s', server.name, server.url);
+  });
 
+}).call(this);
