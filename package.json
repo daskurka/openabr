@@ -1,12 +1,14 @@
 {
     "name": "openabr",
     "version": "0.0.1",
+    "description": "New nodejs OpenABR system.",
     "dependencies": {
-    "restify": "2.8.3"
+        "restify": "2.8.3"
     },
     "devDependencies": {
 
     },
+    "main": "dist/server/server.js",
     "engines": {
         "node": "0.10.32",
         "npm": "2.1.4"
