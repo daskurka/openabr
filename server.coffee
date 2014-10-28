@@ -1,2 +1,0 @@
-restify = require 'restify'
-
