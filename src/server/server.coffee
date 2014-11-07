@@ -1,14 +1,23 @@
 restify = require 'restify'
+chalk = require 'chalk'
+routes = require './routes'
 
-port = process.env.PORT || 8080
+#configure server
+server = restify.createServer
+  name: 'openabr-server'
+  version: '0.1.0'
+server.port = process.env.PORT || 8080
 
-server = restify.createServer()
+console.log "#{chalk.red(server.name)} is starting..."
 
-server.get '/test/:name', (req, res, next) ->
-  res.send('Hello there... ' + req.params.name)
-  do next
+#middlewares
+server.use restify.acceptParser(server.acceptable)
+server.use restify.queryParser()
+server.use restify.bodyParser()
 
+#register routes
+routes(server)
 
-
-server.listen port, () ->
-  console.log '%s listening at %s', server.name, server.url
+#and start
+server.listen server.port, () ->
+  console.log "#{chalk.red(server.name)} #{chalk.dim("[#{server.versions}]")} is listening at #{chalk.blue(server.url)}"

@@ -1,3 +1,5 @@
+templatizer = require 'templatizer'
+
 module.exports = (grunt) ->
 
   #load tasks
@@ -10,6 +12,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-concurrent')
   grunt.loadNpmTasks('grunt-nodemon')
   grunt.loadNpmTasks('grunt-contrib-connect')
+  grunt.loadNpmTasks('grunt-coffeeify')
 
   #load config
   grunt.initConfig
@@ -23,13 +26,12 @@ module.exports = (grunt) ->
         dest: 'dist/server/'
         ext: '.js'
 
-      compileApp:
-        bare: yes
-        expand: yes
-        cwd: 'src/app/scripts'
-        src: ['**/*.coffee']
-        dest: 'dist/public/scripts'
-        ext: '.js'
+    coffeeify:
+      client:
+        files: [
+            src: ['src/app/scripts/**/*.coffee','src/app/scripts/**/*.js']
+            dest: 'dist/public/scripts/openabr.js'
+        ]
 
     copy:
       appAssets:
@@ -37,12 +39,6 @@ module.exports = (grunt) ->
         cwd: 'src/app/assets'
         src: ['fonts/**', 'img/**']
         dest: 'dist/public/assets'
-
-      appJavascripts:
-        expand: yes
-        cwd: 'src/app/scripts'
-        src: ['**/*.js']
-        dest: 'dist/public/scripts'
 
     less:
       compile:
@@ -52,16 +48,6 @@ module.exports = (grunt) ->
           "dist/public/assets/css/style.css": "src/app/assets/less/style.less"
 
     jade:
-      compileTemplates:
-        options:
-          client: yes
-          processName: (filename) ->
-            return filename
-              .replace(new RegExp('src/app/templates/'), '')
-              .replace(new RegExp('.jade'), '')
-        files:
-          'dist/public/scripts/templates.js': 'src/app/templates/**/*.jade'
-
       compileIndex:
         options:
           pretty: yes
@@ -76,8 +62,17 @@ module.exports = (grunt) ->
       distServer: ['dist/server/**']
 
     watch:
+      templates:
+        files: ['src/app/templates/**']
+        tasks: ['templatizer']
+        options:
+          spawn: false
       app:
-        files: ['src/app/**']
+        files: [
+          'src/app/scripts/**'
+          'src/app/assets/**'
+          'src/app/index.jade'
+        ]
         tasks: ['build:app']
         options:
           spawn: false
@@ -108,20 +103,24 @@ module.exports = (grunt) ->
       options:
         logConcurrentOutput: yes
       development: [
+        'watch:templates'
         'watch:app'
         'watch:server'
         'nodemon:developmentServer'
         'connect:developmentApp'
       ]
 
+  grunt.registerTask 'templatizer', () ->
+    sourceDirectory = 'src/app/templates'
+    targetFile = 'src/app/scripts/templates.js'
+    options = {}
+    templatizer(sourceDirectory, targetFile, options)
 
   grunt.registerTask 'build:app', [
     'clean:distPublic'
-    'coffee:compileApp'
+    'coffeeify:client'
     'copy:appAssets'
-    'copy:appJavascripts'
     'less:compile'
-    'jade:compileTemplates'
     'jade:compileIndex'
   ]
 

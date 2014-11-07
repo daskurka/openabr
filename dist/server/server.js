@@ -1,19 +1,31 @@
 (function() {
-  var port, restify, server;
+  var chalk, restify, routes, server;
 
   restify = require('restify');
 
-  port = process.env.PORT || 8080;
+  chalk = require('chalk');
 
-  server = restify.createServer();
+  routes = require('./routes');
 
-  server.get('/test/:name', function(req, res, next) {
-    res.send('Hello there... ' + req.params.name);
-    return next();
+  server = restify.createServer({
+    name: 'openabr-server',
+    version: '0.1.0'
   });
 
-  server.listen(port, function() {
-    return console.log('%s listening at %s', server.name, server.url);
+  server.port = process.env.PORT || 8080;
+
+  console.log("" + (chalk.red(server.name)) + " is starting...");
+
+  server.use(restify.acceptParser(server.acceptable));
+
+  server.use(restify.queryParser());
+
+  server.use(restify.bodyParser());
+
+  routes(server);
+
+  server.listen(server.port, function() {
+    return console.log("" + (chalk.red(server.name)) + " " + (chalk.dim("[" + server.versions + "]")) + " is listening at " + (chalk.blue(server.url)));
   });
 
 }).call(this);
