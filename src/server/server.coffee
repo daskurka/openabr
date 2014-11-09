@@ -1,6 +1,7 @@
 restify = require 'restify'
 chalk = require 'chalk'
 routes = require './routes'
+mongoose = require './mongoose'
 
 #configure server
 server = restify.createServer
@@ -14,6 +15,9 @@ console.log "#{chalk.red(server.name)} is starting..."
 server.use restify.acceptParser(server.acceptable)
 server.use restify.queryParser()
 server.use restify.bodyParser()
+
+#connect and configure database and ODM
+mongoose(server)
 
 #register routes
 routes(server)

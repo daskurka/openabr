@@ -124,7 +124,7 @@
 }).call(this);
 
 
-},{"./views/main.coffee":6,"./router.coffee":3,"./templates":1,"jquery":7,"domready":8}],8:[function(require,module,exports){
+},{"./router.coffee":3,"./views/main.coffee":6,"./templates":1,"jquery":7,"domready":8}],8:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -10987,175 +10987,6 @@ function parse(html, doc) {
 }).call(this);
 
 })()
-},{}],13:[function(require,module,exports){
-module.exports = get;
-
-function get (context, path) {
-  if (path.indexOf('.') == -1 && path.indexOf('[') == -1) {
-    return context[path];
-  }
-
-  var crumbs = path.split(/\.|\[|\]/g);
-  var i = -1;
-  var len = crumbs.length;
-  var result;
-
-  while (++i < len) {
-    if (i == 0) result = context;
-    if (!crumbs[i]) continue;
-    if (result == undefined) break;
-    result = result[crumbs[i]];
-  }
-
-  return result;
-}
-
-},{}],4:[function(require,module,exports){
-;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-router"] = window.ampersand["ampersand-router"] || [];  window.ampersand["ampersand-router"].push("1.0.6");}
-var classExtend = require('ampersand-class-extend');
-var Events = require('backbone-events-standalone');
-var ampHistory = require('./ampersand-history');
-var _ = require('underscore');
-
-
-// Routers map faux-URLs to actions, and fire events when routes are
-// matched. Creating a new one sets its `routes` hash, if not set statically.
-var Router = module.exports = function (options) {
-    options || (options = {});
-    this.history = options.history || ampHistory;
-    if (options.routes) this.routes = options.routes;
-    this._bindRoutes();
-    this.initialize.apply(this, arguments);
-};
-
-// Cached regular expressions for matching named param parts and splatted
-// parts of route strings.
-var optionalParam = /\((.*?)\)/g;
-var namedParam    = /(\(\?)?:\w+/g;
-var splatParam    = /\*\w+/g;
-var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
-
-// Set up all inheritable **Backbone.Router** properties and methods.
-_.extend(Router.prototype, Events, {
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function () {},
-
-    // Manually bind a single named route to a callback. For example:
-    //
-    //     this.route('search/:query/p:num', 'search', function (query, num) {
-    //       ...
-    //     });
-    //
-    route: function (route, name, callback) {
-        if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-        if (_.isFunction(name)) {
-            callback = name;
-            name = '';
-        }
-        if (!callback) callback = this[name];
-        var router = this;
-        this.history.route(route, function (fragment) {
-            var args = router._extractParameters(route, fragment);
-            if (router.execute(callback, args, name) !== false) {
-                router.trigger.apply(router, ['route:' + name].concat(args));
-                router.trigger('route', name, args);
-                router.history.trigger('route', router, name, args);
-            }
-        });
-        return this;
-    },
-
-    // Execute a route handler with the provided parameters.  This is an
-    // excellent place to do pre-route setup or post-route cleanup.
-    execute: function (callback, args, name) {
-        if (callback) callback.apply(this, args);
-    },
-
-    // Simple proxy to `ampHistory` to save a fragment into the history.
-    navigate: function (fragment, options) {
-        this.history.navigate(fragment, options);
-        return this;
-    },
-
-    // Helper for doing `internal` redirects without adding to history
-    // and thereby breaking backbutton functionality.
-    redirectTo: function (newUrl) {
-        this.navigate(newUrl, {replace: true, trigger: true});
-    },
-
-    // Bind all defined routes to `history`. We have to reverse the
-    // order of the routes here to support behavior where the most general
-    // routes can be defined at the bottom of the route map.
-    _bindRoutes: function () {
-        if (!this.routes) return;
-        this.routes = _.result(this, 'routes');
-        var route, routes = Object.keys(this.routes);
-        while ((route = routes.pop()) != null) {
-            this.route(route, this.routes[route]);
-        }
-    },
-
-    // Convert a route string into a regular expression, suitable for matching
-    // against the current location hash.
-    _routeToRegExp: function (route) {
-        route = route
-            .replace(escapeRegExp, '\\$&')
-            .replace(optionalParam, '(?:$1)?')
-            .replace(namedParam, function (match, optional) {
-                return optional ? match : '([^/?]+)';
-            })
-            .replace(splatParam, '([^?]*?)');
-        return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
-    },
-
-    // Given a route, and a URL fragment that it matches, return the array of
-    // extracted decoded parameters. Empty or unmatched parameters will be
-    // treated as `null` to normalize cross-browser behavior.
-    _extractParameters: function (route, fragment) {
-        var params = route.exec(fragment).slice(1);
-        return params.map(function (param, i) {
-            // Don't decode the search params.
-            if (i === params.length - 1) return param || null;
-            return param ? decodeURIComponent(param) : null;
-        });
-    }
-
-});
-
-Router.extend = classExtend;
-
-},{"./ampersand-history":14,"underscore":15,"ampersand-class-extend":16,"backbone-events-standalone":17}],18:[function(require,module,exports){
-'use strict';
-
-var proto = Element.prototype;
-var vendor = proto.matches
-  || proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-module.exports = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; i++) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
 },{}],10:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var State = require('ampersand-state');
@@ -11525,7 +11356,153 @@ _.extend(View.prototype, {
 View.extend = BaseState.extend;
 module.exports = View;
 
-},{"ampersand-collection-view":19,"domify":11,"underscore":12,"ampersand-dom-bindings":20,"get-object-path":13,"matches-selector":18,"ampersand-state":21}],15:[function(require,module,exports){
+},{"domify":11,"underscore":12,"ampersand-dom-bindings":13,"get-object-path":14,"ampersand-collection-view":15,"matches-selector":16,"ampersand-state":17}],16:[function(require,module,exports){
+'use strict';
+
+var proto = Element.prototype;
+var vendor = proto.matches
+  || proto.matchesSelector
+  || proto.webkitMatchesSelector
+  || proto.mozMatchesSelector
+  || proto.msMatchesSelector
+  || proto.oMatchesSelector;
+
+module.exports = match;
+
+/**
+ * Match `el` to `selector`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @return {Boolean}
+ * @api public
+ */
+
+function match(el, selector) {
+  if (vendor) return vendor.call(el, selector);
+  var nodes = el.parentNode.querySelectorAll(selector);
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i] == el) return true;
+  }
+  return false;
+}
+},{}],4:[function(require,module,exports){
+;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-router"] = window.ampersand["ampersand-router"] || [];  window.ampersand["ampersand-router"].push("1.0.6");}
+var classExtend = require('ampersand-class-extend');
+var Events = require('backbone-events-standalone');
+var ampHistory = require('./ampersand-history');
+var _ = require('underscore');
+
+
+// Routers map faux-URLs to actions, and fire events when routes are
+// matched. Creating a new one sets its `routes` hash, if not set statically.
+var Router = module.exports = function (options) {
+    options || (options = {});
+    this.history = options.history || ampHistory;
+    if (options.routes) this.routes = options.routes;
+    this._bindRoutes();
+    this.initialize.apply(this, arguments);
+};
+
+// Cached regular expressions for matching named param parts and splatted
+// parts of route strings.
+var optionalParam = /\((.*?)\)/g;
+var namedParam    = /(\(\?)?:\w+/g;
+var splatParam    = /\*\w+/g;
+var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+
+// Set up all inheritable **Backbone.Router** properties and methods.
+_.extend(Router.prototype, Events, {
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function () {},
+
+    // Manually bind a single named route to a callback. For example:
+    //
+    //     this.route('search/:query/p:num', 'search', function (query, num) {
+    //       ...
+    //     });
+    //
+    route: function (route, name, callback) {
+        if (!_.isRegExp(route)) route = this._routeToRegExp(route);
+        if (_.isFunction(name)) {
+            callback = name;
+            name = '';
+        }
+        if (!callback) callback = this[name];
+        var router = this;
+        this.history.route(route, function (fragment) {
+            var args = router._extractParameters(route, fragment);
+            if (router.execute(callback, args, name) !== false) {
+                router.trigger.apply(router, ['route:' + name].concat(args));
+                router.trigger('route', name, args);
+                router.history.trigger('route', router, name, args);
+            }
+        });
+        return this;
+    },
+
+    // Execute a route handler with the provided parameters.  This is an
+    // excellent place to do pre-route setup or post-route cleanup.
+    execute: function (callback, args, name) {
+        if (callback) callback.apply(this, args);
+    },
+
+    // Simple proxy to `ampHistory` to save a fragment into the history.
+    navigate: function (fragment, options) {
+        this.history.navigate(fragment, options);
+        return this;
+    },
+
+    // Helper for doing `internal` redirects without adding to history
+    // and thereby breaking backbutton functionality.
+    redirectTo: function (newUrl) {
+        this.navigate(newUrl, {replace: true, trigger: true});
+    },
+
+    // Bind all defined routes to `history`. We have to reverse the
+    // order of the routes here to support behavior where the most general
+    // routes can be defined at the bottom of the route map.
+    _bindRoutes: function () {
+        if (!this.routes) return;
+        this.routes = _.result(this, 'routes');
+        var route, routes = Object.keys(this.routes);
+        while ((route = routes.pop()) != null) {
+            this.route(route, this.routes[route]);
+        }
+    },
+
+    // Convert a route string into a regular expression, suitable for matching
+    // against the current location hash.
+    _routeToRegExp: function (route) {
+        route = route
+            .replace(escapeRegExp, '\\$&')
+            .replace(optionalParam, '(?:$1)?')
+            .replace(namedParam, function (match, optional) {
+                return optional ? match : '([^/?]+)';
+            })
+            .replace(splatParam, '([^?]*?)');
+        return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+    },
+
+    // Given a route, and a URL fragment that it matches, return the array of
+    // extracted decoded parameters. Empty or unmatched parameters will be
+    // treated as `null` to normalize cross-browser behavior.
+    _extractParameters: function (route, fragment) {
+        var params = route.exec(fragment).slice(1);
+        return params.map(function (param, i) {
+            // Don't decode the search params.
+            if (i === params.length - 1) return param || null;
+            return param ? decodeURIComponent(param) : null;
+        });
+    }
+
+});
+
+Router.extend = classExtend;
+
+},{"./ampersand-history":18,"ampersand-class-extend":19,"underscore":20,"backbone-events-standalone":21}],20:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -12871,7 +12848,7 @@ module.exports = View;
 }).call(this);
 
 })()
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var Events = require('backbone-events-standalone');
 var _ = require('underscore');
 
@@ -13095,60 +13072,33 @@ _.extend(History.prototype, Events, {
 
 module.exports = new History();
 
-},{"underscore":15,"backbone-events-standalone":17}],17:[function(require,module,exports){
+},{"underscore":20,"backbone-events-standalone":21}],21:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":22}],16:[function(require,module,exports){
-var objectExtend = require('extend-object');
+},{"./backbone-events-standalone":22}],14:[function(require,module,exports){
+module.exports = get;
 
+function get (context, path) {
+  if (path.indexOf('.') == -1 && path.indexOf('[') == -1) {
+    return context[path];
+  }
 
-/// Following code is largely pasted from Backbone.js
+  var crumbs = path.split(/\.|\[|\]/g);
+  var i = -1;
+  var len = crumbs.length;
+  var result;
 
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-var extend = function(protoProps) {
-    var parent = this;
-    var child;
-    var args = [].slice.call(arguments);
+  while (++i < len) {
+    if (i == 0) result = context;
+    if (!crumbs[i]) continue;
+    if (result == undefined) break;
+    result = result[crumbs[i]];
+  }
 
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
-    if (protoProps && protoProps.hasOwnProperty('constructor')) {
-        child = protoProps.constructor;
-    } else {
-        child = function () {
-            return parent.apply(this, arguments);
-        };
-    }
+  return result;
+}
 
-    // Add static properties to the constructor function from parent
-    objectExtend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
-    var Surrogate = function(){ this.constructor = child; };
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
-
-    // Mix in all prototype properties to the subclass if supplied.
-    if (protoProps) {
-        args.unshift(child.prototype);
-        objectExtend.apply(null, args);
-    }
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-};
-
-// Expose the extend function
-module.exports = extend;
-
-},{"extend-object":23}],22:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -13417,7 +13367,7 @@ module.exports = extend;
 })(this);
 
 })()
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var dom = module.exports = {
     text: function (el, val) {
@@ -13529,7 +13479,139 @@ function hide (el) {
     el.style.display = 'none';
 }
 
+},{}],24:[function(require,module,exports){
+var slice = Array.prototype.slice;
+
+// our constructor
+function KeyTreeStore() {
+    this.storage = {};
+}
+
+// add an object to the store
+KeyTreeStore.prototype.add = function (keypath, obj) {
+    var arr = this.storage[keypath] || (this.storage[keypath] = []);
+    arr.push(obj);
+};
+
+// remove an object
+KeyTreeStore.prototype.remove = function (obj) {
+    var path, arr;
+    for (path in this.storage) {
+        arr = this.storage[path];
+        arr.some(function (item, index) {
+            if (item === obj) {
+                arr.splice(index, 1);
+                return true;
+            }
+        });
+    }
+};
+
+// get array of all all relevant functions, without keys
+KeyTreeStore.prototype.get = function (keypath) {
+    var res = [];
+    var key;
+
+    for (key in this.storage) {
+        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
+            res = res.concat(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// get all results that match keypath but still grouped by key
+KeyTreeStore.prototype.getGrouped = function (keypath) {
+    var res = {};
+    var key;
+
+    for (key in this.storage) {
+        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
+            res[key] = slice.call(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// get all results that match keypath but still grouped by key
+KeyTreeStore.prototype.getAll = function (keypath) {
+    var res = {};
+    var key;
+
+    for (key in this.storage) {
+        if (keypath === key || key.indexOf(keypath + '.') === 0) {
+            res[key] = slice.call(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// run all matches with optional context
+KeyTreeStore.prototype.run = function (keypath, context) {
+    var args = slice.call(arguments, 2);
+    this.get(keypath).forEach(function (fn) {
+        fn.apply(context || this, args);
+    });
+};
+
+
+
+module.exports = KeyTreeStore;
+
 },{}],19:[function(require,module,exports){
+var objectExtend = require('extend-object');
+
+
+/// Following code is largely pasted from Backbone.js
+
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function(protoProps) {
+    var parent = this;
+    var child;
+    var args = [].slice.call(arguments);
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function from parent
+    objectExtend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
+
+    // Mix in all prototype properties to the subclass if supplied.
+    if (protoProps) {
+        args.unshift(child.prototype);
+        objectExtend.apply(null, args);
+    }
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+};
+
+// Expose the extend function
+module.exports = extend;
+
+},{"extend-object":25}],15:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -13679,300 +13761,7 @@ CollectionView.extend = ampExtend;
 
 module.exports = CollectionView;
 
-},{"ampersand-class-extend":25,"backbone-events-standalone":26,"underscore":12}],27:[function(require,module,exports){
-var slice = Array.prototype.slice;
-
-// our constructor
-function KeyTreeStore() {
-    this.storage = {};
-}
-
-// add an object to the store
-KeyTreeStore.prototype.add = function (keypath, obj) {
-    var arr = this.storage[keypath] || (this.storage[keypath] = []);
-    arr.push(obj);
-};
-
-// remove an object
-KeyTreeStore.prototype.remove = function (obj) {
-    var path, arr;
-    for (path in this.storage) {
-        arr = this.storage[path];
-        arr.some(function (item, index) {
-            if (item === obj) {
-                arr.splice(index, 1);
-                return true;
-            }
-        });
-    }
-};
-
-// get array of all all relevant functions, without keys
-KeyTreeStore.prototype.get = function (keypath) {
-    var res = [];
-    var key;
-
-    for (key in this.storage) {
-        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
-            res = res.concat(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// get all results that match keypath but still grouped by key
-KeyTreeStore.prototype.getGrouped = function (keypath) {
-    var res = {};
-    var key;
-
-    for (key in this.storage) {
-        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
-            res[key] = slice.call(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// get all results that match keypath but still grouped by key
-KeyTreeStore.prototype.getAll = function (keypath) {
-    var res = {};
-    var key;
-
-    for (key in this.storage) {
-        if (keypath === key || key.indexOf(keypath + '.') === 0) {
-            res[key] = slice.call(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// run all matches with optional context
-KeyTreeStore.prototype.run = function (keypath, context) {
-    var args = slice.call(arguments, 2);
-    this.get(keypath).forEach(function (fn) {
-        fn.apply(context || this, args);
-    });
-};
-
-
-
-module.exports = KeyTreeStore;
-
-},{}],23:[function(require,module,exports){
-var arr = [];
-var each = arr.forEach;
-var slice = arr.slice;
-
-
-module.exports = function(obj) {
-    each.call(slice.call(arguments, 1), function(source) {
-        if (source) {
-            for (var prop in source) {
-                obj[prop] = source[prop];
-            }
-        }
-    });
-    return obj;
-};
-
-},{}],20:[function(require,module,exports){
-/*$AMPERSAND_VERSION*/
-var Store = require('key-tree-store');
-var dom = require('ampersand-dom');
-var matchesSelector = require('matches-selector');
-
-
-// returns a key-tree-store of functions
-// that can be applied to any element/model.
-
-// all resulting functions should be called
-// like func(el, value, lastKeyName)
-module.exports = function (bindings) {
-    var store = new Store();
-    var key, current;
-
-    for (key in bindings) {
-        current = bindings[key];
-        if (typeof current === 'string') {
-            store.add(key, getBindingFunc({
-                type: 'text',
-                selector: current
-            }));
-        } else if (current.forEach) {
-            current.forEach(function (binding) {
-                store.add(key, getBindingFunc(binding));
-            });
-        } else {
-            store.add(key, getBindingFunc(current));
-        }
-    }
-
-    return store;
-};
-
-
-var slice = Array.prototype.slice;
-
-function getMatches(el, selector) {
-    if (selector === '') return [el];
-    var matches = [];
-    if (matchesSelector(el, selector)) matches.push(el);
-    return matches.concat(slice.call(el.querySelectorAll(selector)));
-}
-
-function makeArray(val) {
-    return Array.isArray(val) ? val : [val];
-}
-
-function getBindingFunc(binding) {
-    var type = binding.type || 'text';
-    var isCustomBinding = typeof type === 'function';
-    var selector = (function () {
-        if (typeof binding.selector === 'string') {
-            return binding.selector;
-        } else if (binding.hook) {
-            return '[data-hook~="' + binding.hook + '"]';
-        } else {
-            return '';
-        }
-    })();
-    var yes = binding.yes;
-    var no = binding.no;
-    var hasYesNo = !!(yes || no);
-
-    // storage variable for previous if relevant
-    var previousValue;
-
-    if (isCustomBinding) {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                type(match, value, previousValue);
-            });
-            previousValue = value;
-        };
-    } else if (type === 'text') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.text(match, value);
-            });
-        };
-    } else if (type === 'class') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.switchClass(match, previousValue, value);
-            });
-            previousValue = value;
-        };
-    } else if (type === 'attribute') {
-        if (!binding.name) throw Error('attribute bindings must have a "name"');
-        return function (el, value) {
-            var names = makeArray(binding.name);
-            getMatches(el, selector).forEach(function (match) {
-                names.forEach(function (name) {
-                    dom.setAttribute(match, name, value);
-                });
-            });
-            previousValue = value;
-        };
-    } else if (type === 'value') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                if (!value && value !== 0) value = '';
-                // only apply bindings if element is not currently focused
-                if (document.activeElement !== match) match.value = value;
-            });
-            previousValue = value;
-        };
-    } else if (type === 'booleanClass') {
-        // if there's a `no` case this is actually a switch
-        if (hasYesNo) {
-            yes = makeArray(yes || '');
-            no = makeArray(no || '');
-            return function (el, value) {
-                var prevClass = value ? no : yes;
-                var newClass = value ? yes : no;
-                getMatches(el, selector).forEach(function (match) {
-                    prevClass.forEach(function (pc) {
-                        dom.removeClass(match, pc);
-                    });
-                    newClass.forEach(function (nc) {
-                        dom.addClass(match, nc);
-                    });
-                });
-            };
-        } else {
-            return function (el, value, keyName) {
-                var name = makeArray(binding.name || keyName);
-                getMatches(el, selector).forEach(function (match) {
-                    name.forEach(function (className) {
-                        dom[value ? 'addClass' : 'removeClass'](match, className);
-                    });
-                });
-            };
-        }
-    } else if (type === 'booleanAttribute') {
-        return function (el, value, keyName) {
-            var name = makeArray(binding.name || keyName);
-            getMatches(el, selector).forEach(function (match) {
-                name.forEach(function (attr) {
-                    dom[value ? 'addAttribute' : 'removeAttribute'](match, attr);
-                });
-            });
-        };
-    } else if (type === 'toggle') {
-        // this doesn't require a selector since we can pass yes/no selectors
-        if (hasYesNo) {
-            return function (el, value) {
-                getMatches(el, yes).forEach(function (match) {
-                    dom[value ? 'show' : 'hide'](match);
-                });
-                getMatches(el, no).forEach(function (match) {
-                    dom[value ? 'hide' : 'show'](match);
-                });
-            };
-        } else {
-            return function (el, value) {
-                getMatches(el, selector).forEach(function (match) {
-                    dom[value ? 'show' : 'hide'](match);
-                });
-            };
-        }
-    } else if (type === 'switch') {
-        if (!binding.cases) throw Error('switch bindings must have "cases"');
-        return function (el, value) {
-            for (var item in binding.cases) {
-                getMatches(el, binding.cases[item]).forEach(function (match) {
-                    dom[value === item ? 'show' : 'hide'](match);
-                });
-            }
-        };
-    } else if (type === 'innerHTML') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.html(match, value);
-            });
-        };
-    } else if (type === 'switchClass') {
-        if (!binding.cases) throw Error('switchClass bindings must have "cases"');
-        return function (el, value, keyName) {
-            var name = makeArray(binding.name || keyName);
-            for (var item in binding.cases) {
-                getMatches(el, binding.cases[item]).forEach(function (match) {
-                    name.forEach(function (className) {
-                        dom[value === item ? 'addClass' : 'removeClass'](match, className);
-                    });
-                });
-            }
-        };
-    } else {
-        throw new Error('no such binding type: ' + type);
-    }
-}
-
-},{"ampersand-dom":24,"key-tree-store":27,"matches-selector":18}],21:[function(require,module,exports){
+},{"ampersand-class-extend":26,"backbone-events-standalone":27,"underscore":12}],17:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -14743,15 +14532,215 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"underscore":28,"array-next":29,"backbone-events-standalone":30,"key-tree-store":31}],26:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
+},{"underscore":28,"array-next":29,"backbone-events-standalone":30,"key-tree-store":31}],13:[function(require,module,exports){
+/*$AMPERSAND_VERSION*/
+var Store = require('key-tree-store');
+var dom = require('ampersand-dom');
+var matchesSelector = require('matches-selector');
 
-},{"./backbone-events-standalone":32}],29:[function(require,module,exports){
-module.exports = function arrayNext(array, currentItem) {
-    var len = array.length;
-    var newIndex = array.indexOf(currentItem) + 1;
-    if (newIndex > (len - 1)) newIndex = 0;
-    return array[newIndex];
+
+// returns a key-tree-store of functions
+// that can be applied to any element/model.
+
+// all resulting functions should be called
+// like func(el, value, lastKeyName)
+module.exports = function (bindings) {
+    var store = new Store();
+    var key, current;
+
+    for (key in bindings) {
+        current = bindings[key];
+        if (typeof current === 'string') {
+            store.add(key, getBindingFunc({
+                type: 'text',
+                selector: current
+            }));
+        } else if (current.forEach) {
+            current.forEach(function (binding) {
+                store.add(key, getBindingFunc(binding));
+            });
+        } else {
+            store.add(key, getBindingFunc(current));
+        }
+    }
+
+    return store;
+};
+
+
+var slice = Array.prototype.slice;
+
+function getMatches(el, selector) {
+    if (selector === '') return [el];
+    var matches = [];
+    if (matchesSelector(el, selector)) matches.push(el);
+    return matches.concat(slice.call(el.querySelectorAll(selector)));
+}
+
+function makeArray(val) {
+    return Array.isArray(val) ? val : [val];
+}
+
+function getBindingFunc(binding) {
+    var type = binding.type || 'text';
+    var isCustomBinding = typeof type === 'function';
+    var selector = (function () {
+        if (typeof binding.selector === 'string') {
+            return binding.selector;
+        } else if (binding.hook) {
+            return '[data-hook~="' + binding.hook + '"]';
+        } else {
+            return '';
+        }
+    })();
+    var yes = binding.yes;
+    var no = binding.no;
+    var hasYesNo = !!(yes || no);
+
+    // storage variable for previous if relevant
+    var previousValue;
+
+    if (isCustomBinding) {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                type(match, value, previousValue);
+            });
+            previousValue = value;
+        };
+    } else if (type === 'text') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.text(match, value);
+            });
+        };
+    } else if (type === 'class') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.switchClass(match, previousValue, value);
+            });
+            previousValue = value;
+        };
+    } else if (type === 'attribute') {
+        if (!binding.name) throw Error('attribute bindings must have a "name"');
+        return function (el, value) {
+            var names = makeArray(binding.name);
+            getMatches(el, selector).forEach(function (match) {
+                names.forEach(function (name) {
+                    dom.setAttribute(match, name, value);
+                });
+            });
+            previousValue = value;
+        };
+    } else if (type === 'value') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                if (!value && value !== 0) value = '';
+                // only apply bindings if element is not currently focused
+                if (document.activeElement !== match) match.value = value;
+            });
+            previousValue = value;
+        };
+    } else if (type === 'booleanClass') {
+        // if there's a `no` case this is actually a switch
+        if (hasYesNo) {
+            yes = makeArray(yes || '');
+            no = makeArray(no || '');
+            return function (el, value) {
+                var prevClass = value ? no : yes;
+                var newClass = value ? yes : no;
+                getMatches(el, selector).forEach(function (match) {
+                    prevClass.forEach(function (pc) {
+                        dom.removeClass(match, pc);
+                    });
+                    newClass.forEach(function (nc) {
+                        dom.addClass(match, nc);
+                    });
+                });
+            };
+        } else {
+            return function (el, value, keyName) {
+                var name = makeArray(binding.name || keyName);
+                getMatches(el, selector).forEach(function (match) {
+                    name.forEach(function (className) {
+                        dom[value ? 'addClass' : 'removeClass'](match, className);
+                    });
+                });
+            };
+        }
+    } else if (type === 'booleanAttribute') {
+        return function (el, value, keyName) {
+            var name = makeArray(binding.name || keyName);
+            getMatches(el, selector).forEach(function (match) {
+                name.forEach(function (attr) {
+                    dom[value ? 'addAttribute' : 'removeAttribute'](match, attr);
+                });
+            });
+        };
+    } else if (type === 'toggle') {
+        // this doesn't require a selector since we can pass yes/no selectors
+        if (hasYesNo) {
+            return function (el, value) {
+                getMatches(el, yes).forEach(function (match) {
+                    dom[value ? 'show' : 'hide'](match);
+                });
+                getMatches(el, no).forEach(function (match) {
+                    dom[value ? 'hide' : 'show'](match);
+                });
+            };
+        } else {
+            return function (el, value) {
+                getMatches(el, selector).forEach(function (match) {
+                    dom[value ? 'show' : 'hide'](match);
+                });
+            };
+        }
+    } else if (type === 'switch') {
+        if (!binding.cases) throw Error('switch bindings must have "cases"');
+        return function (el, value) {
+            for (var item in binding.cases) {
+                getMatches(el, binding.cases[item]).forEach(function (match) {
+                    dom[value === item ? 'show' : 'hide'](match);
+                });
+            }
+        };
+    } else if (type === 'innerHTML') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.html(match, value);
+            });
+        };
+    } else if (type === 'switchClass') {
+        if (!binding.cases) throw Error('switchClass bindings must have "cases"');
+        return function (el, value, keyName) {
+            var name = makeArray(binding.name || keyName);
+            for (var item in binding.cases) {
+                getMatches(el, binding.cases[item]).forEach(function (match) {
+                    name.forEach(function (className) {
+                        dom[value === item ? 'addClass' : 'removeClass'](match, className);
+                    });
+                });
+            }
+        };
+    } else {
+        throw new Error('no such binding type: ' + type);
+    }
+}
+
+},{"ampersand-dom":23,"key-tree-store":24,"matches-selector":16}],25:[function(require,module,exports){
+var arr = [];
+var each = arr.forEach;
+var slice = arr.slice;
+
+
+module.exports = function(obj) {
+    each.call(slice.call(arguments, 1), function(source) {
+        if (source) {
+            for (var prop in source) {
+                obj[prop] = source[prop];
+            }
+        }
+    });
+    return obj;
 };
 
 },{}],28:[function(require,module,exports){
@@ -16172,6 +16161,14 @@ module.exports = function arrayNext(array, currentItem) {
 }.call(this));
 
 })()
+},{}],29:[function(require,module,exports){
+module.exports = function arrayNext(array, currentItem) {
+    var len = array.length;
+    var newIndex = array.indexOf(currentItem) + 1;
+    if (newIndex > (len - 1)) newIndex = 0;
+    return array[newIndex];
+};
+
 },{}],31:[function(require,module,exports){
 function KeyTreeStore() {
     this.storage = {};
@@ -16213,7 +16210,10 @@ KeyTreeStore.prototype.get = function (keypath) {
 
 module.exports = KeyTreeStore;
 
-},{}],32:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":32}],32:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -16493,7 +16493,10 @@ module.exports = KeyTreeStore;
 })(this);
 
 })()
-},{}],25:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":33}],26:[function(require,module,exports){
 var objectExtend = require('extend-object');
 
 
@@ -16543,27 +16546,7 @@ var extend = function(protoProps) {
 // Expose the extend function
 module.exports = extend;
 
-},{"extend-object":33}],30:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":34}],33:[function(require,module,exports){
-var arr = [];
-var each = arr.forEach;
-var slice = arr.slice;
-
-
-module.exports = function(obj) {
-    each.call(slice.call(arguments, 1), function(source) {
-        if (source) {
-            for (var prop in source) {
-                obj[prop] = source[prop];
-            }
-        }
-    });
-    return obj;
-};
-
-},{}],34:[function(require,module,exports){
+},{"extend-object":34}],33:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -16832,5 +16815,22 @@ module.exports = function(obj) {
 })(this);
 
 })()
+},{}],34:[function(require,module,exports){
+var arr = [];
+var each = arr.forEach;
+var slice = arr.slice;
+
+
+module.exports = function(obj) {
+    each.call(slice.call(arguments, 1), function(source) {
+        if (source) {
+            for (var prop in source) {
+                obj[prop] = source[prop];
+            }
+        }
+    });
+    return obj;
+};
+
 },{}]},{},[5,3,6,1])
 ;

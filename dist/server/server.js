@@ -1,11 +1,13 @@
 (function() {
-  var chalk, restify, routes, server;
+  var chalk, mongoose, restify, routes, server;
 
   restify = require('restify');
 
   chalk = require('chalk');
 
   routes = require('./routes');
+
+  mongoose = require('./mongoose');
 
   server = restify.createServer({
     name: 'openabr-server',
@@ -21,6 +23,8 @@
   server.use(restify.queryParser());
 
   server.use(restify.bodyParser());
+
+  mongoose(server);
 
   routes(server);
 
