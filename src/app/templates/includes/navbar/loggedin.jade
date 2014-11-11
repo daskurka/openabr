@@ -1,0 +1,26 @@
+div.navbar-header
+   a.navbar-brand(href="/#{currentAccount.urlName}") OpenABR
+ul.nav.navbar-nav
+   li: a(href="/#{currentAccount.urlName}/process") Upload ABR
+   li: a(href="/#{currentAccount.urlName}/query") Query ABRs
+   li: a(href="/#{currentAccount.urlName}/experiments") Experiments
+   li: a(href="/#{currentAccount.urlName}/subjects") Subjects
+ul.nav.navbar-nav.navbar-right
+   li.dropdown
+      a.dropdown-toggle(href='#' data-toggle="dropdown")
+         | #{currentAccount.name}&nbsp;
+         span.caret
+      ul.dropdown-menu(role='menu')
+         li: a(href="/#{currentAccount.urlName}") View
+         if (currentAccount.isAdmin)
+            li: a(href="/#{currentAccount.urlName}/manage") Manage
+         if (otherAccounts.length > 0)
+            li.divider
+            for account in otherAccounts
+               li: a(href="/#{account.urlName}") #{account.name}
+   if (isSystemAdmin)
+      li: a(href='/admin/accounts') Accounts
+   li: a(href='/logout') Logout
+p.navbar-text.navbar-right: a(href="/profile") #{name}
+
+

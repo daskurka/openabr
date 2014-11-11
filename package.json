@@ -11,11 +11,11 @@
     "underscore": "^1.7.0"
   },
   "devDependencies": {
-    "ampersand-model": "^4.0.3",
+    "ampersand-model": "^4.0.0",
     "ampersand-router": "^1.0.6",
-    "ampersand-state": "^4.3.14",
     "ampersand-view": "^7.1.5",
     "ampersand-view-switcher": "^1.1.2",
+    "ampersand-dom": "^1.2.1",
     "bootstrap": "^3.3.0",
     "domready": "^1.0.7",
     "grunt": "0.4.5",

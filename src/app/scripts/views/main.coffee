@@ -1,9 +1,10 @@
 View = require 'ampersand-view'
 ViewSwitcher = require 'ampersand-view-switcher'
+NavbarView = require './navbar.coffee'
 
 templates = require '../templates'
 
-class MainView extends View
+module.exports = View.extend
 
   template: templates.body
 
@@ -14,8 +15,7 @@ class MainView extends View
     'click a[href]': 'handleLinkClick'
 
   render: () ->
-
-    @.renderWithTemplate()
+    @.renderWithTemplate({me: @.me})
 
     @.pageSwitcher = new ViewSwitcher(@.queryByHook('page-container'), {
       show: (newView, oldView) ->
@@ -27,13 +27,21 @@ class MainView extends View
         app.currentPage = newView
     })
 
-    return @
+    #lets show the navbar
+    @.navbar = new NavbarView()
+    @.renderSubview @.navbar, '.navbar-container'
 
-  handleLinkClick: () ->
-    console.log 'link click hit'
+    return @
 
   handleNewPage: (view) ->
     @.pageSwitcher.set(view)
     #maybe here manager the navbar
 
-module.exports = MainView
+  #this intercepts all path changes (url) and funnels them to the router
+  handleLinkClick: (e) ->
+    aTag = e.target
+    local = aTag.host is window.location.host
+
+    if local and not e.ctrlKey and not e.shiftKey and not e.altKey and not e.metaKey
+      do e.preventDefault
+      app.navigate(aTag.pathname)

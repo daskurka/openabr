@@ -1,23 +1,40 @@
 Router = require 'ampersand-router'
 
+HomePage = require './pages/home.coffee'
+AboutPage = require './pages/about.coffee'
+ContactPage = require './pages/contact.coffee'
+LoginPage = require './pages/login.coffee'
 
 
-class OpenAbrRouter extends Router
+module.exports = Router.extend
 
   routes:
     '': 'home'
     'about': 'about'
+    'contact': 'contact'
     'login': 'login'
+    'logout': 'logout'
+    'admin/accounts': 'accounts'
+    '(*path)': 'catchAll'
 
   home: () ->
-    console.log 'home route'
+    @.trigger('page', new HomePage())
 
   about: () ->
-    console.log 'about route'
+    @.trigger 'page', new AboutPage()
+
+  contact: () ->
+    @.trigger 'page', new ContactPage()
 
   login: () ->
-    console.log 'login route'
+    @.trigger 'page', new LoginPage()
 
+  logout: () ->
+    console.log 'logout hit'
 
+  accounts: () ->
+    console.log 'account route'
 
-module.exports = OpenAbrRouter
+  catchAll: () ->
+    console.log 'catch all hit'
+    @.redirectTo('')
