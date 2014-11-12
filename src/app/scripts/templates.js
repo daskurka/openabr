@@ -16,6 +16,7 @@
     templatizer["pages"] = {};
     templatizer["includes"]["form"] = {};
     templatizer["includes"]["navbar"] = {};
+    templatizer["pages"]["admin"] = {};
 
     // body.jade compiled template
     templatizer["body"] = function tmpl_body() {
@@ -81,6 +82,11 @@
         return "<p>Hi, I am the about page!</p>";
     };
 
+    // pages\admin\accounts.jade compiled template
+    templatizer["pages"]["admin"]["accounts"] = function tmpl_pages_admin_accounts() {
+        return '<div class="container"><p>Accounts Page</p></div>';
+    };
+
     // pages\contact.jade compiled template
     templatizer["pages"]["contact"] = function tmpl_pages_contact() {
         return "<p>Hi, I am the contact page!</p>";
@@ -93,7 +99,7 @@
 
     // pages\login.jade compiled template
     templatizer["pages"]["login"] = function tmpl_pages_login() {
-        return '<div class="container"><form role="form" class="form-signin"><h2 class="form-signin-heading">Please sign in</h2><input id="emailAddress" type="email" placeholder="Email Address" required="required" autofocus="autofocus" class="form-control"/><input id="password" type="password" placeholder="Password" required="required" class="form-control"/><div class="checkbox"><label><input type="checkbox" value="remember-me"/>&nbsp;Remember me</label></div><button id="submitButton" type="button" class="btn btn-lg btn-primary btn-block"># Sign in</button></form></div>';
+        return '<div class="container"><form role="form" class="form-signin"><h2 class="form-signin-heading">Sign in to OpenABR</h2><input id="emailAddress" type="email" placeholder="Email Address" required="required" autofocus="autofocus" class="form-control"/><input id="password" type="password" placeholder="Password" required="required" class="form-control"/><div class="checkbox"><label><input type="checkbox" value="remember-me"/>&nbsp;Remember me</label></div><button id="submitButton" type="button" class="btn btn-lg btn-primary btn-block">Sign in</button></form></div>';
     };
 
     return templatizer;

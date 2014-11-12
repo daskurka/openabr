@@ -5,6 +5,8 @@ AboutPage = require './pages/about.coffee'
 ContactPage = require './pages/contact.coffee'
 LoginPage = require './pages/login.coffee'
 
+AccountsPage = require './pages/admin/accounts.coffee'
+
 
 module.exports = Router.extend
 
@@ -33,7 +35,7 @@ module.exports = Router.extend
     console.log 'logout hit'
 
   accounts: () ->
-    console.log 'account route'
+    @.trigger 'page', new AccountsPage()
 
   catchAll: () ->
     console.log 'catch all hit'
