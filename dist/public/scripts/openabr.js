@@ -80,7 +80,7 @@
 
     // pages\about.jade compiled template
     templatizer["pages"]["about"] = function tmpl_pages_about() {
-        return "<p>Hi, I am the about page!</p>";
+        return '<div class="container"><h2>About OpenABR</h2><img src="assets/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
     // pages\admin\accounts.jade compiled template
@@ -90,12 +90,12 @@
 
     // pages\contact.jade compiled template
     templatizer["pages"]["contact"] = function tmpl_pages_contact() {
-        return "<p>Hi, I am the contact page!</p>";
+        return '<div class="container"><h2>Contact</h2><p>The system currently is invite only, please send an email to join to chat about this possibility if you are interested.</p><ul><li>To join please email join (at) openabr (dot) com</li><li>To report problems with the service please email admin (at) openabr (dot) com</li></ul></div>';
     };
 
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
-        return '<div class="container"><p>Welcome to the OpenABR Site</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
+        return '<div class="container"><h2>Welcome to OpenABR</h2><p>This site is still in development, any news will be posted here. If you are interested in becoming an early adopter please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
     };
 
     // pages\login.jade compiled template
@@ -118,8 +118,8 @@
   templates = require('../templates');
 
   module.exports = PageView.extend({
-    pageTitle: 'Contact',
-    template: templates.pages.contact
+    pageTitle: 'About',
+    template: templates.pages.about
   });
 
 }).call(this);
@@ -134,8 +134,8 @@
   templates = require('../templates');
 
   module.exports = PageView.extend({
-    pageTitle: 'Home',
-    template: templates.pages.home
+    pageTitle: 'Contact',
+    template: templates.pages.contact
   });
 
 }).call(this);
@@ -150,8 +150,8 @@
   templates = require('../templates');
 
   module.exports = PageView.extend({
-    pageTitle: 'About',
-    template: templates.pages.about
+    pageTitle: 'Home',
+    template: templates.pages.home
   });
 
 }).call(this);
@@ -190,7 +190,7 @@
 
 
 },{"../base.coffee":4,"../../templates":1}],9:[function(require,module,exports){
-(function() {
+(function(){(function() {
   var AboutPage, AccountsPage, ContactPage, HomePage, LoginPage, Router;
 
   Router = require('ampersand-router');
@@ -212,7 +212,13 @@
       'contact': 'contact',
       'login': 'login',
       'logout': 'logout',
+      'profile': 'profile',
       'admin/accounts': 'accounts',
+      ':accountName': 'accountHome',
+      ':accountName/process': 'accountProcess',
+      ':accountName/query': 'accountQuery',
+      ':accountName/experiments': 'accountExperiments',
+      ':accountName/subjects': 'accountSubjects',
       '(*path)': 'catchAll'
     },
     home: function() {
@@ -230,8 +236,26 @@
     logout: function() {
       return console.log('logout hit');
     },
+    profile: function() {
+      return console.log('user profile hit');
+    },
     accounts: function() {
       return this.trigger('page', new AccountsPage());
+    },
+    accountHome: function(accountName) {
+      return console.log("Account home route for " + accountName + " hit...");
+    },
+    accountProcess: function(accountName) {
+      return console.log("Account process route for " + accountName + " hit...");
+    },
+    accountQuery: function(accountName) {
+      return console.log("Account query route for " + accountName + " hit...");
+    },
+    accountExperiments: function(accountName) {
+      return console.log("Account experiments route for " + accountName + " hit...");
+    },
+    accountSubjects: function(accountName) {
+      return console.log("Account subjects route for " + accountName + " hit...");
     },
     catchAll: function() {
       console.log('catch all hit');
@@ -242,7 +266,8 @@
 }).call(this);
 
 
-},{"./pages/about.coffee":6,"./pages/home.coffee":5,"./pages/login.coffee":7,"./pages/admin/accounts.coffee":8,"./pages/contact.coffee":3,"ampersand-router":10}],11:[function(require,module,exports){
+})()
+},{"./pages/about.coffee":3,"./pages/home.coffee":6,"./pages/contact.coffee":5,"./pages/login.coffee":7,"./pages/admin/accounts.coffee":8,"ampersand-router":10}],11:[function(require,module,exports){
 (function() {
   var MainView, Model, Router, bootstrap, domReady, templates;
 
@@ -9527,7 +9552,21 @@ return jQuery;
 }));
 
 })()
-},{}],17:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
+(function() {
+  var View;
+
+  View = require('ampersand-view');
+
+  module.exports = View.extend({
+    registerKeyboardShortcuts: function() {},
+    unregisterKeyboardShortcuts: function() {}
+  });
+
+}).call(this);
+
+
+},{"ampersand-view":17}],18:[function(require,module,exports){
 (function() {
   var View, templates;
 
@@ -9567,7 +9606,7 @@ return jQuery;
 }).call(this);
 
 
-},{"../templates":1,"ampersand-view":18}],12:[function(require,module,exports){
+},{"../templates":1,"ampersand-view":17}],12:[function(require,module,exports){
 (function() {
   var NavbarView, View, ViewSwitcher, templates;
 
@@ -9619,21 +9658,7 @@ return jQuery;
 }).call(this);
 
 
-},{"./navbar.coffee":17,"../templates":1,"ampersand-view":18,"ampersand-view-switcher":19}],4:[function(require,module,exports){
-(function() {
-  var View;
-
-  View = require('ampersand-view');
-
-  module.exports = View.extend({
-    registerKeyboardShortcuts: function() {},
-    unregisterKeyboardShortcuts: function() {}
-  });
-
-}).call(this);
-
-
-},{"ampersand-view":18}],19:[function(require,module,exports){
+},{"./navbar.coffee":18,"../templates":1,"ampersand-view":17,"ampersand-view-switcher":19}],19:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 function ViewSwitcher(el, options) {
     options || (options = {});
@@ -9770,68 +9795,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/transition.js":20,"../../js/alert.js":21,"../../js/button.js":22,"../../js/carousel.js":23,"../../js/collapse.js":24,"../../js/tooltip.js":25,"../../js/modal.js":26,"../../js/popover.js":27,"../../js/scrollspy.js":28,"../../js/tab.js":29,"../../js/dropdown.js":30,"../../js/affix.js":31}],20:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: transition.js v3.3.0
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-
-},{}],22:[function(require,module,exports){
+},{"../../js/transition.js":20,"../../js/button.js":21,"../../js/alert.js":22,"../../js/carousel.js":23,"../../js/collapse.js":24,"../../js/modal.js":25,"../../js/tooltip.js":26,"../../js/popover.js":27,"../../js/scrollspy.js":28,"../../js/dropdown.js":29,"../../js/tab.js":30,"../../js/affix.js":31}],21:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.0
  * http://getbootstrap.com/javascript/#buttons
@@ -9949,10 +9913,10 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* ========================================================================
- * Bootstrap: collapse.js v3.3.0
- * http://getbootstrap.com/javascript/#collapse
+ * Bootstrap: transition.js v3.3.0
+ * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -9962,203 +9926,147 @@ require('../../js/affix.js')
 +function ($) {
   'use strict';
 
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
 
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
-    this.transitioning = null
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
 
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
     }
 
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.0'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true,
-    trigger: '[data-toggle="collapse"]'
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.find('> .panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
     }
 
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
+    return false // explicit for ie8 (  ._.)
+  }
 
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+
+},{}],22:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: alert.js v3.3.0
+ * http://getbootstrap.com/javascript/#alerts
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // ALERT CLASS DEFINITION
+  // ======================
+
+  var dismiss = '[data-dismiss="alert"]'
+  var Alert   = function (el) {
+    $(el).on('click', dismiss, this.close)
+  }
+
+  Alert.VERSION = '3.3.0'
+
+  Alert.TRANSITION_DURATION = 150
+
+  Alert.prototype.close = function (e) {
+    var $this    = $(this)
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
     }
 
-    var dimension = this.dimension()
+    var $parent = $(selector)
 
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
+    if (e) e.preventDefault()
 
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
+    if (!$parent.length) {
+      $parent = $this.closest('.alert')
     }
 
-    if (!$.support.transition) return complete.call(this)
+    $parent.trigger(e = $.Event('close.bs.alert'))
 
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+    if (e.isDefaultPrevented()) return
 
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
+    $parent.removeClass('in')
 
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
+    function removeElement() {
+      // detach from parent, fire event then clean up data
+      $parent.detach().trigger('closed.bs.alert').remove()
     }
 
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
+    $.support.transition && $parent.hasClass('fade') ?
+      $parent
+        .one('bsTransitionEnd', removeElement)
+        .emulateTransitionEnd(Alert.TRANSITION_DURATION) :
+      removeElement()
   }
 
 
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
+  // ALERT PLUGIN DEFINITION
+  // =======================
 
   function Plugin(option) {
     return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var $this = $(this)
+      var data  = $this.data('bs.alert')
 
-      if (!data && options.toggle && option == 'show') options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) $this.data('bs.alert', (data = new Alert(this)))
+      if (typeof option == 'string') data[option].call($this)
     })
   }
 
-  var old = $.fn.collapse
+  var old = $.fn.alert
 
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
+  $.fn.alert             = Plugin
+  $.fn.alert.Constructor = Alert
 
 
-  // COLLAPSE NO CONFLICT
-  // ====================
+  // ALERT NO CONFLICT
+  // =================
 
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
+  $.fn.alert.noConflict = function () {
+    $.fn.alert = old
     return this
   }
 
 
-  // COLLAPSE DATA-API
-  // =================
+  // ALERT DATA-API
+  // ==============
 
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
-
-    Plugin.call($target, option)
-  })
+  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
 
 }(jQuery);
 
@@ -10403,7 +10311,503 @@ require('../../js/affix.js')
 
 }(jQuery);
 
+},{}],24:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.0
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.0'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true,
+    trigger: '[data-toggle="collapse"]'
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.find('> .panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && option == 'show') options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+
 },{}],25:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: modal.js v3.3.0
+ * http://getbootstrap.com/javascript/#modals
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // MODAL CLASS DEFINITION
+  // ======================
+
+  var Modal = function (element, options) {
+    this.options        = options
+    this.$body          = $(document.body)
+    this.$element       = $(element)
+    this.$backdrop      =
+    this.isShown        = null
+    this.scrollbarWidth = 0
+
+    if (this.options.remote) {
+      this.$element
+        .find('.modal-content')
+        .load(this.options.remote, $.proxy(function () {
+          this.$element.trigger('loaded.bs.modal')
+        }, this))
+    }
+  }
+
+  Modal.VERSION  = '3.3.0'
+
+  Modal.TRANSITION_DURATION = 300
+  Modal.BACKDROP_TRANSITION_DURATION = 150
+
+  Modal.DEFAULTS = {
+    backdrop: true,
+    keyboard: true,
+    show: true
+  }
+
+  Modal.prototype.toggle = function (_relatedTarget) {
+    return this.isShown ? this.hide() : this.show(_relatedTarget)
+  }
+
+  Modal.prototype.show = function (_relatedTarget) {
+    var that = this
+    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+
+    this.$element.trigger(e)
+
+    if (this.isShown || e.isDefaultPrevented()) return
+
+    this.isShown = true
+
+    this.checkScrollbar()
+    this.$body.addClass('modal-open')
+
+    this.setScrollbar()
+    this.escape()
+
+    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+
+    this.backdrop(function () {
+      var transition = $.support.transition && that.$element.hasClass('fade')
+
+      if (!that.$element.parent().length) {
+        that.$element.appendTo(that.$body) // don't move modals dom position
+      }
+
+      that.$element
+        .show()
+        .scrollTop(0)
+
+      if (transition) {
+        that.$element[0].offsetWidth // force reflow
+      }
+
+      that.$element
+        .addClass('in')
+        .attr('aria-hidden', false)
+
+      that.enforceFocus()
+
+      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+
+      transition ?
+        that.$element.find('.modal-dialog') // wait for modal to slide in
+          .one('bsTransitionEnd', function () {
+            that.$element.trigger('focus').trigger(e)
+          })
+          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+        that.$element.trigger('focus').trigger(e)
+    })
+  }
+
+  Modal.prototype.hide = function (e) {
+    if (e) e.preventDefault()
+
+    e = $.Event('hide.bs.modal')
+
+    this.$element.trigger(e)
+
+    if (!this.isShown || e.isDefaultPrevented()) return
+
+    this.isShown = false
+
+    this.escape()
+
+    $(document).off('focusin.bs.modal')
+
+    this.$element
+      .removeClass('in')
+      .attr('aria-hidden', true)
+      .off('click.dismiss.bs.modal')
+
+    $.support.transition && this.$element.hasClass('fade') ?
+      this.$element
+        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+      this.hideModal()
+  }
+
+  Modal.prototype.enforceFocus = function () {
+    $(document)
+      .off('focusin.bs.modal') // guard against infinite focus loop
+      .on('focusin.bs.modal', $.proxy(function (e) {
+        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
+          this.$element.trigger('focus')
+        }
+      }, this))
+  }
+
+  Modal.prototype.escape = function () {
+    if (this.isShown && this.options.keyboard) {
+      this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
+        e.which == 27 && this.hide()
+      }, this))
+    } else if (!this.isShown) {
+      this.$element.off('keydown.dismiss.bs.modal')
+    }
+  }
+
+  Modal.prototype.hideModal = function () {
+    var that = this
+    this.$element.hide()
+    this.backdrop(function () {
+      that.$body.removeClass('modal-open')
+      that.resetScrollbar()
+      that.$element.trigger('hidden.bs.modal')
+    })
+  }
+
+  Modal.prototype.removeBackdrop = function () {
+    this.$backdrop && this.$backdrop.remove()
+    this.$backdrop = null
+  }
+
+  Modal.prototype.backdrop = function (callback) {
+    var that = this
+    var animate = this.$element.hasClass('fade') ? 'fade' : ''
+
+    if (this.isShown && this.options.backdrop) {
+      var doAnimate = $.support.transition && animate
+
+      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
+        .prependTo(this.$element)
+        .on('click.dismiss.bs.modal', $.proxy(function (e) {
+          if (e.target !== e.currentTarget) return
+          this.options.backdrop == 'static'
+            ? this.$element[0].focus.call(this.$element[0])
+            : this.hide.call(this)
+        }, this))
+
+      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+
+      this.$backdrop.addClass('in')
+
+      if (!callback) return
+
+      doAnimate ?
+        this.$backdrop
+          .one('bsTransitionEnd', callback)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+        callback()
+
+    } else if (!this.isShown && this.$backdrop) {
+      this.$backdrop.removeClass('in')
+
+      var callbackRemove = function () {
+        that.removeBackdrop()
+        callback && callback()
+      }
+      $.support.transition && this.$element.hasClass('fade') ?
+        this.$backdrop
+          .one('bsTransitionEnd', callbackRemove)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+        callbackRemove()
+
+    } else if (callback) {
+      callback()
+    }
+  }
+
+  Modal.prototype.checkScrollbar = function () {
+    this.scrollbarWidth = this.measureScrollbar()
+  }
+
+  Modal.prototype.setScrollbar = function () {
+    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+    if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+  }
+
+  Modal.prototype.resetScrollbar = function () {
+    this.$body.css('padding-right', '')
+  }
+
+  Modal.prototype.measureScrollbar = function () { // thx walsh
+    if (document.body.clientWidth >= window.innerWidth) return 0
+    var scrollDiv = document.createElement('div')
+    scrollDiv.className = 'modal-scrollbar-measure'
+    this.$body.append(scrollDiv)
+    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+    this.$body[0].removeChild(scrollDiv)
+    return scrollbarWidth
+  }
+
+
+  // MODAL PLUGIN DEFINITION
+  // =======================
+
+  function Plugin(option, _relatedTarget) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.modal')
+      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
+      if (typeof option == 'string') data[option](_relatedTarget)
+      else if (options.show) data.show(_relatedTarget)
+    })
+  }
+
+  var old = $.fn.modal
+
+  $.fn.modal             = Plugin
+  $.fn.modal.Constructor = Modal
+
+
+  // MODAL NO CONFLICT
+  // =================
+
+  $.fn.modal.noConflict = function () {
+    $.fn.modal = old
+    return this
+  }
+
+
+  // MODAL DATA-API
+  // ==============
+
+  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+    var $this   = $(this)
+    var href    = $this.attr('href')
+    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
+    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+
+    if ($this.is('a')) e.preventDefault()
+
+    $target.one('show.bs.modal', function (showEvent) {
+      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
+      $target.one('hidden.bs.modal', function () {
+        $this.is(':visible') && $this.trigger('focus')
+      })
+    })
+    Plugin.call($target, option, this)
+  })
+
+}(jQuery);
+
+},{}],26:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.0
  * http://getbootstrap.com/javascript/#tooltip
@@ -10883,385 +11287,6 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: modal.js v3.3.0
- * http://getbootstrap.com/javascript/#modals
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // MODAL CLASS DEFINITION
-  // ======================
-
-  var Modal = function (element, options) {
-    this.options        = options
-    this.$body          = $(document.body)
-    this.$element       = $(element)
-    this.$backdrop      =
-    this.isShown        = null
-    this.scrollbarWidth = 0
-
-    if (this.options.remote) {
-      this.$element
-        .find('.modal-content')
-        .load(this.options.remote, $.proxy(function () {
-          this.$element.trigger('loaded.bs.modal')
-        }, this))
-    }
-  }
-
-  Modal.VERSION  = '3.3.0'
-
-  Modal.TRANSITION_DURATION = 300
-  Modal.BACKDROP_TRANSITION_DURATION = 150
-
-  Modal.DEFAULTS = {
-    backdrop: true,
-    keyboard: true,
-    show: true
-  }
-
-  Modal.prototype.toggle = function (_relatedTarget) {
-    return this.isShown ? this.hide() : this.show(_relatedTarget)
-  }
-
-  Modal.prototype.show = function (_relatedTarget) {
-    var that = this
-    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
-
-    this.$element.trigger(e)
-
-    if (this.isShown || e.isDefaultPrevented()) return
-
-    this.isShown = true
-
-    this.checkScrollbar()
-    this.$body.addClass('modal-open')
-
-    this.setScrollbar()
-    this.escape()
-
-    this.$element.on('click.dismiss.bs.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
-
-    this.backdrop(function () {
-      var transition = $.support.transition && that.$element.hasClass('fade')
-
-      if (!that.$element.parent().length) {
-        that.$element.appendTo(that.$body) // don't move modals dom position
-      }
-
-      that.$element
-        .show()
-        .scrollTop(0)
-
-      if (transition) {
-        that.$element[0].offsetWidth // force reflow
-      }
-
-      that.$element
-        .addClass('in')
-        .attr('aria-hidden', false)
-
-      that.enforceFocus()
-
-      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
-
-      transition ?
-        that.$element.find('.modal-dialog') // wait for modal to slide in
-          .one('bsTransitionEnd', function () {
-            that.$element.trigger('focus').trigger(e)
-          })
-          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-        that.$element.trigger('focus').trigger(e)
-    })
-  }
-
-  Modal.prototype.hide = function (e) {
-    if (e) e.preventDefault()
-
-    e = $.Event('hide.bs.modal')
-
-    this.$element.trigger(e)
-
-    if (!this.isShown || e.isDefaultPrevented()) return
-
-    this.isShown = false
-
-    this.escape()
-
-    $(document).off('focusin.bs.modal')
-
-    this.$element
-      .removeClass('in')
-      .attr('aria-hidden', true)
-      .off('click.dismiss.bs.modal')
-
-    $.support.transition && this.$element.hasClass('fade') ?
-      this.$element
-        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-      this.hideModal()
-  }
-
-  Modal.prototype.enforceFocus = function () {
-    $(document)
-      .off('focusin.bs.modal') // guard against infinite focus loop
-      .on('focusin.bs.modal', $.proxy(function (e) {
-        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-          this.$element.trigger('focus')
-        }
-      }, this))
-  }
-
-  Modal.prototype.escape = function () {
-    if (this.isShown && this.options.keyboard) {
-      this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
-        e.which == 27 && this.hide()
-      }, this))
-    } else if (!this.isShown) {
-      this.$element.off('keydown.dismiss.bs.modal')
-    }
-  }
-
-  Modal.prototype.hideModal = function () {
-    var that = this
-    this.$element.hide()
-    this.backdrop(function () {
-      that.$body.removeClass('modal-open')
-      that.resetScrollbar()
-      that.$element.trigger('hidden.bs.modal')
-    })
-  }
-
-  Modal.prototype.removeBackdrop = function () {
-    this.$backdrop && this.$backdrop.remove()
-    this.$backdrop = null
-  }
-
-  Modal.prototype.backdrop = function (callback) {
-    var that = this
-    var animate = this.$element.hasClass('fade') ? 'fade' : ''
-
-    if (this.isShown && this.options.backdrop) {
-      var doAnimate = $.support.transition && animate
-
-      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-        .prependTo(this.$element)
-        .on('click.dismiss.bs.modal', $.proxy(function (e) {
-          if (e.target !== e.currentTarget) return
-          this.options.backdrop == 'static'
-            ? this.$element[0].focus.call(this.$element[0])
-            : this.hide.call(this)
-        }, this))
-
-      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
-
-      this.$backdrop.addClass('in')
-
-      if (!callback) return
-
-      doAnimate ?
-        this.$backdrop
-          .one('bsTransitionEnd', callback)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callback()
-
-    } else if (!this.isShown && this.$backdrop) {
-      this.$backdrop.removeClass('in')
-
-      var callbackRemove = function () {
-        that.removeBackdrop()
-        callback && callback()
-      }
-      $.support.transition && this.$element.hasClass('fade') ?
-        this.$backdrop
-          .one('bsTransitionEnd', callbackRemove)
-          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
-        callbackRemove()
-
-    } else if (callback) {
-      callback()
-    }
-  }
-
-  Modal.prototype.checkScrollbar = function () {
-    this.scrollbarWidth = this.measureScrollbar()
-  }
-
-  Modal.prototype.setScrollbar = function () {
-    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-    if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
-  }
-
-  Modal.prototype.resetScrollbar = function () {
-    this.$body.css('padding-right', '')
-  }
-
-  Modal.prototype.measureScrollbar = function () { // thx walsh
-    if (document.body.clientWidth >= window.innerWidth) return 0
-    var scrollDiv = document.createElement('div')
-    scrollDiv.className = 'modal-scrollbar-measure'
-    this.$body.append(scrollDiv)
-    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-    this.$body[0].removeChild(scrollDiv)
-    return scrollbarWidth
-  }
-
-
-  // MODAL PLUGIN DEFINITION
-  // =======================
-
-  function Plugin(option, _relatedTarget) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.modal')
-      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option](_relatedTarget)
-      else if (options.show) data.show(_relatedTarget)
-    })
-  }
-
-  var old = $.fn.modal
-
-  $.fn.modal             = Plugin
-  $.fn.modal.Constructor = Modal
-
-
-  // MODAL NO CONFLICT
-  // =================
-
-  $.fn.modal.noConflict = function () {
-    $.fn.modal = old
-    return this
-  }
-
-
-  // MODAL DATA-API
-  // ==============
-
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
-    var $this   = $(this)
-    var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) // strip for ie7
-    var option  = $target.data('bs.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
-
-    if ($this.is('a')) e.preventDefault()
-
-    $target.one('show.bs.modal', function (showEvent) {
-      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
-      $target.one('hidden.bs.modal', function () {
-        $this.is(':visible') && $this.trigger('focus')
-      })
-    })
-    Plugin.call($target, option, this)
-  })
-
-}(jQuery);
-
-},{}],21:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: alert.js v3.3.0
- * http://getbootstrap.com/javascript/#alerts
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // ALERT CLASS DEFINITION
-  // ======================
-
-  var dismiss = '[data-dismiss="alert"]'
-  var Alert   = function (el) {
-    $(el).on('click', dismiss, this.close)
-  }
-
-  Alert.VERSION = '3.3.0'
-
-  Alert.TRANSITION_DURATION = 150
-
-  Alert.prototype.close = function (e) {
-    var $this    = $(this)
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = $(selector)
-
-    if (e) e.preventDefault()
-
-    if (!$parent.length) {
-      $parent = $this.closest('.alert')
-    }
-
-    $parent.trigger(e = $.Event('close.bs.alert'))
-
-    if (e.isDefaultPrevented()) return
-
-    $parent.removeClass('in')
-
-    function removeElement() {
-      // detach from parent, fire event then clean up data
-      $parent.detach().trigger('closed.bs.alert').remove()
-    }
-
-    $.support.transition && $parent.hasClass('fade') ?
-      $parent
-        .one('bsTransitionEnd', removeElement)
-        .emulateTransitionEnd(Alert.TRANSITION_DURATION) :
-      removeElement()
-  }
-
-
-  // ALERT PLUGIN DEFINITION
-  // =======================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.alert')
-
-      if (!data) $this.data('bs.alert', (data = new Alert(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.alert
-
-  $.fn.alert             = Plugin
-  $.fn.alert.Constructor = Alert
-
-
-  // ALERT NO CONFLICT
-  // =================
-
-  $.fn.alert.noConflict = function () {
-    $.fn.alert = old
-    return this
-  }
-
-
-  // ALERT DATA-API
-  // ==============
-
-  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
-
-}(jQuery);
-
 },{}],27:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.0
@@ -11561,7 +11586,7 @@ require('../../js/affix.js')
 }(jQuery);
 
 })()
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.0
  * http://getbootstrap.com/javascript/#dropdowns
@@ -11721,161 +11746,6 @@ require('../../js/affix.js')
     .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
     .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
     .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
-
-}(jQuery);
-
-},{}],29:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: tab.js v3.3.0
- * http://getbootstrap.com/javascript/#tabs
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // TAB CLASS DEFINITION
-  // ====================
-
-  var Tab = function (element) {
-    this.element = $(element)
-  }
-
-  Tab.VERSION = '3.3.0'
-
-  Tab.TRANSITION_DURATION = 150
-
-  Tab.prototype.show = function () {
-    var $this    = this.element
-    var $ul      = $this.closest('ul:not(.dropdown-menu)')
-    var selector = $this.data('target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    if ($this.parent('li').hasClass('active')) return
-
-    var $previous = $ul.find('.active:last a')
-    var hideEvent = $.Event('hide.bs.tab', {
-      relatedTarget: $this[0]
-    })
-    var showEvent = $.Event('show.bs.tab', {
-      relatedTarget: $previous[0]
-    })
-
-    $previous.trigger(hideEvent)
-    $this.trigger(showEvent)
-
-    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
-
-    var $target = $(selector)
-
-    this.activate($this.closest('li'), $ul)
-    this.activate($target, $target.parent(), function () {
-      $previous.trigger({
-        type: 'hidden.bs.tab',
-        relatedTarget: $this[0]
-      })
-      $this.trigger({
-        type: 'shown.bs.tab',
-        relatedTarget: $previous[0]
-      })
-    })
-  }
-
-  Tab.prototype.activate = function (element, container, callback) {
-    var $active    = container.find('> .active')
-    var transition = callback
-      && $.support.transition
-      && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
-
-    function next() {
-      $active
-        .removeClass('active')
-        .find('> .dropdown-menu > .active')
-          .removeClass('active')
-        .end()
-        .find('[data-toggle="tab"]')
-          .attr('aria-expanded', false)
-
-      element
-        .addClass('active')
-        .find('[data-toggle="tab"]')
-          .attr('aria-expanded', true)
-
-      if (transition) {
-        element[0].offsetWidth // reflow for transition
-        element.addClass('in')
-      } else {
-        element.removeClass('fade')
-      }
-
-      if (element.parent('.dropdown-menu')) {
-        element
-          .closest('li.dropdown')
-            .addClass('active')
-          .end()
-          .find('[data-toggle="tab"]')
-            .attr('aria-expanded', true)
-      }
-
-      callback && callback()
-    }
-
-    $active.length && transition ?
-      $active
-        .one('bsTransitionEnd', next)
-        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
-      next()
-
-    $active.removeClass('in')
-  }
-
-
-  // TAB PLUGIN DEFINITION
-  // =====================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.tab')
-
-      if (!data) $this.data('bs.tab', (data = new Tab(this)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.tab
-
-  $.fn.tab             = Plugin
-  $.fn.tab.Constructor = Tab
-
-
-  // TAB NO CONFLICT
-  // ===============
-
-  $.fn.tab.noConflict = function () {
-    $.fn.tab = old
-    return this
-  }
-
-
-  // TAB DATA-API
-  // ============
-
-  var clickHandler = function (e) {
-    e.preventDefault()
-    Plugin.call($(this), 'show')
-  }
-
-  $(document)
-    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
-    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
 
 }(jQuery);
 
@@ -12040,6 +11910,161 @@ require('../../js/affix.js')
       Plugin.call($spy, data)
     })
   })
+
+}(jQuery);
+
+},{}],30:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: tab.js v3.3.0
+ * http://getbootstrap.com/javascript/#tabs
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // TAB CLASS DEFINITION
+  // ====================
+
+  var Tab = function (element) {
+    this.element = $(element)
+  }
+
+  Tab.VERSION = '3.3.0'
+
+  Tab.TRANSITION_DURATION = 150
+
+  Tab.prototype.show = function () {
+    var $this    = this.element
+    var $ul      = $this.closest('ul:not(.dropdown-menu)')
+    var selector = $this.data('target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    if ($this.parent('li').hasClass('active')) return
+
+    var $previous = $ul.find('.active:last a')
+    var hideEvent = $.Event('hide.bs.tab', {
+      relatedTarget: $this[0]
+    })
+    var showEvent = $.Event('show.bs.tab', {
+      relatedTarget: $previous[0]
+    })
+
+    $previous.trigger(hideEvent)
+    $this.trigger(showEvent)
+
+    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
+
+    var $target = $(selector)
+
+    this.activate($this.closest('li'), $ul)
+    this.activate($target, $target.parent(), function () {
+      $previous.trigger({
+        type: 'hidden.bs.tab',
+        relatedTarget: $this[0]
+      })
+      $this.trigger({
+        type: 'shown.bs.tab',
+        relatedTarget: $previous[0]
+      })
+    })
+  }
+
+  Tab.prototype.activate = function (element, container, callback) {
+    var $active    = container.find('> .active')
+    var transition = callback
+      && $.support.transition
+      && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
+
+    function next() {
+      $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
+          .removeClass('active')
+        .end()
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', false)
+
+      element
+        .addClass('active')
+        .find('[data-toggle="tab"]')
+          .attr('aria-expanded', true)
+
+      if (transition) {
+        element[0].offsetWidth // reflow for transition
+        element.addClass('in')
+      } else {
+        element.removeClass('fade')
+      }
+
+      if (element.parent('.dropdown-menu')) {
+        element
+          .closest('li.dropdown')
+            .addClass('active')
+          .end()
+          .find('[data-toggle="tab"]')
+            .attr('aria-expanded', true)
+      }
+
+      callback && callback()
+    }
+
+    $active.length && transition ?
+      $active
+        .one('bsTransitionEnd', next)
+        .emulateTransitionEnd(Tab.TRANSITION_DURATION) :
+      next()
+
+    $active.removeClass('in')
+  }
+
+
+  // TAB PLUGIN DEFINITION
+  // =====================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.tab')
+
+      if (!data) $this.data('bs.tab', (data = new Tab(this)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.tab
+
+  $.fn.tab             = Plugin
+  $.fn.tab.Constructor = Tab
+
+
+  // TAB NO CONFLICT
+  // ===============
+
+  $.fn.tab.noConflict = function () {
+    $.fn.tab = old
+    return this
+  }
+
+
+  // TAB DATA-API
+  // ============
+
+  var clickHandler = function (e) {
+    e.preventDefault()
+    Plugin.call($(this), 'show')
+  }
+
+  $(document)
+    .on('click.bs.tab.data-api', '[data-toggle="tab"]', clickHandler)
+    .on('click.bs.tab.data-api', '[data-toggle="pill"]', clickHandler)
 
 }(jQuery);
 
@@ -13639,376 +13664,7 @@ var wrapError = function (model, options) {
 
 module.exports = Model;
 
-},{"ampersand-state":36,"ampersand-sync":37,"underscore":38}],18:[function(require,module,exports){
-/*$AMPERSAND_VERSION*/
-var State = require('ampersand-state');
-var CollectionView = require('ampersand-collection-view');
-var domify = require('domify');
-var _ = require('underscore');
-var events = require('events-mixin');
-var matches = require('matches-selector');
-var bindings = require('ampersand-dom-bindings');
-var getPath = require('get-object-path');
-
-
-function View(attrs) {
-    this.cid = _.uniqueId('view');
-    attrs || (attrs = {});
-    var parent = attrs.parent;
-    delete attrs.parent;
-    BaseState.call(this, attrs, {init: false, parent: parent});
-    this.on('change:el', this._handleElementChange, this);
-    this._parsedBindings = bindings(this.bindings);
-    this._initializeBindings();
-    if (attrs.el && !this.autoRender) {
-        this._handleElementChange();
-    }
-    this._initializeSubviews();
-    this.initialize.apply(this, arguments);
-    this.set(_.pick(attrs, viewOptions));
-    if (this.autoRender && this.template) {
-        this.render();
-    }
-}
-
-var BaseState = State.extend({
-    dataTypes: {
-        element: {
-            set: function (newVal) {
-                return {
-                    val: newVal,
-                    type: newVal instanceof Element ? 'element' : typeof newVal
-                };
-            },
-            compare: function (el1, el2) {
-                return el1 === el2;
-            }
-        },
-        collection: {
-            set: function (newVal) {
-                return {
-                    val: newVal,
-                    type: newVal && newVal.isCollection ? 'collection' : typeof newVal
-                };
-            },
-            compare: function (currentVal, newVal) {
-                return currentVal === newVal;
-            }
-        }
-    },
-    props: {
-        model: 'state',
-        el: 'element',
-        collection: 'collection'
-    },
-    derived: {
-        rendered: {
-            deps: ['el'],
-            fn: function () {
-                return !!this.el;
-            }
-        },
-        hasData: {
-            deps: ['model'],
-            fn: function () {
-                return !!this.model;
-            }
-        }
-    }
-});
-
-// Cached regex to split keys for `delegate`.
-var delegateEventSplitter = /^(\S+)\s*(.*)$/;
-
-// List of view options to be merged as properties.
-var viewOptions = ['model', 'collection', 'el'];
-
-View.prototype = Object.create(BaseState.prototype);
-
-// Set up all inheritable properties and methods.
-_.extend(View.prototype, {
-    // ## query
-    // Get an single element based on CSS selector scoped to this.el
-    // if you pass an empty string it return `this.el`.
-    // If you pass an element we just return it back.
-    // This lets us use `get` to handle cases where users
-    // can pass a selector or an already selected element.
-    query: function (selector) {
-        if (!selector) return this.el;
-        if (typeof selector === 'string') {
-            if (matches(this.el, selector)) return this.el;
-            return this.el.querySelector(selector) || undefined;
-        }
-        return selector;
-    },
-
-    // ## queryAll
-    // Returns an array of elements based on CSS selector scoped to this.el
-    // if you pass an empty string it return `this.el`. Also includes root
-    // element.
-    queryAll: function (selector) {
-        var res = [];
-        if (!this.el) return res;
-        if (selector === '') return [this.el];
-        if (matches(this.el, selector)) res.push(this.el);
-        return res.concat(Array.prototype.slice.call(this.el.querySelectorAll(selector)));
-    },
-
-    // ## queryByHook
-    // Convenience method for fetching element by it's `data-hook` attribute.
-    // Also tries to match against root element.
-    // Also supports matching 'one' of several space separated hooks.
-    queryByHook: function (hook) {
-        return this.query('[data-hook~="' + hook + '"]');
-    },
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function () {},
-
-    // **render** is the core function that your view can override, its job is
-    // to populate its element (`this.el`), with the appropriate HTML.
-    render: function () {
-        this.renderWithTemplate(this);
-        return this;
-    },
-
-    // Remove this view by taking the element out of the DOM, and removing any
-    // applicable events listeners.
-    remove: function () {
-        var parsedBindings = this._parsedBindings;
-        if (this.el && this.el.parentNode) this.el.parentNode.removeChild(this.el);
-        if (this._subviews) _.chain(this._subviews).flatten().invoke('remove');
-        this.stopListening();
-        // TODO: Not sure if this is actually necessary.
-        // Just trying to de-reference this potentially large
-        // amount of generated functions to avoid memory leaks.
-        _.each(parsedBindings, function (properties, modelName) {
-            _.each(properties, function (value, key) {
-                delete parsedBindings[modelName][key];
-            });
-            delete parsedBindings[modelName];
-        });
-        this.trigger('remove', this);
-        return this;
-    },
-
-    // Change the view's element (`this.el` property), including event
-    // re-delegation.
-    _handleElementChange: function (element, delegate) {
-        if (this.eventManager) this.eventManager.unbind();
-        this.eventManager = events(this.el, this);
-        this.delegateEvents();
-        this._applyBindingsForKey();
-        return this;
-    },
-
-    // Set callbacks, where `this.events` is a hash of
-    //
-    // *{"event selector": "callback"}*
-    //
-    //     {
-    //       'mousedown .title':  'edit',
-    //       'click .button':     'save',
-    //       'click .open':       function (e) { ... }
-    //     }
-    //
-    // pairs. Callbacks will be bound to the view, with `this` set properly.
-    // Uses event delegation for efficiency.
-    // Omitting the selector binds the event to `this.el`.
-    // This only works for delegate-able events: not `focus`, `blur`, and
-    // not `change`, `submit`, and `reset` in Internet Explorer.
-    delegateEvents: function (events) {
-        if (!(events || (events = _.result(this, 'events')))) return this;
-        this.undelegateEvents();
-        for (var key in events) {
-            this.eventManager.bind(key, events[key]);
-        }
-        return this;
-    },
-
-    // Clears all callbacks previously bound to the view with `delegateEvents`.
-    // You usually don't need to use this, but may wish to if you have multiple
-    // Backbone views attached to the same DOM element.
-    undelegateEvents: function () {
-        this.eventManager.unbind();
-        return this;
-    },
-
-    // ## registerSubview
-    // Pass it a view. This can be anything with a `remove` method
-    registerSubview: function (view) {
-        // Storage for our subviews.
-        this._subviews || (this._subviews = []);
-        this._subviews.push(view);
-        // If view has an 'el' it's a single view not
-        // an array of views registered by renderCollection
-        // so we store a reference to the parent view.
-        if (view.el) view.parent = this;
-        return view;
-    },
-
-    // ## renderSubview
-    // Pass it a view instance and a container element
-    // to render it in. It's `remove` method will be called
-    // when the parent view is destroyed.
-    renderSubview: function (view, container) {
-        if (typeof container === 'string') {
-            container = this.query(container);
-        }
-        this.registerSubview(view);
-        view.render();
-        (container || this.el).appendChild(view.el);
-        return view;
-    },
-
-    _applyBindingsForKey: function (name) {
-        if (!this.el) return;
-        var fns = this._parsedBindings.getGrouped(name);
-        var item;
-        for (item in fns) {
-            fns[item].forEach(function (fn) {
-                fn(this.el, getPath(this, item), _.last(item.split('.')));
-            }, this);
-        }
-    },
-
-    _initializeBindings: function () {
-        if (!this.bindings) return;
-        this.on('all', function (eventName) {
-            if (eventName.slice(0, 7) === 'change:') {
-                this._applyBindingsForKey(eventName.split(':')[1]);
-            }
-        }, this);
-    },
-
-    // ## _initializeSubviews
-    // this is called at setup and grabs declared subviews
-    _initializeSubviews: function () {
-        if (!this.subviews) return;
-        for (var item in this.subviews) {
-            this._parseSubview(this.subviews[item], item);
-        }
-    },
-
-    // ## _parseSubview
-    // helper for parsing out the subview declaration and registering
-    // the `waitFor` if need be.
-    _parseSubview: function (subview, name) {
-        var self = this;
-        var opts = {
-            selector: subview.container || '[data-hook="' + subview.hook + '"]',
-            waitFor: subview.waitFor || '',
-            prepareView: subview.prepareView || function (el) {
-                return new subview.constructor({
-                    el: el,
-                    parent: self
-                });
-            }
-        };
-        function action() {
-            var el, subview;
-            // if not rendered or we can't find our element, stop here.
-            if (!this.el || !(el = this.query(opts.selector))) return;
-            if (!opts.waitFor || getPath(this, opts.waitFor)) {
-                subview = this[name] = opts.prepareView.call(this, el);
-                subview.render();
-                this.registerSubview(subview);
-                this.off('change', action);
-            }
-        }
-        // we listen for main `change` items
-        this.on('change', action, this);
-    },
-
-
-    // Shortcut for doing everything we need to do to
-    // render and fully replace current root element.
-    // Either define a `template` property of your view
-    // or pass in a template directly.
-    // The template can either be a string or a function.
-    // If it's a function it will be passed the `context`
-    // argument.
-    renderWithTemplate: function (context, templateArg) {
-        var template = templateArg || this.template;
-        if (!template) throw new Error('Template string or function needed.');
-        var newDom = _.isString(template) ? template : template(context || this);
-        if (_.isString(newDom)) newDom = domify(newDom);
-        var parent = this.el && this.el.parentNode;
-        if (parent) parent.replaceChild(newDom, this.el);
-        if (newDom.nodeName === '#document-fragment') throw new Error('Views can only have one root element.');
-        this.el = newDom;
-        return this;
-    },
-
-    // ## cacheElements
-    // This is a shortcut for adding reference to specific elements within your view for
-    // access later. This avoids excessive DOM queries and makes it easier to update
-    // your view if your template changes.
-    //
-    // In your `render` method. Use it like so:
-    //
-    //     render: function () {
-    //       this.basicRender();
-    //       this.cacheElements({
-    //         pages: '#pages',
-    //         chat: '#teamChat',
-    //         nav: 'nav#views ul',
-    //         me: '#me',
-    //         cheatSheet: '#cheatSheet',
-    //         omniBox: '#awesomeSauce'
-    //       });
-    //     }
-    //
-    // Then later you can access elements by reference like so: `this.pages`, or `this.chat`.
-    cacheElements: function (hash) {
-        for (var item in hash) {
-            this[item] = this.query(hash[item]);
-        }
-    },
-
-    // ## listenToAndRun
-    // Shortcut for registering a listener for a model
-    // and also triggering it right away.
-    listenToAndRun: function (object, events, handler) {
-        var bound = _.bind(handler, this);
-        this.listenTo(object, events, bound);
-        bound();
-    },
-
-    // ## animateRemove
-    // Placeholder for if you want to do something special when they're removed.
-    // For example fade it out, etc.
-    // Any override here should call `.remove()` when done.
-    animateRemove: function () {
-        this.remove();
-    },
-
-    // ## renderCollection
-    // Method for rendering a collections with individual views.
-    // Just pass it the collection, and the view to use for the items in the
-    // collection. The collectionView is returned.
-    renderCollection: function (collection, ViewClass, container, opts) {
-        var containerEl = (typeof container === 'string') ? this.query(container) : container;
-        var config = _.extend({
-            collection: collection,
-            el: containerEl || this.el,
-            view: ViewClass,
-            parent: this,
-            viewOptions: {
-                parent: this
-            }
-        }, opts);
-        var collectionView = new CollectionView(config);
-        collectionView.render();
-        return this.registerSubview(collectionView);
-    }
-});
-
-View.extend = BaseState.extend;
-module.exports = View;
-
-},{"ampersand-collection-view":39,"ampersand-state":40,"underscore":41,"domify":42,"ampersand-dom-bindings":43,"get-object-path":44,"events-mixin":45,"matches-selector":46}],38:[function(require,module,exports){
+},{"ampersand-state":36,"ampersand-sync":37,"underscore":38}],38:[function(require,module,exports){
 (function(){//     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -15426,7 +15082,1043 @@ module.exports = View;
 }.call(this));
 
 })()
-},{}],42:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
+var Events = require('backbone-events-standalone');
+var _ = require('underscore');
+
+
+// Handles cross-browser history management, based on either
+// [pushState](http://diveintohtml5.info/history.html) and real URLs, or
+// [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
+// and URL fragments. If the browser supports neither.
+var History = function () {
+    this.handlers = [];
+    this.checkUrl = _.bind(this.checkUrl, this);
+
+    // Ensure that `History` can be used outside of the browser.
+    if (typeof window !== 'undefined') {
+        this.location = window.location;
+        this.history = window.history;
+    }
+};
+
+// Cached regex for stripping a leading hash/slash and trailing space.
+var routeStripper = /^[#\/]|\s+$/g;
+
+// Cached regex for stripping leading and trailing slashes.
+var rootStripper = /^\/+|\/+$/g;
+
+// Cached regex for stripping urls of hash.
+var pathStripper = /#.*$/;
+
+// Has the history handling already been started?
+History.started = false;
+
+// Set up all inheritable **Backbone.History** properties and methods.
+_.extend(History.prototype, Events, {
+
+    // The default interval to poll for hash changes, if necessary, is
+    // twenty times a second.
+    interval: 50,
+
+    // Are we at the app root?
+    atRoot: function () {
+        var path = this.location.pathname.replace(/[^\/]$/, '$&/');
+        return path === this.root && !this.location.search;
+    },
+
+    // Gets the true hash value. Cannot use location.hash directly due to bug
+    // in Firefox where location.hash will always be decoded.
+    getHash: function (window) {
+        var match = (window || this).location.href.match(/#(.*)$/);
+        return match ? match[1] : '';
+    },
+
+    // Get the pathname and search params, without the root.
+    getPath: function () {
+        var path = decodeURI(this.location.pathname + this.location.search);
+        var root = this.root.slice(0, -1);
+        if (!path.indexOf(root)) path = path.slice(root.length);
+        return path.slice(1);
+    },
+
+    // Get the cross-browser normalized URL fragment from the path or hash.
+    getFragment: function (fragment) {
+        if (fragment == null) {
+            if (this._hasPushState || !this._wantsHashChange) {
+                fragment = this.getPath();
+            } else {
+                fragment = this.getHash();
+            }
+        }
+        return fragment.replace(routeStripper, '');
+    },
+
+    // Start the hash change handling, returning `true` if the current URL matches
+    // an existing route, and `false` otherwise.
+    start: function (options) {
+        if (History.started) throw new Error("Backbone.history has already been started");
+        History.started = true;
+
+        // Figure out the initial configuration.
+        // Is pushState desired ... is it available?
+        this.options          = _.extend({root: '/'}, this.options, options);
+        this.root             = this.options.root;
+        this._wantsHashChange = this.options.hashChange !== false;
+        this._hasHashChange   = 'onhashchange' in window;
+        this._wantsPushState  = !!this.options.pushState;
+        this._hasPushState    = !!(this.options.pushState && this.history && this.history.pushState);
+        this.fragment         = this.getFragment();
+
+        // Add a cross-platform `addEventListener` shim for older browsers.
+        var addEventListener = window.addEventListener;
+
+        // Normalize root to always include a leading and trailing slash.
+        this.root = ('/' + this.root + '/').replace(rootStripper, '/');
+
+        // Depending on whether we're using pushState or hashes, and whether
+        // 'onhashchange' is supported, determine how we check the URL state.
+        if (this._hasPushState) {
+            addEventListener('popstate', this.checkUrl, false);
+        } else if (this._wantsHashChange && this._hasHashChange) {
+            addEventListener('hashchange', this.checkUrl, false);
+        } else if (this._wantsHashChange) {
+            this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
+        }
+
+        // Transition from hashChange to pushState or vice versa if both are
+        // requested.
+        if (this._wantsHashChange && this._wantsPushState) {
+
+            // If we've started off with a route from a `pushState`-enabled
+            // browser, but we're currently in a browser that doesn't support it...
+            if (!this._hasPushState && !this.atRoot()) {
+                this.location.replace(this.root + '#' + this.getPath());
+                // Return immediately as browser will do redirect to new url
+                return true;
+
+            // Or if we've started out with a hash-based route, but we're currently
+            // in a browser where it could be `pushState`-based instead...
+            } else if (this._hasPushState && this.atRoot()) {
+                this.navigate(this.getHash(), {replace: true});
+            }
+        }
+
+        if (!this.options.silent) return this.loadUrl();
+    },
+
+    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
+    // but possibly useful for unit testing Routers.
+    stop: function () {
+        // Add a cross-platform `removeEventListener` shim for older browsers.
+        var removeEventListener = window.removeEventListener;
+
+        // Remove window listeners.
+        if (this._hasPushState) {
+            removeEventListener('popstate', this.checkUrl, false);
+        } else if (this._wantsHashChange && this._hasHashChange) {
+            removeEventListener('hashchange', this.checkUrl, false);
+        }
+
+        // Some environments will throw when clearing an undefined interval.
+        if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
+        History.started = false;
+    },
+
+    // Add a route to be tested when the fragment changes. Routes added later
+    // may override previous routes.
+    route: function (route, callback) {
+        this.handlers.unshift({route: route, callback: callback});
+    },
+
+    // Checks the current URL to see if it has changed, and if it has,
+    // calls `loadUrl`.
+    checkUrl: function (e) {
+        var current = this.getFragment();
+        if (current === this.fragment) return false;
+        this.loadUrl();
+    },
+
+    // Attempt to load the current URL fragment. If a route succeeds with a
+    // match, returns `true`. If no defined routes matches the fragment,
+    // returns `false`.
+    loadUrl: function (fragment) {
+        fragment = this.fragment = this.getFragment(fragment);
+        return this.handlers.some(function (handler) {
+            if (handler.route.test(fragment)) {
+                handler.callback(fragment);
+                return true;
+            }
+        });
+    },
+
+    // Save a fragment into the hash history, or replace the URL state if the
+    // 'replace' option is passed. You are responsible for properly URL-encoding
+    // the fragment in advance.
+    //
+    // The options object can contain `trigger: true` if you wish to have the
+    // route callback be fired (not usually desirable), or `replace: true`, if
+    // you wish to modify the current URL without adding an entry to the history.
+    navigate: function (fragment, options) {
+        if (!History.started) return false;
+        if (!options || options === true) options = {trigger: !!options};
+
+        var url = this.root + (fragment = this.getFragment(fragment || ''));
+
+        // Strip the hash and decode for matching.
+        fragment = decodeURI(fragment.replace(pathStripper, ''));
+
+        if (this.fragment === fragment) return;
+        this.fragment = fragment;
+
+        // Don't include a trailing slash on the root.
+        if (fragment === '' && url !== '/') url = url.slice(0, -1);
+
+        // If pushState is available, we use it to set the fragment as a real URL.
+        if (this._hasPushState) {
+            this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);
+
+            // If hash changes haven't been explicitly disabled, update the hash
+            // fragment to store history.
+        } else if (this._wantsHashChange) {
+            this._updateHash(this.location, fragment, options.replace);
+            // If you've told us that you explicitly don't want fallback hashchange-
+            // based history, then `navigate` becomes a page refresh.
+        } else {
+            return this.location.assign(url);
+        }
+        if (options.trigger) return this.loadUrl(fragment);
+    },
+
+    // Update the hash location, either replacing the current entry, or adding
+    // a new one to the browser history.
+    _updateHash: function (location, fragment, replace) {
+        if (replace) {
+            var href = location.href.replace(/(javascript:|#).*$/, '');
+            location.replace(href + '#' + fragment);
+        } else {
+            // Some browsers require that `hash` contains a leading #.
+            location.hash = '#' + fragment;
+        }
+    }
+
+});
+
+module.exports = new History();
+
+},{"underscore":34,"backbone-events-standalone":35}],35:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":39}],33:[function(require,module,exports){
+var objectExtend = require('extend-object');
+
+
+/// Following code is largely pasted from Backbone.js
+
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function(protoProps) {
+    var parent = this;
+    var child;
+    var args = [].slice.call(arguments);
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function from parent
+    objectExtend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
+
+    // Mix in all prototype properties to the subclass if supplied.
+    if (protoProps) {
+        args.unshift(child.prototype);
+        objectExtend.apply(null, args);
+    }
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+};
+
+// Expose the extend function
+module.exports = extend;
+
+},{"extend-object":40}],39:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys,
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],17:[function(require,module,exports){
+;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-view"] = window.ampersand["ampersand-view"] || [];  window.ampersand["ampersand-view"].push("7.1.5");}
+var State = require('ampersand-state');
+var CollectionView = require('ampersand-collection-view');
+var domify = require('domify');
+var _ = require('underscore');
+var events = require('events-mixin');
+var matches = require('matches-selector');
+var bindings = require('ampersand-dom-bindings');
+var getPath = require('get-object-path');
+
+
+function View(attrs) {
+    this.cid = _.uniqueId('view');
+    attrs || (attrs = {});
+    var parent = attrs.parent;
+    delete attrs.parent;
+    BaseState.call(this, attrs, {init: false, parent: parent});
+    this.on('change:el', this._handleElementChange, this);
+    this._parsedBindings = bindings(this.bindings);
+    this._initializeBindings();
+    if (attrs.el && !this.autoRender) {
+        this._handleElementChange();
+    }
+    this._initializeSubviews();
+    this.initialize.apply(this, arguments);
+    this.set(_.pick(attrs, viewOptions));
+    if (this.autoRender && this.template) {
+        this.render();
+    }
+}
+
+var BaseState = State.extend({
+    dataTypes: {
+        element: {
+            set: function (newVal) {
+                return {
+                    val: newVal,
+                    type: newVal instanceof Element ? 'element' : typeof newVal
+                };
+            },
+            compare: function (el1, el2) {
+                return el1 === el2;
+            }
+        },
+        collection: {
+            set: function (newVal) {
+                return {
+                    val: newVal,
+                    type: newVal && newVal.isCollection ? 'collection' : typeof newVal
+                };
+            },
+            compare: function (currentVal, newVal) {
+                return currentVal === newVal;
+            }
+        }
+    },
+    props: {
+        model: 'state',
+        el: 'element',
+        collection: 'collection'
+    },
+    derived: {
+        rendered: {
+            deps: ['el'],
+            fn: function () {
+                return !!this.el;
+            }
+        },
+        hasData: {
+            deps: ['model'],
+            fn: function () {
+                return !!this.model;
+            }
+        }
+    }
+});
+
+// Cached regex to split keys for `delegate`.
+var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+// List of view options to be merged as properties.
+var viewOptions = ['model', 'collection', 'el'];
+
+View.prototype = Object.create(BaseState.prototype);
+
+// Set up all inheritable properties and methods.
+_.extend(View.prototype, {
+    // ## query
+    // Get an single element based on CSS selector scoped to this.el
+    // if you pass an empty string it return `this.el`.
+    // If you pass an element we just return it back.
+    // This lets us use `get` to handle cases where users
+    // can pass a selector or an already selected element.
+    query: function (selector) {
+        if (!selector) return this.el;
+        if (typeof selector === 'string') {
+            if (matches(this.el, selector)) return this.el;
+            return this.el.querySelector(selector) || undefined;
+        }
+        return selector;
+    },
+
+    // ## queryAll
+    // Returns an array of elements based on CSS selector scoped to this.el
+    // if you pass an empty string it return `this.el`. Also includes root
+    // element.
+    queryAll: function (selector) {
+        var res = [];
+        if (!this.el) return res;
+        if (selector === '') return [this.el];
+        if (matches(this.el, selector)) res.push(this.el);
+        return res.concat(Array.prototype.slice.call(this.el.querySelectorAll(selector)));
+    },
+
+    // ## queryByHook
+    // Convenience method for fetching element by it's `data-hook` attribute.
+    // Also tries to match against root element.
+    // Also supports matching 'one' of several space separated hooks.
+    queryByHook: function (hook) {
+        return this.query('[data-hook~="' + hook + '"]');
+    },
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function () {},
+
+    // **render** is the core function that your view can override, its job is
+    // to populate its element (`this.el`), with the appropriate HTML.
+    render: function () {
+        this.renderWithTemplate(this);
+        return this;
+    },
+
+    // Remove this view by taking the element out of the DOM, and removing any
+    // applicable events listeners.
+    remove: function () {
+        var parsedBindings = this._parsedBindings;
+        if (this.el && this.el.parentNode) this.el.parentNode.removeChild(this.el);
+        if (this._subviews) _.chain(this._subviews).flatten().invoke('remove');
+        this.stopListening();
+        // TODO: Not sure if this is actually necessary.
+        // Just trying to de-reference this potentially large
+        // amount of generated functions to avoid memory leaks.
+        _.each(parsedBindings, function (properties, modelName) {
+            _.each(properties, function (value, key) {
+                delete parsedBindings[modelName][key];
+            });
+            delete parsedBindings[modelName];
+        });
+        this.trigger('remove', this);
+        return this;
+    },
+
+    // Change the view's element (`this.el` property), including event
+    // re-delegation.
+    _handleElementChange: function (element, delegate) {
+        if (this.eventManager) this.eventManager.unbind();
+        this.eventManager = events(this.el, this);
+        this.delegateEvents();
+        this._applyBindingsForKey();
+        return this;
+    },
+
+    // Set callbacks, where `this.events` is a hash of
+    //
+    // *{"event selector": "callback"}*
+    //
+    //     {
+    //       'mousedown .title':  'edit',
+    //       'click .button':     'save',
+    //       'click .open':       function (e) { ... }
+    //     }
+    //
+    // pairs. Callbacks will be bound to the view, with `this` set properly.
+    // Uses event delegation for efficiency.
+    // Omitting the selector binds the event to `this.el`.
+    // This only works for delegate-able events: not `focus`, `blur`, and
+    // not `change`, `submit`, and `reset` in Internet Explorer.
+    delegateEvents: function (events) {
+        if (!(events || (events = _.result(this, 'events')))) return this;
+        this.undelegateEvents();
+        for (var key in events) {
+            this.eventManager.bind(key, events[key]);
+        }
+        return this;
+    },
+
+    // Clears all callbacks previously bound to the view with `delegateEvents`.
+    // You usually don't need to use this, but may wish to if you have multiple
+    // Backbone views attached to the same DOM element.
+    undelegateEvents: function () {
+        this.eventManager.unbind();
+        return this;
+    },
+
+    // ## registerSubview
+    // Pass it a view. This can be anything with a `remove` method
+    registerSubview: function (view) {
+        // Storage for our subviews.
+        this._subviews || (this._subviews = []);
+        this._subviews.push(view);
+        // If view has an 'el' it's a single view not
+        // an array of views registered by renderCollection
+        // so we store a reference to the parent view.
+        if (view.el) view.parent = this;
+        return view;
+    },
+
+    // ## renderSubview
+    // Pass it a view instance and a container element
+    // to render it in. It's `remove` method will be called
+    // when the parent view is destroyed.
+    renderSubview: function (view, container) {
+        if (typeof container === 'string') {
+            container = this.query(container);
+        }
+        this.registerSubview(view);
+        view.render();
+        (container || this.el).appendChild(view.el);
+        return view;
+    },
+
+    _applyBindingsForKey: function (name) {
+        if (!this.el) return;
+        var fns = this._parsedBindings.getGrouped(name);
+        var item;
+        for (item in fns) {
+            fns[item].forEach(function (fn) {
+                fn(this.el, getPath(this, item), _.last(item.split('.')));
+            }, this);
+        }
+    },
+
+    _initializeBindings: function () {
+        if (!this.bindings) return;
+        this.on('all', function (eventName) {
+            if (eventName.slice(0, 7) === 'change:') {
+                this._applyBindingsForKey(eventName.split(':')[1]);
+            }
+        }, this);
+    },
+
+    // ## _initializeSubviews
+    // this is called at setup and grabs declared subviews
+    _initializeSubviews: function () {
+        if (!this.subviews) return;
+        for (var item in this.subviews) {
+            this._parseSubview(this.subviews[item], item);
+        }
+    },
+
+    // ## _parseSubview
+    // helper for parsing out the subview declaration and registering
+    // the `waitFor` if need be.
+    _parseSubview: function (subview, name) {
+        var self = this;
+        var opts = {
+            selector: subview.container || '[data-hook="' + subview.hook + '"]',
+            waitFor: subview.waitFor || '',
+            prepareView: subview.prepareView || function (el) {
+                return new subview.constructor({
+                    el: el,
+                    parent: self
+                });
+            }
+        };
+        function action() {
+            var el, subview;
+            // if not rendered or we can't find our element, stop here.
+            if (!this.el || !(el = this.query(opts.selector))) return;
+            if (!opts.waitFor || getPath(this, opts.waitFor)) {
+                subview = this[name] = opts.prepareView.call(this, el);
+                subview.render();
+                this.registerSubview(subview);
+                this.off('change', action);
+            }
+        }
+        // we listen for main `change` items
+        this.on('change', action, this);
+    },
+
+
+    // Shortcut for doing everything we need to do to
+    // render and fully replace current root element.
+    // Either define a `template` property of your view
+    // or pass in a template directly.
+    // The template can either be a string or a function.
+    // If it's a function it will be passed the `context`
+    // argument.
+    renderWithTemplate: function (context, templateArg) {
+        var template = templateArg || this.template;
+        if (!template) throw new Error('Template string or function needed.');
+        var newDom = _.isString(template) ? template : template(context || this);
+        if (_.isString(newDom)) newDom = domify(newDom);
+        var parent = this.el && this.el.parentNode;
+        if (parent) parent.replaceChild(newDom, this.el);
+        if (newDom.nodeName === '#document-fragment') throw new Error('Views can only have one root element.');
+        this.el = newDom;
+        return this;
+    },
+
+    // ## cacheElements
+    // This is a shortcut for adding reference to specific elements within your view for
+    // access later. This avoids excessive DOM queries and makes it easier to update
+    // your view if your template changes.
+    //
+    // In your `render` method. Use it like so:
+    //
+    //     render: function () {
+    //       this.basicRender();
+    //       this.cacheElements({
+    //         pages: '#pages',
+    //         chat: '#teamChat',
+    //         nav: 'nav#views ul',
+    //         me: '#me',
+    //         cheatSheet: '#cheatSheet',
+    //         omniBox: '#awesomeSauce'
+    //       });
+    //     }
+    //
+    // Then later you can access elements by reference like so: `this.pages`, or `this.chat`.
+    cacheElements: function (hash) {
+        for (var item in hash) {
+            this[item] = this.query(hash[item]);
+        }
+    },
+
+    // ## listenToAndRun
+    // Shortcut for registering a listener for a model
+    // and also triggering it right away.
+    listenToAndRun: function (object, events, handler) {
+        var bound = _.bind(handler, this);
+        this.listenTo(object, events, bound);
+        bound();
+    },
+
+    // ## animateRemove
+    // Placeholder for if you want to do something special when they're removed.
+    // For example fade it out, etc.
+    // Any override here should call `.remove()` when done.
+    animateRemove: function () {
+        this.remove();
+    },
+
+    // ## renderCollection
+    // Method for rendering a collections with individual views.
+    // Just pass it the collection, and the view to use for the items in the
+    // collection. The collectionView is returned.
+    renderCollection: function (collection, ViewClass, container, opts) {
+        var containerEl = (typeof container === 'string') ? this.query(container) : container;
+        var config = _.extend({
+            collection: collection,
+            el: containerEl || this.el,
+            view: ViewClass,
+            parent: this,
+            viewOptions: {
+                parent: this
+            }
+        }, opts);
+        var collectionView = new CollectionView(config);
+        collectionView.render();
+        return this.registerSubview(collectionView);
+    }
+});
+
+View.extend = BaseState.extend;
+module.exports = View;
+
+},{"ampersand-collection-view":41,"ampersand-state":42,"underscore":43,"domify":44,"ampersand-dom-bindings":45,"get-object-path":46,"events-mixin":47,"matches-selector":48}],37:[function(require,module,exports){
+var _ = require('underscore');
+var xhr = require('xhr');
+var qs = require('qs');
+
+
+// Throw an error when a URL is needed, and none is supplied.
+var urlError = function () {
+    throw new Error('A "url" property or function must be specified');
+};
+
+
+module.exports = function (method, model, options) {
+    var type = methodMap[method];
+    var headers = {};
+
+    // Default options, unless specified.
+    _.defaults(options || (options = {}), {
+        emulateHTTP: false,
+        emulateJSON: false
+    });
+
+    // Default request options.
+    var params = {type: type};
+
+    // Ensure that we have a URL.
+    if (!options.url) {
+        params.url = _.result(model, 'url') || urlError();
+    }
+
+    // Ensure that we have the appropriate request data.
+    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+        params.json = options.attrs || model.toJSON(options);
+    }
+
+    // If passed a data param, we add it to the URL or body depending on request type
+    if (options.data && type === 'GET') {
+        // make sure we've got a '?'
+        params.url += _.contains(params.url, '?') ? '&' : '?';
+        params.url += qs.stringify(options.data);
+    }
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (options.emulateJSON) {
+        headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        params.body = params.json ? {model: params.json} : {};
+        delete params.json;
+    }
+
+    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+        params.type = 'POST';
+        if (options.emulateJSON) params.body._method = type;
+        headers['X-HTTP-Method-Override'] = type;
+    }
+
+    // When emulating JSON, we turn the body into a querystring.
+    // We do this later to let the emulateHTTP run its course.
+    if (options.emulateJSON) {
+        params.body = qs.stringify(params.body);
+    }
+
+    // Start setting ajaxConfig options (headers, xhrFields).
+    var ajaxConfig = (_.result(model, 'ajaxConfig') || {});
+
+    // Combine generated headers with user's headers.
+    if (ajaxConfig.headers) {
+        _.extend(headers, ajaxConfig.headers);
+    }
+    params.headers = headers;
+
+    //Set XDR for cross domain in IE8/9
+    if (ajaxConfig.useXDR) {
+        params.useXDR = true;
+    }
+
+    // Set raw xhr options.
+    if (ajaxConfig.xhrFields) {
+        var beforeSend = ajaxConfig.beforeSend;
+        params.beforeSend = function (req) {
+            for (var key in ajaxConfig.xhrFields) {
+                req[key] = ajaxConfig.xhrFields[key];
+            }
+            if (beforeSend) return beforeSend.apply(this, arguments);
+        };
+        params.xhrFields = ajaxConfig.xhrFields;
+    }
+
+    // Turn a jQuery.ajax formatted request into xhr compatible
+    params.method = params.type;
+
+    var ajaxSettings = _.extend(params, options);
+
+    // Make the request. The callback executes functions that are compatible
+    // With jQuery.ajax's syntax.
+    var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
+        if (err && options.error) return options.error(resp, 'error', err.message);
+
+        // Parse body as JSON if a string.
+        if (body && typeof body === 'string') {
+            try {
+                body = JSON.parse(body);
+            } catch (e) {}
+        }
+        if (options.success) return options.success(body, 'success', resp);
+    });
+    model.trigger('request', model, request, options, ajaxSettings);
+    request.ajaxSettings = ajaxSettings;
+    return request;
+};
+
+// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+var methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'patch':  'PATCH',
+    'delete': 'DELETE',
+    'read':   'GET'
+};
+
+},{"underscore":49,"qs":50,"xhr":51}],44:[function(require,module,exports){
 (function(){
 /**
  * Expose `parse`.
@@ -15536,7 +16228,7 @@ function parse(html, doc) {
 }
 
 })()
-},{}],41:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -16882,10 +17574,7 @@ function parse(html, doc) {
 }).call(this);
 
 })()
-},{}],35:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":47}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = get;
 
 function get (context, path) {
@@ -16908,701 +17597,7 @@ function get (context, path) {
   return result;
 }
 
-},{}],32:[function(require,module,exports){
-var Events = require('backbone-events-standalone');
-var _ = require('underscore');
-
-
-// Handles cross-browser history management, based on either
-// [pushState](http://diveintohtml5.info/history.html) and real URLs, or
-// [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
-// and URL fragments. If the browser supports neither.
-var History = function () {
-    this.handlers = [];
-    this.checkUrl = _.bind(this.checkUrl, this);
-
-    // Ensure that `History` can be used outside of the browser.
-    if (typeof window !== 'undefined') {
-        this.location = window.location;
-        this.history = window.history;
-    }
-};
-
-// Cached regex for stripping a leading hash/slash and trailing space.
-var routeStripper = /^[#\/]|\s+$/g;
-
-// Cached regex for stripping leading and trailing slashes.
-var rootStripper = /^\/+|\/+$/g;
-
-// Cached regex for stripping urls of hash.
-var pathStripper = /#.*$/;
-
-// Has the history handling already been started?
-History.started = false;
-
-// Set up all inheritable **Backbone.History** properties and methods.
-_.extend(History.prototype, Events, {
-
-    // The default interval to poll for hash changes, if necessary, is
-    // twenty times a second.
-    interval: 50,
-
-    // Are we at the app root?
-    atRoot: function () {
-        var path = this.location.pathname.replace(/[^\/]$/, '$&/');
-        return path === this.root && !this.location.search;
-    },
-
-    // Gets the true hash value. Cannot use location.hash directly due to bug
-    // in Firefox where location.hash will always be decoded.
-    getHash: function (window) {
-        var match = (window || this).location.href.match(/#(.*)$/);
-        return match ? match[1] : '';
-    },
-
-    // Get the pathname and search params, without the root.
-    getPath: function () {
-        var path = decodeURI(this.location.pathname + this.location.search);
-        var root = this.root.slice(0, -1);
-        if (!path.indexOf(root)) path = path.slice(root.length);
-        return path.slice(1);
-    },
-
-    // Get the cross-browser normalized URL fragment from the path or hash.
-    getFragment: function (fragment) {
-        if (fragment == null) {
-            if (this._hasPushState || !this._wantsHashChange) {
-                fragment = this.getPath();
-            } else {
-                fragment = this.getHash();
-            }
-        }
-        return fragment.replace(routeStripper, '');
-    },
-
-    // Start the hash change handling, returning `true` if the current URL matches
-    // an existing route, and `false` otherwise.
-    start: function (options) {
-        if (History.started) throw new Error("Backbone.history has already been started");
-        History.started = true;
-
-        // Figure out the initial configuration.
-        // Is pushState desired ... is it available?
-        this.options          = _.extend({root: '/'}, this.options, options);
-        this.root             = this.options.root;
-        this._wantsHashChange = this.options.hashChange !== false;
-        this._hasHashChange   = 'onhashchange' in window;
-        this._wantsPushState  = !!this.options.pushState;
-        this._hasPushState    = !!(this.options.pushState && this.history && this.history.pushState);
-        this.fragment         = this.getFragment();
-
-        // Add a cross-platform `addEventListener` shim for older browsers.
-        var addEventListener = window.addEventListener;
-
-        // Normalize root to always include a leading and trailing slash.
-        this.root = ('/' + this.root + '/').replace(rootStripper, '/');
-
-        // Depending on whether we're using pushState or hashes, and whether
-        // 'onhashchange' is supported, determine how we check the URL state.
-        if (this._hasPushState) {
-            addEventListener('popstate', this.checkUrl, false);
-        } else if (this._wantsHashChange && this._hasHashChange) {
-            addEventListener('hashchange', this.checkUrl, false);
-        } else if (this._wantsHashChange) {
-            this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
-        }
-
-        // Transition from hashChange to pushState or vice versa if both are
-        // requested.
-        if (this._wantsHashChange && this._wantsPushState) {
-
-            // If we've started off with a route from a `pushState`-enabled
-            // browser, but we're currently in a browser that doesn't support it...
-            if (!this._hasPushState && !this.atRoot()) {
-                this.location.replace(this.root + '#' + this.getPath());
-                // Return immediately as browser will do redirect to new url
-                return true;
-
-            // Or if we've started out with a hash-based route, but we're currently
-            // in a browser where it could be `pushState`-based instead...
-            } else if (this._hasPushState && this.atRoot()) {
-                this.navigate(this.getHash(), {replace: true});
-            }
-        }
-
-        if (!this.options.silent) return this.loadUrl();
-    },
-
-    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
-    // but possibly useful for unit testing Routers.
-    stop: function () {
-        // Add a cross-platform `removeEventListener` shim for older browsers.
-        var removeEventListener = window.removeEventListener;
-
-        // Remove window listeners.
-        if (this._hasPushState) {
-            removeEventListener('popstate', this.checkUrl, false);
-        } else if (this._wantsHashChange && this._hasHashChange) {
-            removeEventListener('hashchange', this.checkUrl, false);
-        }
-
-        // Some environments will throw when clearing an undefined interval.
-        if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
-        History.started = false;
-    },
-
-    // Add a route to be tested when the fragment changes. Routes added later
-    // may override previous routes.
-    route: function (route, callback) {
-        this.handlers.unshift({route: route, callback: callback});
-    },
-
-    // Checks the current URL to see if it has changed, and if it has,
-    // calls `loadUrl`.
-    checkUrl: function (e) {
-        var current = this.getFragment();
-        if (current === this.fragment) return false;
-        this.loadUrl();
-    },
-
-    // Attempt to load the current URL fragment. If a route succeeds with a
-    // match, returns `true`. If no defined routes matches the fragment,
-    // returns `false`.
-    loadUrl: function (fragment) {
-        fragment = this.fragment = this.getFragment(fragment);
-        return this.handlers.some(function (handler) {
-            if (handler.route.test(fragment)) {
-                handler.callback(fragment);
-                return true;
-            }
-        });
-    },
-
-    // Save a fragment into the hash history, or replace the URL state if the
-    // 'replace' option is passed. You are responsible for properly URL-encoding
-    // the fragment in advance.
-    //
-    // The options object can contain `trigger: true` if you wish to have the
-    // route callback be fired (not usually desirable), or `replace: true`, if
-    // you wish to modify the current URL without adding an entry to the history.
-    navigate: function (fragment, options) {
-        if (!History.started) return false;
-        if (!options || options === true) options = {trigger: !!options};
-
-        var url = this.root + (fragment = this.getFragment(fragment || ''));
-
-        // Strip the hash and decode for matching.
-        fragment = decodeURI(fragment.replace(pathStripper, ''));
-
-        if (this.fragment === fragment) return;
-        this.fragment = fragment;
-
-        // Don't include a trailing slash on the root.
-        if (fragment === '' && url !== '/') url = url.slice(0, -1);
-
-        // If pushState is available, we use it to set the fragment as a real URL.
-        if (this._hasPushState) {
-            this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);
-
-            // If hash changes haven't been explicitly disabled, update the hash
-            // fragment to store history.
-        } else if (this._wantsHashChange) {
-            this._updateHash(this.location, fragment, options.replace);
-            // If you've told us that you explicitly don't want fallback hashchange-
-            // based history, then `navigate` becomes a page refresh.
-        } else {
-            return this.location.assign(url);
-        }
-        if (options.trigger) return this.loadUrl(fragment);
-    },
-
-    // Update the hash location, either replacing the current entry, or adding
-    // a new one to the browser history.
-    _updateHash: function (location, fragment, replace) {
-        if (replace) {
-            var href = location.href.replace(/(javascript:|#).*$/, '');
-            location.replace(href + '#' + fragment);
-        } else {
-            // Some browsers require that `hash` contains a leading #.
-            location.hash = '#' + fragment;
-        }
-    }
-
-});
-
-module.exports = new History();
-
-},{"underscore":34,"backbone-events-standalone":35}],46:[function(require,module,exports){
-'use strict';
-
-var proto = Element.prototype;
-var vendor = proto.matches
-  || proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-module.exports = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; i++) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
-},{}],47:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys,
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],33:[function(require,module,exports){
-var objectExtend = require('extend-object');
-
-
-/// Following code is largely pasted from Backbone.js
-
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-var extend = function(protoProps) {
-    var parent = this;
-    var child;
-    var args = [].slice.call(arguments);
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
-    if (protoProps && protoProps.hasOwnProperty('constructor')) {
-        child = protoProps.constructor;
-    } else {
-        child = function () {
-            return parent.apply(this, arguments);
-        };
-    }
-
-    // Add static properties to the constructor function from parent
-    objectExtend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
-    var Surrogate = function(){ this.constructor = child; };
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
-
-    // Mix in all prototype properties to the subclass if supplied.
-    if (protoProps) {
-        args.unshift(child.prototype);
-        objectExtend.apply(null, args);
-    }
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-};
-
-// Expose the extend function
-module.exports = extend;
-
-},{"extend-object":48}],37:[function(require,module,exports){
-var _ = require('underscore');
-var xhr = require('xhr');
-var qs = require('qs');
-
-
-// Throw an error when a URL is needed, and none is supplied.
-var urlError = function () {
-    throw new Error('A "url" property or function must be specified');
-};
-
-
-module.exports = function (method, model, options) {
-    var type = methodMap[method];
-    var headers = {};
-
-    // Default options, unless specified.
-    _.defaults(options || (options = {}), {
-        emulateHTTP: false,
-        emulateJSON: false
-    });
-
-    // Default request options.
-    var params = {type: type};
-
-    // Ensure that we have a URL.
-    if (!options.url) {
-        params.url = _.result(model, 'url') || urlError();
-    }
-
-    // Ensure that we have the appropriate request data.
-    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
-        params.json = options.attrs || model.toJSON(options);
-    }
-
-    // If passed a data param, we add it to the URL or body depending on request type
-    if (options.data && type === 'GET') {
-        // make sure we've got a '?'
-        params.url += _.contains(params.url, '?') ? '&' : '?';
-        params.url += qs.stringify(options.data);
-    }
-
-    // For older servers, emulate JSON by encoding the request into an HTML-form.
-    if (options.emulateJSON) {
-        headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        params.body = params.json ? {model: params.json} : {};
-        delete params.json;
-    }
-
-    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
-    // And an `X-HTTP-Method-Override` header.
-    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
-        params.type = 'POST';
-        if (options.emulateJSON) params.body._method = type;
-        headers['X-HTTP-Method-Override'] = type;
-    }
-
-    // When emulating JSON, we turn the body into a querystring.
-    // We do this later to let the emulateHTTP run its course.
-    if (options.emulateJSON) {
-        params.body = qs.stringify(params.body);
-    }
-
-    // Start setting ajaxConfig options (headers, xhrFields).
-    var ajaxConfig = (_.result(model, 'ajaxConfig') || {});
-
-    // Combine generated headers with user's headers.
-    if (ajaxConfig.headers) {
-        _.extend(headers, ajaxConfig.headers);
-    }
-    params.headers = headers;
-
-    //Set XDR for cross domain in IE8/9
-    if (ajaxConfig.useXDR) {
-        params.useXDR = true;
-    }
-
-    // Set raw xhr options.
-    if (ajaxConfig.xhrFields) {
-        var beforeSend = ajaxConfig.beforeSend;
-        params.beforeSend = function (req) {
-            for (var key in ajaxConfig.xhrFields) {
-                req[key] = ajaxConfig.xhrFields[key];
-            }
-            if (beforeSend) return beforeSend.apply(this, arguments);
-        };
-        params.xhrFields = ajaxConfig.xhrFields;
-    }
-
-    // Turn a jQuery.ajax formatted request into xhr compatible
-    params.method = params.type;
-
-    var ajaxSettings = _.extend(params, options);
-
-    // Make the request. The callback executes functions that are compatible
-    // With jQuery.ajax's syntax.
-    var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
-        if (err && options.error) return options.error(resp, 'error', err.message);
-
-        // Parse body as JSON if a string.
-        if (body && typeof body === 'string') {
-            try {
-                body = JSON.parse(body);
-            } catch (e) {}
-        }
-        if (options.success) return options.success(body, 'success', resp);
-    });
-    model.trigger('request', model, request, options, ajaxSettings);
-    request.ajaxSettings = ajaxSettings;
-    return request;
-};
-
-// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
-var methodMap = {
-    'create': 'POST',
-    'update': 'PUT',
-    'patch':  'PATCH',
-    'delete': 'DELETE',
-    'read':   'GET'
-};
-
-},{"underscore":49,"qs":50,"xhr":51}],48:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -17617,6 +17612,14 @@ module.exports = function(obj) {
         }
     });
     return obj;
+};
+
+},{}],52:[function(require,module,exports){
+module.exports = function arrayNext(array, currentItem) {
+    var len = array.length;
+    var newIndex = array.indexOf(currentItem) + 1;
+    if (newIndex > (len - 1)) newIndex = 0;
+    return array[newIndex];
 };
 
 },{}],49:[function(require,module,exports){
@@ -18965,14 +18968,36 @@ module.exports = function(obj) {
 }).call(this);
 
 })()
-},{}],52:[function(require,module,exports){
-module.exports = function arrayNext(array, currentItem) {
-    var len = array.length;
-    var newIndex = array.indexOf(currentItem) + 1;
-    if (newIndex > (len - 1)) newIndex = 0;
-    return array[newIndex];
-};
+},{}],48:[function(require,module,exports){
+'use strict';
 
+var proto = Element.prototype;
+var vendor = proto.matches
+  || proto.matchesSelector
+  || proto.webkitMatchesSelector
+  || proto.mozMatchesSelector
+  || proto.msMatchesSelector
+  || proto.oMatchesSelector;
+
+module.exports = match;
+
+/**
+ * Match `el` to `selector`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @return {Boolean}
+ * @api public
+ */
+
+function match(el, selector) {
+  if (vendor) return vendor.call(el, selector);
+  var nodes = el.parentNode.querySelectorAll(selector);
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i] == el) return true;
+  }
+  return false;
+}
 },{}],53:[function(require,module,exports){
 function KeyTreeStore() {
     this.storage = {};
@@ -19013,194 +19038,6 @@ KeyTreeStore.prototype.get = function (keypath) {
 };
 
 module.exports = KeyTreeStore;
-
-},{}],45:[function(require,module,exports){
-
-/**
- * Module dependencies.
- */
-
-var events = require('component-event');
-var delegate = require('delegate-events');
-var forceCaptureEvents = ['focus', 'blur'];
-
-/**
- * Expose `Events`.
- */
-
-module.exports = Events;
-
-/**
- * Initialize an `Events` with the given
- * `el` object which events will be bound to,
- * and the `obj` which will receive method calls.
- *
- * @param {Object} el
- * @param {Object} obj
- * @api public
- */
-
-function Events(el, obj) {
-  if (!(this instanceof Events)) return new Events(el, obj);
-  if (!el) throw new Error('element required');
-  if (!obj) throw new Error('object required');
-  this.el = el;
-  this.obj = obj;
-  this._events = {};
-}
-
-/**
- * Subscription helper.
- */
-
-Events.prototype.sub = function(event, method, cb){
-  this._events[event] = this._events[event] || {};
-  this._events[event][method] = cb;
-};
-
-/**
- * Bind to `event` with optional `method` name.
- * When `method` is undefined it becomes `event`
- * with the "on" prefix.
- *
- * Examples:
- *
- *  Direct event handling:
- *
- *    events.bind('click') // implies "onclick"
- *    events.bind('click', 'remove')
- *    events.bind('click', 'sort', 'asc')
- *
- *  Delegated event handling:
- *
- *    events.bind('click li > a')
- *    events.bind('click li > a', 'remove')
- *    events.bind('click a.sort-ascending', 'sort', 'asc')
- *    events.bind('click a.sort-descending', 'sort', 'desc')
- *
- * @param {String} event
- * @param {String|function} [method]
- * @return {Function} callback
- * @api public
- */
-
-Events.prototype.bind = function(event, method){
-  var e = parse(event);
-  var el = this.el;
-  var obj = this.obj;
-  var name = e.name;
-  var method = method || 'on' + name;
-  var args = [].slice.call(arguments, 2);
-
-  // callback
-  function cb(){
-    var a = [].slice.call(arguments).concat(args);
-    obj[method].apply(obj, a);
-  }
-
-  // bind
-  if (e.selector) {
-    cb = delegate.bind(el, e.selector, name, cb);
-  } else {
-    events.bind(el, name, cb);
-  }
-
-  // subscription for unbinding
-  this.sub(name, method, cb);
-
-  return cb;
-};
-
-/**
- * Unbind a single binding, all bindings for `event`,
- * or all bindings within the manager.
- *
- * Examples:
- *
- *  Unbind direct handlers:
- *
- *     events.unbind('click', 'remove')
- *     events.unbind('click')
- *     events.unbind()
- *
- * Unbind delegate handlers:
- *
- *     events.unbind('click', 'remove')
- *     events.unbind('click')
- *     events.unbind()
- *
- * @param {String|Function} [event]
- * @param {String|Function} [method]
- * @api public
- */
-
-Events.prototype.unbind = function(event, method){
-  if (0 == arguments.length) return this.unbindAll();
-  if (1 == arguments.length) return this.unbindAllOf(event);
-
-  // no bindings for this event
-  var bindings = this._events[event];
-  var capture = (forceCaptureEvents.indexOf(event) !== -1);
-  if (!bindings) return;
-
-  // no bindings for this method
-  var cb = bindings[method];
-  if (!cb) return;
-
-  events.unbind(this.el, event, cb, capture);
-};
-
-/**
- * Unbind all events.
- *
- * @api private
- */
-
-Events.prototype.unbindAll = function(){
-  for (var event in this._events) {
-    this.unbindAllOf(event);
-  }
-};
-
-/**
- * Unbind all events for `event`.
- *
- * @param {String} event
- * @api private
- */
-
-Events.prototype.unbindAllOf = function(event){
-  var bindings = this._events[event];
-  if (!bindings) return;
-
-  for (var method in bindings) {
-    this.unbind(event, method);
-  }
-};
-
-/**
- * Parse `event`.
- *
- * @param {String} event
- * @return {Object}
- * @api private
- */
-
-function parse(event) {
-  var parts = event.split(/ +/);
-  return {
-    name: parts.shift(),
-    selector: parts.join(' ')
-  }
-}
-
-},{"component-event":54,"delegate-events":55}],56:[function(require,module,exports){
-module.exports = function arrayNext(array, currentItem) {
-    var len = array.length;
-    var newIndex = array.indexOf(currentItem) + 1;
-    if (newIndex > (len - 1)) newIndex = 0;
-    return array[newIndex];
-};
 
 },{}],36:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
@@ -19973,10 +19810,661 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"array-next":52,"backbone-events-standalone":57,"key-tree-store":53,"underscore":38}],57:[function(require,module,exports){
+},{"array-next":52,"backbone-events-standalone":54,"key-tree-store":53,"underscore":38}],54:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":58}],59:[function(require,module,exports){
+},{"./backbone-events-standalone":55}],50:[function(require,module,exports){
+module.exports = require('./lib');
+
+},{"./lib":56}],55:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys,
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],57:[function(require,module,exports){
+(function(global){if (typeof window !== "undefined") {
+    module.exports = window;
+} else if (typeof global !== "undefined") {
+    module.exports = global;
+} else if (typeof self !== "undefined"){
+    module.exports = self;
+} else {
+    module.exports = {};
+}
+
+})(window)
+},{}],51:[function(require,module,exports){
+(function(){var window = require("global/window")
+var once = require("once")
+var parseHeaders = require('parse-headers')
+
+var messages = {
+    "0": "Internal XMLHttpRequest Error",
+    "4": "4xx Client Error",
+    "5": "5xx Server Error"
+}
+
+var XHR = window.XMLHttpRequest || noop
+var XDR = "withCredentials" in (new XHR()) ? XHR : window.XDomainRequest
+
+module.exports = createXHR
+
+function createXHR(options, callback) {
+    if (typeof options === "string") {
+        options = { uri: options }
+    }
+
+    options = options || {}
+    callback = once(callback)
+
+    var xhr = options.xhr || null
+
+    if (!xhr) {
+        if (options.cors || options.useXDR) {
+            xhr = new XDR()
+        }else{
+            xhr = new XHR()
+        }
+    }
+
+    var uri = xhr.url = options.uri || options.url
+    var method = xhr.method = options.method || "GET"
+    var body = options.body || options.data
+    var headers = xhr.headers = options.headers || {}
+    var sync = !!options.sync
+    var isJson = false
+    var key
+    var load = options.response ? loadResponse : loadXhr
+
+    if ("json" in options) {
+        isJson = true
+        headers["Accept"] = "application/json"
+        if (method !== "GET" && method !== "HEAD") {
+            headers["Content-Type"] = "application/json"
+            body = JSON.stringify(options.json)
+        }
+    }
+
+    xhr.onreadystatechange = readystatechange
+    xhr.onload = load
+    xhr.onerror = error
+    // IE9 must have onprogress be set to a unique function.
+    xhr.onprogress = function () {
+        // IE must die
+    }
+    // hate IE
+    xhr.ontimeout = noop
+    xhr.open(method, uri, !sync)
+                                    //backward compatibility
+    if (options.withCredentials || (options.cors && options.withCredentials !== false)) {
+        xhr.withCredentials = true
+    }
+
+    // Cannot set timeout with sync request
+    if (!sync) {
+        xhr.timeout = "timeout" in options ? options.timeout : 5000
+    }
+
+    if (xhr.setRequestHeader) {
+        for(key in headers){
+            if(headers.hasOwnProperty(key)){
+                xhr.setRequestHeader(key, headers[key])
+            }
+        }
+    } else if (options.headers) {
+        throw new Error("Headers cannot be set on an XDomainRequest object")
+    }
+
+    if ("responseType" in options) {
+        xhr.responseType = options.responseType
+    }
+    
+    if ("beforeSend" in options && 
+        typeof options.beforeSend === "function"
+    ) {
+        options.beforeSend(xhr)
+    }
+
+    xhr.send(body)
+
+    return xhr
+
+    function readystatechange() {
+        if (xhr.readyState === 4) {
+            load()
+        }
+    }
+
+    function getBody() {
+        // Chrome with requestType=blob throws errors arround when even testing access to responseText
+        var body = null
+
+        if (xhr.response) {
+            body = xhr.response
+        } else if (xhr.responseType === 'text' || !xhr.responseType) {
+            body = xhr.responseText || xhr.responseXML
+        }
+
+        if (isJson) {
+            try {
+                body = JSON.parse(body)
+            } catch (e) {}
+        }
+
+        return body
+    }
+
+    function getStatusCode() {
+        return xhr.status === 1223 ? 204 : xhr.status
+    }
+
+    // if we're getting a none-ok statusCode, build & return an error
+    function errorFromStatusCode(status) {
+        var error = null
+        if (status === 0 || (status >= 400 && status < 600)) {
+            var message = (typeof body === "string" ? body : false) ||
+                messages[String(status).charAt(0)]
+            error = new Error(message)
+            error.statusCode = status
+        }
+
+        return error
+    }
+
+    // will load the data & process the response in a special response object
+    function loadResponse() {
+        var status = getStatusCode()
+        var error = errorFromStatusCode(status)
+        var response = {
+            body: getBody(),
+            statusCode: status,
+            statusText: xhr.statusText,
+            raw: xhr
+        }
+        if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
+            response.headers = parseHeaders(xhr.getAllResponseHeaders())
+        } else {
+            response.headers = {}
+        }
+
+        callback(error, response, response.body)
+    }
+
+    // will load the data and add some response properties to the source xhr
+    // and then respond with that
+    function loadXhr() {
+        var status = getStatusCode()
+        var error = errorFromStatusCode(status)
+
+        xhr.status = xhr.statusCode = status
+        xhr.body = getBody()
+        xhr.headers = parseHeaders(xhr.getAllResponseHeaders())
+
+        callback(error, xhr, xhr.body)
+    }
+
+    function error(evt) {
+        callback(evt, xhr)
+    }
+}
+
+
+function noop() {}
+
+})()
+},{"global/window":57,"once":58,"parse-headers":59}],47:[function(require,module,exports){
+
+/**
+ * Module dependencies.
+ */
+
+var events = require('component-event');
+var delegate = require('delegate-events');
+var forceCaptureEvents = ['focus', 'blur'];
+
+/**
+ * Expose `Events`.
+ */
+
+module.exports = Events;
+
+/**
+ * Initialize an `Events` with the given
+ * `el` object which events will be bound to,
+ * and the `obj` which will receive method calls.
+ *
+ * @param {Object} el
+ * @param {Object} obj
+ * @api public
+ */
+
+function Events(el, obj) {
+  if (!(this instanceof Events)) return new Events(el, obj);
+  if (!el) throw new Error('element required');
+  if (!obj) throw new Error('object required');
+  this.el = el;
+  this.obj = obj;
+  this._events = {};
+}
+
+/**
+ * Subscription helper.
+ */
+
+Events.prototype.sub = function(event, method, cb){
+  this._events[event] = this._events[event] || {};
+  this._events[event][method] = cb;
+};
+
+/**
+ * Bind to `event` with optional `method` name.
+ * When `method` is undefined it becomes `event`
+ * with the "on" prefix.
+ *
+ * Examples:
+ *
+ *  Direct event handling:
+ *
+ *    events.bind('click') // implies "onclick"
+ *    events.bind('click', 'remove')
+ *    events.bind('click', 'sort', 'asc')
+ *
+ *  Delegated event handling:
+ *
+ *    events.bind('click li > a')
+ *    events.bind('click li > a', 'remove')
+ *    events.bind('click a.sort-ascending', 'sort', 'asc')
+ *    events.bind('click a.sort-descending', 'sort', 'desc')
+ *
+ * @param {String} event
+ * @param {String|function} [method]
+ * @return {Function} callback
+ * @api public
+ */
+
+Events.prototype.bind = function(event, method){
+  var e = parse(event);
+  var el = this.el;
+  var obj = this.obj;
+  var name = e.name;
+  var method = method || 'on' + name;
+  var args = [].slice.call(arguments, 2);
+
+  // callback
+  function cb(){
+    var a = [].slice.call(arguments).concat(args);
+    obj[method].apply(obj, a);
+  }
+
+  // bind
+  if (e.selector) {
+    cb = delegate.bind(el, e.selector, name, cb);
+  } else {
+    events.bind(el, name, cb);
+  }
+
+  // subscription for unbinding
+  this.sub(name, method, cb);
+
+  return cb;
+};
+
+/**
+ * Unbind a single binding, all bindings for `event`,
+ * or all bindings within the manager.
+ *
+ * Examples:
+ *
+ *  Unbind direct handlers:
+ *
+ *     events.unbind('click', 'remove')
+ *     events.unbind('click')
+ *     events.unbind()
+ *
+ * Unbind delegate handlers:
+ *
+ *     events.unbind('click', 'remove')
+ *     events.unbind('click')
+ *     events.unbind()
+ *
+ * @param {String|Function} [event]
+ * @param {String|Function} [method]
+ * @api public
+ */
+
+Events.prototype.unbind = function(event, method){
+  if (0 == arguments.length) return this.unbindAll();
+  if (1 == arguments.length) return this.unbindAllOf(event);
+
+  // no bindings for this event
+  var bindings = this._events[event];
+  var capture = (forceCaptureEvents.indexOf(event) !== -1);
+  if (!bindings) return;
+
+  // no bindings for this method
+  var cb = bindings[method];
+  if (!cb) return;
+
+  events.unbind(this.el, event, cb, capture);
+};
+
+/**
+ * Unbind all events.
+ *
+ * @api private
+ */
+
+Events.prototype.unbindAll = function(){
+  for (var event in this._events) {
+    this.unbindAllOf(event);
+  }
+};
+
+/**
+ * Unbind all events for `event`.
+ *
+ * @param {String} event
+ * @api private
+ */
+
+Events.prototype.unbindAllOf = function(event){
+  var bindings = this._events[event];
+  if (!bindings) return;
+
+  for (var method in bindings) {
+    this.unbind(event, method);
+  }
+};
+
+/**
+ * Parse `event`.
+ *
+ * @param {String} event
+ * @return {Object}
+ * @api private
+ */
+
+function parse(event) {
+  var parts = event.split(/ +/);
+  return {
+    name: parts.shift(),
+    selector: parts.join(' ')
+  }
+}
+
+},{"component-event":60,"delegate-events":61}],62:[function(require,module,exports){
+module.exports = function arrayNext(array, currentItem) {
+    var len = array.length;
+    var newIndex = array.indexOf(currentItem) + 1;
+    if (newIndex > (len - 1)) newIndex = 0;
+    return array[newIndex];
+};
+
+},{}],63:[function(require,module,exports){
 function KeyTreeStore() {
     this.storage = {};
 }
@@ -20017,89 +20505,7 @@ KeyTreeStore.prototype.get = function (keypath) {
 
 module.exports = KeyTreeStore;
 
-},{}],60:[function(require,module,exports){
-var slice = Array.prototype.slice;
-
-// our constructor
-function KeyTreeStore() {
-    this.storage = {};
-}
-
-// add an object to the store
-KeyTreeStore.prototype.add = function (keypath, obj) {
-    var arr = this.storage[keypath] || (this.storage[keypath] = []);
-    arr.push(obj);
-};
-
-// remove an object
-KeyTreeStore.prototype.remove = function (obj) {
-    var path, arr;
-    for (path in this.storage) {
-        arr = this.storage[path];
-        arr.some(function (item, index) {
-            if (item === obj) {
-                arr.splice(index, 1);
-                return true;
-            }
-        });
-    }
-};
-
-// get array of all all relevant functions, without keys
-KeyTreeStore.prototype.get = function (keypath) {
-    var res = [];
-    var key;
-
-    for (key in this.storage) {
-        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
-            res = res.concat(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// get all results that match keypath but still grouped by key
-KeyTreeStore.prototype.getGrouped = function (keypath) {
-    var res = {};
-    var key;
-
-    for (key in this.storage) {
-        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
-            res[key] = slice.call(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// get all results that match keypath but still grouped by key
-KeyTreeStore.prototype.getAll = function (keypath) {
-    var res = {};
-    var key;
-
-    for (key in this.storage) {
-        if (keypath === key || key.indexOf(keypath + '.') === 0) {
-            res[key] = slice.call(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-// run all matches with optional context
-KeyTreeStore.prototype.run = function (keypath, context) {
-    var args = slice.call(arguments, 2);
-    this.get(keypath).forEach(function (fn) {
-        fn.apply(context || this, args);
-    });
-};
-
-
-
-module.exports = KeyTreeStore;
-
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -20870,7 +21276,89 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"array-next":56,"backbone-events-standalone":61,"key-tree-store":59,"underscore":41}],39:[function(require,module,exports){
+},{"array-next":62,"key-tree-store":63,"backbone-events-standalone":64,"underscore":43}],65:[function(require,module,exports){
+var slice = Array.prototype.slice;
+
+// our constructor
+function KeyTreeStore() {
+    this.storage = {};
+}
+
+// add an object to the store
+KeyTreeStore.prototype.add = function (keypath, obj) {
+    var arr = this.storage[keypath] || (this.storage[keypath] = []);
+    arr.push(obj);
+};
+
+// remove an object
+KeyTreeStore.prototype.remove = function (obj) {
+    var path, arr;
+    for (path in this.storage) {
+        arr = this.storage[path];
+        arr.some(function (item, index) {
+            if (item === obj) {
+                arr.splice(index, 1);
+                return true;
+            }
+        });
+    }
+};
+
+// get array of all all relevant functions, without keys
+KeyTreeStore.prototype.get = function (keypath) {
+    var res = [];
+    var key;
+
+    for (key in this.storage) {
+        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
+            res = res.concat(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// get all results that match keypath but still grouped by key
+KeyTreeStore.prototype.getGrouped = function (keypath) {
+    var res = {};
+    var key;
+
+    for (key in this.storage) {
+        if (!keypath || keypath === key || key.indexOf(keypath + '.') === 0) {
+            res[key] = slice.call(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// get all results that match keypath but still grouped by key
+KeyTreeStore.prototype.getAll = function (keypath) {
+    var res = {};
+    var key;
+
+    for (key in this.storage) {
+        if (keypath === key || key.indexOf(keypath + '.') === 0) {
+            res[key] = slice.call(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+// run all matches with optional context
+KeyTreeStore.prototype.run = function (keypath, context) {
+    var args = slice.call(arguments, 2);
+    this.get(keypath).forEach(function (fn) {
+        fn.apply(context || this, args);
+    });
+};
+
+
+
+module.exports = KeyTreeStore;
+
+},{}],41:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -21020,7 +21508,28 @@ CollectionView.extend = ampExtend;
 
 module.exports = CollectionView;
 
-},{"ampersand-class-extend":62,"backbone-events-standalone":63,"underscore":41}],54:[function(require,module,exports){
+},{"ampersand-class-extend":66,"backbone-events-standalone":67,"underscore":43}],58:[function(require,module,exports){
+module.exports = once
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var called = false
+  return function () {
+    if (called) return
+    called = true
+    return fn.apply(this, arguments)
+  }
+}
+
+},{}],60:[function(require,module,exports){
 var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
     prefix = bind !== 'addEventListener' ? 'on' : '';
@@ -21056,291 +21565,24 @@ exports.unbind = function(el, type, fn, capture){
   el[unbind](prefix + type, fn, capture || false);
   return fn;
 };
-},{}],50:[function(require,module,exports){
-module.exports = require('./lib');
+},{}],56:[function(require,module,exports){
+// Load modules
 
-},{"./lib":64}],65:[function(require,module,exports){
-(function(global){if (typeof window !== "undefined") {
-    module.exports = window;
-} else if (typeof global !== "undefined") {
-    module.exports = global;
-} else if (typeof self !== "undefined"){
-    module.exports = self;
-} else {
-    module.exports = {};
-}
+var Stringify = require('./stringify');
+var Parse = require('./parse');
 
-})(window)
-},{}],58:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
 
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys,
+// Declare internals
 
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
+var internals = {};
 
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
 
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
+module.exports = {
+    stringify: Stringify,
+    parse: Parse
+};
 
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],43:[function(require,module,exports){
+},{"./stringify":68,"./parse":69}],45:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var Store = require('key-tree-store');
 var dom = require('ampersand-dom');
@@ -21534,1010 +21776,13 @@ function getBindingFunc(binding, context) {
     }
 }
 
-},{"key-tree-store":60,"matches-selector":46,"ampersand-dom":66}],51:[function(require,module,exports){
-(function(){var window = require("global/window")
-var once = require("once")
-var parseHeaders = require('parse-headers')
-
-var messages = {
-    "0": "Internal XMLHttpRequest Error",
-    "4": "4xx Client Error",
-    "5": "5xx Server Error"
-}
-
-var XHR = window.XMLHttpRequest || noop
-var XDR = "withCredentials" in (new XHR()) ? XHR : window.XDomainRequest
-
-module.exports = createXHR
-
-function createXHR(options, callback) {
-    if (typeof options === "string") {
-        options = { uri: options }
-    }
-
-    options = options || {}
-    callback = once(callback)
-
-    var xhr = options.xhr || null
-
-    if (!xhr) {
-        if (options.cors || options.useXDR) {
-            xhr = new XDR()
-        }else{
-            xhr = new XHR()
-        }
-    }
-
-    var uri = xhr.url = options.uri || options.url
-    var method = xhr.method = options.method || "GET"
-    var body = options.body || options.data
-    var headers = xhr.headers = options.headers || {}
-    var sync = !!options.sync
-    var isJson = false
-    var key
-    var load = options.response ? loadResponse : loadXhr
-
-    if ("json" in options) {
-        isJson = true
-        headers["Accept"] = "application/json"
-        if (method !== "GET" && method !== "HEAD") {
-            headers["Content-Type"] = "application/json"
-            body = JSON.stringify(options.json)
-        }
-    }
-
-    xhr.onreadystatechange = readystatechange
-    xhr.onload = load
-    xhr.onerror = error
-    // IE9 must have onprogress be set to a unique function.
-    xhr.onprogress = function () {
-        // IE must die
-    }
-    // hate IE
-    xhr.ontimeout = noop
-    xhr.open(method, uri, !sync)
-                                    //backward compatibility
-    if (options.withCredentials || (options.cors && options.withCredentials !== false)) {
-        xhr.withCredentials = true
-    }
-
-    // Cannot set timeout with sync request
-    if (!sync) {
-        xhr.timeout = "timeout" in options ? options.timeout : 5000
-    }
-
-    if (xhr.setRequestHeader) {
-        for(key in headers){
-            if(headers.hasOwnProperty(key)){
-                xhr.setRequestHeader(key, headers[key])
-            }
-        }
-    } else if (options.headers) {
-        throw new Error("Headers cannot be set on an XDomainRequest object")
-    }
-
-    if ("responseType" in options) {
-        xhr.responseType = options.responseType
-    }
-    
-    if ("beforeSend" in options && 
-        typeof options.beforeSend === "function"
-    ) {
-        options.beforeSend(xhr)
-    }
-
-    xhr.send(body)
-
-    return xhr
-
-    function readystatechange() {
-        if (xhr.readyState === 4) {
-            load()
-        }
-    }
-
-    function getBody() {
-        // Chrome with requestType=blob throws errors arround when even testing access to responseText
-        var body = null
-
-        if (xhr.response) {
-            body = xhr.response
-        } else if (xhr.responseType === 'text' || !xhr.responseType) {
-            body = xhr.responseText || xhr.responseXML
-        }
-
-        if (isJson) {
-            try {
-                body = JSON.parse(body)
-            } catch (e) {}
-        }
-
-        return body
-    }
-
-    function getStatusCode() {
-        return xhr.status === 1223 ? 204 : xhr.status
-    }
-
-    // if we're getting a none-ok statusCode, build & return an error
-    function errorFromStatusCode(status) {
-        var error = null
-        if (status === 0 || (status >= 400 && status < 600)) {
-            var message = (typeof body === "string" ? body : false) ||
-                messages[String(status).charAt(0)]
-            error = new Error(message)
-            error.statusCode = status
-        }
-
-        return error
-    }
-
-    // will load the data & process the response in a special response object
-    function loadResponse() {
-        var status = getStatusCode()
-        var error = errorFromStatusCode(status)
-        var response = {
-            body: getBody(),
-            statusCode: status,
-            statusText: xhr.statusText,
-            raw: xhr
-        }
-        if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
-            response.headers = parseHeaders(xhr.getAllResponseHeaders())
-        } else {
-            response.headers = {}
-        }
-
-        callback(error, response, response.body)
-    }
-
-    // will load the data and add some response properties to the source xhr
-    // and then respond with that
-    function loadXhr() {
-        var status = getStatusCode()
-        var error = errorFromStatusCode(status)
-
-        xhr.status = xhr.statusCode = status
-        xhr.body = getBody()
-        xhr.headers = parseHeaders(xhr.getAllResponseHeaders())
-
-        callback(error, xhr, xhr.body)
-    }
-
-    function error(evt) {
-        callback(evt, xhr)
-    }
-}
-
-
-function noop() {}
-
-})()
-},{"global/window":65,"once":67,"parse-headers":68}],63:[function(require,module,exports){
+},{"key-tree-store":65,"matches-selector":48,"ampersand-dom":70}],67:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":69}],61:[function(require,module,exports){
+},{"./backbone-events-standalone":71}],64:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":70}],67:[function(require,module,exports){
-module.exports = once
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var called = false
-  return function () {
-    if (called) return
-    called = true
-    return fn.apply(this, arguments)
-  }
-}
-
-},{}],69:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys || function (obj) {
-        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
-          throw new TypeError("keys() called on a non-object");
-        }
-        var key, keys = [];
-        for (key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            keys[keys.length] = key;
-          }
-        }
-        return keys;
-      },
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],70:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys,
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],66:[function(require,module,exports){
-/*$AMPERSAND_VERSION*/
-var dom = module.exports = {
-    text: function (el, val) {
-        el.textContent = getString(val);
-    },
-    // optimize if we have classList
-    addClass: function (el, cls) {
-        cls = getString(cls);
-        if (!cls) return;
-        if (el.classList) {
-            el.classList.add(cls);
-        } else {
-            if (!hasClass(el, cls)) {
-                if (el.classList) {
-                    el.classList.add(cls);
-                } else {
-                    el.className += ' ' + cls;
-                }
-            }
-        }
-    },
-    removeClass: function (el, cls) {
-        if (el.classList) {
-            cls = getString(cls);
-            if (cls) el.classList.remove(cls);
-        } else {
-            // may be faster to not edit unless we know we have it?
-            el.className = el.className.replace(new RegExp('(^|\\b)' + cls.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-        }
-    },
-    hasClass: hasClass,
-    switchClass: function (el, prevCls, newCls) {
-        if (prevCls) this.removeClass(el, prevCls);
-        this.addClass(el, newCls);
-    },
-    // makes sure attribute (with no content) is added
-    // if exists it will be cleared of content
-    addAttribute: function (el, attr) {
-        // setting to empty string does same
-        el.setAttribute(attr, '');
-        // Some browsers won't update UI for boolean attributes unless you
-        // set it directly. So we do both
-        if (hasBooleanProperty(el, attr)) el[attr] = true;
-    },
-    // completely removes attribute
-    removeAttribute: function (el, attr) {
-        el.removeAttribute(attr);
-        if (hasBooleanProperty(el, attr)) el[attr] = false;
-    },
-    // sets attribute to string value given, clearing any current value
-    setAttribute: function (el, attr, value) {
-        el.setAttribute(attr, getString(value));
-    },
-    getAttribute: function (el, attr) {
-        return el.getAttribute(attr);
-    },
-    hide: function (el) {
-        if (!isHidden(el)) {
-            storeDisplayStyle(el);
-            hide(el);
-        }
-    },
-    // show element
-    show: function (el) {
-        show(el);
-    },
-    html: function (el, content) {
-        el.innerHTML = content;
-    }
-};
-
-// helpers
-function getString(val) {
-    if (!val && val !== 0) {
-        return '';
-    } else {
-        return val;
-    }
-}
-
-function hasClass(el, cls) {
-    if (el.classList) {
-        return el.classList.contains(cls);
-    } else {
-        return new RegExp('(^| )' + cls + '( |$)', 'gi').test(el.className);
-    }
-}
-
-function hasBooleanProperty(el, prop) {
-    var val = el[prop];
-    return prop in el && (val === true || val === false);
-}
-
-function isHidden (el) {
-    return dom.getAttribute(el, 'data-anddom-hidden') === 'true';
-}
-
-function storeDisplayStyle (el) {
-    dom.setAttribute(el, 'data-anddom-display', el.style.display);
-}
-
-function show (el) {
-    el.style.display = dom.getAttribute(el, 'data-anddom-display') || '';
-    dom.removeAttribute(el, 'data-anddom-hidden');
-}
-
-function hide (el) {
-    dom.setAttribute(el, 'data-anddom-hidden', 'true');
-    el.style.display = 'none';
-}
-
-},{}],62:[function(require,module,exports){
-var objectExtend = require('extend-object');
-
-
-/// Following code is largely pasted from Backbone.js
-
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-var extend = function(protoProps) {
-    var parent = this;
-    var child;
-    var args = [].slice.call(arguments);
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
-    if (protoProps && protoProps.hasOwnProperty('constructor')) {
-        child = protoProps.constructor;
-    } else {
-        child = function () {
-            return parent.apply(this, arguments);
-        };
-    }
-
-    // Add static properties to the constructor function from parent
-    objectExtend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
-    var Surrogate = function(){ this.constructor = child; };
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
-
-    // Mix in all prototype properties to the subclass if supplied.
-    if (protoProps) {
-        args.unshift(child.prototype);
-        objectExtend.apply(null, args);
-    }
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-};
-
-// Expose the extend function
-module.exports = extend;
-
-},{"extend-object":71}],64:[function(require,module,exports){
-// Load modules
-
-var Stringify = require('./stringify');
-var Parse = require('./parse');
-
-
-// Declare internals
-
-var internals = {};
-
-
-module.exports = {
-    stringify: Stringify,
-    parse: Parse
-};
-
-},{"./parse":72,"./stringify":73}],71:[function(require,module,exports){
-var arr = [];
-var each = arr.forEach;
-var slice = arr.slice;
-
-
-module.exports = function(obj) {
-    each.call(slice.call(arguments, 1), function(source) {
-        if (source) {
-            for (var prop in source) {
-                obj[prop] = source[prop];
-            }
-        }
-    });
-    return obj;
-};
-
-},{}],55:[function(require,module,exports){
-/**
- * Module dependencies.
- */
-
-var closest = require('closest')
-  , event = require('component-event');
-
-/**
- * Delegate event `type` to `selector`
- * and invoke `fn(e)`. A callback function
- * is returned which may be passed to `.unbind()`.
- *
- * @param {Element} el
- * @param {String} selector
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
-
-// Some events don't bubble, so we want to bind to the capture phase instead
-// when delegating.
-var forceCaptureEvents = ['focus', 'blur'];
-
-exports.bind = function(el, selector, type, fn, capture){
-  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
-
-  return event.bind(el, type, function(e){
-    var target = e.target || e.srcElement;
-    e.delegateTarget = closest(target, selector, true, el);
-    if (e.delegateTarget) fn.call(el, e);
-  }, capture);
-};
-
-/**
- * Unbind event `type`'s callback `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @api public
- */
-
-exports.unbind = function(el, type, fn, capture){
-  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
-
-  event.unbind(el, type, fn, capture);
-};
-
-},{"component-event":74,"closest":75}],76:[function(require,module,exports){
+},{"./backbone-events-standalone":72}],73:[function(require,module,exports){
 require=(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
   var e, m,
@@ -26402,7 +25647,7 @@ SlowBuffer.prototype.writeDoubleBE = Buffer.prototype.writeDoubleBE;
 },{}]},{},[])
 ;;module.exports=require("buffer-browserify")
 
-},{}],73:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 (function(Buffer){// Load modules
 
 
@@ -26460,43 +25705,718 @@ module.exports = function (obj, delimiter) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":76}],74:[function(require,module,exports){
-var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
-    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind !== 'addEventListener' ? 'on' : '';
-
-/**
- * Bind `el` event `type` to `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
-
-exports.bind = function(el, type, fn, capture){
-  el[bind](prefix + type, fn, capture || false);
-  return fn;
+},{"__browserify_buffer":73}],70:[function(require,module,exports){
+/*$AMPERSAND_VERSION*/
+var dom = module.exports = {
+    text: function (el, val) {
+        el.textContent = getString(val);
+    },
+    // optimize if we have classList
+    addClass: function (el, cls) {
+        cls = getString(cls);
+        if (!cls) return;
+        if (el.classList) {
+            el.classList.add(cls);
+        } else {
+            if (!hasClass(el, cls)) {
+                if (el.classList) {
+                    el.classList.add(cls);
+                } else {
+                    el.className += ' ' + cls;
+                }
+            }
+        }
+    },
+    removeClass: function (el, cls) {
+        if (el.classList) {
+            cls = getString(cls);
+            if (cls) el.classList.remove(cls);
+        } else {
+            // may be faster to not edit unless we know we have it?
+            el.className = el.className.replace(new RegExp('(^|\\b)' + cls.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        }
+    },
+    hasClass: hasClass,
+    switchClass: function (el, prevCls, newCls) {
+        if (prevCls) this.removeClass(el, prevCls);
+        this.addClass(el, newCls);
+    },
+    // makes sure attribute (with no content) is added
+    // if exists it will be cleared of content
+    addAttribute: function (el, attr) {
+        // setting to empty string does same
+        el.setAttribute(attr, '');
+        // Some browsers won't update UI for boolean attributes unless you
+        // set it directly. So we do both
+        if (hasBooleanProperty(el, attr)) el[attr] = true;
+    },
+    // completely removes attribute
+    removeAttribute: function (el, attr) {
+        el.removeAttribute(attr);
+        if (hasBooleanProperty(el, attr)) el[attr] = false;
+    },
+    // sets attribute to string value given, clearing any current value
+    setAttribute: function (el, attr, value) {
+        el.setAttribute(attr, getString(value));
+    },
+    getAttribute: function (el, attr) {
+        return el.getAttribute(attr);
+    },
+    hide: function (el) {
+        if (!isHidden(el)) {
+            storeDisplayStyle(el);
+            hide(el);
+        }
+    },
+    // show element
+    show: function (el) {
+        show(el);
+    },
+    html: function (el, content) {
+        el.innerHTML = content;
+    }
 };
 
-/**
- * Unbind `el` event `type`'s callback `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
+// helpers
+function getString(val) {
+    if (!val && val !== 0) {
+        return '';
+    } else {
+        return val;
+    }
+}
 
-exports.unbind = function(el, type, fn, capture){
-  el[unbind](prefix + type, fn, capture || false);
-  return fn;
+function hasClass(el, cls) {
+    if (el.classList) {
+        return el.classList.contains(cls);
+    } else {
+        return new RegExp('(^| )' + cls + '( |$)', 'gi').test(el.className);
+    }
+}
+
+function hasBooleanProperty(el, prop) {
+    var val = el[prop];
+    return prop in el && (val === true || val === false);
+}
+
+function isHidden (el) {
+    return dom.getAttribute(el, 'data-anddom-hidden') === 'true';
+}
+
+function storeDisplayStyle (el) {
+    dom.setAttribute(el, 'data-anddom-display', el.style.display);
+}
+
+function show (el) {
+    el.style.display = dom.getAttribute(el, 'data-anddom-display') || '';
+    dom.removeAttribute(el, 'data-anddom-hidden');
+}
+
+function hide (el) {
+    dom.setAttribute(el, 'data-anddom-hidden', 'true');
+    el.style.display = 'none';
+}
+
+},{}],71:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys || function (obj) {
+        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
+          throw new TypeError("keys() called on a non-object");
+        }
+        var key, keys = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            keys[keys.length] = key;
+          }
+        }
+        return keys;
+      },
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],72:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys,
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],66:[function(require,module,exports){
+var objectExtend = require('extend-object');
+
+
+/// Following code is largely pasted from Backbone.js
+
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function(protoProps) {
+    var parent = this;
+    var child;
+    var args = [].slice.call(arguments);
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function from parent
+    objectExtend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
+
+    // Mix in all prototype properties to the subclass if supplied.
+    if (protoProps) {
+        args.unshift(child.prototype);
+        objectExtend.apply(null, args);
+    }
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
 };
-},{}],68:[function(require,module,exports){
+
+// Expose the extend function
+module.exports = extend;
+
+},{"extend-object":74}],59:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -26528,7 +26448,59 @@ module.exports = function (headers) {
 
   return result
 }
-},{"trim":77,"for-each":78}],72:[function(require,module,exports){
+},{"trim":75,"for-each":76}],61:[function(require,module,exports){
+/**
+ * Module dependencies.
+ */
+
+var closest = require('closest')
+  , event = require('component-event');
+
+/**
+ * Delegate event `type` to `selector`
+ * and invoke `fn(e)`. A callback function
+ * is returned which may be passed to `.unbind()`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+// Some events don't bubble, so we want to bind to the capture phase instead
+// when delegating.
+var forceCaptureEvents = ['focus', 'blur'];
+
+exports.bind = function(el, selector, type, fn, capture){
+  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+
+  return event.bind(el, type, function(e){
+    var target = e.target || e.srcElement;
+    e.delegateTarget = closest(target, selector, true, el);
+    if (e.delegateTarget) fn.call(el, e);
+  }, capture);
+};
+
+/**
+ * Unbind event `type`'s callback `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @api public
+ */
+
+exports.unbind = function(el, type, fn, capture){
+  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+
+  event.unbind(el, type, fn, capture);
+};
+
+},{"component-event":77,"closest":78}],69:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -26685,7 +26657,24 @@ module.exports = function (str, depth, delimiter) {
     return Utils.compact(obj);
 };
 
-},{"./utils":79}],77:[function(require,module,exports){
+},{"./utils":79}],74:[function(require,module,exports){
+var arr = [];
+var each = arr.forEach;
+var slice = arr.slice;
+
+
+module.exports = function(obj) {
+    each.call(slice.call(arguments, 1), function(source) {
+        if (source) {
+            for (var prop in source) {
+                obj[prop] = source[prop];
+            }
+        }
+    });
+    return obj;
+};
+
+},{}],75:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -26701,6 +26690,42 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
+},{}],77:[function(require,module,exports){
+var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
+    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
+    prefix = bind !== 'addEventListener' ? 'on' : '';
+
+/**
+ * Bind `el` event `type` to `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+exports.bind = function(el, type, fn, capture){
+  el[bind](prefix + type, fn, capture || false);
+  return fn;
+};
+
+/**
+ * Unbind `el` event `type`'s callback `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+exports.unbind = function(el, type, fn, capture){
+  el[unbind](prefix + type, fn, capture || false);
+  return fn;
+};
 },{}],79:[function(require,module,exports){
 (function(Buffer){// Load modules
 
@@ -26837,60 +26862,7 @@ exports.compact = function (obj) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":76}],75:[function(require,module,exports){
-var matches = require('matches-selector')
-
-module.exports = function (element, selector, checkYoSelf) {
-  var parent = checkYoSelf ? element : element.parentNode
-
-  while (parent && parent !== document) {
-    if (matches(parent, selector)) return parent;
-    parent = parent.parentNode
-  }
-}
-
-},{"matches-selector":80}],80:[function(require,module,exports){
-
-/**
- * Element prototype.
- */
-
-var proto = Element.prototype;
-
-/**
- * Vendor function.
- */
-
-var vendor = proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-/**
- * Expose `match()`.
- */
-
-module.exports = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; ++i) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
-},{}],78:[function(require,module,exports){
+},{"__browserify_buffer":73}],76:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -26938,7 +26910,19 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":81}],81:[function(require,module,exports){
+},{"is-function":80}],78:[function(require,module,exports){
+var matches = require('matches-selector')
+
+module.exports = function (element, selector, checkYoSelf) {
+  var parent = checkYoSelf ? element : element.parentNode
+
+  while (parent && parent !== document) {
+    if (matches(parent, selector)) return parent;
+    parent = parent.parentNode
+  }
+}
+
+},{"matches-selector":81}],80:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -26955,5 +26939,46 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}]},{},[11,8,3,6,5,7,9,17,12,4,1])
+},{}],81:[function(require,module,exports){
+
+/**
+ * Element prototype.
+ */
+
+var proto = Element.prototype;
+
+/**
+ * Vendor function.
+ */
+
+var vendor = proto.matchesSelector
+  || proto.webkitMatchesSelector
+  || proto.mozMatchesSelector
+  || proto.msMatchesSelector
+  || proto.oMatchesSelector;
+
+/**
+ * Expose `match()`.
+ */
+
+module.exports = match;
+
+/**
+ * Match `el` to `selector`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @return {Boolean}
+ * @api public
+ */
+
+function match(el, selector) {
+  if (vendor) return vendor.call(el, selector);
+  var nodes = el.parentNode.querySelectorAll(selector);
+  for (var i = 0; i < nodes.length; ++i) {
+    if (nodes[i] == el) return true;
+  }
+  return false;
+}
+},{}]},{},[11,3,4,8,5,6,7,9,12,18,1])
 ;

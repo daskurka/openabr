@@ -79,7 +79,7 @@
 
     // pages\about.jade compiled template
     templatizer["pages"]["about"] = function tmpl_pages_about() {
-        return "<p>Hi, I am the about page!</p>";
+        return '<div class="container"><h2>About OpenABR</h2><img src="assets/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
     // pages\admin\accounts.jade compiled template
@@ -89,12 +89,12 @@
 
     // pages\contact.jade compiled template
     templatizer["pages"]["contact"] = function tmpl_pages_contact() {
-        return "<p>Hi, I am the contact page!</p>";
+        return '<div class="container"><h2>Contact</h2><p>The system currently is invite only, please send an email to join to chat about this possibility if you are interested.</p><ul><li>To join please email join (at) openabr (dot) com</li><li>To report problems with the service please email admin (at) openabr (dot) com</li></ul></div>';
     };
 
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
-        return '<div class="container"><p>Welcome to the OpenABR Site</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
+        return '<div class="container"><h2>Welcome to OpenABR</h2><p>This site is still in development, any news will be posted here. If you are interested in becoming an early adopter please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
     };
 
     // pages\login.jade compiled template
