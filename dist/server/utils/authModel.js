@@ -12,6 +12,14 @@
     isAdmin: Boolean
   });
 
+  authSchema.set('toObject', {
+    virtuals: true
+  });
+
+  authSchema.set('toJSON', {
+    virtuals: true
+  });
+
   module.exports = mongoose.model('Auth', authSchema);
 
 }).call(this);

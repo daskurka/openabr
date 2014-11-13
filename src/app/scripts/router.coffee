@@ -4,6 +4,7 @@ HomePage = require './pages/home.coffee'
 AboutPage = require './pages/about.coffee'
 ContactPage = require './pages/contact.coffee'
 LoginPage = require './pages/login.coffee'
+FourOhFourPage = require './pages/404.coffee'
 
 AccountsPage = require './pages/admin/accounts.coffee'
 
@@ -17,6 +18,7 @@ module.exports = Router.extend
     'login': 'login'
     'logout': 'logout'
     'profile': 'profile'
+    '404': 'catchAll'
 
     'admin/accounts': 'accounts'
 
@@ -33,7 +35,7 @@ module.exports = Router.extend
   about: () -> @.trigger 'page', new AboutPage()
   contact: () -> @.trigger 'page', new ContactPage()
   login: () -> @.trigger 'page', new LoginPage()
-  logout: () -> console.log 'logout hit'
+  logout: () -> app.logout()
   profile: () -> console.log 'user profile hit'
 
   #Admin Routes
@@ -47,6 +49,4 @@ module.exports = Router.extend
   accountSubjects: (accountName) -> console.log "Account subjects route for #{accountName} hit..."
 
   #Catch all other routes and head back to home
-  catchAll: () ->
-    console.log 'catch all hit'
-    @.redirectTo('')
+  catchAll: () -> @.trigger 'page', new FourOhFourPage()

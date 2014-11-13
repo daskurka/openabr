@@ -2,6 +2,7 @@ restify = require 'restify'
 chalk = require 'chalk'
 routes = require './routes'
 mongoose = require './mongoose'
+first = require './utils/firstRun'
 
 #configure server
 server = restify.createServer
@@ -18,6 +19,9 @@ server.use restify.bodyParser()
 
 #connect and configure database and ODM
 mongoose(server)
+
+#do first run configuration
+first(server)
 
 #register routes
 routes(server)

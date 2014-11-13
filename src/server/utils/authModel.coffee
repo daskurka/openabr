@@ -7,4 +7,7 @@ authSchema = new Schema
   passwordSalt: String
   isAdmin: Boolean
 
+authSchema.set 'toObject', {virtuals: yes}
+authSchema.set 'toJSON', {virtuals: yes}
+
 module.exports = mongoose.model('Auth', authSchema)

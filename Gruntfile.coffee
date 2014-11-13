@@ -1,18 +1,10 @@
 templatizer = require 'templatizer'
+redirect = require 'connect-redirection'
 
 module.exports = (grunt) ->
 
-  #load tasks
-  grunt.loadNpmTasks('grunt-contrib-coffee')
-  grunt.loadNpmTasks('grunt-contrib-copy')
-  grunt.loadNpmTasks('grunt-contrib-less')
-  grunt.loadNpmTasks('grunt-contrib-jade')
-  grunt.loadNpmTasks('grunt-contrib-clean')
-  grunt.loadNpmTasks('grunt-contrib-watch')
-  grunt.loadNpmTasks('grunt-concurrent')
-  grunt.loadNpmTasks('grunt-nodemon')
-  grunt.loadNpmTasks('grunt-contrib-connect')
-  grunt.loadNpmTasks('grunt-coffeeify')
+  #load proxy
+  proxy = require('grunt-connect-proxy/lib/utils').proxyRequest
 
   #load config
   grunt.initConfig
@@ -95,9 +87,29 @@ module.exports = (grunt) ->
     connect:
       developmentApp:
         options:
-          keepalive: yes
           port: 8081
-          base: 'dist/public/'
+          hostname: 'localhost'
+          keepalive: yes
+          middleware: (connect, options) ->
+            return [
+              proxy,
+              connect.static('dist/public/'),
+              redirect(),
+              (req, res) ->
+                #to get this far means 404 normally
+                newUrl = '/#' + req.url
+                console.log 'Grunt Connect -> redirect for pushState: ' + newUrl
+                res.redirect(newUrl)
+            ]
+        proxies: [
+            context: '/api'
+            host: 'localhost'
+            port: 8080
+            https: no
+            rewrite: {
+              '^/api': ''
+            }
+        ]
 
     concurrent:
       options:
@@ -107,14 +119,33 @@ module.exports = (grunt) ->
         'watch:app'
         'watch:server'
         'nodemon:developmentServer'
-        'connect:developmentApp'
+        'runconnect'
       ]
 
+  #load tasks
+  grunt.loadNpmTasks('grunt-contrib-coffee')
+  grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-contrib-less')
+  grunt.loadNpmTasks('grunt-contrib-jade')
+  grunt.loadNpmTasks('grunt-contrib-clean')
+  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-concurrent')
+  grunt.loadNpmTasks('grunt-nodemon')
+  grunt.loadNpmTasks('grunt-connect-proxy')
+  grunt.loadNpmTasks('grunt-contrib-connect')
+  grunt.loadNpmTasks('grunt-coffeeify')
+
+  #custom tasks
   grunt.registerTask 'templatizer', () ->
     sourceDirectory = 'src/app/templates'
     targetFile = 'src/app/scripts/templates.js'
     options = {}
     templatizer(sourceDirectory, targetFile, options)
+
+  grunt.registerTask 'runconnect', [
+    'configureProxies:developmentApp'
+    'connect:developmentApp'
+  ]
 
   grunt.registerTask 'build:app', [
     'clean:distPublic'

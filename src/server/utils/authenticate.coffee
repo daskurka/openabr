@@ -126,22 +126,28 @@ exports.systemAdmin = (req, res, next) ->
 #anything else will return a 401
 exports.login = (req, res) ->
 
-  email = req.params.username
+  email = req.params.email
   password = req.params.password
 
   #find the user from the email
   User.findOne {email: email}, (err, user) ->
     if err? or not user?
+      console.log err
       return res.send 401, 'Not Authorised'
 
     #find the auth from the user
-    Auth.findOne {user: user._id}, (err, auth) ->
+    Auth.findOne {user: user.id}, (err, auth) ->
+      if err?
+        console.log err
+        return res.send 401, 'Not Authorised'
 
       resultantHash = pbkdf2(password, auth.passwordSalt, hashLength, hashIterations)
+      resultantHash = resultantHash.toString('base64')
 
       if resultantHash is auth.passwordHash
         res.send
-          token: exports.serialise user
+          token: exports.serialise(user)
+          isSystemAdmin: auth.isAdmin
           user: user
       else
         return res.send 401, 'Not Authorised'
@@ -151,6 +157,7 @@ exports.createAuthentication = (userId, password, callback) ->
 
   salt = crypto.randomBytes(hashLength).toString('base64')
   hash = pbkdf2(password, salt, hashLength, hashIterations)
+  hash = hash.toString('base64')
 
   auth = new Auth
     passwordHash: hash

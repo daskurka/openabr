@@ -17,6 +17,14 @@
     admins: [Schema.Types.ObjectId]
   });
 
+  accountSchema.set('toObject', {
+    virtuals: true
+  });
+
+  accountSchema.set('toJSON', {
+    virtuals: true
+  });
+
   module.exports = mongoose.model('Account', accountSchema);
 
 }).call(this);

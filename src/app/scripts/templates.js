@@ -34,7 +34,7 @@
         var jade_mixins = {};
         var jade_interp;
         var locals_for_with = locals || {};
-        (function(currentAccount, otherAccounts, isSystemAdmin, name) {
+        (function(currentAccount, otherAccounts, isSystemAdmin, user) {
             buf.push('<div class="navbar-header"><a' + jade.attr("href", "/" + currentAccount.urlName + "", true, false) + ' class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a' + jade.attr("href", "/" + currentAccount.urlName + "/process", true, false) + ">Upload ABR</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/query", true, false) + ">Query ABRs</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/experiments", true, false) + ">Experiments</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/subjects", true, false) + '>Subjects</a></li></ul><ul class="nav navbar-nav navbar-right"><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">' + jade.escape((jade_interp = currentAccount.name) == null ? "" : jade_interp) + '&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a' + jade.attr("href", "/" + currentAccount.urlName + "", true, false) + ">View</a></li>");
             if (currentAccount.isAdmin) {
                 buf.push("<li><a" + jade.attr("href", "/" + currentAccount.urlName + "/manage", true, false) + ">Manage</a></li>");
@@ -42,7 +42,7 @@
             if (otherAccounts.length > 0) {
                 buf.push('<li class="divider"></li>');
                 (function() {
-                    var $obj = otherAccounts;
+                    var $obj = otherAccounts.models;
                     if ("number" == typeof $obj.length) {
                         for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
                             var account = $obj[$index];
@@ -62,19 +62,24 @@
             if (isSystemAdmin) {
                 buf.push('<li><a href="/admin/accounts">Accounts</a></li>');
             }
-            buf.push('<li><a href="/logout">Logout</a></li></ul><p class="navbar-text navbar-right"><a href="/profile">' + jade.escape((jade_interp = name) == null ? "" : jade_interp) + "</a></p>");
-        }).call(this, "currentAccount" in locals_for_with ? locals_for_with.currentAccount : typeof currentAccount !== "undefined" ? currentAccount : undefined, "otherAccounts" in locals_for_with ? locals_for_with.otherAccounts : typeof otherAccounts !== "undefined" ? otherAccounts : undefined, "isSystemAdmin" in locals_for_with ? locals_for_with.isSystemAdmin : typeof isSystemAdmin !== "undefined" ? isSystemAdmin : undefined, "name" in locals_for_with ? locals_for_with.name : typeof name !== "undefined" ? name : undefined);
+            buf.push('<li><a href="/logout">Logout</a></li></ul><p class="navbar-text navbar-right"><a href="/profile">' + jade.escape((jade_interp = user.name) == null ? "" : jade_interp) + "</a></p>");
+        }).call(this, "currentAccount" in locals_for_with ? locals_for_with.currentAccount : typeof currentAccount !== "undefined" ? currentAccount : undefined, "otherAccounts" in locals_for_with ? locals_for_with.otherAccounts : typeof otherAccounts !== "undefined" ? otherAccounts : undefined, "isSystemAdmin" in locals_for_with ? locals_for_with.isSystemAdmin : typeof isSystemAdmin !== "undefined" ? isSystemAdmin : undefined, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
         return buf.join("");
     };
 
     // includes\navbar\loggedout.jade compiled template
     templatizer["includes"]["navbar"]["loggedout"] = function tmpl_includes_navbar_loggedout() {
-        return '<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav navbar-right"><li><a href="/login">Login</a></li><li><a href="/contact">Contact</a></li><li><a href="/about">About</a></li></ul>';
+        return '<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav navbar-left"><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="/login" class="loginAnchor">Login</a></li></ul>';
     };
 
     // navbar.jade compiled template
     templatizer["navbar"] = function tmpl_navbar() {
         return '<nav class="navbar navbar-default navbar-inverse"><div class="container-fluid navbar-content"></div></nav>';
+    };
+
+    // pages\404.jade compiled template
+    templatizer["pages"]["404"] = function tmpl_pages_404() {
+        return '<div class="container"><h2>404<small>&nbsp;Gah! That was not supposed to happen</small></h2><p>There is nothing currently at this link address! Maybe you mistyped or copied a bad one.</p><p>Don\'t panic and remain calm, use the navbar above to go somewhere safe!</p><p>Oh, and if this continues to happen&nbsp;<a href="/contact">contact the admin!</a></p></div>';
     };
 
     // pages\about.jade compiled template
@@ -84,7 +89,7 @@
 
     // pages\admin\accounts.jade compiled template
     templatizer["pages"]["admin"]["accounts"] = function tmpl_pages_admin_accounts() {
-        return '<div class="container"><p>Accounts Page</p></div>';
+        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input id="filterAccounts" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><div class="row">Table to go here...</div></div>';
     };
 
     // pages\contact.jade compiled template
@@ -99,7 +104,7 @@
 
     // pages\login.jade compiled template
     templatizer["pages"]["login"] = function tmpl_pages_login() {
-        return '<div class="container"><form role="form" class="form-signin"><h2 class="form-signin-heading">Sign in to OpenABR</h2><input id="emailAddress" type="email" placeholder="Email Address" required="required" autofocus="autofocus" class="form-control"/><input id="password" type="password" placeholder="Password" required="required" class="form-control"/><div class="checkbox"><label><input type="checkbox" value="remember-me"/>&nbsp;Remember me</label></div><button id="submitButton" type="button" class="btn btn-lg btn-primary btn-block">Sign in</button></form></div>';
+        return '<div class="container"><form role="form" class="form-signin"><div id="failedLoginAlert" class="alert alert-danger hidden">Incorrect email or password.</div><h2 class="form-signin-heading">Sign in to OpenABR</h2><input id="emailAddress" type="email" placeholder="Email Address" required="required" autofocus="autofocus" class="form-control"/><input id="password" type="password" placeholder="Password" required="required" class="form-control"/><div class="checkbox"><label><input id="rememberMe" type="checkbox" value="remember-me"/>&nbsp;Remember me</label></div><button type="submit" class="btn btn-lg btn-primary btn-block">Login</button></form></div>';
     };
 
     return templatizer;

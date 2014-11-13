@@ -6,29 +6,16 @@ module.exports = View.extend
 
   template: templates.navbar
 
-  render: () ->
+  initialize: () ->
+    @.listenTo app.view, 'login', @logon
+    @.listenTo app.view, 'logout', @logoff
 
+  render: () ->
     @.renderWithTemplate()
 
-    app.me =
-      name: 'Samuel Kirkpatrick'
-      currentAccount:
-        name: 'Ryugo Lab'
-        urlName: 'ryugolab'
-        isAdmin: yes
-      otherAccounts: []
-      isSystemAdmin: yes
-
-
-    if app.me?
-      #must be logged on
-      do @.logon
-    else
-      #not logged on
-      do @.logoff
+    if app.me.isLoggedIn then do @.logon else do @.logoff
 
     return @
-
 
   logoff: () ->
     @.query('.navbar-content').innerHTML = templates.includes.navbar.loggedout()

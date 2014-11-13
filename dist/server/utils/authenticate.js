@@ -117,22 +117,29 @@
 
   exports.login = function(req, res) {
     var email, password;
-    email = req.params.username;
+    email = req.params.email;
     password = req.params.password;
     return User.findOne({
       email: email
     }, function(err, user) {
       if ((err != null) || (user == null)) {
+        console.log(err);
         return res.send(401, 'Not Authorised');
       }
       return Auth.findOne({
-        user: user._id
+        user: user.id
       }, function(err, auth) {
         var resultantHash;
+        if (err != null) {
+          console.log(err);
+          return res.send(401, 'Not Authorised');
+        }
         resultantHash = pbkdf2(password, auth.passwordSalt, hashLength, hashIterations);
+        resultantHash = resultantHash.toString('base64');
         if (resultantHash === auth.passwordHash) {
           return res.send({
             token: exports.serialise(user),
+            isSystemAdmin: auth.isAdmin,
             user: user
           });
         } else {
@@ -146,6 +153,7 @@
     var auth, hash, salt;
     salt = crypto.randomBytes(hashLength).toString('base64');
     hash = pbkdf2(password, salt, hashLength, hashIterations);
+    hash = hash.toString('base64');
     auth = new Auth({
       passwordHash: hash,
       passwordSalt: salt,

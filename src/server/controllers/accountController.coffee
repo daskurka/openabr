@@ -1,16 +1,6 @@
 Account = require './accountModel'
 line = require '../utils/line'
 
-exports.create = (req, res) ->
-  line.debug 'Account Controller', 'Creating new account'
-
-  account = new Account req.body
-  account.save (err) ->
-    if err?
-      return res.send 500, "Internal Server Error: #{err}"
-    else
-      res.send account
-
 exports.read = (req, res) ->
   line.debug 'Account Controller', 'Reading account: ', req.params.id
 
@@ -39,13 +29,3 @@ exports.remove = (req, res) ->
       return res.send 500, "Internal Server Error: #{err}"
     else
       res.send 200
-
-exports.query = (req, res) ->
-  line.debug 'Account Controller', 'Querying accounts: no params'
-
-  #query all
-  Account.find req.body, (err, accounts) ->
-    if err?
-      return res.send 500, "Internal Server Error: #{err}"
-    else
-      req.send accounts

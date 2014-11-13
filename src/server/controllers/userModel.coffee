@@ -6,4 +6,7 @@ userSchema = new Schema
   email: String
   position: String
 
+userSchema.set 'toObject', {virtuals: yes}
+userSchema.set 'toJSON', {virtuals: yes}
+
 module.exports = mongoose.model('User', userSchema)

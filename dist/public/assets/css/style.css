@@ -6197,3 +6197,7 @@ button.close {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.loginAnchor {
+  font-weight: bold;
+  font-size: 16px;
+}

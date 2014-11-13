@@ -16,11 +16,11 @@ ul.nav.navbar-nav.navbar-right
             li: a(href="/#{currentAccount.urlName}/manage") Manage
          if (otherAccounts.length > 0)
             li.divider
-            for account in otherAccounts
+            for account in otherAccounts.models
                li: a(href="/#{account.urlName}") #{account.name}
    if (isSystemAdmin)
       li: a(href='/admin/accounts') Accounts
    li: a(href='/logout') Logout
-p.navbar-text.navbar-right: a(href="/profile") #{name}
+p.navbar-text.navbar-right: a(href="/profile") #{user.name}
 
 

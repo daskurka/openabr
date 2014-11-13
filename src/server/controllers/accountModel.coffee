@@ -12,4 +12,8 @@ accountSchema = new Schema
   users: [Schema.Types.ObjectId]
   admins: [Schema.Types.ObjectId]
 
+
+accountSchema.set 'toObject', {virtuals: yes}
+accountSchema.set 'toJSON', {virtuals: yes}
+
 module.exports = mongoose.model('Account', accountSchema)
