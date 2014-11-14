@@ -98,7 +98,7 @@ module.exports = (grunt) ->
               (req, res) ->
                 #to get this far means 404 normally
                 newUrl = '/#' + req.url
-                console.log 'Grunt Connect -> redirect for pushState: ' + newUrl
+                console.log "Grunt Connect -> redirect for pushState: #{newUrl} from #{req.url}"
                 res.redirect(newUrl)
             ]
         proxies: [

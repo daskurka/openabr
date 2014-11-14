@@ -1,5 +1,6 @@
 User = require './userModel'
 Account = require './accountModel'
+Auth = require '../utils/authModel'
 
 line = require '../utils/line'
 
@@ -17,12 +18,16 @@ exports.read = (req, res) ->
   isCurrentUser req, res, () ->
     line.debug 'Profile Controller', 'Reading User: ', req.params.id
 
-    query = User.findById req.params.id
-    query.exec (err, user) ->
+    #req.user already added in authenticate.user
+
+    #want to add to the profile if the user is a system admin
+    Auth.findOne {user: req.params.id}, (err, auth) ->
       if err?
         return res.send 500, "Internal Server Error: #{err}"
       else
-        res.send user
+        result = req.user.toJSON()
+        result.isSystemAdmin = auth.isAdmin
+        res.send result
 
 exports.update = (req, res) ->
   isCurrentUser req, res, () ->

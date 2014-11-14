@@ -27,7 +27,7 @@
           if (err != null) {
             return console.log(err);
           }
-          return authenticate.createAuthentication(user.id, 'password', function(err) {
+          return authenticate.createAuthentication(user.id, 'password', function(err, auth) {
             var demo;
             if (err != null) {
               return console.log(err);
@@ -48,6 +48,8 @@
               if (err != null) {
                 return console.log(err);
               }
+              auth.isAdmin = true;
+              return auth.save();
             });
           });
         });

@@ -21,7 +21,7 @@ module.exports = (server) ->
       User.create admin, (err, user) ->
         if err? then return console.log err
 
-        authenticate.createAuthentication user.id, 'password', (err) ->
+        authenticate.createAuthentication user.id, 'password', (err, auth) ->
           if err? then return console.log err
 
           demo =
@@ -38,5 +38,9 @@ module.exports = (server) ->
 
           Account.create demo, (err) ->
             if err? then return console.log err
+
+            #finally promote the user too system admin
+            auth.isAdmin = yes
+            auth.save()
 
             #we are all done!

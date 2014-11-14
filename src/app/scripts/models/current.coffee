@@ -44,6 +44,16 @@ module.exports = State.extend
       error: (collection, response, options) ->
         callback('Error fetching accounts!')
 
+  loginUserId: (userId, callback) ->
+    #this assumes that server token is already added allowing us to use the api
+    u = new User()
+    u.id = userId
+    u.fetch
+      success: (user, response, options) =>
+        @.login user, response.isSystemAdmin, callback
+      error: (user, response, options) ->
+        callback('Error fetching user!')
+
   logout: () ->
     @.user = null
     @.currentAccount = null

@@ -1,9 +1,11 @@
 (function() {
-  var Account, User, isCurrentUser, line;
+  var Account, Auth, User, isCurrentUser, line;
 
   User = require('./userModel');
 
   Account = require('./accountModel');
+
+  Auth = require('../utils/authModel');
 
   line = require('../utils/line');
 
@@ -19,14 +21,17 @@
 
   exports.read = function(req, res) {
     return isCurrentUser(req, res, function() {
-      var query;
       line.debug('Profile Controller', 'Reading User: ', req.params.id);
-      query = User.findById(req.params.id);
-      return query.exec(function(err, user) {
+      return Auth.findOne({
+        user: req.params.id
+      }, function(err, auth) {
+        var result;
         if (err != null) {
           return res.send(500, "Internal Server Error: " + err);
         } else {
-          return res.send(user);
+          result = req.user.toJSON();
+          result.isSystemAdmin = auth.isAdmin;
+          return res.send(result);
         }
       });
     });
