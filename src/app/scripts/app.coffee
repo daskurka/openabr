@@ -16,29 +16,31 @@ module.exports =
     #configure globals
     window.app = @
     do configureAjax #setup ajax calls
-    @.router = new Router() #init the router
-    @.me = new Current() #create empty user state
-
-    #handle cookie token login if allowed
-    if Cookies.enabled and Cookies.get('rememberMe')
-      app.serverToken = Cookies.get('serverToken')
-      userId = Cookies.get('userId')
-      if app.serverToken? and userId?
-        @.me.loginUserId userId, (err) =>
-          if err? then return do @.logout
-          @.view.trigger 'login'
-          app.navigate @.me.currentAccount.urlName
-      else
-        console.log 'Malformed token/userId - cannot login automatically.'
 
     #waits for page to fully load then shows first view
     domReady () =>
+      @.router = new Router() #init the router
+      @.me = new Current() #create empty user state
+
       #create main view and render
       @.view = new MainView({el: document.body})
       do @.view.render
 
       #start router history at /
       @.router.history.start {pushState: yes, root: '/'}
+
+      #handle cookie token login if allowed
+      if Cookies.enabled and Cookies.get('rememberMe')
+        app.serverToken = Cookies.get('serverToken')
+        userId = Cookies.get('userId')
+        if app.serverToken? and userId?
+          @.me.loginUserId userId, (err) =>
+            if err? then return do @.logout
+            @.view.trigger 'login'
+            if window.location.length <= 0
+              app.navigate @.me.currentAccount.urlName
+        else
+          console.log 'Malformed token/userId - cannot login automatically.'
 
   #logout the current user from anywhere
   logout: () ->

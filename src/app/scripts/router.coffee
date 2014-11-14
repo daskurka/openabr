@@ -19,15 +19,12 @@ module.exports = Router.extend
     'logout': 'logout'
     'profile': 'profile'
     '404': 'catchAll'
-
     'admin/accounts': 'accounts'
-
     ':accountName': 'accountHome'
     ':accountName/process': 'accountProcess'
     ':accountName/query': 'accountQuery'
     ':accountName/experiments': 'accountExperiments'
     ':accountName/subjects': 'accountSubjects'
-
     '(*path)': 'catchAll'
 
   #Basic route handlers
@@ -42,7 +39,9 @@ module.exports = Router.extend
   accounts: () -> @.trigger 'page', new AccountsPage()
 
   #Account routes
-  accountHome: (accountName) -> console.log "Account home route for #{accountName} hit..."
+  accountHome: (accountName) ->
+    console.log "Account home route for #{accountName} hit..."
+    return false
   accountProcess: (accountName) -> console.log "Account process route for #{accountName} hit..."
   accountQuery: (accountName) -> console.log "Account query route for #{accountName} hit..."
   accountExperiments: (accountName) -> console.log "Account experiments route for #{accountName} hit..."

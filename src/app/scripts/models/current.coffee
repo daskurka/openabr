@@ -38,7 +38,7 @@ module.exports = State.extend
       success: (collection, response, options) =>
         @.currentAccount = collection.first()
         @.isLoggedIn = yes
-        @.isSysAdmin = isSysAdmin
+        @.isSystemAdmin = isSysAdmin
         callback(null)
 
       error: (collection, response, options) ->
