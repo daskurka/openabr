@@ -19,7 +19,13 @@ ul.nav.navbar-nav.navbar-right
             for account in otherAccounts.models
                li: a(href="/#{account.urlName}") #{account.name}
    if (isSystemAdmin)
-      li: a(href='/admin/accounts') Accounts
+      li.dropdown
+         a.dropdown-toggle(href='#' data-toggle="dropdown")
+            | Admin&nbsp;
+            span.caret
+         ul.dropdown-menu(role='menu')
+            li: a(href="/admin/accounts") Accounts
+            li: a(href="/admin/users") Users
    li: a(href='/logout') Logout
 p.navbar-text.navbar-right: a(href="/profile") #{user.name}
 

@@ -6,7 +6,8 @@ ContactPage = require './pages/contact.coffee'
 LoginPage = require './pages/login.coffee'
 FourOhFourPage = require './pages/404.coffee'
 
-AccountsPage = require './pages/admin/accounts.coffee'
+AdminAccountsPage = require './pages/admin/accounts.coffee'
+AdminUsersPage = require './pages/admin/users.coffee'
 
 
 module.exports = Router.extend
@@ -19,7 +20,8 @@ module.exports = Router.extend
     'logout': 'logout'
     'profile': 'profile'
     '404': 'catchAll'
-    'admin/accounts': 'accounts'
+    'admin/accounts': 'adminAccounts'
+    'admin/accounts': 'adminUsers'
     ':accountName': 'accountHome'
     ':accountName/process': 'accountProcess'
     ':accountName/query': 'accountQuery'
@@ -36,7 +38,8 @@ module.exports = Router.extend
   profile: () -> console.log 'user profile hit'
 
   #Admin Routes
-  accounts: () -> @.trigger 'page', new AccountsPage()
+  adminAccounts: () -> @.trigger 'page', new AdminAccountsPage()
+  adminUsers: () -> @.trigger 'page', new AdminUsersPage()
 
   #Account routes
   accountHome: (accountName) ->

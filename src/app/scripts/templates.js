@@ -60,7 +60,7 @@
             }
             buf.push("</ul></li>");
             if (isSystemAdmin) {
-                buf.push('<li><a href="/admin/accounts">Accounts</a></li>');
+                buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/accounts">Accounts</a></li><li><a href="/admin/users">Users</a></li></ul></li>');
             }
             buf.push('<li><a href="/logout">Logout</a></li></ul><p class="navbar-text navbar-right"><a href="/profile">' + jade.escape((jade_interp = user.name) == null ? "" : jade_interp) + "</a></p>");
         }).call(this, "currentAccount" in locals_for_with ? locals_for_with.currentAccount : typeof currentAccount !== "undefined" ? currentAccount : undefined, "otherAccounts" in locals_for_with ? locals_for_with.otherAccounts : typeof otherAccounts !== "undefined" ? otherAccounts : undefined, "isSystemAdmin" in locals_for_with ? locals_for_with.isSystemAdmin : typeof isSystemAdmin !== "undefined" ? isSystemAdmin : undefined, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
@@ -90,6 +90,11 @@
     // pages\admin\accounts.jade compiled template
     templatizer["pages"]["admin"]["accounts"] = function tmpl_pages_admin_accounts() {
         return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input id="filterAccounts" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><div class="row">Table to go here...</div></div>';
+    };
+
+    // pages\admin\users.jade compiled template
+    templatizer["pages"]["admin"]["users"] = function tmpl_pages_admin_users() {
+        return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input id="filterUsers" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><div class="row">Table to go here...//</div></div>';
     };
 
     // pages\contact.jade compiled template

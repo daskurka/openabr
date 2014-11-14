@@ -3,7 +3,7 @@ templates = require '../../templates'
 
 module.exports = PageView.extend
 
-  pageTitle: 'Accounts'
+  pageTitle: 'Accounts Administration'
   template: templates.pages.admin.accounts
 
   events:
