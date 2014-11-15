@@ -17,6 +17,8 @@
     templatizer["includes"]["form"] = {};
     templatizer["includes"]["navbar"] = {};
     templatizer["pages"]["admin"] = {};
+    templatizer["pages"]["admin"]["accounts"] = {};
+    templatizer["pages"]["admin"]["users"] = {};
 
     // body.jade compiled template
     templatizer["body"] = function tmpl_body() {
@@ -87,13 +89,18 @@
         return '<div class="container"><h2>About OpenABR</h2><img src="/assets/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
-    // pages\admin\accounts.jade compiled template
-    templatizer["pages"]["admin"]["accounts"] = function tmpl_pages_admin_accounts() {
+    // pages\admin\accounts\accounts.jade compiled template
+    templatizer["pages"]["admin"]["accounts"]["accounts"] = function tmpl_pages_admin_accounts_accounts() {
         return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input id="filterAccounts" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><div class="row">Table to go here...</div></div>';
     };
 
-    // pages\admin\users.jade compiled template
-    templatizer["pages"]["admin"]["users"] = function tmpl_pages_admin_users() {
+    // pages\admin\accounts\create.jade compiled template
+    templatizer["pages"]["admin"]["accounts"]["create"] = function tmpl_pages_admin_accounts_create() {
+        return '<div class="container"><h2>Create Account</h2></div>';
+    };
+
+    // pages\admin\users\users.jade compiled template
+    templatizer["pages"]["admin"]["users"]["users"] = function tmpl_pages_admin_users_users() {
         return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input id="filterUsers" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><div class="row">Table to go here...//</div></div>';
     };
 

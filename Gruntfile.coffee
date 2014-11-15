@@ -122,6 +122,10 @@ module.exports = (grunt) ->
         'runconnect'
       ]
 
+    coffeelint:
+      client: ['src/app/scripts/*.coffee']
+      server: ['src/server/*.coffee']
+
   #load tasks
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-copy')
@@ -134,6 +138,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-connect-proxy')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-coffeeify')
+  grunt.loadNpmTasks('grunt-coffeelint')
 
   #custom tasks
   grunt.registerTask 'templatizer', () ->
@@ -149,6 +154,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build:app', [
     'clean:distPublic'
+    'coffeelint:client'
     'coffeeify:client'
     'copy:appAssets'
     'less:compile'
@@ -157,6 +163,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build:server', [
     'clean:distServer'
+    'coffeelint:client'
     'coffee:compileServer'
   ]
 
