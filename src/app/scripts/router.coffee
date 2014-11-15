@@ -1,15 +1,6 @@
 Router = require 'ampersand-router'
 
-HomePage = require './pages/home.coffee'
-AboutPage = require './pages/about.coffee'
-ContactPage = require './pages/contact.coffee'
-LoginPage = require './pages/login.coffee'
-FourOhFourPage = require './pages/404.coffee'
-
-AdminAccountsPage = require './pages/admin/accounts/accounts.coffee'
-AdminAccountCreate = require './pages/admin/accounts/create.coffee'
-AdminUsersPage = require './pages/admin/users/users.coffee'
-
+pages = require './pages/index.coffee'
 
 module.exports = Router.extend
 
@@ -32,17 +23,17 @@ module.exports = Router.extend
     '(*path)': 'catchAll'
 
   #Basic route handlers
-  home: () -> @.trigger 'page', new HomePage()
-  about: () -> @.trigger 'page', new AboutPage()
-  contact: () -> @.trigger 'page', new ContactPage()
-  login: () -> @.trigger 'page', new LoginPage()
+  home: () -> @.trigger 'page', new pages.Home()
+  about: () -> @.trigger 'page', new pages.About()
+  contact: () -> @.trigger 'page', new pages.Contact()
+  login: () -> @.trigger 'page', new pages.Login()
   logout: () -> app.logout()
   profile: () -> console.log 'user profile hit'
 
   #Admin Routes
-  adminAccounts: () -> @.trigger 'page', new AdminAccountsPage()
-  adminAccountCreate: () -> @.trigger 'page', new AdminAccountCreate()
-  adminUsers: () -> @.trigger 'page', new AdminUsersPage()
+  adminAccounts: () -> @.trigger 'page', new pages.admin.accounts.Accounts()
+  adminAccountCreate: () -> @.trigger 'page', new pages.admin.accounts.Create()
+  adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()
 
   #Account routes
   accountHome: (accountName) ->
@@ -58,4 +49,4 @@ module.exports = Router.extend
     console.log "Account subjects route for #{accountName} hit..."
 
   #Catch all other routes and head back to home
-  catchAll: () -> @.trigger 'page', new FourOhFourPage()
+  catchAll: () -> @.trigger 'page', new pages.FourOhFour()
