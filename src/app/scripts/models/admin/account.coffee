@@ -15,3 +15,8 @@ module.exports = Base.extend
     suspendedNotice: 'string'
     users: { type: 'array', default: () -> []}
     admins: { type: 'array', default: () -> []}
+
+  derived:
+    editUrl:
+      deps: ['urlName']
+      fn: () -> "/admin/accounts/#{@.urlName}/edit"

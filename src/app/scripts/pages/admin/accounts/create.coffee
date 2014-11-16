@@ -19,3 +19,5 @@ module.exports = PageView.extend
             newAccount.suspended = no
             newAccount.suspendedNotice = ''
             newAccount.save()
+
+            app.navigate('admin/accounts')

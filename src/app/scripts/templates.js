@@ -15,6 +15,7 @@
     templatizer["includes"] = {};
     templatizer["pages"] = {};
     templatizer["includes"]["form"] = {};
+    templatizer["includes"]["items"] = {};
     templatizer["includes"]["navbar"] = {};
     templatizer["pages"]["admin"] = {};
     templatizer["pages"]["admin"]["accounts"] = {};
@@ -33,6 +34,11 @@
     // includes\form\users.jade compiled template
     templatizer["includes"]["form"]["users"] = function tmpl_includes_form_users() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
+    };
+
+    // includes\items\account.jade compiled template
+    templatizer["includes"]["items"]["account"] = function tmpl_includes_items_account() {
+        return '<tr data-hook="account-row"><td data-hook="name"></td><td data-hook="address"></td><td data-hook="users"></td><td data-hook="admins"></td></tr>';
     };
 
     // includes\navbar\loggedin.jade compiled template
@@ -96,7 +102,7 @@
 
     // pages\admin\accounts\accounts.jade compiled template
     templatizer["pages"]["admin"]["accounts"]["accounts"] = function tmpl_pages_admin_accounts_accounts() {
-        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input id="filterAccounts" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><div class="row">Table to go here...</div></div>';
+        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Address</td><td>Users</td><td>Admin</td></thead><tbody data-hook="accounts-table"></tbody></table><hr/><div class="row">pagination will go here...</div></div>';
     };
 
     // pages\admin\accounts\create.jade compiled template

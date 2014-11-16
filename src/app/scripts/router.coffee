@@ -12,14 +12,18 @@ module.exports = Router.extend
     'logout': 'logout'
     'profile': 'profile'
     '404': 'catchAll'
+
     'admin/accounts': 'adminAccounts'
     'admin/accounts/create': 'adminAccountCreate'
+    'admin/accounts/:accountName/edit': 'adminAccountEdit'
     'admin/users': 'adminUsers'
+
     ':accountName': 'accountHome'
     ':accountName/process': 'accountProcess'
     ':accountName/query': 'accountQuery'
     ':accountName/experiments': 'accountExperiments'
     ':accountName/subjects': 'accountSubjects'
+
     '(*path)': 'catchAll'
 
   #Basic route handlers
@@ -33,6 +37,7 @@ module.exports = Router.extend
   #Admin Routes
   adminAccounts: () -> @.trigger 'page', new pages.admin.accounts.Accounts()
   adminAccountCreate: () -> @.trigger 'page', new pages.admin.accounts.Create()
+  adminAccountEdit: (accountName) -> console.log 'Edit -> ' + accountName
   adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()
 
   #Account routes

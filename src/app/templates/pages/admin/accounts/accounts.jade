@@ -1,11 +1,21 @@
 .container
    h2 Accounts
-
    .row
       .col-sm-9
-         input.form-control#filterAccounts
+         input.form-control(data-hook='filter')
       .col-sm-3
          button.btn.btn-primary#newAccount
             span.glyphicon.glyphicon-plus
             | &nbsp;new account
-   .row Table to go here...
+   hr
+   table.table.table-hover
+      thead
+         td Name
+         td Address
+         td Users
+         td Admin
+      tbody(data-hook='accounts-table')
+   hr
+   .row
+      | pagination will go here...
+
