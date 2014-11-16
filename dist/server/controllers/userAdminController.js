@@ -54,12 +54,24 @@
   };
 
   exports.query = function(req, res) {
+    var innerPart, part;
     line.debug('User Admin Controller', 'Querying users: no params');
-    return User.find(req.body, function(err, users) {
+    for (part in req.params) {
+      for (innerPart in req.params[part]) {
+        if (innerPart === '$regex') {
+          if (req.params[part]['$options'] != null) {
+            req.params[part] = new RegExp(req.params[part]['$regex'], req.params[part]['$options']);
+          } else {
+            req.params[part] = new RegExp(req.params[part]['$regex']);
+          }
+        }
+      }
+    }
+    return User.find(req.params, function(err, users) {
       if (err != null) {
         return res.send(500, "Internal Server Error: " + err);
       } else {
-        return req.send(users);
+        return res.send(users);
       }
     });
   };

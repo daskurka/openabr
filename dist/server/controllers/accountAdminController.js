@@ -55,11 +55,11 @@
 
   exports.query = function(req, res) {
     line.debug('Account Admin Controller', 'Querying accounts: no params');
-    return Account.find(req.body, function(err, accounts) {
+    return Account.find(req.params, function(err, accounts) {
       if (err != null) {
         return res.send(500, "Internal Server Error: " + err);
       } else {
-        return req.send(accounts);
+        return res.send(accounts);
       }
     });
   };

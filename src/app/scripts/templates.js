@@ -30,6 +30,11 @@
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
     };
 
+    // includes\form\users.jade compiled template
+    templatizer["includes"]["form"]["users"] = function tmpl_includes_form_users() {
+        return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
+    };
+
     // includes\navbar\loggedin.jade compiled template
     templatizer["includes"]["navbar"]["loggedin"] = function tmpl_includes_navbar_loggedin(locals) {
         var buf = [];
@@ -96,7 +101,7 @@
 
     // pages\admin\accounts\create.jade compiled template
     templatizer["pages"]["admin"]["accounts"]["create"] = function tmpl_pages_admin_accounts_create() {
-        return '<div class="container"><h2>Create Account</h2></div>';
+        return '<div class="container"><h2>Create Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
     };
 
     // pages\admin\users\users.jade compiled template

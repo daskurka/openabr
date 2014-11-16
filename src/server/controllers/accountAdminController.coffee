@@ -44,8 +44,8 @@ exports.query = (req, res) ->
   line.debug 'Account Admin Controller', 'Querying accounts: no params'
 
   #query all
-  Account.find req.body, (err, accounts) ->
+  Account.find req.params, (err, accounts) ->
     if err?
       return res.send 500, "Internal Server Error: #{err}"
     else
-      req.send accounts
+      res.send accounts
