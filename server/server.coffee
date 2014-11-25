@@ -18,7 +18,9 @@ server = express()
 server.set 'name', 'openabr-server'
 server.set 'version', '0.1.0'
 server.set 'port', process.env.PORT || 8080
-isDevMode = server.get('port') is 8080 #todo: fix this temp hack
+server.set 'mongo', process.env.MONGO_URL || 'mongodb://localhost/dev'
+server.set 'mode', process.env.NODE_ENV || 'development'
+isDevMode = server.get('mode') is 'development'
 
 console.log "#{chalk.red(server.get('name'))} is starting..."
 
