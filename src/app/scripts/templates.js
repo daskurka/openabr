@@ -85,6 +85,11 @@
         return '<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav navbar-left"><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="/login" class="loginAnchor">Login</a></li></ul>';
     };
 
+    // includes\pager.jade compiled template
+    templatizer["includes"]["pager"] = function tmpl_includes_pager() {
+        return '<nav id="pager-control"><ul class="pagination"></ul></nav>';
+    };
+
     // navbar.jade compiled template
     templatizer["navbar"] = function tmpl_navbar() {
         return '<nav class="navbar navbar-default navbar-inverse"><div class="container-fluid navbar-content"></div></nav>';
@@ -102,7 +107,7 @@
 
     // pages\admin\accounts\accounts.jade compiled template
     templatizer["pages"]["admin"]["accounts"]["accounts"] = function tmpl_pages_admin_accounts_accounts() {
-        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Address</td><td>Users</td><td>Admin</td></thead><tbody data-hook="accounts-table"></tbody></table><hr/><div class="row">pagination will go here...</div></div>';
+        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Address</td><td>Users</td><td>Admin</td></thead><tbody data-hook="accounts-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
     // pages\admin\accounts\create.jade compiled template

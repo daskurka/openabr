@@ -1,9 +1,11 @@
 (function() {
-  var Account, line;
+  var Account, line, pager;
 
   Account = require('./accountModel');
 
   line = require('../utils/line');
+
+  pager = require('../utils/pager');
 
   exports.create = function(req, res) {
     var account;
@@ -54,12 +56,24 @@
   };
 
   exports.query = function(req, res) {
-    line.debug('Account Admin Controller', 'Querying accounts: no params');
-    return Account.find(req.params, function(err, accounts) {
+    var isPaged, options, query, _ref;
+    line.debug('Account Admin Controller', 'Querying accounts');
+    _ref = pager.filterQuery(req.params), query = _ref.query, options = _ref.options, isPaged = _ref.isPaged;
+    return Account.find(query, null, options, function(err, accounts) {
       if (err != null) {
         return res.send(500, "Internal Server Error: " + err);
       } else {
-        return res.send(accounts);
+        if (!isPaged) {
+          return res.send(accounts);
+        }
+        return Account.count(query, function(err, totalFound) {
+          if (err != null) {
+            return res.send(500, "Internal Server Error: " + err);
+          } else {
+            pager.attachResponseHeaders(res, totalFound);
+            return res.send(accounts);
+          }
+        });
       }
     });
   };

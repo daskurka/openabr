@@ -1,5 +1,6 @@
 Account = require './accountModel'
 line = require '../utils/line'
+pager = require '../utils/pager'
 
 exports.create = (req, res) ->
   line.debug 'Account Admin Controller', 'Creating new account'
@@ -41,11 +42,23 @@ exports.remove = (req, res) ->
       res.send 200
 
 exports.query = (req, res) ->
-  line.debug 'Account Admin Controller', 'Querying accounts: no params'
+  line.debug 'Account Admin Controller', 'Querying accounts'
+
+  #check for pagination
+  {query, options, isPaged} = pager.filterQuery(req.params)
 
   #query all
-  Account.find req.params, (err, accounts) ->
+  Account.find query, null, options, (err, accounts) ->
     if err?
       return res.send 500, "Internal Server Error: #{err}"
     else
-      res.send accounts
+      if not isPaged
+        return res.send accounts
+
+      #also find total possible records
+      Account.count query, (err, totalFound) ->
+        if err?
+          return res.send 500, "Internal Server Error: #{err}"
+        else
+          pager.attachResponseHeaders(res, totalFound)
+          res.send accounts
