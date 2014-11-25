@@ -16,6 +16,7 @@
   module.exports = function(server) {
     server.use(authenticate.deserialise);
     server.get('/auth/login', authenticate.login);
+    server.get('/admin/accounts/lookup/:urlName', authenticate.systemAdmin, accountAdmin.lookup);
     server.post('/admin/accounts', authenticate.systemAdmin, accountAdmin.create);
     server.get('/admin/accounts/:id', authenticate.systemAdmin, accountAdmin.read);
     server.put('/admin/accounts/:id', authenticate.systemAdmin, accountAdmin.update);

@@ -22,6 +22,15 @@ exports.read = (req, res) ->
     else
       res.send account
 
+exports.lookup = (req, res) ->
+  line.debug 'Account Admin Controller', 'Looking up account name: ', req.params.urlName
+
+  Account.findOne {urlName: req.params.urlName}, (err, account) ->
+    if err?
+      return res.send 500, "Internal Server Error: #{err}"
+    else
+      res.send account
+
 exports.update = (req, res) ->
   line.debug 'Account Admin Controller', 'Updating account: ', req.params.id
 

@@ -33,6 +33,19 @@
     });
   };
 
+  exports.lookup = function(req, res) {
+    line.debug('Account Admin Controller', 'Looking up account name: ', req.params.urlName);
+    return Account.findOne({
+      urlName: req.params.urlName
+    }, function(err, account) {
+      if (err != null) {
+        return res.send(500, "Internal Server Error: " + err);
+      } else {
+        return res.send(account);
+      }
+    });
+  };
+
   exports.update = function(req, res) {
     line.debug('Account Admin Controller', 'Updating account: ', req.params.id);
     return Account.findByIdAndUpdate(req.params.id, req.body, function(err, account) {

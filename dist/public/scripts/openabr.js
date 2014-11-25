@@ -116,6 +116,11 @@
         return '<div class="container"><h2>Create Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
     };
 
+    // pages\admin\accounts\edit.jade compiled template
+    templatizer["pages"]["admin"]["accounts"]["edit"] = function tmpl_pages_admin_accounts_edit() {
+        return '<div class="container"><h2>Edit Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
+    };
+
     // pages\admin\users\users.jade compiled template
     templatizer["pages"]["admin"]["users"]["users"] = function tmpl_pages_admin_users_users() {
         return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input id="filterUsers" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><div class="row">Table to go here...//</div></div>';
@@ -217,7 +222,8 @@
     admin: {
       accounts: {
         Accounts: require('./admin/accounts/accounts.coffee'),
-        Create: require('./admin/accounts/create.coffee')
+        Create: require('./admin/accounts/create.coffee'),
+        Edit: require('./admin/accounts/edit.coffee')
       },
       users: {
         Users: require('./admin/users/users.coffee')
@@ -228,7 +234,7 @@
 }).call(this);
 
 
-},{"./home.coffee":8,"./about.coffee":9,"./contact.coffee":10,"./login.coffee":11,"./404.coffee":12,"./admin/accounts/accounts.coffee":13,"./admin/accounts/create.coffee":14,"./admin/users/users.coffee":15}],16:[function(require,module,exports){
+},{"./home.coffee":8,"./about.coffee":9,"./contact.coffee":10,"./login.coffee":11,"./404.coffee":12,"./admin/accounts/accounts.coffee":13,"./admin/accounts/create.coffee":14,"./admin/accounts/edit.coffee":15,"./admin/users/users.coffee":16}],17:[function(require,module,exports){
 (function() {
   var Account, PagedCollection;
 
@@ -255,7 +261,7 @@
 }).call(this);
 
 
-},{"../paged.coffee":3,"../../models/admin/account.coffee":17}],18:[function(require,module,exports){
+},{"../paged.coffee":3,"../../models/admin/account.coffee":18}],19:[function(require,module,exports){
 (function() {
   var Account;
 
@@ -271,7 +277,7 @@
 }).call(this);
 
 
-},{"../admin/account.coffee":17}],19:[function(require,module,exports){
+},{"../admin/account.coffee":18}],20:[function(require,module,exports){
 (function() {
   var User;
 
@@ -293,119 +299,7 @@
 }).call(this);
 
 
-},{"../user.coffee":5}],9:[function(require,module,exports){
-(function() {
-  var PageView, templates;
-
-  PageView = require('./base.coffee');
-
-  templates = require('../templates');
-
-  module.exports = PageView.extend({
-    pageTitle: 'About',
-    template: templates.pages.about
-  });
-
-}).call(this);
-
-
-},{"./base.coffee":20,"../templates":1}],12:[function(require,module,exports){
-(function() {
-  var PageView, templates;
-
-  PageView = require('./base.coffee');
-
-  templates = require('../templates');
-
-  module.exports = PageView.extend({
-    pageTitle: 'Login',
-    template: templates.pages['404']
-  });
-
-}).call(this);
-
-
-},{"./base.coffee":20,"../templates":1}],10:[function(require,module,exports){
-(function() {
-  var PageView, templates;
-
-  PageView = require('./base.coffee');
-
-  templates = require('../templates');
-
-  module.exports = PageView.extend({
-    pageTitle: 'Contact',
-    template: templates.pages.contact
-  });
-
-}).call(this);
-
-
-},{"./base.coffee":20,"../templates":1}],21:[function(require,module,exports){
-(function() {
-  var User;
-
-  User = require('../user.coffee');
-
-  module.exports = User.extend({
-    typeAttribute: 'adminUserModel',
-    urlRoot: '/api/admin/users'
-  });
-
-}).call(this);
-
-
-},{"../user.coffee":5}],8:[function(require,module,exports){
-(function() {
-  var PageView, templates;
-
-  PageView = require('./base.coffee');
-
-  templates = require('../templates');
-
-  module.exports = PageView.extend({
-    pageTitle: 'Home',
-    template: templates.pages.home
-  });
-
-}).call(this);
-
-
-},{"./base.coffee":20,"../templates":1}],11:[function(require,module,exports){
-(function() {
-  var PageView, templates;
-
-  PageView = require('./base.coffee');
-
-  templates = require('../templates');
-
-  module.exports = PageView.extend({
-    pageTitle: 'Login',
-    template: templates.pages.login,
-    events: {
-      'submit .form-signin': 'submit'
-    },
-    submit: function(event) {
-      var email, pass, rmbr;
-      event.preventDefault();
-      email = $('#emailAddress').val();
-      pass = $('#password').val();
-      rmbr = $('#rememberMe').is(':checked');
-      return app.login(email, pass, rmbr, function(err, correct) {
-        if (err != null) {
-          return console.log("Error logging in: " + err);
-        }
-        if (!correct) {
-          return $('#failedLoginAlert').removeClass('hidden');
-        }
-      });
-    }
-  });
-
-}).call(this);
-
-
-},{"./base.coffee":20,"../templates":1}],17:[function(require,module,exports){
+},{"../user.coffee":5}],18:[function(require,module,exports){
 (function() {
   var Base;
 
@@ -452,7 +346,119 @@
 }).call(this);
 
 
-},{"../base.coffee":6}],14:[function(require,module,exports){
+},{"../base.coffee":6}],21:[function(require,module,exports){
+(function() {
+  var User;
+
+  User = require('../user.coffee');
+
+  module.exports = User.extend({
+    typeAttribute: 'adminUserModel',
+    urlRoot: '/api/admin/users'
+  });
+
+}).call(this);
+
+
+},{"../user.coffee":5}],9:[function(require,module,exports){
+(function() {
+  var PageView, templates;
+
+  PageView = require('./base.coffee');
+
+  templates = require('../templates');
+
+  module.exports = PageView.extend({
+    pageTitle: 'About',
+    template: templates.pages.about
+  });
+
+}).call(this);
+
+
+},{"./base.coffee":22,"../templates":1}],12:[function(require,module,exports){
+(function() {
+  var PageView, templates;
+
+  PageView = require('./base.coffee');
+
+  templates = require('../templates');
+
+  module.exports = PageView.extend({
+    pageTitle: 'Login',
+    template: templates.pages['404']
+  });
+
+}).call(this);
+
+
+},{"./base.coffee":22,"../templates":1}],8:[function(require,module,exports){
+(function() {
+  var PageView, templates;
+
+  PageView = require('./base.coffee');
+
+  templates = require('../templates');
+
+  module.exports = PageView.extend({
+    pageTitle: 'Home',
+    template: templates.pages.home
+  });
+
+}).call(this);
+
+
+},{"./base.coffee":22,"../templates":1}],11:[function(require,module,exports){
+(function() {
+  var PageView, templates;
+
+  PageView = require('./base.coffee');
+
+  templates = require('../templates');
+
+  module.exports = PageView.extend({
+    pageTitle: 'Login',
+    template: templates.pages.login,
+    events: {
+      'submit .form-signin': 'submit'
+    },
+    submit: function(event) {
+      var email, pass, rmbr;
+      event.preventDefault();
+      email = $('#emailAddress').val();
+      pass = $('#password').val();
+      rmbr = $('#rememberMe').is(':checked');
+      return app.login(email, pass, rmbr, function(err, correct) {
+        if (err != null) {
+          return console.log("Error logging in: " + err);
+        }
+        if (!correct) {
+          return $('#failedLoginAlert').removeClass('hidden');
+        }
+      });
+    }
+  });
+
+}).call(this);
+
+
+},{"./base.coffee":22,"../templates":1}],10:[function(require,module,exports){
+(function() {
+  var PageView, templates;
+
+  PageView = require('./base.coffee');
+
+  templates = require('../templates');
+
+  module.exports = PageView.extend({
+    pageTitle: 'Contact',
+    template: templates.pages.contact
+  });
+
+}).call(this);
+
+
+},{"./base.coffee":22,"../templates":1}],14:[function(require,module,exports){
 (function() {
   var Account, AccountForm, PageView, templates;
 
@@ -490,7 +496,7 @@
 }).call(this);
 
 
-},{"../../base.coffee":20,"../../../forms/account.coffee":22,"../../../models/admin/account.coffee":17,"../../../templates":1}],15:[function(require,module,exports){
+},{"../../base.coffee":22,"../../../forms/account.coffee":23,"../../../models/admin/account.coffee":18,"../../../templates":1}],16:[function(require,module,exports){
 (function() {
   var PageView, templates;
 
@@ -506,7 +512,71 @@
 }).call(this);
 
 
-},{"../../base.coffee":20,"../../../templates":1}],23:[function(require,module,exports){
+},{"../../base.coffee":22,"../../../templates":1}],15:[function(require,module,exports){
+(function() {
+  var Account, AccountForm, PageView, templates;
+
+  PageView = require('../../base.coffee');
+
+  templates = require('../../../templates');
+
+  AccountForm = require('../../../forms/account.coffee');
+
+  Account = require('../../../models/admin/account.coffee');
+
+  module.exports = PageView.extend({
+    pageTitle: 'Accounts Administration',
+    template: templates.pages.admin.accounts.edit,
+    initialize: function(spec) {
+      var url,
+        _this = this;
+      url = '/api/admin/accounts/lookup/' + spec.account;
+      return $.get(url, function(raw) {
+        var temp;
+        temp = new Account(raw);
+        return temp.fetch({
+          success: function(model) {
+            return _this.model = model;
+          }
+        });
+      });
+    },
+    events: {
+      'click [data-hook=delete]': 'removeAccount'
+    },
+    removeAccount: function() {
+      return this.model.destroy({
+        success: app.navigate('admin/accounts')
+      });
+    },
+    subviews: {
+      form: {
+        container: 'form',
+        waitFor: 'model',
+        prepareView: function(el) {
+          var model;
+          model = this.model;
+          return new AccountForm({
+            el: el,
+            model: this.model,
+            submitCallback: function(data) {
+              return model.save(data, {
+                wait: true,
+                success: function() {
+                  return app.navigate('admin/accounts');
+                }
+              });
+            }
+          });
+        }
+      }
+    }
+  });
+
+}).call(this);
+
+
+},{"../../base.coffee":22,"../../../forms/account.coffee":23,"../../../models/admin/account.coffee":18,"../../../templates":1}],24:[function(require,module,exports){
 (function(){(function() {
   var Router, pages;
 
@@ -558,8 +628,10 @@
     adminAccountCreate: function() {
       return this.trigger('page', new pages.admin.accounts.Create());
     },
-    adminAccountEdit: function(accountName) {
-      return console.log('Edit -> ' + accountName);
+    adminAccountEdit: function(account) {
+      return this.trigger('page', new pages.admin.accounts.Edit({
+        account: account
+      }));
     },
     adminUsers: function() {
       return this.trigger('page', new pages.admin.users.Users());
@@ -589,7 +661,7 @@
 
 
 })()
-},{"./pages/index.coffee":7,"ampersand-router":24}],25:[function(require,module,exports){
+},{"./pages/index.coffee":7,"ampersand-router":25}],26:[function(require,module,exports){
 (function() {
   var Cookies, Current, MainView, Router, bootstrap, configureAjax, domReady, templates;
 
@@ -724,7 +796,7 @@
 }).call(this);
 
 
-},{"./router.coffee":23,"./views/main.coffee":26,"./models/current.coffee":27,"./templates":1,"cookies-js":28,"jquery":29,"domready":30,"bootstrap":31}],28:[function(require,module,exports){
+},{"./router.coffee":24,"./views/main.coffee":27,"./models/current.coffee":28,"./templates":1,"cookies-js":29,"jquery":30,"domready":31,"bootstrap":32}],29:[function(require,module,exports){
 (function(){/*
  * Cookies.js - 1.1.0
  * https://github.com/ScottHamper/Cookies
@@ -882,7 +954,7 @@
     }
 })(typeof window === 'undefined' ? this : window);
 })()
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function(){/*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -10075,7 +10147,7 @@ return jQuery;
 }));
 
 })()
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -10127,7 +10199,7 @@ return jQuery;
 }).call(this);
 
 
-},{"ampersand-rest-collection":32}],33:[function(require,module,exports){
+},{"ampersand-rest-collection":33}],34:[function(require,module,exports){
 (function() {
   var State;
 
@@ -10144,7 +10216,129 @@ return jQuery;
 }).call(this);
 
 
-},{"ampersand-state":34}],27:[function(require,module,exports){
+},{"ampersand-state":35}],23:[function(require,module,exports){
+(function() {
+  var FormView, InputView, UsersView;
+
+  FormView = require('ampersand-form-view');
+
+  InputView = require('./controls/input.coffee');
+
+  UsersView = require('./controls/users.coffee');
+
+  module.exports = FormView.extend({
+    fields: function() {
+      return [
+        new InputView({
+          label: 'Account Name',
+          name: 'name',
+          value: this.model && this.model.name,
+          placeholder: 'Account Name',
+          parent: this,
+          tests: [
+            function(val) {
+              if (val.length < 6) {
+                return "Name must be at least 6 characters long.";
+              }
+            }
+          ]
+        }), new InputView({
+          label: 'Url Name',
+          name: 'urlName',
+          value: this.model && this.model.urlName,
+          placeholder: 'Url Name',
+          parent: this,
+          tests: [
+            function(val) {
+              if (val.length < 6) {
+                return "Url name must be at least 6 characters long.";
+              }
+            }, function(val) {
+              if (!val.match(/^[a-zA-Z]+$/)) {
+                return "Url name must only contain the characters A-Z and a-z.";
+              }
+            }
+          ]
+        }), new InputView({
+          label: 'Address',
+          name: 'address',
+          value: this.model && this.model.address,
+          placeholder: 'Address',
+          parent: this
+        }), new InputView({
+          label: 'Contact',
+          name: 'contact',
+          value: this.model && this.model.contact,
+          placeholder: 'contact',
+          parent: this
+        }), new InputView({
+          label: 'Notes',
+          name: 'notes',
+          value: this.model && this.model.notes,
+          placeholder: 'Notes',
+          parent: this
+        }), new UsersView({
+          label: 'Account Users',
+          name: 'users',
+          value: this.model && this.model.users,
+          placeholder: 'Select users for account...',
+          url: '/api/admin/users',
+          parent: this,
+          required: false
+        }), new UsersView({
+          label: 'Account Administrators',
+          name: 'admins',
+          value: this.model && this.model.admins,
+          placeholder: 'Select admins for account...',
+          url: '/api/admin/users',
+          parent: this
+        })
+      ];
+    }
+  });
+
+}).call(this);
+
+
+},{"./controls/users.coffee":36,"./controls/input.coffee":37,"ampersand-form-view":38}],6:[function(require,module,exports){
+(function() {
+  var Model;
+
+  Model = require('ampersand-model');
+
+  module.exports = Model.extend({
+    idAttribute: 'id',
+    typeAttribute: 'baseModel',
+    props: {
+      id: 'any'
+    },
+    ajaxConfig: function() {
+      return {
+        headers: {
+          token: app.serverToken
+        }
+      };
+    }
+  });
+
+}).call(this);
+
+
+},{"ampersand-model":39}],22:[function(require,module,exports){
+(function() {
+  var View;
+
+  View = require('ampersand-view');
+
+  module.exports = View.extend({
+    registerKeyboardShortcuts: function() {},
+    unregisterKeyboardShortcuts: function() {}
+  });
+
+}).call(this);
+
+
+},{"ampersand-view":40}],28:[function(require,module,exports){
 (function() {
   var Account, Collection, OtherAccountsCollection, State, User;
 
@@ -10235,125 +10429,7 @@ return jQuery;
 }).call(this);
 
 
-},{"./user.coffee":5,"./account/account.coffee":18,"ampersand-rest-collection":32,"ampersand-state":34}],22:[function(require,module,exports){
-(function() {
-  var FormView, InputView, UsersView;
-
-  FormView = require('ampersand-form-view');
-
-  InputView = require('./controls/input.coffee');
-
-  UsersView = require('./controls/users.coffee');
-
-  module.exports = FormView.extend({
-    fields: function() {
-      return [
-        new InputView({
-          label: 'Account Name',
-          name: 'name',
-          value: this.model && this.model.name,
-          placeholder: 'Account Name',
-          parent: this,
-          tests: [
-            function(val) {
-              if (val.length < 6) {
-                return "Name must be at least 6 characters long.";
-              }
-            }
-          ]
-        }), new InputView({
-          label: 'Url Name',
-          name: 'urlName',
-          value: this.model && this.model.urlName,
-          placeholder: 'Url Name',
-          parent: this,
-          tests: [
-            function(val) {
-              if (val.length < 6) {
-                return "Url name must be at least 6 characters long.";
-              }
-            }, function(val) {
-              if (!val.match(/^[a-zA-Z]+$/)) {
-                return "Url name must only contain the characters A-Z and a-z.";
-              }
-            }
-          ]
-        }), new InputView({
-          label: 'Address',
-          name: 'address',
-          value: this.model && this.model.address,
-          placeholder: 'Address',
-          parent: this
-        }), new InputView({
-          label: 'Contact',
-          name: 'contact',
-          value: this.model && this.model.contact,
-          placeholder: 'contact',
-          parent: this
-        }), new InputView({
-          label: 'Notes',
-          name: 'notes',
-          value: this.model && this.model.notes,
-          placeholder: 'Notes',
-          parent: this
-        }), new UsersView({
-          label: 'Account Users',
-          name: 'users',
-          value: this.model && this.model.users,
-          placeholder: 'Select users for account...',
-          url: '/api/admin/users',
-          parent: this,
-          required: false
-        }), new UsersView({
-          label: 'Account Administrators',
-          name: 'admins',
-          value: this.model && this.model.admins,
-          placeholder: 'Select admins for account...',
-          url: '/api/admin/users',
-          parent: this
-        })
-      ];
-    }
-  });
-
-}).call(this);
-
-
-},{"./controls/input.coffee":35,"./controls/users.coffee":36,"ampersand-form-view":37}],20:[function(require,module,exports){
-(function() {
-  var View;
-
-  View = require('ampersand-view');
-
-  module.exports = View.extend({
-    registerKeyboardShortcuts: function() {},
-    unregisterKeyboardShortcuts: function() {}
-  });
-
-}).call(this);
-
-
-},{"ampersand-view":38}],6:[function(require,module,exports){
-(function() {
-  var Model;
-
-  Model = require('ampersand-model');
-
-  module.exports = Model.extend({
-    typeAttribute: 'baseModel',
-    ajaxConfig: function() {
-      return {
-        headers: {
-          token: app.serverToken
-        }
-      };
-    }
-  });
-
-}).call(this);
-
-
-},{"ampersand-model":39}],26:[function(require,module,exports){
+},{"./account/account.coffee":19,"./user.coffee":5,"ampersand-state":35,"ampersand-rest-collection":33}],27:[function(require,module,exports){
 (function() {
   var NavbarView, View, ViewSwitcher, templates;
 
@@ -10405,7 +10481,41 @@ return jQuery;
 }).call(this);
 
 
-},{"./navbar.coffee":40,"../templates":1,"ampersand-view":38,"ampersand-view-switcher":41}],42:[function(require,module,exports){
+},{"./navbar.coffee":41,"../templates":1,"ampersand-view-switcher":42,"ampersand-view":40}],41:[function(require,module,exports){
+(function() {
+  var View, templates;
+
+  View = require('ampersand-view');
+
+  templates = require('../templates');
+
+  module.exports = View.extend({
+    template: templates.navbar,
+    initialize: function() {
+      this.listenTo(app.view, 'login', this.logon);
+      return this.listenTo(app.view, 'logout', this.logoff);
+    },
+    render: function() {
+      this.renderWithTemplate();
+      if (app.me.isLoggedIn) {
+        this.logon();
+      } else {
+        this.logoff();
+      }
+      return this;
+    },
+    logoff: function() {
+      return this.query('.navbar-content').innerHTML = templates.includes.navbar.loggedout();
+    },
+    logon: function() {
+      return this.query('.navbar-content').innerHTML = templates.includes.navbar.loggedin(app.me);
+    }
+  });
+
+}).call(this);
+
+
+},{"../templates":1,"ampersand-view":40}],43:[function(require,module,exports){
 (function() {
   var View, templates;
 
@@ -10510,41 +10620,7 @@ return jQuery;
 }).call(this);
 
 
-},{"../templates":1,"ampersand-view":38}],40:[function(require,module,exports){
-(function() {
-  var View, templates;
-
-  View = require('ampersand-view');
-
-  templates = require('../templates');
-
-  module.exports = View.extend({
-    template: templates.navbar,
-    initialize: function() {
-      this.listenTo(app.view, 'login', this.logon);
-      return this.listenTo(app.view, 'logout', this.logoff);
-    },
-    render: function() {
-      this.renderWithTemplate();
-      if (app.me.isLoggedIn) {
-        this.logon();
-      } else {
-        this.logoff();
-      }
-      return this;
-    },
-    logoff: function() {
-      return this.query('.navbar-content').innerHTML = templates.includes.navbar.loggedout();
-    },
-    logon: function() {
-      return this.query('.navbar-content').innerHTML = templates.includes.navbar.loggedin(app.me);
-    }
-  });
-
-}).call(this);
-
-
-},{"../templates":1,"ampersand-view":38}],41:[function(require,module,exports){
+},{"../templates":1,"ampersand-view":40}],42:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 function ViewSwitcher(el, options) {
     options || (options = {});
@@ -10667,7 +10743,7 @@ ViewSwitcher.prototype._hide = function (view, cb) {
 
 module.exports = ViewSwitcher;
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function() {
   var InputView, templates;
 
@@ -10682,7 +10758,7 @@ module.exports = ViewSwitcher;
 }).call(this);
 
 
-},{"../../templates":1,"ampersand-input-view":43}],31:[function(require,module,exports){
+},{"../../templates":1,"ampersand-input-view":44}],32:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -10696,7 +10772,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/button.js":44,"../../js/alert.js":45,"../../js/collapse.js":46,"../../js/carousel.js":47,"../../js/dropdown.js":48,"../../js/transition.js":49,"../../js/popover.js":50,"../../js/modal.js":51,"../../js/scrollspy.js":52,"../../js/tab.js":53,"../../js/tooltip.js":54,"../../js/affix.js":55}],56:[function(require,module,exports){
+},{"../../js/transition.js":45,"../../js/alert.js":46,"../../js/button.js":47,"../../js/carousel.js":48,"../../js/collapse.js":49,"../../js/dropdown.js":50,"../../js/modal.js":51,"../../js/tooltip.js":52,"../../js/popover.js":53,"../../js/scrollspy.js":54,"../../js/tab.js":55,"../../js/affix.js":56}],57:[function(require,module,exports){
 (function() {
   var View, templates;
 
@@ -10733,7 +10809,7 @@ require('../../js/affix.js')
 }).call(this);
 
 
-},{"../../templates":1,"ampersand-view":38}],36:[function(require,module,exports){
+},{"../../templates":1,"ampersand-view":40}],36:[function(require,module,exports){
 (function() {
   var View, select2, templates;
 
@@ -10785,17 +10861,36 @@ require('../../js/affix.js')
           cache: true
         },
         initSelection: function(element, callback) {
-          return console.log(element);
+          var arr, query, userIds;
+          arr = element[0].value;
+          userIds = arr.split(',');
+          query = {
+            _id: {
+              $in: userIds
+            }
+          };
+          return $.get(_this.url, query, function(response) {
+            var results, user, _i, _len;
+            results = [];
+            for (_i = 0, _len = response.length; _i < _len; _i++) {
+              user = response[_i];
+              results.push({
+                id: user.id,
+                text: user.name
+              });
+            }
+            return callback(results);
+          });
         }
       };
       this.input = this.query('input');
+      this.setValue(this.inputValue, !this.required);
       $(this.input).select2(config);
       $(this.input).on('change', function() {
         return _this.handleInputChanged();
       });
       this.handleTypeChange();
       this.initInputBindings();
-      this.setValue(this.inputValue, !this.required);
       return this;
     },
     setValue: function(value, skipValidation) {
@@ -10823,7 +10918,164 @@ require('../../js/affix.js')
 }).call(this);
 
 
-},{"../../templates":1,"ampersand-input-view":43,"select2":57}],44:[function(require,module,exports){
+},{"../../templates":1,"ampersand-input-view":44,"select2":58}],45:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.1
+ * http://getbootstrap.com/javascript/#transitions
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+  // ============================================================
+
+  function transitionEnd() {
+    var el = document.createElement('bootstrap')
+
+    var transEndEventNames = {
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
+    }
+
+    for (var name in transEndEventNames) {
+      if (el.style[name] !== undefined) {
+        return { end: transEndEventNames[name] }
+      }
+    }
+
+    return false // explicit for ie8 (  ._.)
+  }
+
+  // http://blog.alexmaccaw.com/css-transitions
+  $.fn.emulateTransitionEnd = function (duration) {
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
+    setTimeout(callback, duration)
+    return this
+  }
+
+  $(function () {
+    $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
+  })
+
+}(jQuery);
+
+},{}],46:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: alert.js v3.3.1
+ * http://getbootstrap.com/javascript/#alerts
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // ALERT CLASS DEFINITION
+  // ======================
+
+  var dismiss = '[data-dismiss="alert"]'
+  var Alert   = function (el) {
+    $(el).on('click', dismiss, this.close)
+  }
+
+  Alert.VERSION = '3.3.1'
+
+  Alert.TRANSITION_DURATION = 150
+
+  Alert.prototype.close = function (e) {
+    var $this    = $(this)
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = $(selector)
+
+    if (e) e.preventDefault()
+
+    if (!$parent.length) {
+      $parent = $this.closest('.alert')
+    }
+
+    $parent.trigger(e = $.Event('close.bs.alert'))
+
+    if (e.isDefaultPrevented()) return
+
+    $parent.removeClass('in')
+
+    function removeElement() {
+      // detach from parent, fire event then clean up data
+      $parent.detach().trigger('closed.bs.alert').remove()
+    }
+
+    $.support.transition && $parent.hasClass('fade') ?
+      $parent
+        .one('bsTransitionEnd', removeElement)
+        .emulateTransitionEnd(Alert.TRANSITION_DURATION) :
+      removeElement()
+  }
+
+
+  // ALERT PLUGIN DEFINITION
+  // =======================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.alert')
+
+      if (!data) $this.data('bs.alert', (data = new Alert(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.alert
+
+  $.fn.alert             = Plugin
+  $.fn.alert.Constructor = Alert
+
+
+  // ALERT NO CONFLICT
+  // =================
+
+  $.fn.alert.noConflict = function () {
+    $.fn.alert = old
+    return this
+  }
+
+
+  // ALERT DATA-API
+  // ==============
+
+  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+
+}(jQuery);
+
+},{}],47:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.1
  * http://getbootstrap.com/javascript/#buttons
@@ -10941,316 +11193,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],45:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: alert.js v3.3.1
- * http://getbootstrap.com/javascript/#alerts
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // ALERT CLASS DEFINITION
-  // ======================
-
-  var dismiss = '[data-dismiss="alert"]'
-  var Alert   = function (el) {
-    $(el).on('click', dismiss, this.close)
-  }
-
-  Alert.VERSION = '3.3.1'
-
-  Alert.TRANSITION_DURATION = 150
-
-  Alert.prototype.close = function (e) {
-    var $this    = $(this)
-    var selector = $this.attr('data-target')
-
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
-    }
-
-    var $parent = $(selector)
-
-    if (e) e.preventDefault()
-
-    if (!$parent.length) {
-      $parent = $this.closest('.alert')
-    }
-
-    $parent.trigger(e = $.Event('close.bs.alert'))
-
-    if (e.isDefaultPrevented()) return
-
-    $parent.removeClass('in')
-
-    function removeElement() {
-      // detach from parent, fire event then clean up data
-      $parent.detach().trigger('closed.bs.alert').remove()
-    }
-
-    $.support.transition && $parent.hasClass('fade') ?
-      $parent
-        .one('bsTransitionEnd', removeElement)
-        .emulateTransitionEnd(Alert.TRANSITION_DURATION) :
-      removeElement()
-  }
-
-
-  // ALERT PLUGIN DEFINITION
-  // =======================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.alert')
-
-      if (!data) $this.data('bs.alert', (data = new Alert(this)))
-      if (typeof option == 'string') data[option].call($this)
-    })
-  }
-
-  var old = $.fn.alert
-
-  $.fn.alert             = Plugin
-  $.fn.alert.Constructor = Alert
-
-
-  // ALERT NO CONFLICT
-  // =================
-
-  $.fn.alert.noConflict = function () {
-    $.fn.alert = old
-    return this
-  }
-
-
-  // ALERT DATA-API
-  // ==============
-
-  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
-
-}(jQuery);
-
-},{}],46:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: collapse.js v3.3.1
- * http://getbootstrap.com/javascript/#collapse
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // COLLAPSE PUBLIC CLASS DEFINITION
-  // ================================
-
-  var Collapse = function (element, options) {
-    this.$element      = $(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
-    this.$trigger      = $(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
-    this.transitioning = null
-
-    if (this.options.parent) {
-      this.$parent = this.getParent()
-    } else {
-      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
-    }
-
-    if (this.options.toggle) this.toggle()
-  }
-
-  Collapse.VERSION  = '3.3.1'
-
-  Collapse.TRANSITION_DURATION = 350
-
-  Collapse.DEFAULTS = {
-    toggle: true,
-    trigger: '[data-toggle="collapse"]'
-  }
-
-  Collapse.prototype.dimension = function () {
-    var hasWidth = this.$element.hasClass('width')
-    return hasWidth ? 'width' : 'height'
-  }
-
-  Collapse.prototype.show = function () {
-    if (this.transitioning || this.$element.hasClass('in')) return
-
-    var activesData
-    var actives = this.$parent && this.$parent.find('> .panel').children('.in, .collapsing')
-
-    if (actives && actives.length) {
-      activesData = actives.data('bs.collapse')
-      if (activesData && activesData.transitioning) return
-    }
-
-    var startEvent = $.Event('show.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    if (actives && actives.length) {
-      Plugin.call(actives, 'hide')
-      activesData || actives.data('bs.collapse', null)
-    }
-
-    var dimension = this.dimension()
-
-    this.$element
-      .removeClass('collapse')
-      .addClass('collapsing')[dimension](0)
-      .attr('aria-expanded', true)
-
-    this.$trigger
-      .removeClass('collapsed')
-      .attr('aria-expanded', true)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse in')[dimension]('')
-      this.transitioning = 0
-      this.$element
-        .trigger('shown.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
-
-    this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
-  }
-
-  Collapse.prototype.hide = function () {
-    if (this.transitioning || !this.$element.hasClass('in')) return
-
-    var startEvent = $.Event('hide.bs.collapse')
-    this.$element.trigger(startEvent)
-    if (startEvent.isDefaultPrevented()) return
-
-    var dimension = this.dimension()
-
-    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
-
-    this.$element
-      .addClass('collapsing')
-      .removeClass('collapse in')
-      .attr('aria-expanded', false)
-
-    this.$trigger
-      .addClass('collapsed')
-      .attr('aria-expanded', false)
-
-    this.transitioning = 1
-
-    var complete = function () {
-      this.transitioning = 0
-      this.$element
-        .removeClass('collapsing')
-        .addClass('collapse')
-        .trigger('hidden.bs.collapse')
-    }
-
-    if (!$.support.transition) return complete.call(this)
-
-    this.$element
-      [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
-      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
-  }
-
-  Collapse.prototype.toggle = function () {
-    this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  }
-
-  Collapse.prototype.getParent = function () {
-    return $(this.options.parent)
-      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
-        var $element = $(element)
-        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
-      }, this))
-      .end()
-  }
-
-  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
-    var isOpen = $element.hasClass('in')
-
-    $element.attr('aria-expanded', isOpen)
-    $trigger
-      .toggleClass('collapsed', !isOpen)
-      .attr('aria-expanded', isOpen)
-  }
-
-  function getTargetFromTrigger($trigger) {
-    var href
-    var target = $trigger.attr('data-target')
-      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
-
-    return $(target)
-  }
-
-
-  // COLLAPSE PLUGIN DEFINITION
-  // ==========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
-
-      if (!data && options.toggle && option == 'show') options.toggle = false
-      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.collapse
-
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
-
-
-  // COLLAPSE NO CONFLICT
-  // ====================
-
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
-    return this
-  }
-
-
-  // COLLAPSE DATA-API
-  // =================
-
-  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
-    var $this   = $(this)
-
-    if (!$this.attr('data-target')) e.preventDefault()
-
-    var $target = getTargetFromTrigger($this)
-    var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
-
-    Plugin.call($target, option)
-  })
-
-}(jQuery);
-
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.1
  * http://getbootstrap.com/javascript/#carousel
@@ -11492,7 +11435,220 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: collapse.js v3.3.1
+ * http://getbootstrap.com/javascript/#collapse
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // COLLAPSE PUBLIC CLASS DEFINITION
+  // ================================
+
+  var Collapse = function (element, options) {
+    this.$element      = $(element)
+    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.$trigger      = $(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
+    this.transitioning = null
+
+    if (this.options.parent) {
+      this.$parent = this.getParent()
+    } else {
+      this.addAriaAndCollapsedClass(this.$element, this.$trigger)
+    }
+
+    if (this.options.toggle) this.toggle()
+  }
+
+  Collapse.VERSION  = '3.3.1'
+
+  Collapse.TRANSITION_DURATION = 350
+
+  Collapse.DEFAULTS = {
+    toggle: true,
+    trigger: '[data-toggle="collapse"]'
+  }
+
+  Collapse.prototype.dimension = function () {
+    var hasWidth = this.$element.hasClass('width')
+    return hasWidth ? 'width' : 'height'
+  }
+
+  Collapse.prototype.show = function () {
+    if (this.transitioning || this.$element.hasClass('in')) return
+
+    var activesData
+    var actives = this.$parent && this.$parent.find('> .panel').children('.in, .collapsing')
+
+    if (actives && actives.length) {
+      activesData = actives.data('bs.collapse')
+      if (activesData && activesData.transitioning) return
+    }
+
+    var startEvent = $.Event('show.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    if (actives && actives.length) {
+      Plugin.call(actives, 'hide')
+      activesData || actives.data('bs.collapse', null)
+    }
+
+    var dimension = this.dimension()
+
+    this.$element
+      .removeClass('collapse')
+      .addClass('collapsing')[dimension](0)
+      .attr('aria-expanded', true)
+
+    this.$trigger
+      .removeClass('collapsed')
+      .attr('aria-expanded', true)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse in')[dimension]('')
+      this.transitioning = 0
+      this.$element
+        .trigger('shown.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+
+    this.$element
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
+  }
+
+  Collapse.prototype.hide = function () {
+    if (this.transitioning || !this.$element.hasClass('in')) return
+
+    var startEvent = $.Event('hide.bs.collapse')
+    this.$element.trigger(startEvent)
+    if (startEvent.isDefaultPrevented()) return
+
+    var dimension = this.dimension()
+
+    this.$element[dimension](this.$element[dimension]())[0].offsetHeight
+
+    this.$element
+      .addClass('collapsing')
+      .removeClass('collapse in')
+      .attr('aria-expanded', false)
+
+    this.$trigger
+      .addClass('collapsed')
+      .attr('aria-expanded', false)
+
+    this.transitioning = 1
+
+    var complete = function () {
+      this.transitioning = 0
+      this.$element
+        .removeClass('collapsing')
+        .addClass('collapse')
+        .trigger('hidden.bs.collapse')
+    }
+
+    if (!$.support.transition) return complete.call(this)
+
+    this.$element
+      [dimension](0)
+      .one('bsTransitionEnd', $.proxy(complete, this))
+      .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
+  }
+
+  Collapse.prototype.toggle = function () {
+    this[this.$element.hasClass('in') ? 'hide' : 'show']()
+  }
+
+  Collapse.prototype.getParent = function () {
+    return $(this.options.parent)
+      .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
+      .each($.proxy(function (i, element) {
+        var $element = $(element)
+        this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
+      }, this))
+      .end()
+  }
+
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
+    var isOpen = $element.hasClass('in')
+
+    $element.attr('aria-expanded', isOpen)
+    $trigger
+      .toggleClass('collapsed', !isOpen)
+      .attr('aria-expanded', isOpen)
+  }
+
+  function getTargetFromTrigger($trigger) {
+    var href
+    var target = $trigger.attr('data-target')
+      || (href = $trigger.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') // strip for ie7
+
+    return $(target)
+  }
+
+
+  // COLLAPSE PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.collapse')
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+
+      if (!data && options.toggle && option == 'show') options.toggle = false
+      if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.collapse
+
+  $.fn.collapse             = Plugin
+  $.fn.collapse.Constructor = Collapse
+
+
+  // COLLAPSE NO CONFLICT
+  // ====================
+
+  $.fn.collapse.noConflict = function () {
+    $.fn.collapse = old
+    return this
+  }
+
+
+  // COLLAPSE DATA-API
+  // =================
+
+  $(document).on('click.bs.collapse.data-api', '[data-toggle="collapse"]', function (e) {
+    var $this   = $(this)
+
+    if (!$this.attr('data-target')) e.preventDefault()
+
+    var $target = getTargetFromTrigger($this)
+    var data    = $target.data('bs.collapse')
+    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
+
+    Plugin.call($target, option)
+  })
+
+}(jQuery);
+
+},{}],50:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.1
  * http://getbootstrap.com/javascript/#dropdowns
@@ -11652,188 +11808,6 @@ require('../../js/affix.js')
     .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
     .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
     .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
-
-}(jQuery);
-
-},{}],49:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: transition.js v3.3.1
- * http://getbootstrap.com/javascript/#transitions
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
-
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
-
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
-    }
-
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
-    }
-
-    return false // explicit for ie8 (  ._.)
-  }
-
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
-
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
-
-}(jQuery);
-
-},{}],50:[function(require,module,exports){
-/* ========================================================================
- * Bootstrap: popover.js v3.3.1
- * http://getbootstrap.com/javascript/#popovers
- * ========================================================================
- * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
-
-
-+function ($) {
-  'use strict';
-
-  // POPOVER PUBLIC CLASS DEFINITION
-  // ===============================
-
-  var Popover = function (element, options) {
-    this.init('popover', element, options)
-  }
-
-  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
-
-  Popover.VERSION  = '3.3.1'
-
-  Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
-    placement: 'right',
-    trigger: 'click',
-    content: '',
-    template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-  })
-
-
-  // NOTE: POPOVER EXTENDS tooltip.js
-  // ================================
-
-  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
-
-  Popover.prototype.constructor = Popover
-
-  Popover.prototype.getDefaults = function () {
-    return Popover.DEFAULTS
-  }
-
-  Popover.prototype.setContent = function () {
-    var $tip    = this.tip()
-    var title   = this.getTitle()
-    var content = this.getContent()
-
-    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-    $tip.find('.popover-content').children().detach().end()[ // we use append for html objects to maintain js events
-      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
-    ](content)
-
-    $tip.removeClass('fade top bottom left right in')
-
-    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
-    // this manually by checking the contents.
-    if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
-  }
-
-  Popover.prototype.hasContent = function () {
-    return this.getTitle() || this.getContent()
-  }
-
-  Popover.prototype.getContent = function () {
-    var $e = this.$element
-    var o  = this.options
-
-    return $e.attr('data-content')
-      || (typeof o.content == 'function' ?
-            o.content.call($e[0]) :
-            o.content)
-  }
-
-  Popover.prototype.arrow = function () {
-    return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
-  }
-
-  Popover.prototype.tip = function () {
-    if (!this.$tip) this.$tip = $(this.options.template)
-    return this.$tip
-  }
-
-
-  // POPOVER PLUGIN DEFINITION
-  // =========================
-
-  function Plugin(option) {
-    return this.each(function () {
-      var $this    = $(this)
-      var data     = $this.data('bs.popover')
-      var options  = typeof option == 'object' && option
-      var selector = options && options.selector
-
-      if (!data && option == 'destroy') return
-      if (selector) {
-        if (!data) $this.data('bs.popover', (data = {}))
-        if (!data[selector]) data[selector] = new Popover(this, options)
-      } else {
-        if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
-      }
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  var old = $.fn.popover
-
-  $.fn.popover             = Plugin
-  $.fn.popover.Constructor = Popover
-
-
-  // POPOVER NO CONFLICT
-  // ===================
-
-  $.fn.popover.noConflict = function () {
-    $.fn.popover = old
-    return this
-  }
 
 }(jQuery);
 
@@ -12163,10 +12137,10 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],52:[function(require,module,exports){
-(function(){/* ========================================================================
- * Bootstrap: scrollspy.js v3.3.1
- * http://getbootstrap.com/javascript/#scrollspy
+},{}],53:[function(require,module,exports){
+/* ========================================================================
+ * Bootstrap: popover.js v3.3.1
+ * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -12176,172 +12150,115 @@ require('../../js/affix.js')
 +function ($) {
   'use strict';
 
-  // SCROLLSPY CLASS DEFINITION
-  // ==========================
+  // POPOVER PUBLIC CLASS DEFINITION
+  // ===============================
 
-  function ScrollSpy(element, options) {
-    var process  = $.proxy(this.process, this)
-
-    this.$body          = $('body')
-    this.$scrollElement = $(element).is('body') ? $(window) : $(element)
-    this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
-    this.selector       = (this.options.target || '') + ' .nav li > a'
-    this.offsets        = []
-    this.targets        = []
-    this.activeTarget   = null
-    this.scrollHeight   = 0
-
-    this.$scrollElement.on('scroll.bs.scrollspy', process)
-    this.refresh()
-    this.process()
+  var Popover = function (element, options) {
+    this.init('popover', element, options)
   }
 
-  ScrollSpy.VERSION  = '3.3.1'
+  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  ScrollSpy.DEFAULTS = {
-    offset: 10
+  Popover.VERSION  = '3.3.1'
+
+  Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
+    placement: 'right',
+    trigger: 'click',
+    content: '',
+    template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+  })
+
+
+  // NOTE: POPOVER EXTENDS tooltip.js
+  // ================================
+
+  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
+
+  Popover.prototype.constructor = Popover
+
+  Popover.prototype.getDefaults = function () {
+    return Popover.DEFAULTS
   }
 
-  ScrollSpy.prototype.getScrollHeight = function () {
-    return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+  Popover.prototype.setContent = function () {
+    var $tip    = this.tip()
+    var title   = this.getTitle()
+    var content = this.getContent()
+
+    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+    $tip.find('.popover-content').children().detach().end()[ // we use append for html objects to maintain js events
+      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
+    ](content)
+
+    $tip.removeClass('fade top bottom left right in')
+
+    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
+    // this manually by checking the contents.
+    if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
   }
 
-  ScrollSpy.prototype.refresh = function () {
-    var offsetMethod = 'offset'
-    var offsetBase   = 0
-
-    if (!$.isWindow(this.$scrollElement[0])) {
-      offsetMethod = 'position'
-      offsetBase   = this.$scrollElement.scrollTop()
-    }
-
-    this.offsets = []
-    this.targets = []
-    this.scrollHeight = this.getScrollHeight()
-
-    var self     = this
-
-    this.$body
-      .find(this.selector)
-      .map(function () {
-        var $el   = $(this)
-        var href  = $el.data('target') || $el.attr('href')
-        var $href = /^#./.test(href) && $(href)
-
-        return ($href
-          && $href.length
-          && $href.is(':visible')
-          && [[$href[offsetMethod]().top + offsetBase, href]]) || null
-      })
-      .sort(function (a, b) { return a[0] - b[0] })
-      .each(function () {
-        self.offsets.push(this[0])
-        self.targets.push(this[1])
-      })
+  Popover.prototype.hasContent = function () {
+    return this.getTitle() || this.getContent()
   }
 
-  ScrollSpy.prototype.process = function () {
-    var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
-    var scrollHeight = this.getScrollHeight()
-    var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
-    var offsets      = this.offsets
-    var targets      = this.targets
-    var activeTarget = this.activeTarget
-    var i
+  Popover.prototype.getContent = function () {
+    var $e = this.$element
+    var o  = this.options
 
-    if (this.scrollHeight != scrollHeight) {
-      this.refresh()
-    }
-
-    if (scrollTop >= maxScroll) {
-      return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
-    }
-
-    if (activeTarget && scrollTop < offsets[0]) {
-      this.activeTarget = null
-      return this.clear()
-    }
-
-    for (i = offsets.length; i--;) {
-      activeTarget != targets[i]
-        && scrollTop >= offsets[i]
-        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
-        && this.activate(targets[i])
-    }
+    return $e.attr('data-content')
+      || (typeof o.content == 'function' ?
+            o.content.call($e[0]) :
+            o.content)
   }
 
-  ScrollSpy.prototype.activate = function (target) {
-    this.activeTarget = target
-
-    this.clear()
-
-    var selector = this.selector +
-        '[data-target="' + target + '"],' +
-        this.selector + '[href="' + target + '"]'
-
-    var active = $(selector)
-      .parents('li')
-      .addClass('active')
-
-    if (active.parent('.dropdown-menu').length) {
-      active = active
-        .closest('li.dropdown')
-        .addClass('active')
-    }
-
-    active.trigger('activate.bs.scrollspy')
+  Popover.prototype.arrow = function () {
+    return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
   }
 
-  ScrollSpy.prototype.clear = function () {
-    $(this.selector)
-      .parentsUntil(this.options.target, '.active')
-      .removeClass('active')
+  Popover.prototype.tip = function () {
+    if (!this.$tip) this.$tip = $(this.options.template)
+    return this.$tip
   }
 
 
-  // SCROLLSPY PLUGIN DEFINITION
-  // ===========================
+  // POPOVER PLUGIN DEFINITION
+  // =========================
 
   function Plugin(option) {
     return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.scrollspy')
-      var options = typeof option == 'object' && option
+      var $this    = $(this)
+      var data     = $this.data('bs.popover')
+      var options  = typeof option == 'object' && option
+      var selector = options && options.selector
 
-      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (!data && option == 'destroy') return
+      if (selector) {
+        if (!data) $this.data('bs.popover', (data = {}))
+        if (!data[selector]) data[selector] = new Popover(this, options)
+      } else {
+        if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
+      }
       if (typeof option == 'string') data[option]()
     })
   }
 
-  var old = $.fn.scrollspy
+  var old = $.fn.popover
 
-  $.fn.scrollspy             = Plugin
-  $.fn.scrollspy.Constructor = ScrollSpy
+  $.fn.popover             = Plugin
+  $.fn.popover.Constructor = Popover
 
 
-  // SCROLLSPY NO CONFLICT
-  // =====================
+  // POPOVER NO CONFLICT
+  // ===================
 
-  $.fn.scrollspy.noConflict = function () {
-    $.fn.scrollspy = old
+  $.fn.popover.noConflict = function () {
+    $.fn.popover = old
     return this
   }
 
-
-  // SCROLLSPY DATA-API
-  // ==================
-
-  $(window).on('load.bs.scrollspy.data-api', function () {
-    $('[data-spy="scroll"]').each(function () {
-      var $spy = $(this)
-      Plugin.call($spy, $spy.data())
-    })
-  })
-
 }(jQuery);
 
-})()
-},{}],54:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.1
  * http://getbootstrap.com/javascript/#tooltip
@@ -12821,7 +12738,185 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
+(function(){/* ========================================================================
+ * Bootstrap: scrollspy.js v3.3.1
+ * http://getbootstrap.com/javascript/#scrollspy
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // SCROLLSPY CLASS DEFINITION
+  // ==========================
+
+  function ScrollSpy(element, options) {
+    var process  = $.proxy(this.process, this)
+
+    this.$body          = $('body')
+    this.$scrollElement = $(element).is('body') ? $(window) : $(element)
+    this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+    this.selector       = (this.options.target || '') + ' .nav li > a'
+    this.offsets        = []
+    this.targets        = []
+    this.activeTarget   = null
+    this.scrollHeight   = 0
+
+    this.$scrollElement.on('scroll.bs.scrollspy', process)
+    this.refresh()
+    this.process()
+  }
+
+  ScrollSpy.VERSION  = '3.3.1'
+
+  ScrollSpy.DEFAULTS = {
+    offset: 10
+  }
+
+  ScrollSpy.prototype.getScrollHeight = function () {
+    return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+  }
+
+  ScrollSpy.prototype.refresh = function () {
+    var offsetMethod = 'offset'
+    var offsetBase   = 0
+
+    if (!$.isWindow(this.$scrollElement[0])) {
+      offsetMethod = 'position'
+      offsetBase   = this.$scrollElement.scrollTop()
+    }
+
+    this.offsets = []
+    this.targets = []
+    this.scrollHeight = this.getScrollHeight()
+
+    var self     = this
+
+    this.$body
+      .find(this.selector)
+      .map(function () {
+        var $el   = $(this)
+        var href  = $el.data('target') || $el.attr('href')
+        var $href = /^#./.test(href) && $(href)
+
+        return ($href
+          && $href.length
+          && $href.is(':visible')
+          && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+      })
+      .sort(function (a, b) { return a[0] - b[0] })
+      .each(function () {
+        self.offsets.push(this[0])
+        self.targets.push(this[1])
+      })
+  }
+
+  ScrollSpy.prototype.process = function () {
+    var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+    var scrollHeight = this.getScrollHeight()
+    var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+    var offsets      = this.offsets
+    var targets      = this.targets
+    var activeTarget = this.activeTarget
+    var i
+
+    if (this.scrollHeight != scrollHeight) {
+      this.refresh()
+    }
+
+    if (scrollTop >= maxScroll) {
+      return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+    }
+
+    if (activeTarget && scrollTop < offsets[0]) {
+      this.activeTarget = null
+      return this.clear()
+    }
+
+    for (i = offsets.length; i--;) {
+      activeTarget != targets[i]
+        && scrollTop >= offsets[i]
+        && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+        && this.activate(targets[i])
+    }
+  }
+
+  ScrollSpy.prototype.activate = function (target) {
+    this.activeTarget = target
+
+    this.clear()
+
+    var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+    var active = $(selector)
+      .parents('li')
+      .addClass('active')
+
+    if (active.parent('.dropdown-menu').length) {
+      active = active
+        .closest('li.dropdown')
+        .addClass('active')
+    }
+
+    active.trigger('activate.bs.scrollspy')
+  }
+
+  ScrollSpy.prototype.clear = function () {
+    $(this.selector)
+      .parentsUntil(this.options.target, '.active')
+      .removeClass('active')
+  }
+
+
+  // SCROLLSPY PLUGIN DEFINITION
+  // ===========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.scrollspy')
+      var options = typeof option == 'object' && option
+
+      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.scrollspy
+
+  $.fn.scrollspy             = Plugin
+  $.fn.scrollspy.Constructor = ScrollSpy
+
+
+  // SCROLLSPY NO CONFLICT
+  // =====================
+
+  $.fn.scrollspy.noConflict = function () {
+    $.fn.scrollspy = old
+    return this
+  }
+
+
+  // SCROLLSPY DATA-API
+  // ==================
+
+  $(window).on('load.bs.scrollspy.data-api', function () {
+    $('[data-spy="scroll"]').each(function () {
+      var $spy = $(this)
+      Plugin.call($spy, $spy.data())
+    })
+  })
+
+}(jQuery);
+
+})()
+},{}],55:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.1
  * http://getbootstrap.com/javascript/#tabs
@@ -12976,7 +13071,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.1
  * http://getbootstrap.com/javascript/#affix
@@ -13140,7 +13235,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var classExtend = require('ampersand-class-extend');
 var Events = require('backbone-events-standalone');
@@ -13256,7 +13351,7 @@ _.extend(Router.prototype, Events, {
 
 Router.extend = classExtend;
 
-},{"./ampersand-history":58,"underscore":59,"ampersand-class-extend":60,"backbone-events-standalone":61}],13:[function(require,module,exports){
+},{"./ampersand-history":59,"underscore":60,"ampersand-class-extend":61,"backbone-events-standalone":62}],13:[function(require,module,exports){
 (function() {
   var AccountView, AccountsCollection, PageView, PagerState, PagerView, State, after, templates;
 
@@ -13314,7 +13409,7 @@ Router.extend = classExtend;
 }).call(this);
 
 
-},{"../../base.coffee":20,"../../../views/items/account.coffee":56,"../../../collections/admin/accounts.coffee":16,"../../../configurations/pager.coffee":33,"../../../views/pager.coffee":42,"../../../templates":1,"ampersand-state":34}],59:[function(require,module,exports){
+},{"../../base.coffee":22,"../../../collections/admin/accounts.coffee":17,"../../../views/items/account.coffee":57,"../../../views/pager.coffee":43,"../../../configurations/pager.coffee":34,"../../../templates":1,"ampersand-state":35}],60:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -14660,7 +14755,7 @@ Router.extend = classExtend;
 }).call(this);
 
 })()
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var BBEvents = require('backbone-events-standalone');
 var extend = require('extend-object');
@@ -14823,7 +14918,7 @@ FormView.extend = function (obj) {
 
 module.exports = FormView;
 
-},{"extend-object":62,"backbone-events-standalone":63}],62:[function(require,module,exports){
+},{"extend-object":63,"backbone-events-standalone":64}],63:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -14840,10 +14935,7 @@ module.exports = function(obj) {
     return obj;
 };
 
-},{}],61:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":64}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var Events = require('backbone-events-standalone');
 var _ = require('underscore');
 
@@ -15067,7 +15159,10 @@ _.extend(History.prototype, Events, {
 
 module.exports = new History();
 
-},{"underscore":59,"backbone-events-standalone":61}],43:[function(require,module,exports){
+},{"underscore":60,"backbone-events-standalone":62}],62:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":65}],44:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var View = require('ampersand-view');
 
@@ -15280,7 +15375,7 @@ module.exports = View.extend({
     }
 });
 
-},{"ampersand-view":65}],64:[function(require,module,exports){
+},{"ampersand-view":66}],65:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -15549,7 +15644,7 @@ module.exports = View.extend({
 })(this);
 
 })()
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var objectExtend = require('extend-object');
 
 
@@ -15599,10 +15694,10 @@ var extend = function(protoProps) {
 // Expose the extend function
 module.exports = extend;
 
-},{"extend-object":66}],63:[function(require,module,exports){
+},{"extend-object":67}],64:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":67}],68:[function(require,module,exports){
+},{"./backbone-events-standalone":68}],69:[function(require,module,exports){
 module.exports = function arrayNext(array, currentItem) {
     var len = array.length;
     var newIndex = array.indexOf(currentItem) + 1;
@@ -15610,7 +15705,7 @@ module.exports = function arrayNext(array, currentItem) {
     return array[newIndex];
 };
 
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 (function(){
 /**
  * Expose `parse`.
@@ -15720,7 +15815,7 @@ function parse(html, doc) {
 }
 
 })()
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -17066,57 +17161,7 @@ function parse(html, doc) {
 }).call(this);
 
 })()
-},{}],32:[function(require,module,exports){
-;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-rest-collection"] = window.ampersand["ampersand-rest-collection"] || [];  window.ampersand["ampersand-rest-collection"].push("2.0.4");}
-var Collection = require('ampersand-collection');
-var underscoreMixin = require('ampersand-collection-underscore-mixin');
-var restMixins = require('ampersand-collection-rest-mixin');
-
-
-module.exports = Collection.extend(underscoreMixin, restMixins);
-
-},{"ampersand-collection-underscore-mixin":71,"ampersand-collection-rest-mixin":72,"ampersand-collection":73}],74:[function(require,module,exports){
-function KeyTreeStore() {
-    this.storage = {};
-}
-
-// add an object to the store
-KeyTreeStore.prototype.add = function (keypath, obj) {
-    var arr = this.storage[keypath] || (this.storage[keypath] = []);
-    arr.push(obj);
-};
-
-// remove an object
-KeyTreeStore.prototype.remove = function (obj) {
-    var path, arr;
-    for (path in this.storage) {
-        arr = this.storage[path];
-        arr.some(function (item, index) {
-            if (item === obj) {
-                arr.splice(index, 1);
-                return true;
-            }
-        });
-    }
-};
-
-// grab all relevant objects
-KeyTreeStore.prototype.get = function (keypath) {
-    var res = [];
-    var key;
-
-    for (key in this.storage) {
-        if (keypath === key || key.indexOf(keypath + '.') === 0) {
-            res = res.concat(this.storage[key]);
-        }
-    }
-
-    return res;
-};
-
-module.exports = KeyTreeStore;
-
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-state"] = window.ampersand["ampersand-state"] || [];  window.ampersand["ampersand-state"].push("4.4.0");}
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -17891,7 +17936,57 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"array-next":68,"backbone-events-standalone":75,"key-tree-store":74,"underscore":76}],39:[function(require,module,exports){
+},{"array-next":69,"backbone-events-standalone":72,"key-tree-store":73,"underscore":74}],33:[function(require,module,exports){
+;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-rest-collection"] = window.ampersand["ampersand-rest-collection"] || [];  window.ampersand["ampersand-rest-collection"].push("2.0.4");}
+var Collection = require('ampersand-collection');
+var underscoreMixin = require('ampersand-collection-underscore-mixin');
+var restMixins = require('ampersand-collection-rest-mixin');
+
+
+module.exports = Collection.extend(underscoreMixin, restMixins);
+
+},{"ampersand-collection-underscore-mixin":75,"ampersand-collection-rest-mixin":76,"ampersand-collection":77}],73:[function(require,module,exports){
+function KeyTreeStore() {
+    this.storage = {};
+}
+
+// add an object to the store
+KeyTreeStore.prototype.add = function (keypath, obj) {
+    var arr = this.storage[keypath] || (this.storage[keypath] = []);
+    arr.push(obj);
+};
+
+// remove an object
+KeyTreeStore.prototype.remove = function (obj) {
+    var path, arr;
+    for (path in this.storage) {
+        arr = this.storage[path];
+        arr.some(function (item, index) {
+            if (item === obj) {
+                arr.splice(index, 1);
+                return true;
+            }
+        });
+    }
+};
+
+// grab all relevant objects
+KeyTreeStore.prototype.get = function (keypath) {
+    var res = [];
+    var key;
+
+    for (key in this.storage) {
+        if (keypath === key || key.indexOf(keypath + '.') === 0) {
+            res = res.concat(this.storage[key]);
+        }
+    }
+
+    return res;
+};
+
+module.exports = KeyTreeStore;
+
+},{}],39:[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-model"] = window.ampersand["ampersand-model"] || [];  window.ampersand["ampersand-model"].push("4.0.3");}
 var State = require('ampersand-state');
 var _ = require('underscore');
@@ -18025,7 +18120,7 @@ var wrapError = function (model, options) {
 
 module.exports = Model;
 
-},{"ampersand-state":77,"ampersand-sync":78,"underscore":76}],38:[function(require,module,exports){
+},{"ampersand-state":78,"ampersand-sync":79,"underscore":74}],40:[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-view"] = window.ampersand["ampersand-view"] || [];  window.ampersand["ampersand-view"].push("7.1.6");}
 var State = require('ampersand-state');
 var CollectionView = require('ampersand-collection-view');
@@ -18394,7 +18489,7 @@ _.extend(View.prototype, {
 View.extend = BaseState.extend;
 module.exports = View;
 
-},{"domify":69,"ampersand-collection-view":79,"underscore":70,"ampersand-dom-bindings":80,"get-object-path":81,"events-mixin":82,"matches-selector":83,"ampersand-state":34}],83:[function(require,module,exports){
+},{"ampersand-collection-view":80,"domify":70,"underscore":71,"ampersand-dom-bindings":81,"get-object-path":82,"events-mixin":83,"matches-selector":84,"ampersand-state":35}],84:[function(require,module,exports){
 'use strict';
 
 var proto = Element.prototype;
@@ -18424,7 +18519,7 @@ function match(el, selector) {
   }
   return false;
 }
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -18441,7 +18536,7 @@ module.exports = function(obj) {
     return obj;
 };
 
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -18710,7 +18805,7 @@ module.exports = function(obj) {
 })(this);
 
 })()
-},{}],76:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 (function(){//     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -20128,7 +20223,7 @@ module.exports = function(obj) {
 }.call(this));
 
 })()
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function(){/*
 Copyright 2012 Igor Vaynberg
 
@@ -23639,10 +23734,10 @@ the specific language governing permissions and limitations under the Apache Lic
 }(jQuery));
 
 })()
-},{}],75:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":85}],85:[function(require,module,exports){
+},{"./backbone-events-standalone":86}],86:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -23911,7 +24006,7 @@ module.exports = require('./backbone-events-standalone');
 })(this);
 
 })()
-},{}],72:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var sync = require('ampersand-sync');
 var extend = require('extend-object');
@@ -24013,7 +24108,7 @@ module.exports = {
     }
 };
 
-},{"ampersand-sync":86,"extend-object":87}],78:[function(require,module,exports){
+},{"extend-object":87,"ampersand-sync":88}],79:[function(require,module,exports){
 var _ = require('underscore');
 var xhr = require('xhr');
 var qs = require('qs');
@@ -24134,10 +24229,7 @@ var methodMap = {
     'read':   'GET'
 };
 
-},{"underscore":88,"qs":89,"xhr":90}],57:[function(require,module,exports){
-$ = jQuery = require('jquery');
-module.exports = require('./select2.js');
-},{"./select2.js":84,"jquery":29}],77:[function(require,module,exports){
+},{"underscore":89,"qs":90,"xhr":91}],78:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -24912,7 +25004,10 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"underscore":91,"array-next":92,"key-tree-store":93,"backbone-events-standalone":94}],81:[function(require,module,exports){
+},{"underscore":92,"array-next":93,"key-tree-store":94,"backbone-events-standalone":95}],58:[function(require,module,exports){
+$ = jQuery = require('jquery');
+module.exports = require('./select2.js');
+},{"./select2.js":85,"jquery":30}],82:[function(require,module,exports){
 module.exports = get;
 
 function get (context, path) {
@@ -24935,7 +25030,7 @@ function get (context, path) {
   return result;
 }
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -25115,7 +25210,24 @@ function parse(event) {
   }
 }
 
-},{"delegate-events":95,"component-event":96}],88:[function(require,module,exports){
+},{"delegate-events":96,"component-event":97}],87:[function(require,module,exports){
+var arr = [];
+var each = arr.forEach;
+var slice = arr.slice;
+
+
+module.exports = function(obj) {
+    each.call(slice.call(arguments, 1), function(source) {
+        if (source) {
+            for (var prop in source) {
+                obj[prop] = source[prop];
+            }
+        }
+    });
+    return obj;
+};
+
+},{}],89:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -26461,32 +26573,7 @@ function parse(event) {
 }).call(this);
 
 })()
-},{}],87:[function(require,module,exports){
-var arr = [];
-var each = arr.forEach;
-var slice = arr.slice;
-
-
-module.exports = function(obj) {
-    each.call(slice.call(arguments, 1), function(source) {
-        if (source) {
-            for (var prop in source) {
-                obj[prop] = source[prop];
-            }
-        }
-    });
-    return obj;
-};
-
 },{}],92:[function(require,module,exports){
-module.exports = function arrayNext(array, currentItem) {
-    var len = array.length;
-    var newIndex = array.indexOf(currentItem) + 1;
-    if (newIndex > (len - 1)) newIndex = 0;
-    return array[newIndex];
-};
-
-},{}],91:[function(require,module,exports){
 (function(){//     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -27905,6 +27992,14 @@ module.exports = function arrayNext(array, currentItem) {
 
 })()
 },{}],93:[function(require,module,exports){
+module.exports = function arrayNext(array, currentItem) {
+    var len = array.length;
+    var newIndex = array.indexOf(currentItem) + 1;
+    if (newIndex > (len - 1)) newIndex = 0;
+    return array[newIndex];
+};
+
+},{}],94:[function(require,module,exports){
 function KeyTreeStore() {
     this.storage = {};
 }
@@ -27945,7 +28040,7 @@ KeyTreeStore.prototype.get = function (keypath) {
 
 module.exports = KeyTreeStore;
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -28095,7 +28190,7 @@ CollectionView.extend = ampExtend;
 
 module.exports = CollectionView;
 
-},{"ampersand-class-extend":97,"backbone-events-standalone":98,"underscore":70}],99:[function(require,module,exports){
+},{"ampersand-class-extend":98,"backbone-events-standalone":99,"underscore":71}],100:[function(require,module,exports){
 var slice = Array.prototype.slice;
 
 // our constructor
@@ -28177,7 +28272,7 @@ KeyTreeStore.prototype.run = function (keypath, context) {
 
 module.exports = KeyTreeStore;
 
-},{}],73:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 var BackboneEvents = require('backbone-events-standalone');
 var classExtend = require('ampersand-class-extend');
 var isArray = require('is-array');
@@ -28530,7 +28625,7 @@ Collection.extend = classExtend;
 
 module.exports = Collection;
 
-},{"ampersand-class-extend":100,"extend-object":101,"backbone-events-standalone":102,"is-array":103}],96:[function(require,module,exports){
+},{"ampersand-class-extend":101,"extend-object":102,"backbone-events-standalone":103,"is-array":104}],97:[function(require,module,exports){
 var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
     prefix = bind !== 'addEventListener' ? 'on' : '';
@@ -28566,7 +28661,7 @@ exports.unbind = function(el, type, fn, capture){
   el[unbind](prefix + type, fn, capture || false);
   return fn;
 };
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 ;if (typeof window !== "undefined") {  window.ampersand = window.ampersand || {};  window.ampersand["ampersand-view"] = window.ampersand["ampersand-view"] || [];  window.ampersand["ampersand-view"].push("7.1.6");}
 var State = require('ampersand-state');
 var CollectionView = require('ampersand-collection-view');
@@ -28935,7 +29030,7 @@ _.extend(View.prototype, {
 View.extend = BaseState.extend;
 module.exports = View;
 
-},{"ampersand-collection-view":104,"ampersand-state":105,"underscore":106,"domify":107,"ampersand-dom-bindings":108,"get-object-path":109,"events-mixin":110,"matches-selector":111}],101:[function(require,module,exports){
+},{"ampersand-state":105,"ampersand-collection-view":106,"domify":107,"underscore":108,"ampersand-dom-bindings":109,"get-object-path":110,"events-mixin":111,"matches-selector":112}],102:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -28952,42 +29047,7 @@ module.exports = function(obj) {
     return obj;
 };
 
-},{}],103:[function(require,module,exports){
-
-/**
- * isArray
- */
-
-var isArray = Array.isArray;
-
-/**
- * toString
- */
-
-var str = Object.prototype.toString;
-
-/**
- * Whether or not the given `val`
- * is an array.
- *
- * example:
- *
- *        isArray([]);
- *        // > true
- *        isArray(arguments);
- *        // > false
- *        isArray('');
- *        // > false
- *
- * @param {mixed} val
- * @return {bool}
- */
-
-module.exports = isArray || function (val) {
-  return !! val && '[object Array]' == str.call(val);
-};
-
-},{}],71:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var slice = [].slice;
@@ -29054,7 +29114,346 @@ mixins.pluck = function (attr) {
 
 module.exports = mixins;
 
-},{"underscore":76}],106:[function(require,module,exports){
+},{"underscore":74}],104:[function(require,module,exports){
+
+/**
+ * isArray
+ */
+
+var isArray = Array.isArray;
+
+/**
+ * toString
+ */
+
+var str = Object.prototype.toString;
+
+/**
+ * Whether or not the given `val`
+ * is an array.
+ *
+ * example:
+ *
+ *        isArray([]);
+ *        // > true
+ *        isArray(arguments);
+ *        // > false
+ *        isArray('');
+ *        // > false
+ *
+ * @param {mixed} val
+ * @return {bool}
+ */
+
+module.exports = isArray || function (val) {
+  return !! val && '[object Array]' == str.call(val);
+};
+
+},{}],107:[function(require,module,exports){
+(function(){
+/**
+ * Expose `parse`.
+ */
+
+module.exports = parse;
+
+/**
+ * Tests for browser support.
+ */
+
+var div = document.createElement('div');
+// Setup
+div.innerHTML = '  <link/><table></table><a href="/a">a</a><input type="checkbox"/>';
+// Make sure that link elements get serialized correctly by innerHTML
+// This requires a wrapper element in IE
+var innerHTMLBug = !div.getElementsByTagName('link').length;
+div = undefined;
+
+/**
+ * Wrap map from jquery.
+ */
+
+var map = {
+  legend: [1, '<fieldset>', '</fieldset>'],
+  tr: [2, '<table><tbody>', '</tbody></table>'],
+  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
+  // for script/link/style tags to work in IE6-8, you have to wrap
+  // in a div with a non-whitespace character in front, ha!
+  _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
+};
+
+map.td =
+map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+
+map.option =
+map.optgroup = [1, '<select multiple="multiple">', '</select>'];
+
+map.thead =
+map.tbody =
+map.colgroup =
+map.caption =
+map.tfoot = [1, '<table>', '</table>'];
+
+map.text =
+map.circle =
+map.ellipse =
+map.line =
+map.path =
+map.polygon =
+map.polyline =
+map.rect = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
+
+/**
+ * Parse `html` and return a DOM Node instance, which could be a TextNode,
+ * HTML DOM Node of some kind (<div> for example), or a DocumentFragment
+ * instance, depending on the contents of the `html` string.
+ *
+ * @param {String} html - HTML string to "domify"
+ * @param {Document} doc - The `document` instance to create the Node for
+ * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance
+ * @api private
+ */
+
+function parse(html, doc) {
+  if ('string' != typeof html) throw new TypeError('String expected');
+
+  // default to the global `document` object
+  if (!doc) doc = document;
+
+  // tag name
+  var m = /<([\w:]+)/.exec(html);
+  if (!m) return doc.createTextNode(html);
+
+  html = html.replace(/^\s+|\s+$/g, ''); // Remove leading/trailing whitespace
+
+  var tag = m[1];
+
+  // body support
+  if (tag == 'body') {
+    var el = doc.createElement('html');
+    el.innerHTML = html;
+    return el.removeChild(el.lastChild);
+  }
+
+  // wrap map
+  var wrap = map[tag] || map._default;
+  var depth = wrap[0];
+  var prefix = wrap[1];
+  var suffix = wrap[2];
+  var el = doc.createElement('div');
+  el.innerHTML = prefix + html + suffix;
+  while (depth--) el = el.lastChild;
+
+  // one element
+  if (el.firstChild == el.lastChild) {
+    return el.removeChild(el.firstChild);
+  }
+
+  // several elements
+  var fragment = doc.createDocumentFragment();
+  while (el.firstChild) {
+    fragment.appendChild(el.removeChild(el.firstChild));
+  }
+
+  return fragment;
+}
+
+})()
+},{}],81:[function(require,module,exports){
+/*$AMPERSAND_VERSION*/
+var Store = require('key-tree-store');
+var dom = require('ampersand-dom');
+var matchesSelector = require('matches-selector');
+
+
+// returns a key-tree-store of functions
+// that can be applied to any element/model.
+
+// all resulting functions should be called
+// like func(el, value, lastKeyName)
+module.exports = function (bindings, context) {
+    var store = new Store();
+    var key, current;
+
+    for (key in bindings) {
+        current = bindings[key];
+        if (typeof current === 'string') {
+            store.add(key, getBindingFunc({
+                type: 'text',
+                selector: current
+            }));
+        } else if (current.forEach) {
+            current.forEach(function (binding) {
+                store.add(key, getBindingFunc(binding, context));
+            });
+        } else {
+            store.add(key, getBindingFunc(current, context));
+        }
+    }
+
+    return store;
+};
+
+
+var slice = Array.prototype.slice;
+
+function getMatches(el, selector) {
+    if (selector === '') return [el];
+    var matches = [];
+    if (matchesSelector(el, selector)) matches.push(el);
+    return matches.concat(slice.call(el.querySelectorAll(selector)));
+}
+
+function makeArray(val) {
+    return Array.isArray(val) ? val : [val];
+}
+
+function getBindingFunc(binding, context) {
+    var type = binding.type || 'text';
+    var isCustomBinding = typeof type === 'function';
+    var selector = (function () {
+        if (typeof binding.selector === 'string') {
+            return binding.selector;
+        } else if (binding.hook) {
+            return '[data-hook~="' + binding.hook + '"]';
+        } else {
+            return '';
+        }
+    })();
+    var yes = binding.yes;
+    var no = binding.no;
+    var hasYesNo = !!(yes || no);
+
+    // storage variable for previous if relevant
+    var previousValue;
+
+    if (isCustomBinding) {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                type.call(context, match, value, previousValue);
+            });
+            previousValue = value;
+        };
+    } else if (type === 'text') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.text(match, value);
+            });
+        };
+    } else if (type === 'class') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.switchClass(match, previousValue, value);
+            });
+            previousValue = value;
+        };
+    } else if (type === 'attribute') {
+        if (!binding.name) throw Error('attribute bindings must have a "name"');
+        return function (el, value) {
+            var names = makeArray(binding.name);
+            getMatches(el, selector).forEach(function (match) {
+                names.forEach(function (name) {
+                    dom.setAttribute(match, name, value);
+                });
+            });
+            previousValue = value;
+        };
+    } else if (type === 'value') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                if (!value && value !== 0) value = '';
+                // only apply bindings if element is not currently focused
+                if (document.activeElement !== match) match.value = value;
+            });
+            previousValue = value;
+        };
+    } else if (type === 'booleanClass') {
+        // if there's a `no` case this is actually a switch
+        if (hasYesNo) {
+            yes = makeArray(yes || '');
+            no = makeArray(no || '');
+            return function (el, value) {
+                var prevClass = value ? no : yes;
+                var newClass = value ? yes : no;
+                getMatches(el, selector).forEach(function (match) {
+                    prevClass.forEach(function (pc) {
+                        dom.removeClass(match, pc);
+                    });
+                    newClass.forEach(function (nc) {
+                        dom.addClass(match, nc);
+                    });
+                });
+            };
+        } else {
+            return function (el, value, keyName) {
+                var name = makeArray(binding.name || keyName);
+                getMatches(el, selector).forEach(function (match) {
+                    name.forEach(function (className) {
+                        dom[value ? 'addClass' : 'removeClass'](match, className);
+                    });
+                });
+            };
+        }
+    } else if (type === 'booleanAttribute') {
+        return function (el, value, keyName) {
+            var name = makeArray(binding.name || keyName);
+            getMatches(el, selector).forEach(function (match) {
+                name.forEach(function (attr) {
+                    dom[value ? 'addAttribute' : 'removeAttribute'](match, attr);
+                });
+            });
+        };
+    } else if (type === 'toggle') {
+        // this doesn't require a selector since we can pass yes/no selectors
+        if (hasYesNo) {
+            return function (el, value) {
+                getMatches(el, yes).forEach(function (match) {
+                    dom[value ? 'show' : 'hide'](match);
+                });
+                getMatches(el, no).forEach(function (match) {
+                    dom[value ? 'hide' : 'show'](match);
+                });
+            };
+        } else {
+            return function (el, value) {
+                getMatches(el, selector).forEach(function (match) {
+                    dom[value ? 'show' : 'hide'](match);
+                });
+            };
+        }
+    } else if (type === 'switch') {
+        if (!binding.cases) throw Error('switch bindings must have "cases"');
+        return function (el, value) {
+            for (var item in binding.cases) {
+                getMatches(el, binding.cases[item]).forEach(function (match) {
+                    dom[value === item ? 'show' : 'hide'](match);
+                });
+            }
+        };
+    } else if (type === 'innerHTML') {
+        return function (el, value) {
+            getMatches(el, selector).forEach(function (match) {
+                dom.html(match, value);
+            });
+        };
+    } else if (type === 'switchClass') {
+        if (!binding.cases) throw Error('switchClass bindings must have "cases"');
+        return function (el, value, keyName) {
+            var name = makeArray(binding.name || keyName);
+            for (var item in binding.cases) {
+                getMatches(el, binding.cases[item]).forEach(function (match) {
+                    name.forEach(function (className) {
+                        dom[value === item ? 'addClass' : 'removeClass'](match, className);
+                    });
+                });
+            }
+        };
+    } else {
+        throw new Error('no such binding type: ' + type);
+    }
+}
+
+},{"key-tree-store":100,"matches-selector":84,"ampersand-dom":113}],108:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -30400,117 +30799,7 @@ module.exports = mixins;
 }).call(this);
 
 })()
-},{}],107:[function(require,module,exports){
-(function(){
-/**
- * Expose `parse`.
- */
-
-module.exports = parse;
-
-/**
- * Tests for browser support.
- */
-
-var div = document.createElement('div');
-// Setup
-div.innerHTML = '  <link/><table></table><a href="/a">a</a><input type="checkbox"/>';
-// Make sure that link elements get serialized correctly by innerHTML
-// This requires a wrapper element in IE
-var innerHTMLBug = !div.getElementsByTagName('link').length;
-div = undefined;
-
-/**
- * Wrap map from jquery.
- */
-
-var map = {
-  legend: [1, '<fieldset>', '</fieldset>'],
-  tr: [2, '<table><tbody>', '</tbody></table>'],
-  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
-  // for script/link/style tags to work in IE6-8, you have to wrap
-  // in a div with a non-whitespace character in front, ha!
-  _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
-};
-
-map.td =
-map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
-
-map.option =
-map.optgroup = [1, '<select multiple="multiple">', '</select>'];
-
-map.thead =
-map.tbody =
-map.colgroup =
-map.caption =
-map.tfoot = [1, '<table>', '</table>'];
-
-map.text =
-map.circle =
-map.ellipse =
-map.line =
-map.path =
-map.polygon =
-map.polyline =
-map.rect = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
-
-/**
- * Parse `html` and return a DOM Node instance, which could be a TextNode,
- * HTML DOM Node of some kind (<div> for example), or a DocumentFragment
- * instance, depending on the contents of the `html` string.
- *
- * @param {String} html - HTML string to "domify"
- * @param {Document} doc - The `document` instance to create the Node for
- * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance
- * @api private
- */
-
-function parse(html, doc) {
-  if ('string' != typeof html) throw new TypeError('String expected');
-
-  // default to the global `document` object
-  if (!doc) doc = document;
-
-  // tag name
-  var m = /<([\w:]+)/.exec(html);
-  if (!m) return doc.createTextNode(html);
-
-  html = html.replace(/^\s+|\s+$/g, ''); // Remove leading/trailing whitespace
-
-  var tag = m[1];
-
-  // body support
-  if (tag == 'body') {
-    var el = doc.createElement('html');
-    el.innerHTML = html;
-    return el.removeChild(el.lastChild);
-  }
-
-  // wrap map
-  var wrap = map[tag] || map._default;
-  var depth = wrap[0];
-  var prefix = wrap[1];
-  var suffix = wrap[2];
-  var el = doc.createElement('div');
-  el.innerHTML = prefix + html + suffix;
-  while (depth--) el = el.lastChild;
-
-  // one element
-  if (el.firstChild == el.lastChild) {
-    return el.removeChild(el.firstChild);
-  }
-
-  // several elements
-  var fragment = doc.createDocumentFragment();
-  while (el.firstChild) {
-    fragment.appendChild(el.removeChild(el.firstChild));
-  }
-
-  return fragment;
-}
-
-})()
-},{}],109:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = get;
 
 function get (context, path) {
@@ -30533,201 +30822,13 @@ function get (context, path) {
   return result;
 }
 
-},{}],80:[function(require,module,exports){
-/*$AMPERSAND_VERSION*/
-var Store = require('key-tree-store');
-var dom = require('ampersand-dom');
-var matchesSelector = require('matches-selector');
+},{}],99:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
 
+},{"./backbone-events-standalone":114}],95:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
 
-// returns a key-tree-store of functions
-// that can be applied to any element/model.
-
-// all resulting functions should be called
-// like func(el, value, lastKeyName)
-module.exports = function (bindings, context) {
-    var store = new Store();
-    var key, current;
-
-    for (key in bindings) {
-        current = bindings[key];
-        if (typeof current === 'string') {
-            store.add(key, getBindingFunc({
-                type: 'text',
-                selector: current
-            }));
-        } else if (current.forEach) {
-            current.forEach(function (binding) {
-                store.add(key, getBindingFunc(binding, context));
-            });
-        } else {
-            store.add(key, getBindingFunc(current, context));
-        }
-    }
-
-    return store;
-};
-
-
-var slice = Array.prototype.slice;
-
-function getMatches(el, selector) {
-    if (selector === '') return [el];
-    var matches = [];
-    if (matchesSelector(el, selector)) matches.push(el);
-    return matches.concat(slice.call(el.querySelectorAll(selector)));
-}
-
-function makeArray(val) {
-    return Array.isArray(val) ? val : [val];
-}
-
-function getBindingFunc(binding, context) {
-    var type = binding.type || 'text';
-    var isCustomBinding = typeof type === 'function';
-    var selector = (function () {
-        if (typeof binding.selector === 'string') {
-            return binding.selector;
-        } else if (binding.hook) {
-            return '[data-hook~="' + binding.hook + '"]';
-        } else {
-            return '';
-        }
-    })();
-    var yes = binding.yes;
-    var no = binding.no;
-    var hasYesNo = !!(yes || no);
-
-    // storage variable for previous if relevant
-    var previousValue;
-
-    if (isCustomBinding) {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                type.call(context, match, value, previousValue);
-            });
-            previousValue = value;
-        };
-    } else if (type === 'text') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.text(match, value);
-            });
-        };
-    } else if (type === 'class') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.switchClass(match, previousValue, value);
-            });
-            previousValue = value;
-        };
-    } else if (type === 'attribute') {
-        if (!binding.name) throw Error('attribute bindings must have a "name"');
-        return function (el, value) {
-            var names = makeArray(binding.name);
-            getMatches(el, selector).forEach(function (match) {
-                names.forEach(function (name) {
-                    dom.setAttribute(match, name, value);
-                });
-            });
-            previousValue = value;
-        };
-    } else if (type === 'value') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                if (!value && value !== 0) value = '';
-                // only apply bindings if element is not currently focused
-                if (document.activeElement !== match) match.value = value;
-            });
-            previousValue = value;
-        };
-    } else if (type === 'booleanClass') {
-        // if there's a `no` case this is actually a switch
-        if (hasYesNo) {
-            yes = makeArray(yes || '');
-            no = makeArray(no || '');
-            return function (el, value) {
-                var prevClass = value ? no : yes;
-                var newClass = value ? yes : no;
-                getMatches(el, selector).forEach(function (match) {
-                    prevClass.forEach(function (pc) {
-                        dom.removeClass(match, pc);
-                    });
-                    newClass.forEach(function (nc) {
-                        dom.addClass(match, nc);
-                    });
-                });
-            };
-        } else {
-            return function (el, value, keyName) {
-                var name = makeArray(binding.name || keyName);
-                getMatches(el, selector).forEach(function (match) {
-                    name.forEach(function (className) {
-                        dom[value ? 'addClass' : 'removeClass'](match, className);
-                    });
-                });
-            };
-        }
-    } else if (type === 'booleanAttribute') {
-        return function (el, value, keyName) {
-            var name = makeArray(binding.name || keyName);
-            getMatches(el, selector).forEach(function (match) {
-                name.forEach(function (attr) {
-                    dom[value ? 'addAttribute' : 'removeAttribute'](match, attr);
-                });
-            });
-        };
-    } else if (type === 'toggle') {
-        // this doesn't require a selector since we can pass yes/no selectors
-        if (hasYesNo) {
-            return function (el, value) {
-                getMatches(el, yes).forEach(function (match) {
-                    dom[value ? 'show' : 'hide'](match);
-                });
-                getMatches(el, no).forEach(function (match) {
-                    dom[value ? 'hide' : 'show'](match);
-                });
-            };
-        } else {
-            return function (el, value) {
-                getMatches(el, selector).forEach(function (match) {
-                    dom[value ? 'show' : 'hide'](match);
-                });
-            };
-        }
-    } else if (type === 'switch') {
-        if (!binding.cases) throw Error('switch bindings must have "cases"');
-        return function (el, value) {
-            for (var item in binding.cases) {
-                getMatches(el, binding.cases[item]).forEach(function (match) {
-                    dom[value === item ? 'show' : 'hide'](match);
-                });
-            }
-        };
-    } else if (type === 'innerHTML') {
-        return function (el, value) {
-            getMatches(el, selector).forEach(function (match) {
-                dom.html(match, value);
-            });
-        };
-    } else if (type === 'switchClass') {
-        if (!binding.cases) throw Error('switchClass bindings must have "cases"');
-        return function (el, value, keyName) {
-            var name = makeArray(binding.name || keyName);
-            for (var item in binding.cases) {
-                getMatches(el, binding.cases[item]).forEach(function (match) {
-                    name.forEach(function (className) {
-                        dom[value === item ? 'addClass' : 'removeClass'](match, className);
-                    });
-                });
-            }
-        };
-    } else {
-        throw new Error('no such binding type: ' + type);
-    }
-}
-
-},{"key-tree-store":99,"matches-selector":83,"ampersand-dom":112}],111:[function(require,module,exports){
+},{"./backbone-events-standalone":115}],112:[function(require,module,exports){
 'use strict';
 
 var proto = Element.prototype;
@@ -30757,16 +30858,10 @@ function match(el, selector) {
   }
   return false;
 }
-},{}],94:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":113}],98:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":114}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = require('./lib');
 
-},{"./lib":115}],112:[function(require,module,exports){
+},{"./lib":116}],113:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var dom = module.exports = {
     text: function (el, val) {
@@ -30886,7 +30981,7 @@ function hide (el) {
     el.style.display = 'none';
 }
 
-},{}],116:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 (function(global){if (typeof window !== "undefined") {
     module.exports = window;
 } else if (typeof global !== "undefined") {
@@ -30898,279 +30993,7 @@ function hide (el) {
 }
 
 })(window)
-},{}],113:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys,
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],102:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":117}],114:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -31450,357 +31273,7 @@ module.exports = require('./backbone-events-standalone');
 })(this);
 
 })()
-},{}],97:[function(require,module,exports){
-var objectExtend = require('extend-object');
-
-
-/// Following code is largely pasted from Backbone.js
-
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-var extend = function(protoProps) {
-    var parent = this;
-    var child;
-    var args = [].slice.call(arguments);
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
-    if (protoProps && protoProps.hasOwnProperty('constructor')) {
-        child = protoProps.constructor;
-    } else {
-        child = function () {
-            return parent.apply(this, arguments);
-        };
-    }
-
-    // Add static properties to the constructor function from parent
-    objectExtend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
-    var Surrogate = function(){ this.constructor = child; };
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
-
-    // Mix in all prototype properties to the subclass if supplied.
-    if (protoProps) {
-        args.unshift(child.prototype);
-        objectExtend.apply(null, args);
-    }
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-};
-
-// Expose the extend function
-module.exports = extend;
-
-},{"extend-object":118}],86:[function(require,module,exports){
-var _ = require('underscore');
-var xhr = require('xhr');
-var qs = require('qs');
-
-
-// Throw an error when a URL is needed, and none is supplied.
-var urlError = function () {
-    throw new Error('A "url" property or function must be specified');
-};
-
-
-module.exports = function (method, model, options) {
-    var type = methodMap[method];
-    var headers = {};
-
-    // Default options, unless specified.
-    _.defaults(options || (options = {}), {
-        emulateHTTP: false,
-        emulateJSON: false
-    });
-
-    // Default request options.
-    var params = {type: type};
-
-    // Ensure that we have a URL.
-    if (!options.url) {
-        params.url = _.result(model, 'url') || urlError();
-    }
-
-    // Ensure that we have the appropriate request data.
-    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
-        params.json = options.attrs || model.toJSON(options);
-    }
-
-    // If passed a data param, we add it to the URL or body depending on request type
-    if (options.data && type === 'GET') {
-        // make sure we've got a '?'
-        params.url += _.contains(params.url, '?') ? '&' : '?';
-        params.url += qs.stringify(options.data);
-    }
-
-    // For older servers, emulate JSON by encoding the request into an HTML-form.
-    if (options.emulateJSON) {
-        headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        params.body = params.json ? {model: params.json} : {};
-        delete params.json;
-    }
-
-    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
-    // And an `X-HTTP-Method-Override` header.
-    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
-        params.type = 'POST';
-        if (options.emulateJSON) params.body._method = type;
-        headers['X-HTTP-Method-Override'] = type;
-    }
-
-    // When emulating JSON, we turn the body into a querystring.
-    // We do this later to let the emulateHTTP run its course.
-    if (options.emulateJSON) {
-        params.body = qs.stringify(params.body);
-    }
-
-    // Start setting ajaxConfig options (headers, xhrFields).
-    var ajaxConfig = (_.result(model, 'ajaxConfig') || {});
-
-    // Combine generated headers with user's headers.
-    if (ajaxConfig.headers) {
-        _.extend(headers, ajaxConfig.headers);
-    }
-    params.headers = headers;
-
-    //Set XDR for cross domain in IE8/9
-    if (ajaxConfig.useXDR) {
-        params.useXDR = true;
-    }
-
-    // Set raw xhr options.
-    if (ajaxConfig.xhrFields) {
-        var beforeSend = ajaxConfig.beforeSend;
-        params.beforeSend = function (req) {
-            for (var key in ajaxConfig.xhrFields) {
-                req[key] = ajaxConfig.xhrFields[key];
-            }
-            if (beforeSend) return beforeSend.apply(this, arguments);
-        };
-        params.xhrFields = ajaxConfig.xhrFields;
-    }
-
-    // Turn a jQuery.ajax formatted request into xhr compatible
-    params.method = params.type;
-
-    var ajaxSettings = _.extend(params, options);
-
-    // Make the request. The callback executes functions that are compatible
-    // With jQuery.ajax's syntax.
-    var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
-        if (err && options.error) return options.error(resp, 'error', err.message);
-
-        // Parse body as JSON if a string.
-        if (body && typeof body === 'string') {
-            try {
-                body = JSON.parse(body);
-            } catch (e) {}
-        }
-        if (options.success) return options.success(body, 'success', resp);
-    });
-    model.trigger('request', model, request, options, ajaxSettings);
-    request.ajaxSettings = ajaxSettings;
-    return request;
-};
-
-// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
-var methodMap = {
-    'create': 'POST',
-    'update': 'PUT',
-    'patch':  'PATCH',
-    'delete': 'DELETE',
-    'read':   'GET'
-};
-
-},{"underscore":119,"qs":120,"xhr":121}],90:[function(require,module,exports){
-(function(){var window = require("global/window")
-var once = require("once")
-var parseHeaders = require('parse-headers')
-
-var messages = {
-    "0": "Internal XMLHttpRequest Error",
-    "4": "4xx Client Error",
-    "5": "5xx Server Error"
-}
-
-var XHR = window.XMLHttpRequest || noop
-var XDR = "withCredentials" in (new XHR()) ? XHR : window.XDomainRequest
-
-module.exports = createXHR
-
-function createXHR(options, callback) {
-    if (typeof options === "string") {
-        options = { uri: options }
-    }
-
-    options = options || {}
-    callback = once(callback)
-
-    var xhr = options.xhr || null
-
-    if (!xhr) {
-        if (options.cors || options.useXDR) {
-            xhr = new XDR()
-        }else{
-            xhr = new XHR()
-        }
-    }
-
-    var uri = xhr.url = options.uri || options.url
-    var method = xhr.method = options.method || "GET"
-    var body = options.body || options.data
-    var headers = xhr.headers = options.headers || {}
-    var sync = !!options.sync
-    var isJson = false
-    var key
-    var load = options.response ? loadResponse : loadXhr
-
-    if ("json" in options) {
-        isJson = true
-        headers["Accept"] = "application/json"
-        if (method !== "GET" && method !== "HEAD") {
-            headers["Content-Type"] = "application/json"
-            body = JSON.stringify(options.json)
-        }
-    }
-
-    xhr.onreadystatechange = readystatechange
-    xhr.onload = load
-    xhr.onerror = error
-    // IE9 must have onprogress be set to a unique function.
-    xhr.onprogress = function () {
-        // IE must die
-    }
-    // hate IE
-    xhr.ontimeout = noop
-    xhr.open(method, uri, !sync)
-                                    //backward compatibility
-    if (options.withCredentials || (options.cors && options.withCredentials !== false)) {
-        xhr.withCredentials = true
-    }
-
-    // Cannot set timeout with sync request
-    if (!sync) {
-        xhr.timeout = "timeout" in options ? options.timeout : 5000
-    }
-
-    if (xhr.setRequestHeader) {
-        for(key in headers){
-            if(headers.hasOwnProperty(key)){
-                xhr.setRequestHeader(key, headers[key])
-            }
-        }
-    } else if (options.headers) {
-        throw new Error("Headers cannot be set on an XDomainRequest object")
-    }
-
-    if ("responseType" in options) {
-        xhr.responseType = options.responseType
-    }
-    
-    if ("beforeSend" in options && 
-        typeof options.beforeSend === "function"
-    ) {
-        options.beforeSend(xhr)
-    }
-
-    xhr.send(body)
-
-    return xhr
-
-    function readystatechange() {
-        if (xhr.readyState === 4) {
-            load()
-        }
-    }
-
-    function getBody() {
-        // Chrome with requestType=blob throws errors arround when even testing access to responseText
-        var body = null
-
-        if (xhr.response) {
-            body = xhr.response
-        } else if (xhr.responseType === 'text' || !xhr.responseType) {
-            body = xhr.responseText || xhr.responseXML
-        }
-
-        if (isJson) {
-            try {
-                body = JSON.parse(body)
-            } catch (e) {}
-        }
-
-        return body
-    }
-
-    function getStatusCode() {
-        return xhr.status === 1223 ? 204 : xhr.status
-    }
-
-    // if we're getting a none-ok statusCode, build & return an error
-    function errorFromStatusCode(status) {
-        var error = null
-        if (status === 0 || (status >= 400 && status < 600)) {
-            var message = (typeof body === "string" ? body : false) ||
-                messages[String(status).charAt(0)]
-            error = new Error(message)
-            error.statusCode = status
-        }
-
-        return error
-    }
-
-    // will load the data & process the response in a special response object
-    function loadResponse() {
-        var status = getStatusCode()
-        var error = errorFromStatusCode(status)
-        var response = {
-            body: getBody(),
-            statusCode: status,
-            statusText: xhr.statusText,
-            raw: xhr
-        }
-        if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
-            response.headers = parseHeaders(xhr.getAllResponseHeaders())
-        } else {
-            response.headers = {}
-        }
-
-        callback(error, response, response.body)
-    }
-
-    // will load the data and add some response properties to the source xhr
-    // and then respond with that
-    function loadXhr() {
-        var status = getStatusCode()
-        var error = errorFromStatusCode(status)
-
-        xhr.status = xhr.statusCode = status
-        xhr.body = getBody()
-        xhr.headers = parseHeaders(xhr.getAllResponseHeaders())
-
-        callback(error, xhr, xhr.body)
-    }
-
-    function error(evt) {
-        callback(evt, xhr)
-    }
-}
-
-
-function noop() {}
-
-})()
-},{"global/window":116,"once":122,"parse-headers":123}],117:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -32069,59 +31542,629 @@ function noop() {}
 })(this);
 
 })()
-},{}],95:[function(require,module,exports){
-/**
- * Module dependencies.
- */
+},{}],103:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
 
-var closest = require('closest')
-  , event = require('component-event');
+},{"./backbone-events-standalone":118}],98:[function(require,module,exports){
+var objectExtend = require('extend-object');
 
-/**
- * Delegate event `type` to `selector`
- * and invoke `fn(e)`. A callback function
- * is returned which may be passed to `.unbind()`.
- *
- * @param {Element} el
- * @param {String} selector
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
 
-// Some events don't bubble, so we want to bind to the capture phase instead
-// when delegating.
-var forceCaptureEvents = ['focus', 'blur'];
+/// Following code is largely pasted from Backbone.js
 
-exports.bind = function(el, selector, type, fn, capture){
-  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function(protoProps) {
+    var parent = this;
+    var child;
+    var args = [].slice.call(arguments);
 
-  return event.bind(el, type, function(e){
-    var target = e.target || e.srcElement;
-    e.delegateTarget = closest(target, selector, true, el);
-    if (e.delegateTarget) fn.call(el, e);
-  }, capture);
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function from parent
+    objectExtend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
+
+    // Mix in all prototype properties to the subclass if supplied.
+    if (protoProps) {
+        args.unshift(child.prototype);
+        objectExtend.apply(null, args);
+    }
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
 };
 
-/**
- * Unbind event `type`'s callback `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @api public
- */
+// Expose the extend function
+module.exports = extend;
 
-exports.unbind = function(el, type, fn, capture){
-  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+},{"extend-object":119}],88:[function(require,module,exports){
+var _ = require('underscore');
+var xhr = require('xhr');
+var qs = require('qs');
 
-  event.unbind(el, type, fn, capture);
+
+// Throw an error when a URL is needed, and none is supplied.
+var urlError = function () {
+    throw new Error('A "url" property or function must be specified');
 };
 
-},{"closest":124,"component-event":125}],119:[function(require,module,exports){
+
+module.exports = function (method, model, options) {
+    var type = methodMap[method];
+    var headers = {};
+
+    // Default options, unless specified.
+    _.defaults(options || (options = {}), {
+        emulateHTTP: false,
+        emulateJSON: false
+    });
+
+    // Default request options.
+    var params = {type: type};
+
+    // Ensure that we have a URL.
+    if (!options.url) {
+        params.url = _.result(model, 'url') || urlError();
+    }
+
+    // Ensure that we have the appropriate request data.
+    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+        params.json = options.attrs || model.toJSON(options);
+    }
+
+    // If passed a data param, we add it to the URL or body depending on request type
+    if (options.data && type === 'GET') {
+        // make sure we've got a '?'
+        params.url += _.contains(params.url, '?') ? '&' : '?';
+        params.url += qs.stringify(options.data);
+    }
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (options.emulateJSON) {
+        headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        params.body = params.json ? {model: params.json} : {};
+        delete params.json;
+    }
+
+    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+        params.type = 'POST';
+        if (options.emulateJSON) params.body._method = type;
+        headers['X-HTTP-Method-Override'] = type;
+    }
+
+    // When emulating JSON, we turn the body into a querystring.
+    // We do this later to let the emulateHTTP run its course.
+    if (options.emulateJSON) {
+        params.body = qs.stringify(params.body);
+    }
+
+    // Start setting ajaxConfig options (headers, xhrFields).
+    var ajaxConfig = (_.result(model, 'ajaxConfig') || {});
+
+    // Combine generated headers with user's headers.
+    if (ajaxConfig.headers) {
+        _.extend(headers, ajaxConfig.headers);
+    }
+    params.headers = headers;
+
+    //Set XDR for cross domain in IE8/9
+    if (ajaxConfig.useXDR) {
+        params.useXDR = true;
+    }
+
+    // Set raw xhr options.
+    if (ajaxConfig.xhrFields) {
+        var beforeSend = ajaxConfig.beforeSend;
+        params.beforeSend = function (req) {
+            for (var key in ajaxConfig.xhrFields) {
+                req[key] = ajaxConfig.xhrFields[key];
+            }
+            if (beforeSend) return beforeSend.apply(this, arguments);
+        };
+        params.xhrFields = ajaxConfig.xhrFields;
+    }
+
+    // Turn a jQuery.ajax formatted request into xhr compatible
+    params.method = params.type;
+
+    var ajaxSettings = _.extend(params, options);
+
+    // Make the request. The callback executes functions that are compatible
+    // With jQuery.ajax's syntax.
+    var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
+        if (err && options.error) return options.error(resp, 'error', err.message);
+
+        // Parse body as JSON if a string.
+        if (body && typeof body === 'string') {
+            try {
+                body = JSON.parse(body);
+            } catch (e) {}
+        }
+        if (options.success) return options.success(body, 'success', resp);
+    });
+    model.trigger('request', model, request, options, ajaxSettings);
+    request.ajaxSettings = ajaxSettings;
+    return request;
+};
+
+// Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+var methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'patch':  'PATCH',
+    'delete': 'DELETE',
+    'read':   'GET'
+};
+
+},{"underscore":120,"qs":121,"xhr":122}],91:[function(require,module,exports){
+(function(){var window = require("global/window")
+var once = require("once")
+var parseHeaders = require('parse-headers')
+
+var messages = {
+    "0": "Internal XMLHttpRequest Error",
+    "4": "4xx Client Error",
+    "5": "5xx Server Error"
+}
+
+var XHR = window.XMLHttpRequest || noop
+var XDR = "withCredentials" in (new XHR()) ? XHR : window.XDomainRequest
+
+module.exports = createXHR
+
+function createXHR(options, callback) {
+    if (typeof options === "string") {
+        options = { uri: options }
+    }
+
+    options = options || {}
+    callback = once(callback)
+
+    var xhr = options.xhr || null
+
+    if (!xhr) {
+        if (options.cors || options.useXDR) {
+            xhr = new XDR()
+        }else{
+            xhr = new XHR()
+        }
+    }
+
+    var uri = xhr.url = options.uri || options.url
+    var method = xhr.method = options.method || "GET"
+    var body = options.body || options.data
+    var headers = xhr.headers = options.headers || {}
+    var sync = !!options.sync
+    var isJson = false
+    var key
+    var load = options.response ? loadResponse : loadXhr
+
+    if ("json" in options) {
+        isJson = true
+        headers["Accept"] = "application/json"
+        if (method !== "GET" && method !== "HEAD") {
+            headers["Content-Type"] = "application/json"
+            body = JSON.stringify(options.json)
+        }
+    }
+
+    xhr.onreadystatechange = readystatechange
+    xhr.onload = load
+    xhr.onerror = error
+    // IE9 must have onprogress be set to a unique function.
+    xhr.onprogress = function () {
+        // IE must die
+    }
+    // hate IE
+    xhr.ontimeout = noop
+    xhr.open(method, uri, !sync)
+                                    //backward compatibility
+    if (options.withCredentials || (options.cors && options.withCredentials !== false)) {
+        xhr.withCredentials = true
+    }
+
+    // Cannot set timeout with sync request
+    if (!sync) {
+        xhr.timeout = "timeout" in options ? options.timeout : 5000
+    }
+
+    if (xhr.setRequestHeader) {
+        for(key in headers){
+            if(headers.hasOwnProperty(key)){
+                xhr.setRequestHeader(key, headers[key])
+            }
+        }
+    } else if (options.headers) {
+        throw new Error("Headers cannot be set on an XDomainRequest object")
+    }
+
+    if ("responseType" in options) {
+        xhr.responseType = options.responseType
+    }
+    
+    if ("beforeSend" in options && 
+        typeof options.beforeSend === "function"
+    ) {
+        options.beforeSend(xhr)
+    }
+
+    xhr.send(body)
+
+    return xhr
+
+    function readystatechange() {
+        if (xhr.readyState === 4) {
+            load()
+        }
+    }
+
+    function getBody() {
+        // Chrome with requestType=blob throws errors arround when even testing access to responseText
+        var body = null
+
+        if (xhr.response) {
+            body = xhr.response
+        } else if (xhr.responseType === 'text' || !xhr.responseType) {
+            body = xhr.responseText || xhr.responseXML
+        }
+
+        if (isJson) {
+            try {
+                body = JSON.parse(body)
+            } catch (e) {}
+        }
+
+        return body
+    }
+
+    function getStatusCode() {
+        return xhr.status === 1223 ? 204 : xhr.status
+    }
+
+    // if we're getting a none-ok statusCode, build & return an error
+    function errorFromStatusCode(status) {
+        var error = null
+        if (status === 0 || (status >= 400 && status < 600)) {
+            var message = (typeof body === "string" ? body : false) ||
+                messages[String(status).charAt(0)]
+            error = new Error(message)
+            error.statusCode = status
+        }
+
+        return error
+    }
+
+    // will load the data & process the response in a special response object
+    function loadResponse() {
+        var status = getStatusCode()
+        var error = errorFromStatusCode(status)
+        var response = {
+            body: getBody(),
+            statusCode: status,
+            statusText: xhr.statusText,
+            raw: xhr
+        }
+        if(xhr.getAllResponseHeaders){ //remember xhr can in fact be XDR for CORS in IE
+            response.headers = parseHeaders(xhr.getAllResponseHeaders())
+        } else {
+            response.headers = {}
+        }
+
+        callback(error, response, response.body)
+    }
+
+    // will load the data and add some response properties to the source xhr
+    // and then respond with that
+    function loadXhr() {
+        var status = getStatusCode()
+        var error = errorFromStatusCode(status)
+
+        xhr.status = xhr.statusCode = status
+        xhr.body = getBody()
+        xhr.headers = parseHeaders(xhr.getAllResponseHeaders())
+
+        callback(error, xhr, xhr.body)
+    }
+
+    function error(evt) {
+        callback(evt, xhr)
+    }
+}
+
+
+function noop() {}
+
+})()
+},{"global/window":117,"once":123,"parse-headers":124}],118:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys,
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],120:[function(require,module,exports){
 (function(){//     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -33467,7 +33510,59 @@ exports.unbind = function(el, type, fn, capture){
 }).call(this);
 
 })()
-},{}],118:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
+/**
+ * Module dependencies.
+ */
+
+var closest = require('closest')
+  , event = require('component-event');
+
+/**
+ * Delegate event `type` to `selector`
+ * and invoke `fn(e)`. A callback function
+ * is returned which may be passed to `.unbind()`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+// Some events don't bubble, so we want to bind to the capture phase instead
+// when delegating.
+var forceCaptureEvents = ['focus', 'blur'];
+
+exports.bind = function(el, selector, type, fn, capture){
+  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+
+  return event.bind(el, type, function(e){
+    var target = e.target || e.srcElement;
+    e.delegateTarget = closest(target, selector, true, el);
+    if (e.delegateTarget) fn.call(el, e);
+  }, capture);
+};
+
+/**
+ * Unbind event `type`'s callback `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @api public
+ */
+
+exports.unbind = function(el, type, fn, capture){
+  if (forceCaptureEvents.indexOf(type) !== -1) capture = true;
+
+  event.unbind(el, type, fn, capture);
+};
+
+},{"closest":125,"component-event":126}],119:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -33484,7 +33579,7 @@ module.exports = function(obj) {
     return obj;
 };
 
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -33505,7 +33600,7 @@ function once (fn) {
   }
 }
 
-},{}],125:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
     prefix = bind !== 'addEventListener' ? 'on' : '';
@@ -33541,24 +33636,7 @@ exports.unbind = function(el, type, fn, capture){
   el[unbind](prefix + type, fn, capture || false);
   return fn;
 };
-},{}],115:[function(require,module,exports){
-// Load modules
-
-var Stringify = require('./stringify');
-var Parse = require('./parse');
-
-
-// Declare internals
-
-var internals = {};
-
-
-module.exports = {
-    stringify: Stringify,
-    parse: Parse
-};
-
-},{"./stringify":126,"./parse":127}],110:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -33738,7 +33816,24 @@ function parse(event) {
   }
 }
 
-},{"delegate-events":128,"component-event":129}],130:[function(require,module,exports){
+},{"component-event":127,"delegate-events":128}],116:[function(require,module,exports){
+// Load modules
+
+var Stringify = require('./stringify');
+var Parse = require('./parse');
+
+
+// Declare internals
+
+var internals = {};
+
+
+module.exports = {
+    stringify: Stringify,
+    parse: Parse
+};
+
+},{"./stringify":129,"./parse":130}],131:[function(require,module,exports){
 module.exports = function arrayNext(array, currentItem) {
     var len = array.length;
     var newIndex = array.indexOf(currentItem) + 1;
@@ -33746,7 +33841,57 @@ module.exports = function arrayNext(array, currentItem) {
     return array[newIndex];
 };
 
-},{}],131:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
+var objectExtend = require('extend-object');
+
+
+/// Following code is largely pasted from Backbone.js
+
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function(protoProps) {
+    var parent = this;
+    var child;
+    var args = [].slice.call(arguments);
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function from parent
+    objectExtend(child, parent);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
+
+    // Mix in all prototype properties to the subclass if supplied.
+    if (protoProps) {
+        args.unshift(child.prototype);
+        objectExtend.apply(null, args);
+    }
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+};
+
+// Expose the extend function
+module.exports = extend;
+
+},{"extend-object":102}],132:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var dom = module.exports = {
     text: function (el, val) {
@@ -33866,57 +34011,7 @@ function hide (el) {
     el.style.display = 'none';
 }
 
-},{}],100:[function(require,module,exports){
-var objectExtend = require('extend-object');
-
-
-/// Following code is largely pasted from Backbone.js
-
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-var extend = function(protoProps) {
-    var parent = this;
-    var child;
-    var args = [].slice.call(arguments);
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent's constructor.
-    if (protoProps && protoProps.hasOwnProperty('constructor')) {
-        child = protoProps.constructor;
-    } else {
-        child = function () {
-            return parent.apply(this, arguments);
-        };
-    }
-
-    // Add static properties to the constructor function from parent
-    objectExtend(child, parent);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function.
-    var Surrogate = function(){ this.constructor = child; };
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
-
-    // Mix in all prototype properties to the subclass if supplied.
-    if (protoProps) {
-        args.unshift(child.prototype);
-        objectExtend.apply(null, args);
-    }
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-};
-
-// Expose the extend function
-module.exports = extend;
-
-},{"extend-object":101}],132:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 function KeyTreeStore() {
     this.storage = {};
 }
@@ -33957,7 +34052,7 @@ KeyTreeStore.prototype.get = function (keypath) {
 
 module.exports = KeyTreeStore;
 
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -34107,7 +34202,7 @@ CollectionView.extend = ampExtend;
 
 module.exports = CollectionView;
 
-},{"ampersand-class-extend":133,"backbone-events-standalone":134,"underscore":106}],105:[function(require,module,exports){
+},{"ampersand-class-extend":134,"backbone-events-standalone":135,"underscore":108}],105:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var _ = require('underscore');
 var BBEvents = require('backbone-events-standalone');
@@ -34882,7 +34977,7 @@ Base.extend = extend;
 // Our main exports
 module.exports = Base;
 
-},{"array-next":130,"backbone-events-standalone":135,"key-tree-store":132,"underscore":106}],136:[function(require,module,exports){
+},{"array-next":131,"backbone-events-standalone":136,"key-tree-store":133,"underscore":108}],137:[function(require,module,exports){
 var slice = Array.prototype.slice;
 
 // our constructor
@@ -34964,7 +35059,43 @@ KeyTreeStore.prototype.run = function (keypath, context) {
 
 module.exports = KeyTreeStore;
 
-},{}],137:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
+var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
+    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
+    prefix = bind !== 'addEventListener' ? 'on' : '';
+
+/**
+ * Bind `el` event `type` to `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+exports.bind = function(el, type, fn, capture){
+  el[bind](prefix + type, fn, capture || false);
+  return fn;
+};
+
+/**
+ * Unbind `el` event `type`'s callback `fn`.
+ *
+ * @param {Element} el
+ * @param {String} type
+ * @param {Function} fn
+ * @param {Boolean} capture
+ * @return {Function}
+ * @api public
+ */
+
+exports.unbind = function(el, type, fn, capture){
+  el[unbind](prefix + type, fn, capture || false);
+  return fn;
+};
+},{}],138:[function(require,module,exports){
 require=(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){
 exports.readIEEE754 = function(buffer, offset, isBE, mLen, nBytes) {
   var e, m,
@@ -38829,7 +38960,7 @@ SlowBuffer.prototype.writeDoubleBE = Buffer.prototype.writeDoubleBE;
 },{}]},{},[])
 ;;module.exports=require("buffer-browserify")
 
-},{}],126:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 (function(Buffer){// Load modules
 
 
@@ -38887,7 +39018,7 @@ module.exports = function (obj, delimiter) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":137}],108:[function(require,module,exports){
+},{"__browserify_buffer":138}],109:[function(require,module,exports){
 /*$AMPERSAND_VERSION*/
 var Store = require('key-tree-store');
 var dom = require('ampersand-dom');
@@ -39081,46 +39212,10 @@ function getBindingFunc(binding, context) {
     }
 }
 
-},{"ampersand-dom":131,"key-tree-store":136,"matches-selector":111}],129:[function(require,module,exports){
-var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
-    unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind !== 'addEventListener' ? 'on' : '';
-
-/**
- * Bind `el` event `type` to `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
-
-exports.bind = function(el, type, fn, capture){
-  el[bind](prefix + type, fn, capture || false);
-  return fn;
-};
-
-/**
- * Unbind `el` event `type`'s callback `fn`.
- *
- * @param {Element} el
- * @param {String} type
- * @param {Function} fn
- * @param {Boolean} capture
- * @return {Function}
- * @api public
- */
-
-exports.unbind = function(el, type, fn, capture){
-  el[unbind](prefix + type, fn, capture || false);
-  return fn;
-};
-},{}],120:[function(require,module,exports){
+},{"ampersand-dom":132,"key-tree-store":137,"matches-selector":112}],121:[function(require,module,exports){
 module.exports = require('./lib');
 
-},{"./lib":138}],139:[function(require,module,exports){
+},{"./lib":139}],140:[function(require,module,exports){
 (function(global){if (typeof window !== "undefined") {
     module.exports = window;
 } else if (typeof global !== "undefined") {
@@ -39132,13 +39227,7 @@ module.exports = require('./lib');
 }
 
 })(window)
-},{}],134:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":140}],135:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":141}],121:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 (function(){var window = require("global/window")
 var once = require("once")
 var parseHeaders = require('parse-headers')
@@ -39317,7 +39406,13 @@ function createXHR(options, callback) {
 function noop() {}
 
 })()
-},{"global/window":139,"once":142,"parse-headers":143}],123:[function(require,module,exports){
+},{"global/window":140,"parse-headers":141,"once":142}],136:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":143}],135:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":144}],124:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -39349,7 +39444,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"trim":144,"for-each":145}],127:[function(require,module,exports){
+},{"trim":145,"for-each":146}],130:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -39506,7 +39601,309 @@ module.exports = function (str, depth, delimiter) {
     return Utils.compact(obj);
 };
 
-},{"./utils":146}],140:[function(require,module,exports){
+},{"./utils":147}],125:[function(require,module,exports){
+var matches = require('matches-selector')
+
+module.exports = function (element, selector, checkYoSelf) {
+  var parent = checkYoSelf ? element : element.parentNode
+
+  while (parent && parent !== document) {
+    if (matches(parent, selector)) return parent;
+    parent = parent.parentNode
+  }
+}
+
+},{"matches-selector":148}],142:[function(require,module,exports){
+module.exports = once
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var called = false
+  return function () {
+    if (called) return
+    called = true
+    return fn.apply(this, arguments)
+  }
+}
+
+},{}],143:[function(require,module,exports){
+(function(){/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      breaker = {},
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys,
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            if (iterator.call(context, obj[i], i, obj) === breaker) return;
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof define === "function") {
+    define(function() {
+      return Events;
+    });
+  } else if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+})()
+},{}],144:[function(require,module,exports){
 (function(){/**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -39786,309 +40183,7 @@ module.exports = function (str, depth, delimiter) {
 })(this);
 
 })()
-},{}],142:[function(require,module,exports){
-module.exports = once
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var called = false
-  return function () {
-    if (called) return
-    called = true
-    return fn.apply(this, arguments)
-  }
-}
-
-},{}],141:[function(require,module,exports){
-(function(){/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      breaker = {},
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys,
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            if (iterator.call(context, obj[i], i, obj) === breaker) return;
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof define === "function") {
-    define(function() {
-      return Events;
-    });
-  } else if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-})()
-},{}],124:[function(require,module,exports){
-var matches = require('matches-selector')
-
-module.exports = function (element, selector, checkYoSelf) {
-  var parent = checkYoSelf ? element : element.parentNode
-
-  while (parent && parent !== document) {
-    if (matches(parent, selector)) return parent;
-    parent = parent.parentNode
-  }
-}
-
-},{"matches-selector":147}],144:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -40104,7 +40199,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],133:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 var objectExtend = require('extend-object');
 
 
@@ -40154,7 +40249,24 @@ var extend = function(protoProps) {
 // Expose the extend function
 module.exports = extend;
 
-},{"extend-object":148}],146:[function(require,module,exports){
+},{"extend-object":149}],139:[function(require,module,exports){
+// Load modules
+
+var Stringify = require('./stringify');
+var Parse = require('./parse');
+
+
+// Declare internals
+
+var internals = {};
+
+
+module.exports = {
+    stringify: Stringify,
+    parse: Parse
+};
+
+},{"./stringify":150,"./parse":151}],147:[function(require,module,exports){
 (function(Buffer){// Load modules
 
 
@@ -40290,24 +40402,48 @@ exports.compact = function (obj) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":137}],138:[function(require,module,exports){
-// Load modules
+},{"__browserify_buffer":138}],148:[function(require,module,exports){
 
-var Stringify = require('./stringify');
-var Parse = require('./parse');
+/**
+ * Element prototype.
+ */
 
+var proto = Element.prototype;
 
-// Declare internals
+/**
+ * Vendor function.
+ */
 
-var internals = {};
+var vendor = proto.matchesSelector
+  || proto.webkitMatchesSelector
+  || proto.mozMatchesSelector
+  || proto.msMatchesSelector
+  || proto.oMatchesSelector;
 
+/**
+ * Expose `match()`.
+ */
 
-module.exports = {
-    stringify: Stringify,
-    parse: Parse
-};
+module.exports = match;
 
-},{"./stringify":149,"./parse":150}],128:[function(require,module,exports){
+/**
+ * Match `el` to `selector`.
+ *
+ * @param {Element} el
+ * @param {String} selector
+ * @return {Boolean}
+ * @api public
+ */
+
+function match(el, selector) {
+  if (vendor) return vendor.call(el, selector);
+  var nodes = el.parentNode.querySelectorAll(selector);
+  for (var i = 0; i < nodes.length; ++i) {
+    if (nodes[i] == el) return true;
+  }
+  return false;
+}
+},{}],128:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -40359,48 +40495,7 @@ exports.unbind = function(el, type, fn, capture){
   event.unbind(el, type, fn, capture);
 };
 
-},{"closest":151,"component-event":152}],147:[function(require,module,exports){
-
-/**
- * Element prototype.
- */
-
-var proto = Element.prototype;
-
-/**
- * Vendor function.
- */
-
-var vendor = proto.matchesSelector
-  || proto.webkitMatchesSelector
-  || proto.mozMatchesSelector
-  || proto.msMatchesSelector
-  || proto.oMatchesSelector;
-
-/**
- * Expose `match()`.
- */
-
-module.exports = match;
-
-/**
- * Match `el` to `selector`.
- *
- * @param {Element} el
- * @param {String} selector
- * @return {Boolean}
- * @api public
- */
-
-function match(el, selector) {
-  if (vendor) return vendor.call(el, selector);
-  var nodes = el.parentNode.querySelectorAll(selector);
-  for (var i = 0; i < nodes.length; ++i) {
-    if (nodes[i] == el) return true;
-  }
-  return false;
-}
-},{}],148:[function(require,module,exports){
+},{"component-event":152,"closest":153}],149:[function(require,module,exports){
 var arr = [];
 var each = arr.forEach;
 var slice = arr.slice;
@@ -40417,7 +40512,7 @@ module.exports = function(obj) {
     return obj;
 };
 
-},{}],149:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 (function(Buffer){// Load modules
 
 
@@ -40475,7 +40570,7 @@ module.exports = function (obj, delimiter) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":137}],152:[function(require,module,exports){
+},{"__browserify_buffer":138}],152:[function(require,module,exports){
 var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
     prefix = bind !== 'addEventListener' ? 'on' : '';
@@ -40511,7 +40606,7 @@ exports.unbind = function(el, type, fn, capture){
   el[unbind](prefix + type, fn, capture || false);
   return fn;
 };
-},{}],145:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -40559,7 +40654,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":153}],143:[function(require,module,exports){
+},{"is-function":154}],141:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -40591,7 +40686,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"trim":154,"for-each":155}],150:[function(require,module,exports){
+},{"trim":155,"for-each":156}],151:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -40748,7 +40843,7 @@ module.exports = function (str, depth, delimiter) {
     return Utils.compact(obj);
 };
 
-},{"./utils":156}],154:[function(require,module,exports){
+},{"./utils":157}],155:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -40764,7 +40859,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],153:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -40781,7 +40876,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],156:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 (function(Buffer){// Load modules
 
 
@@ -40917,7 +41012,7 @@ exports.compact = function (obj) {
 };
 
 })(require("__browserify_buffer").Buffer)
-},{"__browserify_buffer":137}],151:[function(require,module,exports){
+},{"__browserify_buffer":138}],153:[function(require,module,exports){
 var matches = require('matches-selector')
 
 module.exports = function (element, selector, checkYoSelf) {
@@ -40929,7 +41024,7 @@ module.exports = function (element, selector, checkYoSelf) {
   }
 }
 
-},{"matches-selector":157}],157:[function(require,module,exports){
+},{"matches-selector":158}],158:[function(require,module,exports){
 
 /**
  * Element prototype.
@@ -40970,7 +41065,7 @@ function match(el, selector) {
   }
   return false;
 }
-},{}],155:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -41018,7 +41113,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":158}],158:[function(require,module,exports){
+},{"is-function":159}],159:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -41035,5 +41130,5 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}]},{},[25,16,4,33,22,35,3,36,18,19,27,5,12,9,14,13,21,20,15,10,8,7,6,23,56,26,42,11,1,17,40])
+},{}]},{},[17,4,3,34,23,37,36,19,20,18,6,5,21,12,9,13,26,14,28,15,16,22,8,7,11,57,27,41,43,1,10,24])
 ;

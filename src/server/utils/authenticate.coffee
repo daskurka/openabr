@@ -77,8 +77,14 @@ exports.account = (req, res, next) ->
       req.account = account
 
       #check if the user is in users and admins
-      req.isUser = _.contains req.account.users, req.user._id
-      req.isAdmin = _.contains req.account.admins, req.user._id
+      req.isUser = do () ->
+        for user in req.account.users
+          if user.equals(req.user._id) then return true
+        return false
+      req.isAdmin = do () ->
+        for admin in req.account.admins
+          if admin.equals(req.user._id) then return true
+        return false
 
       #for this we want them to continue if they are in either
       if req.isUser or req.isAdmin

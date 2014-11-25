@@ -37,7 +37,8 @@ module.exports = Router.extend
   #Admin Routes
   adminAccounts: () -> @.trigger 'page', new pages.admin.accounts.Accounts()
   adminAccountCreate: () -> @.trigger 'page', new pages.admin.accounts.Create()
-  adminAccountEdit: (accountName) -> console.log 'Edit -> ' + accountName
+  adminAccountEdit: (account) ->
+    @.trigger 'page', new pages.admin.accounts.Edit({account})
   adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()
 
   #Account routes

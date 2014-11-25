@@ -115,6 +115,11 @@
         return '<div class="container"><h2>Create Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
     };
 
+    // pages\admin\accounts\edit.jade compiled template
+    templatizer["pages"]["admin"]["accounts"]["edit"] = function tmpl_pages_admin_accounts_edit() {
+        return '<div class="container"><h2>Edit Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
+    };
+
     // pages\admin\users\users.jade compiled template
     templatizer["pages"]["admin"]["users"]["users"] = function tmpl_pages_admin_users_users() {
         return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input id="filterUsers" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><div class="row">Table to go here...//</div></div>';

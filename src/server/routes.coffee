@@ -15,6 +15,7 @@ module.exports = (server) ->
   server.get '/auth/login', authenticate.login
 
   #routes for managing accounts - only system admin can do this
+  server.get '/admin/accounts/lookup/:urlName', authenticate.systemAdmin, accountAdmin.lookup
   server.post '/admin/accounts', authenticate.systemAdmin, accountAdmin.create
   server.get '/admin/accounts/:id', authenticate.systemAdmin, accountAdmin.read
   server.put '/admin/accounts/:id', authenticate.systemAdmin, accountAdmin.update

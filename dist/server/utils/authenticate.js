@@ -77,8 +77,28 @@
           return res.send(401, 'Not Authorised');
         }
         req.account = account;
-        req.isUser = _.contains(req.account.users, req.user._id);
-        req.isAdmin = _.contains(req.account.admins, req.user._id);
+        req.isUser = (function() {
+          var user, _i, _len, _ref;
+          _ref = req.account.users;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            user = _ref[_i];
+            if (user.equals(req.user._id)) {
+              return true;
+            }
+          }
+          return false;
+        })();
+        req.isAdmin = (function() {
+          var admin, _i, _len, _ref;
+          _ref = req.account.admins;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            admin = _ref[_i];
+            if (admin.equals(req.user._id)) {
+              return true;
+            }
+          }
+          return false;
+        })();
         if (req.isUser || req.isAdmin) {
           return next();
         } else {
