@@ -1,6 +1,7 @@
 User = require './userModel'
 line = require '../utils/line'
 handle = require '../utils/handleError'
+pager = require '../utils/pager'
 
 exports.create = (req, res) ->
   line.debug 'User Admin Controller', 'Creating new user'
@@ -45,18 +46,21 @@ exports.remove = (req, res) ->
 exports.query = (req, res) ->
   line.debug 'User Admin Controller', 'Querying users: no params'
 
-  #this handles basic regex contained on bottom
-  for part of req.params
-    for innerPart of req.params[part]
-      if innerPart is '$regex'
-        if req.params[part]['$options']?
-          req.params[part] = new RegExp(req.params[part]['$regex'], req.params[part]['$options'])
-        else
-          req.params[part] = new RegExp(req.params[part]['$regex'])
+  #check for pagination
+  {query, options, isPaged} = pager.filterQuery(req.params)
 
   #query all
-  User.find req.params, (err, users) ->
+  User.find query, null, options, (err, users) ->
     if err?
       return handle.error req, res, err, 'Error querying users', 'userAdminController.query'
     else
-      res.send users
+      if not isPaged
+        return res.send users
+
+      #also find total possible records
+      User.count query, (err, totalFound) ->
+        if err?
+          return handle.error req, res, err, 'Error counting users', 'userAdminController.query'
+        else
+          pager.attachResponseHeaders(res, totalFound)
+          res.send users

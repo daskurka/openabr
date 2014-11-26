@@ -1,12 +1,19 @@
 .container
    h2 Users
-
    .row
       .col-sm-9
-         input.form-control#filterUsers
+         input.form-control(data-hook='filter')
       .col-sm-3
          button.btn.btn-primary#newUser
             span.glyphicon.glyphicon-plus
             | &nbsp;new user
-   .row Table to go here...//
+   hr
+   table.table.table-hover
+      thead
+         td Name
+         td Email
+         td Position
+      tbody(data-hook='users-table')
+   hr
+   .row(data-hook='pagination-control')
 

@@ -1,10 +1,10 @@
 PagedCollection = require '../paged.coffee'
-Account = require '../../models/admin/account.coffee'
+User = require '../../models/admin/user.coffee'
 
 module.exports = PagedCollection.extend
-  model: Account
-  url: '/api/admin/accounts'
-  typeAttribute: 'adminAccountCollection'
+  model: User
+  url: '/api/admin/users'
+  typeAttribute: 'adminUserCollection'
 
   query: (textSearch) ->
     data = {name: {$regex: "#{textSearch}", $options: 'i'} }

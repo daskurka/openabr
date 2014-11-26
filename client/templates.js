@@ -46,6 +46,11 @@
         return '<tr data-hook="account-row"><td data-hook="name"></td><td data-hook="address"></td><td data-hook="users"></td><td data-hook="admins"></td></tr>';
     };
 
+    // includes\items\user.jade compiled template
+    templatizer["includes"]["items"]["user"] = function tmpl_includes_items_user() {
+        return '<tr data-hook="user-row"><td data-hook="name"></td><td data-hook="email"></td><td data-hook="position"></td></tr>';
+    };
+
     // includes\navbar\loggedin.jade compiled template
     templatizer["includes"]["navbar"]["loggedin"] = function tmpl_includes_navbar_loggedin(locals) {
         var buf = [];
@@ -127,7 +132,7 @@
 
     // pages\admin\users\users.jade compiled template
     templatizer["pages"]["admin"]["users"]["users"] = function tmpl_pages_admin_users_users() {
-        return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input id="filterUsers" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><div class="row">Table to go here...//</div></div>';
+        return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Email</td><td>Position</td></thead><tbody data-hook="users-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
     // pages\contact.jade compiled template
