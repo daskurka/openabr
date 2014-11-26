@@ -1,5 +1,6 @@
 Account = require './accountModel'
 line = require '../utils/line'
+handle = require '../utils/handleError'
 
 
 exports.create = (req, res) ->
@@ -8,7 +9,7 @@ exports.create = (req, res) ->
   account = new Account req.body
   account.save (err) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error creating account', 'accountUserController.create'
     else
       res.send account
 
@@ -18,7 +19,7 @@ exports.read = (req, res) ->
   query = Account.findById req.params.id
   query.exec (err, account) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error reading account', 'accountUserController.read'
     else
       res.send account
 
@@ -27,7 +28,7 @@ exports.update = (req, res) ->
 
   Account.findByIdAndUpdate req.params.id, req.body, (err, account) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error updating account', 'accountUserController.update'
     else
       res.send account
 
@@ -37,9 +38,10 @@ exports.remove = (req, res) ->
   # remove user
   Account.findByIdAndRemove req.params.id, (err, account) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error removing account', 'accountUserController.remove'
     else
-      res.send 200
+      res.status(200)
+      do res.send
 
 exports.query = (req, res) ->
   line.debug 'Account User Controller', 'Querying account users: no params'
@@ -47,6 +49,6 @@ exports.query = (req, res) ->
   #query all
   Account.find req.params, (err, accounts) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error querying accounts', 'accountUserController.query'
     else
       res.send accounts

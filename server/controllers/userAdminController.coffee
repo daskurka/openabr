@@ -1,6 +1,6 @@
 User = require './userModel'
 line = require '../utils/line'
-
+handle = require '../utils/handleError'
 
 exports.create = (req, res) ->
   line.debug 'User Admin Controller', 'Creating new user'
@@ -8,7 +8,7 @@ exports.create = (req, res) ->
   user = new User req.body
   user.save (err) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error creating user', 'userAdminController.create'
     else
       res.send user
 
@@ -18,7 +18,7 @@ exports.read = (req, res) ->
   query = User.findById req.params.id
   query.exec (err, user) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error reading user', 'userAdminController.read'
     else
       res.send user
 
@@ -27,7 +27,7 @@ exports.update = (req, res) ->
 
   User.findByIdAndUpdate req.params.id, req.body, (err, user) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error updating user', 'userAdminController.update'
     else
       res.send user
 
@@ -37,9 +37,10 @@ exports.remove = (req, res) ->
   # remove user
   User.findByIdAndRemove req.params.id, (err, user) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error removing user', 'userAdminController.remove'
     else
-      res.send 200
+      res.status(200)
+      do res.send
 
 exports.query = (req, res) ->
   line.debug 'User Admin Controller', 'Querying users: no params'
@@ -56,6 +57,6 @@ exports.query = (req, res) ->
   #query all
   User.find req.params, (err, users) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error querying users', 'userAdminController.query'
     else
       res.send users

@@ -1,5 +1,6 @@
 Account = require './accountModel'
 line = require '../utils/line'
+handle = require '../utils/handleError'
 
 exports.read = (req, res) ->
   line.debug 'Account Controller', 'Reading account: ', req.params.accountName
@@ -12,7 +13,7 @@ exports.update = (req, res) ->
 
   Account.findByIdAndUpdate req.account.id, req.body, (err, account) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error updating account', 'accountController.update'
     else
       res.send account
 
@@ -22,6 +23,7 @@ exports.remove = (req, res) ->
   # remove user
   req.account.remove (err, account) ->
     if err?
-      return res.send 500, "Internal Server Error: #{err}"
+      return handle.error req, res, err, 'Error removing account', 'accountController.remove'
     else
-      res.send 200
+      res.status(200)
+      do res.send

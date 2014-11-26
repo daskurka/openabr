@@ -9,8 +9,6 @@ User = require '../controllers/userModel'
 Account = require '../controllers/accountModel'
 Auth = require './authModel'
 
-
-
 #settings TODO: put somewhere else... SEROIUSLY secret should not be here
 secret = 'FbBgywYjx6HPPzjKHqJsDhX8'
 hashIterations = 50000
@@ -60,13 +58,13 @@ exports.user = (req, res, next) ->
 
   #if user not authenticated then return not authorised
   if not req.auth.authenticated
-    return res.send 401, 'Not authorised'
+    return handle.authError req, res, req.auth.error, 'Token did not authenticated this user correctly.', 'authenticate.user'
 
   #get user object
   userId = req.auth.token.userId
   User.findOne {_id: userId}, (err, user) ->
     if err? or not user?
-      return res.send 401, 'Not authorised'
+      return handle.authError req, res, err, 'Could not find user account for userId provided.', 'authenticate.user'
 
     #attach
     req.user = user
@@ -84,7 +82,7 @@ exports.account = (req, res, next) ->
     urlName = req.params.accountName
     Account.findOne {urlName}, (err, account) ->
       if err? or not account?
-        return res.send 401, 'Not Authorised'
+        return handle.authError req, res, err, 'Could not find matching account with the specified account url.', 'authenticate.account'
 
       #attach
       req.account = account
@@ -103,7 +101,7 @@ exports.account = (req, res, next) ->
       if req.isUser or req.isAdmin
         do next
       else
-        res.send 401, 'Not Authorised'
+        return handle.authError req, res, null, 'User is not identified in "account" as a account user.', 'authenticate.account'
 
 
 #This function is an extension of the above account function except that it
@@ -118,7 +116,7 @@ exports.admin = (req, res, next) ->
     if req.isAdmin
       do next
     else
-      res.send 401, 'Not Authorised'
+      return handle.authError req, res, null, 'User is not identified in "account" as a account admin.', 'authenticate.admin'
 
 
 #This function will check if the current user is a real system admin
@@ -132,13 +130,13 @@ exports.systemAdmin = (req, res, next) ->
     #find matching authentication, we do not need account for this
     Auth.findOne {user: req.user._id}, (err, auth) ->
       if err? or not auth?
-        return res.send 401, 'Not Authorised'
+        return handle.authError req, res, err, 'Could not find "auth" to match user.', 'authenticate.systemAdmin'
 
       #check if user is system admin
       if auth.isAdmin
         do next
       else
-        res.send 401, 'Not Authorised'
+        return handle.authError req, res, null, 'User is not identified in "auth" as a system admin.', 'authenticate.systemAdmin'
 
 #This function is used to authenticate a user by checking their password
 #against the database, a response will indicate sucessful login
@@ -171,7 +169,7 @@ exports.login = (req, res) ->
           isSystemAdmin: auth.isAdmin
           user: user
       else
-        return handle.authError req, res, err, 'Password hash did not match hash in database.', 'authenticate.login'
+        return handle.authError req, res, null, 'Password hash did not match hash in database.', 'authenticate.login'
 
 #this function creates a new authentication entry for a particular user
 exports.createAuthentication = (userId, password, callback) ->
