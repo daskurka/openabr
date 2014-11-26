@@ -4,15 +4,25 @@ _ = require 'underscore'
 pbkdf2 = require 'pbkdf2-sha256'
 crypto = require 'crypto'
 
+handle = require './handleError'
 User = require '../controllers/userModel'
 Account = require '../controllers/accountModel'
 Auth = require './authModel'
+
+
 
 #settings TODO: put somewhere else... SEROIUSLY secret should not be here
 secret = 'FbBgywYjx6HPPzjKHqJsDhX8'
 hashIterations = 50000
 hashLength = 128
 
+#for simplicity i am merging all query parameters with params from each route
+mergeParams = (req) ->
+  Object.keys(req.query).forEach (key) ->
+    if req.params[key]? then return no
+
+    req.params[key] = req.query[key]
+    return yes
 
 #Deseralise the token and attach it to the request
 exports.deserialise = (req, res, next) ->
@@ -44,6 +54,9 @@ exports.serialise = (user) ->
 #This function reads the authentication token if there is one then attaches the user
 #if they exist in the database, this is for editing profile etc
 exports.user = (req, res, next) ->
+
+  #merge query into params
+  mergeParams(req)
 
   #if user not authenticated then return not authorised
   if not req.auth.authenticated
@@ -132,19 +145,22 @@ exports.systemAdmin = (req, res, next) ->
 #anything else will return a 401
 exports.login = (req, res) ->
 
+  #merge query into params
+  mergeParams(req)
+
   email = req.params.email
   password = req.params.password
 
   #find the user from the email
   User.findOne {email: email}, (err, user) ->
     if err? or not user?
-      return res.send 401, 'Not Authorised'
+      return handle.authError req, res, err, 'Cannot find user with email provided.', 'authenticate.login'
+
 
     #find the auth from the user
     Auth.findOne {user: user.id}, (err, auth) ->
       if err?
-        console.log err
-        return res.send 401, 'Not Authorised'
+        return handle.authError req, res, err, 'Cannot find matching "auth" model for user.', 'authenticate.login'
 
       resultantHash = pbkdf2(password, auth.passwordSalt, hashLength, hashIterations)
       resultantHash = resultantHash.toString('base64')
@@ -155,7 +171,7 @@ exports.login = (req, res) ->
           isSystemAdmin: auth.isAdmin
           user: user
       else
-        return res.send 401, 'Not Authorised'
+        return handle.authError req, res, err, 'Password hash did not match hash in database.', 'authenticate.login'
 
 #this function creates a new authentication entry for a particular user
 exports.createAuthentication = (userId, password, callback) ->

@@ -19,7 +19,6 @@ server.set 'name', 'openabr-server'
 server.set 'version', '0.1.0'
 server.set 'port', process.env.PORT || 8080
 server.set 'mongo', process.env.MONGO_URL || 'mongodb://localhost/dev'
-console.log process.env.MONGO_URL
 server.set 'mode', process.env.NODE_ENV || 'development'
 isDevMode = server.get('mode') is 'development'
 
@@ -35,6 +34,12 @@ server.use bodyParser.urlencoded({extended: no})
 server.use bodyParser.json()
 server.use helmet.xssFilter()
 server.use helmet.nosniff()
+
+#allow controllers to know if we are in development mode
+server.use (req, res, next) ->
+  req.isDevMode = isDevMode
+  do next
+
 
 #connect and configure database and ODM
 mongoose(server)
