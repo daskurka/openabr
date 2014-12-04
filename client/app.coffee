@@ -35,7 +35,7 @@ module.exports =
             if err? then return do @.logout
             @.view.trigger 'login'
             if window.location.length <= 0
-              app.navigate @.me.currentAccount.urlName
+              app.navigate ''
         else
           console.log 'Malformed token/userId - cannot login automatically.'
 
@@ -66,13 +66,13 @@ module.exports =
           Cookies.set 'rememberMe', true, cookieConfig
           Cookies.set 'serverToken', app.serverToken, cookieConfig
           Cookies.set 'userId', response.user.id, cookieConfig
-        @.me.login response.user, response.isSystemAdmin, (err) =>
+        @.me.login response.user, response.isAdmin, (err) =>
           if err?
             @.me.logout()
             callback(err)
           else
             @.view.trigger 'login'
-            app.navigate @.me.currentAccount.urlName
+            app.navigate ''
             callback(null, true)
       error: (response) ->
         if response.status is 401

@@ -18,7 +18,6 @@
     templatizer["includes"]["items"] = {};
     templatizer["includes"]["navbar"] = {};
     templatizer["pages"]["admin"] = {};
-    templatizer["pages"]["admin"]["accounts"] = {};
     templatizer["pages"]["admin"]["users"] = {};
 
     // body.jade compiled template
@@ -46,11 +45,6 @@
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
     };
 
-    // includes\items\account.jade compiled template
-    templatizer["includes"]["items"]["account"] = function tmpl_includes_items_account() {
-        return '<tr data-hook="account-row"><td data-hook="name"></td><td data-hook="address"></td><td data-hook="users"></td><td data-hook="admins"></td></tr>';
-    };
-
     // includes\items\user.jade compiled template
     templatizer["includes"]["items"]["user"] = function tmpl_includes_items_user() {
         return '<tr data-hook="user-row"><td data-hook="name"></td><td data-hook="email"></td><td data-hook="position"></td></tr>';
@@ -62,36 +56,13 @@
         var jade_mixins = {};
         var jade_interp;
         var locals_for_with = locals || {};
-        (function(currentAccount, otherAccounts, isSystemAdmin, user) {
-            buf.push('<div class="navbar-header"><a' + jade.attr("href", "/" + currentAccount.urlName + "", true, false) + ' class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a' + jade.attr("href", "/" + currentAccount.urlName + "/process", true, false) + ">Upload ABR</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/query", true, false) + ">Query ABRs</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/experiments", true, false) + ">Experiments</a></li><li><a" + jade.attr("href", "/" + currentAccount.urlName + "/subjects", true, false) + '>Subjects</a></li></ul><ul class="nav navbar-nav navbar-right"><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">' + jade.escape((jade_interp = currentAccount.name) == null ? "" : jade_interp) + '&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a' + jade.attr("href", "/" + currentAccount.urlName + "", true, false) + ">View</a></li>");
-            if (currentAccount.isAdmin) {
-                buf.push("<li><a" + jade.attr("href", "/" + currentAccount.urlName + "/manage", true, false) + ">Manage</a></li>");
-            }
-            if (otherAccounts.length > 0) {
-                buf.push('<li class="divider"></li>');
-                (function() {
-                    var $obj = otherAccounts.models;
-                    if ("number" == typeof $obj.length) {
-                        for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
-                            var account = $obj[$index];
-                            buf.push("<li><a" + jade.attr("href", "/" + account.urlName + "", true, false) + ">" + jade.escape((jade_interp = account.name) == null ? "" : jade_interp) + "</a></li>");
-                        }
-                    } else {
-                        var $l = 0;
-                        for (var $index in $obj) {
-                            $l++;
-                            var account = $obj[$index];
-                            buf.push("<li><a" + jade.attr("href", "/" + account.urlName + "", true, false) + ">" + jade.escape((jade_interp = account.name) == null ? "" : jade_interp) + "</a></li>");
-                        }
-                    }
-                }).call(this);
-            }
-            buf.push("</ul></li>");
-            if (isSystemAdmin) {
-                buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/accounts">Accounts</a></li><li><a href="/admin/users">Users</a></li></ul></li>');
+        (function(isAdmin, user) {
+            buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/process">Upload ABR</a></li><li><a href="/query">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
+            if (isAdmin) {
+                buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/users">Users</a></li></ul></li>');
             }
             buf.push('<li><a href="/logout">Logout</a></li></ul><p class="navbar-text navbar-right"><a href="/profile">' + jade.escape((jade_interp = user.name) == null ? "" : jade_interp) + "</a></p>");
-        }).call(this, "currentAccount" in locals_for_with ? locals_for_with.currentAccount : typeof currentAccount !== "undefined" ? currentAccount : undefined, "otherAccounts" in locals_for_with ? locals_for_with.otherAccounts : typeof otherAccounts !== "undefined" ? otherAccounts : undefined, "isSystemAdmin" in locals_for_with ? locals_for_with.isSystemAdmin : typeof isSystemAdmin !== "undefined" ? isSystemAdmin : undefined, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
+        }).call(this, "isAdmin" in locals_for_with ? locals_for_with.isAdmin : typeof isAdmin !== "undefined" ? isAdmin : undefined, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
         return buf.join("");
     };
 
@@ -120,21 +91,6 @@
         return '<div class="container"><h2>About OpenABR</h2><img src="/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
-    // pages\admin\accounts\accounts.jade compiled template
-    templatizer["pages"]["admin"]["accounts"]["accounts"] = function tmpl_pages_admin_accounts_accounts() {
-        return '<div class="container"><h2>Accounts</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newAccount" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new account</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Address</td><td>Users</td><td>Admin</td></thead><tbody data-hook="accounts-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
-    };
-
-    // pages\admin\accounts\create.jade compiled template
-    templatizer["pages"]["admin"]["accounts"]["create"] = function tmpl_pages_admin_accounts_create() {
-        return '<div class="container"><h2>Create Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
-    };
-
-    // pages\admin\accounts\edit.jade compiled template
-    templatizer["pages"]["admin"]["accounts"]["edit"] = function tmpl_pages_admin_accounts_edit() {
-        return '<div class="container"><h2>Edit Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
-    };
-
     // pages\admin\users\create.jade compiled template
     templatizer["pages"]["admin"]["users"]["create"] = function tmpl_pages_admin_users_create() {
         return '<div class="container"><h2>Create User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="alert alert-info"><strong>Please Note&nbsp;</strong>A password will be automatically generated and displayed post submission.</div><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
@@ -143,6 +99,18 @@
     // pages\admin\users\edit.jade compiled template
     templatizer["pages"]["admin"]["users"]["edit"] = function tmpl_pages_admin_users_edit() {
         return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
+    };
+
+    // pages\admin\users\password.jade compiled template
+    templatizer["pages"]["admin"]["users"]["password"] = function tmpl_pages_admin_users_password(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(email, password) {
+            buf.push("<ul><li>" + jade.escape(null == (jade_interp = email) ? "" : jade_interp) + "</li><li>" + jade.escape(null == (jade_interp = password) ? "" : jade_interp) + "</li></ul>");
+        }).call(this, "email" in locals_for_with ? locals_for_with.email : typeof email !== "undefined" ? email : undefined, "password" in locals_for_with ? locals_for_with.password : typeof password !== "undefined" ? password : undefined);
+        return buf.join("");
     };
 
     // pages\admin\users\users.jade compiled template
@@ -163,6 +131,11 @@
     // pages\login.jade compiled template
     templatizer["pages"]["login"] = function tmpl_pages_login() {
         return '<div class="container"><form role="form" class="form-signin"><div id="failedLoginAlert" class="alert alert-danger hidden">Incorrect email or password.</div><h2 class="form-signin-heading">Sign in to OpenABR</h2><input id="emailAddress" type="email" placeholder="Email Address" required="required" autofocus="autofocus" class="form-control"/><input id="password" type="password" placeholder="Password" required="required" class="form-control"/><div class="checkbox"><label><input id="rememberMe" type="checkbox" value="remember-me"/>&nbsp;Remember me</label></div><button type="submit" class="btn btn-lg btn-primary btn-block">Login</button></form></div>';
+    };
+
+    // pages\status.jade compiled template
+    templatizer["pages"]["status"] = function tmpl_pages_status() {
+        return '<div class="container"><h2>Welcome to OpenABR</h2><p>You are logged in!</p></div>';
     };
 
     return templatizer;

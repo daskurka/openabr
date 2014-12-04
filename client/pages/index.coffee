@@ -10,12 +10,8 @@ module.exports =
   Contact: require './contact.coffee'
   Login: require './login.coffee'
   FourOhFour: require './404.coffee'
+  Status: require './status.coffee'
   admin:
-    accounts:
-      Accounts: require './admin/accounts/accounts.coffee'
-      Create: require './admin/accounts/create.coffee'
-      Edit: require './admin/accounts/edit.coffee'
-
     users:
       Users: require './admin/users/users.coffee'
       Create: require './admin/users/create.coffee'

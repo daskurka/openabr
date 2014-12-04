@@ -1,5 +1,4 @@
 User = require './userModel'
-Account = require './accountModel'
 Auth = require '../utils/authModel'
 line = require '../utils/line'
 handle = require '../utils/handleError'
@@ -26,7 +25,7 @@ exports.read = (req, res) ->
         return handle.error req, res, err, 'Error reading profile', 'profileController.read'
       else
         result = req.user.toJSON()
-        result.isSystemAdmin = auth.isAdmin
+        result.isAdmin = auth.isAdmin
         res.send result
 
 exports.update = (req, res) ->
@@ -38,18 +37,3 @@ exports.update = (req, res) ->
         return handle.error req, res, err, 'Error updating profile', 'profileController.update'
       else
         res.send user
-
-exports.queryAccounts = (req, res) ->
-  isCurrentUser req, res, () ->
-    line.debug 'Profile Controller', 'Finding user accounts: ', req.params.id
-
-    query = Account.find()
-    query.or [
-      {users: req.params.id}
-      {admins: req.params.id}
-    ]
-    query.exec (err, accounts) ->
-      if err?
-        return handle.error req, res, err, 'Error querying accounts', 'profileController.queryAccounts'
-      else
-        res.send accounts

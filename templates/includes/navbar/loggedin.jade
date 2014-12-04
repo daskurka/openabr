@@ -1,30 +1,17 @@
 div.navbar-header
-   a.navbar-brand(href="/#{currentAccount.urlName}") OpenABR
+   a.navbar-brand(href="/") OpenABR
 ul.nav.navbar-nav
-   li: a(href="/#{currentAccount.urlName}/process") Upload ABR
-   li: a(href="/#{currentAccount.urlName}/query") Query ABRs
-   li: a(href="/#{currentAccount.urlName}/experiments") Experiments
-   li: a(href="/#{currentAccount.urlName}/subjects") Subjects
+   li: a(href="/process") Upload ABR
+   li: a(href="/query") Query ABRs
+   li: a(href="/experiments") Experiments
+   li: a(href="/subjects") Subjects
 ul.nav.navbar-nav.navbar-right
-   li.dropdown
-      a.dropdown-toggle(href='#' data-toggle="dropdown")
-         | #{currentAccount.name}&nbsp;
-         span.caret
-      ul.dropdown-menu(role='menu')
-         li: a(href="/#{currentAccount.urlName}") View
-         if (currentAccount.isAdmin)
-            li: a(href="/#{currentAccount.urlName}/manage") Manage
-         if (otherAccounts.length > 0)
-            li.divider
-            for account in otherAccounts.models
-               li: a(href="/#{account.urlName}") #{account.name}
-   if (isSystemAdmin)
+   if (isAdmin)
       li.dropdown
          a.dropdown-toggle(href='#' data-toggle="dropdown")
             | Admin&nbsp;
             span.caret
          ul.dropdown-menu(role='menu')
-            li: a(href="/admin/accounts") Accounts
             li: a(href="/admin/users") Users
    li: a(href='/logout') Logout
 p.navbar-text.navbar-right: a(href="/profile") #{user.name}

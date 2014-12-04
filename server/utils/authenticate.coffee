@@ -4,9 +4,9 @@ _ = require 'underscore'
 pbkdf2 = require 'pbkdf2-sha256'
 crypto = require 'crypto'
 
+line = require './line'
 handle = require './handleError'
 User = require '../controllers/userModel'
-Account = require '../controllers/accountModel'
 Auth = require './authModel'
 
 #settings TODO: put somewhere else... SEROIUSLY secret should not be here
@@ -15,6 +15,7 @@ hashIterations = 50000
 hashLength = 128
 
 #for simplicity i am merging all query parameters with params from each route
+#why you ask? this started out with restify not express, this is default for restify
 mergeParams = (req) ->
   Object.keys(req.query).forEach (key) ->
     if req.params[key]? then return no
@@ -70,59 +71,8 @@ exports.user = (req, res, next) ->
     req.user = user
     do next
 
-
-#This function uses the above user function and adds account info for an account path
-#user and account object for the given request and passes if they are allowed.
-exports.account = (req, res, next) ->
-
-  #load user object in req
-  exports.user req, res, () ->
-
-    #find the account based off the parameter
-    urlName = req.params.accountName
-    Account.findOne {urlName}, (err, account) ->
-      if err? or not account?
-        return handle.authError req, res, err, 'Could not find matching account with the specified account url.', 'authenticate.account'
-
-      #attach
-      req.account = account
-
-      #check if the user is in users and admins
-      req.isUser = do () ->
-        for user in req.account.users
-          if user.equals(req.user._id) then return true
-        return false
-      req.isAdmin = do () ->
-        for admin in req.account.admins
-          if admin.equals(req.user._id) then return true
-        return false
-
-      #for this we want them to continue if they are in either
-      if req.isUser or req.isAdmin
-        do next
-      else
-        return handle.authError req, res, null, 'User is not identified in "account" as a account user.', 'authenticate.account'
-
-
-#This function is an extension of the above account function except that it
-#only allows through requests for users that are part of the admins for the
-#current account.
-exports.admin = (req, res, next) ->
-
-  #first load user object and account
-  exports.account req, res, () ->
-
-    #for admin we only want them to continue if they are in the admin part of account
-    if req.isAdmin
-      do next
-    else
-      return handle.authError req, res, null, 'User is not identified in "account" as a account admin.', 'authenticate.admin'
-
-
 #This function will check if the current user is a real system admin
-#This is for doing things like editing the entire system or access account records
-#NOTE: system admin does not need account to be in the path
-exports.systemAdmin = (req, res, next) ->
+exports.admin = (req, res, next) ->
 
   #load user object in req
   exports.user req, res, () ->
@@ -166,13 +116,15 @@ exports.login = (req, res) ->
       if resultantHash is auth.passwordHash
         res.send
           token: exports.serialise(user)
-          isSystemAdmin: auth.isAdmin
+          isAdmin: auth.isAdmin
           user: user
       else
         return handle.authError req, res, null, 'Password hash did not match hash in database.', 'authenticate.login'
 
 #this function creates a new authentication entry for a particular user
 exports.createAuthentication = (userId, password, callback) ->
+
+  line.debug 'Authentication', 'Creating new password hash for: ', userId
 
   salt = crypto.randomBytes(hashLength).toString('base64')
   hash = pbkdf2(password, salt, hashLength, hashIterations)

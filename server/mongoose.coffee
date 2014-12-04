@@ -6,6 +6,5 @@ module.exports = (server) ->
   mongoose.connect(server.get('mongo'))
 
   #models!
-  require('./controllers/accountModel')
   require('./controllers/userModel')
   require('./utils/authModel')
