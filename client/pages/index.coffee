@@ -18,3 +18,5 @@ module.exports =
 
     users:
       Users: require './admin/users/users.coffee'
+      Create: require './admin/users/create.coffee'
+      Edit: require './admin/users/edit.coffee'

@@ -28,12 +28,17 @@
 
     // head.jade compiled template
     templatizer["head"] = function tmpl_head() {
-        return '<meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="OpenABR Site"/><meta name="author" content="Sam Kirkpatrick"/><link rel="icon" href="/assets/img/favicon.ico"/><title>OpenABR</title>';
+        return '<meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="OpenABR Site"/><meta name="author" content="Sam Kirkpatrick"/><link rel="icon" href="/img/favicon.ico"/><title>OpenABR</title>';
     };
 
     // includes\form\input.jade compiled template
     templatizer["includes"]["form"]["input"] = function tmpl_includes_form_input() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
+    };
+
+    // includes\form\password.jade compiled template
+    templatizer["includes"]["form"]["password"] = function tmpl_includes_form_password() {
+        return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input data-hook="password-input" type="password" class="form-control"/><label data-hook="label-confirm"></label><input data-hook="password-input-confirm" type="password" class="form-control"/></div>';
     };
 
     // includes\form\users.jade compiled template
@@ -112,7 +117,7 @@
 
     // pages\about.jade compiled template
     templatizer["pages"]["about"] = function tmpl_pages_about() {
-        return '<div class="container"><h2>About OpenABR</h2><img src="/assets/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
+        return '<div class="container"><h2>About OpenABR</h2><img src="/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
     // pages\admin\accounts\accounts.jade compiled template
@@ -128,6 +133,16 @@
     // pages\admin\accounts\edit.jade compiled template
     templatizer["pages"]["admin"]["accounts"]["edit"] = function tmpl_pages_admin_accounts_edit() {
         return '<div class="container"><h2>Edit Account</h2><form data-hook="account-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
+    };
+
+    // pages\admin\users\create.jade compiled template
+    templatizer["pages"]["admin"]["users"]["create"] = function tmpl_pages_admin_users_create() {
+        return '<div class="container"><h2>Create User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="alert alert-info"><strong>Please Note&nbsp;</strong>A password will be automatically generated and displayed post submission.</div><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
+    };
+
+    // pages\admin\users\edit.jade compiled template
+    templatizer["pages"]["admin"]["users"]["edit"] = function tmpl_pages_admin_users_edit() {
+        return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
     };
 
     // pages\admin\users\users.jade compiled template

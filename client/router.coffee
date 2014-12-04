@@ -16,7 +16,10 @@ module.exports = Router.extend
     'admin/accounts': 'adminAccounts'
     'admin/accounts/create': 'adminAccountCreate'
     'admin/accounts/:accountName/edit': 'adminAccountEdit'
+
     'admin/users': 'adminUsers'
+    'admin/users/create': 'adminUserCreate'
+    'admin/users/:userId/edit': 'adminUserEdit'
 
     ':accountName': 'accountHome'
     ':accountName/process': 'accountProcess'
@@ -39,7 +42,11 @@ module.exports = Router.extend
   adminAccountCreate: () -> @.trigger 'page', new pages.admin.accounts.Create()
   adminAccountEdit: (account) ->
     @.trigger 'page', new pages.admin.accounts.Edit({account})
+
   adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()
+  adminUserCreate: () -> @.trigger 'page', new pages.admin.users.Create()
+  adminUserEdit: (user) ->
+    @.trigger 'page', new pages.admin.users.Edit({user})
 
   #Account routes
   accountHome: (accountName) ->

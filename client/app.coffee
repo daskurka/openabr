@@ -26,9 +26,6 @@ module.exports =
       @.view = new MainView({el: document.body})
       do @.view.render
 
-      #start router history at /
-      @.router.history.start {pushState: yes, root: '/'}
-
       #handle cookie token login if allowed
       if Cookies.enabled and Cookies.get('rememberMe')
         app.serverToken = Cookies.get('serverToken')
@@ -41,6 +38,9 @@ module.exports =
               app.navigate @.me.currentAccount.urlName
         else
           console.log 'Malformed token/userId - cannot login automatically.'
+
+      #start router history at / - after the point the application will start to route
+      @.router.history.start {pushState: yes, root: '/'}
 
   #logout the current user from anywhere
   logout: () ->

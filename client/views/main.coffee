@@ -1,6 +1,8 @@
 View = require 'ampersand-view'
 ViewSwitcher = require 'ampersand-view-switcher'
+domify = require 'domify'
 NavbarView = require './navbar.coffee'
+
 
 templates = require '../templates'
 
@@ -15,6 +17,8 @@ module.exports = View.extend
     'click a[href]': 'handleLinkClick'
 
   render: () ->
+    document.head.appendChild(domify(templates.head()))
+
     @.renderWithTemplate({me: @.me})
 
     @.pageSwitcher = new ViewSwitcher(@.queryByHook('page-container'), {
