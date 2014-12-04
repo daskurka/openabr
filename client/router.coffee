@@ -39,6 +39,8 @@ module.exports = Router.extend
   #Admin routes
   adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()
   adminUserCreate: () -> @.trigger 'page', new pages.admin.users.Create()
+  adminUserPassword: (passwordState) ->
+    @.trigger 'page', new pages.admin.users.Password(model: passwordState)
   adminUserEdit: (user) ->
     @.trigger 'page', new pages.admin.users.Edit({user})
 

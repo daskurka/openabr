@@ -2,6 +2,14 @@ User = require './userModel'
 line = require '../utils/line'
 handle = require '../utils/handleError'
 pager = require '../utils/pager'
+crypto = require 'crypto'
+authenticate = require '../utils/authenticate'
+
+generateTempPassword = (len) ->
+  result = crypto.randomBytes(Math.ceil(len * 3 / 4))
+    .toString('base64').slice(0, len)
+    .replace(/\+/g, '0').replace(/\//g, '0')
+  return result
 
 exports.create = (req, res) ->
   line.debug 'User Admin Controller', 'Creating new user'
@@ -11,7 +19,19 @@ exports.create = (req, res) ->
     if err?
       return handle.error req, res, err, 'Error creating user', 'userAdminController.create'
     else
-      res.send user
+
+      password = generateTempPassword(8)
+      authenticate.createAuthentication user.id, password, (err) ->
+        if err?
+          return handle.error req, res, err, 'Error creating auth for user', 'userAdminController.create'
+
+        jsonUser = user.toJSON()
+        jsonUser.tempPassword =
+          name: user.name
+          email: user.email
+          password: password
+
+        res.send jsonUser
 
 exports.read = (req, res) ->
   line.debug 'User Admin Controller', 'Reading User: ', req.params.id

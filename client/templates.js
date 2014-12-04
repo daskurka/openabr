@@ -102,15 +102,8 @@
     };
 
     // pages\admin\users\password.jade compiled template
-    templatizer["pages"]["admin"]["users"]["password"] = function tmpl_pages_admin_users_password(locals) {
-        var buf = [];
-        var jade_mixins = {};
-        var jade_interp;
-        var locals_for_with = locals || {};
-        (function(email, password) {
-            buf.push("<ul><li>" + jade.escape(null == (jade_interp = email) ? "" : jade_interp) + "</li><li>" + jade.escape(null == (jade_interp = password) ? "" : jade_interp) + "</li></ul>");
-        }).call(this, "email" in locals_for_with ? locals_for_with.email : typeof email !== "undefined" ? email : undefined, "password" in locals_for_with ? locals_for_with.password : typeof password !== "undefined" ? password : undefined);
-        return buf.join("");
+    templatizer["pages"]["admin"]["users"]["password"] = function tmpl_pages_admin_users_password() {
+        return '<div class="panel panel-info"><div class="panel-heading"><div class="panel-title"><span class="glyphicon glyphicon-lock"></span>&nbsp;Generated Password</div></div><div class="panel-body"><strong>Please ensure that the user changes this password as soon as possibile.</strong><hr/><div class="row"><div class="col-xs-2"><strong>Name:</strong></div><div data-hook="name" class="col-xs-10"></div></div><div class="row"><div class="col-xs-2"><strong>Email:</strong></div><div data-hook="email" class="col-xs-10"></div></div><div class="row"><div class="col-xs-2"><strong>Password:</strong></div><div data-hook="password" class="col-xs-10"></div></div></div><div class="panel-footer"><button id="copyToClipboard" class="btn btn-default"><span class="glyphicon glyphicon-paperclip"></span>Copy to clipboard</button></div></div>';
     };
 
     // pages\admin\users\users.jade compiled template
