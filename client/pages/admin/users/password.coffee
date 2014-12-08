@@ -16,6 +16,3 @@ module.exports = PageView.extend
     'model.password':
       type: 'text'
       hook: 'password'
-
-  events:
-    'click #copyToClipboard': 'copyToClipboard'
