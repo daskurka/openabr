@@ -13,6 +13,7 @@ module.exports = (server) ->
 
   #routes for managing user - only system admin
   server.post '/api/admin/users', authenticate.admin, userAdmin.create
+  server.get '/api/admin/users/check', authenticate.admin, userAdmin.checkEmail
   server.get '/api/admin/users/:id', authenticate.admin, userAdmin.read
   server.put '/api/admin/users/:id', authenticate.admin, userAdmin.update
   server.delete '/api/admin/users/:id', authenticate.admin, userAdmin.remove

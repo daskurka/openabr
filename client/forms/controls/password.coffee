@@ -18,9 +18,6 @@ module.exports = View.extend
     @.initial = @.queryByHook('password-input')
     @.confirm = @.queryByHook('password-input-confirm')
 
-
-
-
   handleInitialChanged: () ->
     console.log 'handle init hit'
 

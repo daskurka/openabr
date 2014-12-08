@@ -1,6 +1,6 @@
 PageView = require '../../base.coffee'
 templates = require '../../../templates'
-EditUserForm = require '../../../forms/userEdit.coffee'
+UserForm = require '../../../forms/user.coffee'
 
 User = require '../../../models/admin/user.coffee'
 
@@ -28,15 +28,10 @@ module.exports = PageView.extend
       waitFor: 'model'
       prepareView: (el) ->
         model = @.model
-        return new EditUserForm
+        return new UserForm
           el: el
           model: @.model
           submitCallback: (data) ->
-
-            console.log 'Save Hit'
-            console.log data
-            return
-
             model.save data,
               wait: yes
               success: () ->

@@ -84,3 +84,15 @@ exports.query = (req, res) ->
         else
           pager.attachResponseHeaders(res, totalFound)
           res.send users
+
+exports.checkEmail = (req, res) ->
+  line.debug 'User Admin Controller', 'Checking if email address (username) already exists: ', req.params.email
+
+  User.findOne {email: req.params.email}, (err, user) ->
+    if err?
+      return handle.error req, res, err, 'Error checking email address', 'userAdminController.checkEmail'
+    else
+      if user?
+        return res.send {exists: true}
+      else
+        return res.send {exists: false}

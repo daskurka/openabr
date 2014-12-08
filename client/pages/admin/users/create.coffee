@@ -2,7 +2,7 @@ State = require 'ampersand-state'
 
 PageView = require '../../base.coffee'
 templates = require '../../../templates'
-UserNewForm = require '../../../forms/userNew.coffee'
+UserForm = require '../../../forms/user.coffee'
 
 User = require '../../../models/admin/user.coffee'
 
@@ -21,7 +21,7 @@ module.exports = PageView.extend
     form:
       container: 'form'
       prepareView: (el) ->
-        return new UserNewForm
+        return new UserForm
           el: el
           submitCallback: (data) ->
             newUser = new User(data)

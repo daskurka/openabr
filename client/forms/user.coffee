@@ -1,5 +1,6 @@
 FormView = require 'ampersand-form-view'
 InputView = require './controls/input.coffee'
+EmailView = require './controls/email.coffee'
 
 module.exports = FormView.extend
 
@@ -15,7 +16,7 @@ module.exports = FormView.extend
           (val) -> if val.length < 6 then return "Name must be at least 6 characters long."
         ]
     ,
-      new InputView
+      new EmailView
         label: 'Email'
         name: 'email'
         value: @.model and @.model.email
