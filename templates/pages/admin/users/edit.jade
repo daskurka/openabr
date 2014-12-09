@@ -5,5 +5,11 @@
       fieldset(data-hook="field-container")
       .buttons
          button.btn(data-hook="reset", type="submit") Submit
-         button.btn(data-hook='delete', type='button').btn-danger Delete
 
+   hr
+   .panel.panel-default
+      .panel-heading
+         .panel-title Actions
+      .panel-body
+         div(data-hook='delete-confirm')
+         div(data-hook='reset-password-confirm')

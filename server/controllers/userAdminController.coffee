@@ -96,3 +96,23 @@ exports.checkEmail = (req, res) ->
         return res.send {exists: true}
       else
         return res.send {exists: false}
+
+exports.resetPassword = (req, res) ->
+  line.debug 'User Admin Controller', 'Resetting users password for user: ', req.params.id
+
+  query = User.findById req.params.id
+  query.exec (err, user) ->
+    if err? or not user?
+      return handle.error req, res, err, 'Error finding user to reset', 'userAdminController.resetPassword'
+    else
+      password = generateTempPassword(8)
+      authenticate.resetAuthentication user.id, password, (err) ->
+        if err?
+          return handle.error req, res, err, 'Error resetting auth for user', 'userAdminController.resetPassword'
+
+        tempPassword =
+          name: user.name
+          email: user.email
+          password: password
+
+        res.send tempPassword

@@ -1,8 +1,16 @@
 PageView = require '../../base.coffee'
+State = require 'ampersand-state'
 templates = require '../../../templates'
 UserForm = require '../../../forms/user.coffee'
-
+ConfirmView = require '../../../views/confirm.coffee'
+ConfirmModel = require '../../../models/confirm.coffee'
 User = require '../../../models/admin/user.coffee'
+
+NewPassword = State.extend
+  props:
+    name: 'string'
+    email: 'string'
+    password: 'string'
 
 module.exports = PageView.extend
 
@@ -15,14 +23,40 @@ module.exports = PageView.extend
         success: (model) =>
           @.model = model
 
-  events:
-    'click [data-hook=delete]': 'removeUser'
-
   removeUser: () ->
     @.model.destroy
       success: app.navigate('admin/users')
 
+  resetPassword: () ->
+    url = '/api/admin/users/reset'
+    data = {id: @.model.id}
+    $.get(url, data).done (response) ->
+      state = new NewPassword(response)
+      app.router.adminUserPassword(state)
+
   subviews:
+    deleteConfirm:
+      hook: 'delete-confirm'
+      waitFor: 'model'
+      prepareView: (el) ->
+        model = new ConfirmModel
+          message: 'Delete this user?'
+          button: 'Delete'
+        return new ConfirmView
+          el: el
+          model: model
+          action: () => @.removeUser()
+    resetPasswordConfirm:
+      hook: 'reset-password-confirm'
+      waitFor: 'model'
+      prepareView: (el) ->
+        model = new ConfirmModel
+          message: 'Reset this users password?'
+          button: 'Reset'
+        return new ConfirmView
+          el: el
+          model: model
+          action: () => @.resetPassword()
     form:
       container: 'form'
       waitFor: 'model'

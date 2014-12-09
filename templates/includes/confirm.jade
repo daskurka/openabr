@@ -1,0 +1,12 @@
+.confirmButton
+   .mainSection(data-hook='main-section',style='')
+      button.btn.btn-primary(data-hook='main-button', type='button', style='width: 140px;')
+      | &nbsp;&nbsp;
+      span(data-hook='main-message')
+   .confirmSection(data-hook='confirm-section',style='')
+      .confirmMessage
+         .btn-group
+            button.btn.btn-warning(data-hook='confirm-button', type='button', style='width: 70px;') Confirm
+            button.btn.btn-default(data-hook='cancel-button', type='button', style='width: 70px;') Cancel
+         | &nbsp;&nbsp;
+         span(data-hook='confirm-message')

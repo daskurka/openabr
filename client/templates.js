@@ -30,6 +30,11 @@
         return '<meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="description" content="OpenABR Site"/><meta name="author" content="Sam Kirkpatrick"/><link rel="icon" href="/img/favicon.ico"/><title>OpenABR</title>';
     };
 
+    // includes\confirm.jade compiled template
+    templatizer["includes"]["confirm"] = function tmpl_includes_confirm() {
+        return '<div class="confirmButton"><div data-hook="main-section" style="" class="mainSection"><button data-hook="main-button" type="button" style="width: 140px;" class="btn btn-primary"></button>&nbsp;&nbsp;<span data-hook="main-message"></span></div><div data-hook="confirm-section" style="" class="confirmSection"><div class="confirmMessage"><div class="btn-group"><button data-hook="confirm-button" type="button" style="width: 70px;" class="btn btn-warning">Confirm</button><button data-hook="cancel-button" type="button" style="width: 70px;" class="btn btn-default">Cancel</button></div>&nbsp;&nbsp;<span data-hook="confirm-message"></span></div></div></div>';
+    };
+
     // includes\form\input.jade compiled template
     templatizer["includes"]["form"]["input"] = function tmpl_includes_form_input() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
@@ -98,7 +103,7 @@
 
     // pages\admin\users\edit.jade compiled template
     templatizer["pages"]["admin"]["users"]["edit"] = function tmpl_pages_admin_users_edit() {
-        return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button><button data-hook="delete" type="button" class="btn btn-danger">Delete</button></div></form></div>';
+        return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form><hr/><div class="panel panel-default"><div class="panel-heading"><div class="panel-title">Actions</div></div><div class="panel-body"><div data-hook="delete-confirm"></div><div data-hook="reset-password-confirm"></div></div></div></div>';
     };
 
     // pages\admin\users\password.jade compiled template

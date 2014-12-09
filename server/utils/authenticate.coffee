@@ -140,3 +140,14 @@ exports.createAuthentication = (userId, password, callback) ->
       callback(err)
     else
       callback(null, auth)
+
+#this function is for finding and resetting an authentication
+exports.resetAuthentication = (userId, password, callback) ->
+
+  line.debug 'Authentication', 'Removing old password for: ', userId
+
+  Auth.where({user: userId}).findOneAndRemove (err) ->
+    if err?
+      callback(err)
+    else
+      exports.createAuthentication(userId, password, callback)
