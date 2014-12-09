@@ -2,9 +2,13 @@ chalk = require 'chalk'
 
 exports.error = (req, res, error, hint, location) ->
 
+  isoDate = new Date().toISOString()
+  datePart = chalk.magenta("[#{isoDate}]")
+
   #set status code
   res.status(500)
   errorBody =
+    timestamp: isoDate
     statusCode: 500
     statusText: "Internal Server Error"
 
@@ -15,18 +19,22 @@ exports.error = (req, res, error, hint, location) ->
     errorBody.debug.hint = hint
     errorBody.debug.location = location
 
-    console.log "#{chalk.red('ERROR:')} #{chalk.blue('500')} 'Internal Server Error' in #{chalk.yellow(location)} likely to be #{chalk.green(hint)}."
+    console.log "#{datePart} #{chalk.red('ERROR:')} #{chalk.blue('500')} 'Internal Server Error' in #{chalk.yellow(location)} likely to be #{chalk.green(hint)}."
     if error? and error.length > 0
-      console.log "#{chalk.red('ERROR:')} Raw Message: #{chalk.blue(error)}"
+      console.log "#{datePart} #{chalk.red('ERROR:')} Raw Message: #{chalk.blue(error)}"
 
   res.send(errorBody)
 
 
 exports.authError = (req, res, error, hint, location) ->
 
+  isoDate = new Date().toISOString()
+  datePart = chalk.magenta("[#{isoDate}]")
+
   #set status code
   res.status(401)
   errorBody =
+    timestamp: isoDate
     statusCode: 401
     statusText: "Not Authorised"
 
@@ -37,8 +45,8 @@ exports.authError = (req, res, error, hint, location) ->
     errorBody.debug.hint = hint
     errorBody.debug.location = location
 
-    console.log "#{chalk.red('ERROR:')} #{chalk.blue('401')} 'Not Authorised' in #{chalk.yellow(location)} likely to be #{chalk.green(hint)}."
+    console.log "#{datePart} #{chalk.red('ERROR:')} #{chalk.blue('401')} 'Not Authorised' in #{chalk.yellow(location)} likely to be #{chalk.green(hint)}."
     if error? and error.length > 0
-      console.log "#{chalk.red('ERROR:')} Raw Message: #{chalk.blue(error)}"
+      console.log "#{datePart} #{chalk.red('ERROR:')} Raw Message: #{chalk.blue(error)}"
 
   res.send(errorBody)
