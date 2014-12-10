@@ -23,3 +23,4 @@ module.exports = (server) ->
   #routes for user profile - only current user
   server.get '/api/profile/:id', authenticate.user, profile.read
   server.put '/api/profile/:id', authenticate.user, profile.update
+  server.post '/api/profile/:id/change-password', authenticate.user, profile.changePassword

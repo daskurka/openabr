@@ -10,8 +10,11 @@ module.exports = Router.extend
     'contact': 'contact'
     'login': 'login'
     'logout': 'logout'
-    'profile': 'profile'
     '404': 'catchAll'
+
+    'profile': 'profile'
+    'profile/edit': 'editProfile'
+    'profile/change-password': 'changePassword'
 
     'admin/users': 'adminUsers'
     'admin/users/create': 'adminUserCreate'
@@ -34,7 +37,11 @@ module.exports = Router.extend
   contact: () -> @.trigger 'page', new pages.Contact()
   login: () -> @.trigger 'page', new pages.Login()
   logout: () -> app.logout()
-  profile: () -> console.log 'user profile hit'
+
+  #profile handlers
+  profile: () -> @.trigger 'page', new pages.profile.View(model: app.me.user)
+  editProfile: () -> @.trigger 'page', new pages.profile.Edit(model: app.me.user)
+  changePassword: () -> @.trigger 'page', new pages.profile.ChangePassword(model: app.me.user)
 
   #Admin routes
   adminUsers: () -> @.trigger 'page', new pages.admin.users.Users()

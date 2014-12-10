@@ -17,3 +17,7 @@ module.exports =
       Create: require './admin/users/create.coffee'
       Edit: require './admin/users/edit.coffee'
       Password: require './admin/users/password.coffee'
+  profile:
+    View: require './profile/view.coffee'
+    Edit: require './profile/edit.coffee'
+    ChangePassword: require './profile/change-password.coffee'

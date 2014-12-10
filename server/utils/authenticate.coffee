@@ -121,6 +121,19 @@ exports.login = (req, res) ->
       else
         return handle.authError req, res, null, 'Password hash did not match hash in database.', 'authenticate.login'
 
+exports.checkPassword = (userId, password, callback) ->
+  #find the auth from the user
+  Auth.findOne {user: userId}, (err, auth) ->
+    if err? then return callback(err)
+
+    resultantHash = pbkdf2(password, auth.passwordSalt, hashLength, hashIterations)
+    resultantHash = resultantHash.toString('base64')
+
+    if resultantHash is auth.passwordHash
+      callback(null, yes)
+    else
+      callback(null, no)
+
 #this function creates a new authentication entry for a particular user
 exports.createAuthentication = (userId, password, callback) ->
 
@@ -146,8 +159,19 @@ exports.resetAuthentication = (userId, password, callback) ->
 
   line.debug 'Authentication', 'Removing old password for: ', userId
 
-  Auth.where({user: userId}).findOneAndRemove (err) ->
+  Auth.findOne {user: userId }, (err, oldAuth) ->
     if err?
       callback(err)
-    else
-      exports.createAuthentication(userId, password, callback)
+
+    isAdmin = oldAuth.isAdmin
+
+    Auth.where({user: userId}).findOneAndRemove (err) ->
+      if err?
+        callback(err)
+      else
+        exports.createAuthentication userId, password, (err, newAuth) ->
+          if err? then callback(err)
+
+          newAuth.isAdmin = isAdmin
+          newAuth.save (err) ->
+            if err? then callback(err) else callback(null, newAuth)

@@ -11,6 +11,11 @@ Current = require './models/current.coffee'
 
 module.exports =
 
+  #i have to get the sequence correct for this
+  startRouter: () ->
+    #start router history at / - after the point the application will start to route
+    @.router.history.start {pushState: yes, root: '/'}
+
   #main app function
   start: () ->
     #configure globals
@@ -30,17 +35,16 @@ module.exports =
       if Cookies.enabled and Cookies.get('rememberMe')
         app.serverToken = Cookies.get('serverToken')
         userId = Cookies.get('userId')
-        if app.serverToken? and userId?
-          @.me.loginUserId userId, (err) =>
-            if err? then return do @.logout
-            @.view.trigger 'login'
-            if window.location.length <= 0
-              app.navigate ''
-        else
-          console.log 'Malformed token/userId - cannot login automatically.'
+        @.me.loginUserId userId, (err) =>
+          if err? then return do @.logout
+          @.view.trigger 'login'
+          if window.location.length <= 0
+            app.navigate ''
+          @.startRouter()
+      else
+        @.startRouter()
 
-      #start router history at / - after the point the application will start to route
-      @.router.history.start {pushState: yes, root: '/'}
+
 
   #logout the current user from anywhere
   logout: () ->
