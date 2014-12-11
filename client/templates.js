@@ -104,12 +104,12 @@
 
     // pages\admin\users\create.jade compiled template
     templatizer["pages"]["admin"]["users"]["create"] = function tmpl_pages_admin_users_create() {
-        return '<div class="container"><h2>Create User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="alert alert-info"><strong>Please Note&nbsp;</strong>A password will be automatically generated and displayed post submission.</div><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
+        return '<div class="container"><h2>Create User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="alert alert-info"><strong>Please Note&nbsp;</strong>A password will be automatically generated and displayed post submission.</div><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
     };
 
     // pages\admin\users\edit.jade compiled template
     templatizer["pages"]["admin"]["users"]["edit"] = function tmpl_pages_admin_users_edit() {
-        return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form><hr/><div class="panel panel-default"><div class="panel-heading"><div class="panel-title">Actions</div></div><div class="panel-body"><div data-hook="delete-confirm"></div><div data-hook="reset-password-confirm"></div></div></div></div>';
+        return '<div class="container"><h2>Edit User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="panel panel-default"><div class="panel-heading"><div class="panel-title">Actions</div></div><div class="panel-body"><div data-hook="delete-confirm"></div><div data-hook="reset-password-confirm"></div></div></div></div>';
     };
 
     // pages\admin\users\password.jade compiled template
@@ -139,12 +139,12 @@
 
     // pages\profile\change.jade compiled template
     templatizer["pages"]["profile"]["change"] = function tmpl_pages_profile_change() {
-        return '<div class="container"><h2>Change Password</h2><p>To change your password please enter your current password then your new desired password.</p><i>If you can not remember your current password please contact your administrator.</i><hr/><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
+        return '<div class="container"><h2>Change Password</h2><p>To change your password please enter your current password then your new desired password.</p><i>If you can not remember your current password please contact your administrator.</i><hr/><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
     };
 
     // pages\profile\edit.jade compiled template
     templatizer["pages"]["profile"]["edit"] = function tmpl_pages_profile_edit() {
-        return '<div class="container"><h2>Edit Profile</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
+        return '<div class="container"><h2>Edit Profile</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
     };
 
     // pages\profile\view.jade compiled template

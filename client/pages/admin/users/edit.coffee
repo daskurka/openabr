@@ -17,6 +17,12 @@ module.exports = PageView.extend
   pageTitle: 'Users Administration'
   template: templates.pages.admin.users.edit
 
+  events:
+    'click [data-hook="cancel"]': 'cancel'
+
+  cancel: () ->
+    app.navigate('admin/users')
+
   initialize: (spec) ->
       temp = new User(id: spec.user)
       temp.fetch

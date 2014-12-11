@@ -17,6 +17,13 @@ module.exports = PageView.extend
 
   pageTitle: 'Users Administration'
   template: templates.pages.admin.users.create
+
+  events:
+    'click [data-hook="cancel"]': 'cancel'
+
+  cancel: () ->
+    app.navigate('admin/users')
+
   subviews:
     form:
       container: 'form'

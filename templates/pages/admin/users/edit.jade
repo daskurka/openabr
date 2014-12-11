@@ -3,8 +3,9 @@
 
    form(data-hook="user-form")
       fieldset(data-hook="field-container")
-      .buttons
-         button.btn(data-hook="reset", type="submit") Submit
+      .btn-group
+         button.btn.btn-primary(data-hook="reset", type="submit") Submit
+         button.btn.btn-default(data-hook='cancel', type='button') Cancel
 
    hr
    .panel.panel-default
