@@ -11,13 +11,16 @@ module.exports = State.extend
     user: User
 
   session:
-    isLoggedIn: { type: 'boolean', default: no, required: yes }
     isAdmin: { type: 'boolean', default: no, required: yes }
+
+  derived:
+    isLoggedIn:
+      deps: ['user']
+      fn: () -> return @.user?
 
   login: (user, isAdmin, callback) ->
     #store the user, find accounts and pick the current account
     @.user = user
-    @.isLoggedIn = yes
     @.isAdmin = isAdmin
     callback(null)
 
@@ -32,5 +35,4 @@ module.exports = State.extend
 
   logout: () ->
     @.user = null
-    @.isLoggedIn = no
     @.isAdmin = no

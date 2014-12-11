@@ -8,6 +8,7 @@ templates = require './templates'
 Router = require './router.coffee'
 MainView = require './views/main.coffee'
 Current = require './models/current.coffee'
+User = require './models/user.coffee'
 
 module.exports =
 
@@ -70,7 +71,8 @@ module.exports =
           Cookies.set 'rememberMe', true, cookieConfig
           Cookies.set 'serverToken', app.serverToken, cookieConfig
           Cookies.set 'userId', response.user.id, cookieConfig
-        @.me.login response.user, response.isAdmin, (err) =>
+        user = new User(response.user)
+        @.me.login user, response.isAdmin, (err) =>
           if err?
             @.me.logout()
             callback(err)

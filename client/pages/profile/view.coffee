@@ -25,8 +25,8 @@ module.exports = PageView.extend
     'click #changePassword': 'changePassword'
 
   edit: () ->
-    app.navigate('/profile/edit')
+    app.navigate('profile/edit')
 
   changePassword: () ->
-    app.navigate('/profile/change-password')
+    app.navigate('profile/change-password')
 

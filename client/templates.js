@@ -87,6 +87,11 @@
         return '<nav class="navbar navbar-default navbar-inverse"><div class="container-fluid navbar-content"></div></nav>';
     };
 
+    // pages\401.jade compiled template
+    templatizer["pages"]["401"] = function tmpl_pages_401() {
+        return '<div class="container"><h2>401<small>&nbsp;You are not authorised! Don\'t try that again or ill report you...</small></h2><p>You are trying to access a feature or resource that is likely for administrators only.</p><p>Don\'t panic! This is not the end! If you really need this feature or resource, why not contact an actual administrator?</p><a href="/contact">Contact the admin!</a></div>';
+    };
+
     // pages\404.jade compiled template
     templatizer["pages"]["404"] = function tmpl_pages_404() {
         return '<div class="container"><h2>404<small>&nbsp;Gah! That was not supposed to happen</small></h2><p>There is nothing currently at this link address! Maybe you mistyped or copied a bad one.</p><p>Don\'t panic and remain calm, use the navbar above to go somewhere safe!</p><p>Oh, and if this continues to happen&nbsp;<a href="/contact">contact the admin!</a></p></div>';

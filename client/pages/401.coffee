@@ -3,5 +3,5 @@ templates = require '../templates'
 
 module.exports = PageView.extend
 
-  pageTitle: 'Not Found'
-  template: templates.pages['404']
+  pageTitle: 'Unauthorized'
+  template: templates.pages['401']
