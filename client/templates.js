@@ -139,17 +139,17 @@
 
     // pages\profile\change.jade compiled template
     templatizer["pages"]["profile"]["change"] = function tmpl_pages_profile_change() {
-        return '<div class="container"><h2>Change Password</h2><p>To change your password please enter your current password then your new desired password.</p><i>If you can not remember your current password please contact your administrator.</i><hr/><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
+        return '<div class="container"><h2>Change Password</h2><p>To change your password please enter your current password then your new desired password.</p><i>If you can not remember your current password please contact your administrator.</i><hr/><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
     };
 
     // pages\profile\edit.jade compiled template
     templatizer["pages"]["profile"]["edit"] = function tmpl_pages_profile_edit() {
-        return '<div class="container"><h2>Edit Profile</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons"><button data-hook="reset" type="submit" class="btn">Submit</button></div></form></div>';
+        return '<div class="container"><h2>Edit Profile</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="buttons btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
     };
 
     // pages\profile\view.jade compiled template
     templatizer["pages"]["profile"]["view"] = function tmpl_pages_profile_view() {
-        return '<div class="container"><div class="row"><h1>Profile</h1></div><div class="row"><div class="col-md-3"><strong>Name:</strong></div><div data-hook="name" class="col-md-9"></div><div class="col-md-3"><strong>Email:</strong></div><div data-hook="email" class="col-md-9"></div><div class="col-md-3"><strong>Position:</strong></div><div data-hook="position" class="col-md-9"></div><div class="col-md-3"><strong>Unique Id:</strong></div><div data-hook="id" class="col-md-9"></div></div><div class="row"><hr/><div class="button-group"><button id="edit" class="btn btn-default">Edit</button><button id="changePassword" class="btn btn-default">Change Password</button></div></div></div>';
+        return '<div class="container"><div class="row"><h1>Profile</h1></div><div class="row"><div class="col-md-3"><strong>Name:</strong></div><div data-hook="name" class="col-md-9"></div><div class="col-md-3"><strong>Email:</strong></div><div data-hook="email" class="col-md-9"></div><div class="col-md-3"><strong>Position:</strong></div><div data-hook="position" class="col-md-9"></div><div class="col-md-3"><strong>Unique Id:</strong></div><div data-hook="id" class="col-md-9"></div></div><div class="row push20"><div class="col-md-3"><strong>Profile:</strong></div><div class="col-md-9"><button id="edit" class="btn btn-default">Edit</button></div></div><div class="row push20"><div class="col-md-3"><strong>Change:</strong></div><div class="col-md-9"><button id="changePassword" class="btn btn-default">Password</button></div></div></div>';
     };
 
     // pages\status.jade compiled template

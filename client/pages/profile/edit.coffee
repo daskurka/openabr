@@ -7,6 +7,12 @@ module.exports = PageView.extend
   pageTitle: 'Edit Profile'
   template: templates.pages.profile.edit
 
+  events:
+    'click [data-hook="cancel"]': 'cancel'
+
+  cancel: () ->
+    app.navigate('profile')
+
   subviews:
     form:
       container: 'form'
@@ -20,4 +26,4 @@ module.exports = PageView.extend
             model.save data,
               wait: yes
               success: () ->
-                app.navigate('/profile')
+                app.navigate('profile')

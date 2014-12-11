@@ -7,6 +7,12 @@ module.exports = PageView.extend
   pageTitle: 'View Profile'
   template: templates.pages.profile.change
 
+  events:
+    'click [data-hook="cancel"]': 'cancel'
+
+  cancel: () ->
+    app.navigate('profile')
+
   subviews:
     form:
       container: 'form'
