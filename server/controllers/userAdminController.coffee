@@ -1,4 +1,4 @@
-User = require './userModel'
+User = require '../models/userModel'
 line = require '../utils/line'
 handle = require '../utils/handleError'
 pager = require '../utils/pager'

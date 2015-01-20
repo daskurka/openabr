@@ -2,7 +2,7 @@ async = require 'async'
 
 line = require './line'
 
-User = require '../controllers/userModel'
+User = require '../models/userModel'
 authenticate = require './authenticate'
 
 module.exports = (server) ->

@@ -6,8 +6,8 @@ crypto = require 'crypto'
 
 line = require './line'
 handle = require './handleError'
-User = require '../controllers/userModel'
-Auth = require './authModel'
+User = require '../models/userModel'
+Auth = require './../models/authModel'
 
 #settings TODO: put somewhere else... SEROIUSLY secret should not be here
 secret = 'FbBgywYjx6HPPzjKHqJsDhX8'

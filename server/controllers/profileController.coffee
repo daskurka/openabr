@@ -1,5 +1,5 @@
-User = require './userModel'
-Auth = require '../utils/authModel'
+User = require '../models/userModel'
+Auth = require '../models/authModel'
 line = require '../utils/line'
 handle = require '../utils/handleError'
 authenticate = require '../utils/authenticate'

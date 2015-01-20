@@ -1,5 +1,6 @@
 authenticate = require './utils/authenticate'
 userAdmin = require './controllers/userAdminController'
+subject = require './controllers/subjectController.coffee'
 profile = require './controllers/profileController'
 
 
@@ -24,3 +25,10 @@ module.exports = (server) ->
   server.get '/api/profile/:id', authenticate.user, profile.read
   server.put '/api/profile/:id', authenticate.user, profile.update
   server.post '/api/profile/:id/change-password', authenticate.user, profile.changePassword
+
+  #subject routes
+  server.post '/api/subjects', authenticate.user, subject.create
+  server.get '/api/subjects/:id', authenticate.user, subject.read
+  server.put '/api/subjects/:id', authenticate.user, subject.update
+  server.delete '/api/subjects/:id', authenticate.user, subject.remove
+  server.get '/api/subjects', authenticate.user, subject.query
