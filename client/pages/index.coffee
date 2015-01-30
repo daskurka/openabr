@@ -18,7 +18,14 @@ module.exports =
       Create: require './admin/users/create.coffee'
       Edit: require './admin/users/edit.coffee'
       Password: require './admin/users/password.coffee'
+    fields:
+      Index: require './admin/fields/index.coffee'
+      List: require './admin/fields/list.coffee'
+      CreateDataField: require './admin/fields/create-data-field.coffee'
+      EditDataField: require './admin/fields/edit-data-field.coffee'
   profile:
     View: require './profile/view.coffee'
     Edit: require './profile/edit.coffee'
     ChangePassword: require './profile/change-password.coffee'
+  subjects:
+    Index: require './subjects/index.coffee'

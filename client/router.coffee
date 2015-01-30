@@ -21,6 +21,11 @@ module.exports = Router.extend
     'admin/users/create': 'adminUserCreate'
     'admin/users/:userId/edit': 'adminUserEdit'
 
+    'admin/fields': 'adminFields'
+    'admin/fields/:col': 'adminFieldsList'
+    'admin/fields/:col/create': 'adminFieldCreate'
+    'admin/fields/:col/:dbName/edit': 'adminFieldEdit'
+
     'process': 'process'
     'query': 'query'
     'experiments': 'experiments'
@@ -41,27 +46,18 @@ module.exports = Router.extend
     if app.me.isAdmin then @.showUserPage page else do @.unauthorized
 
   #Basic route handlers
+  about: () -> @.showPage new pages.About()
+  contact: () -> @.showPage new pages.Contact()
+  login: () -> @.showPage new pages.Login()
+  unauthorized: () -> @.showPage new pages.FourOhOne()
   home: () ->
     if app.me.isLoggedIn
       @.showUserPage new pages.Status()
     else
       @.showPage new pages.Home()
-
-  about: () ->
-    @.showPage new pages.About()
-
-  contact: () ->
-    @.showPage new pages.Contact()
-
-  login: () ->
-    @.showPage new pages.Login()
-
   logout: () ->
     app.logout()
     @.showPage new pages.Home()
-
-  unauthorized: () ->
-    @.showPage new pages.FourOhOne()
 
   #profile handlers
   profile: () ->
@@ -75,30 +71,22 @@ module.exports = Router.extend
     @.showUserPage new pages.profile.ChangePassword(model: app.me.user)
 
   #Admin routes
-  adminUsers: () ->
-    @.showAdminPage new pages.admin.users.Users()
-
-  adminUserCreate: () ->
-    @.showAdminPage new pages.admin.users.Create()
-
+  adminUsers: () -> @.showAdminPage new pages.admin.users.Users()
+  adminUserCreate: () -> @.showAdminPage new pages.admin.users.Create()
+  adminUserEdit: (user) -> @.showAdminPage new pages.admin.users.Edit({user})
   adminUserPassword: (passwordState) ->
     @.showAdminPage new pages.admin.users.Password(model: passwordState)
 
-  adminUserEdit: (user) ->
-    @.showAdminPage new pages.admin.users.Edit({user})
+  adminFields: () -> @.showAdminPage new pages.admin.fields.Index()
+  adminFieldsList: (col) -> @.showAdminPage new pages.admin.fields.List({col})
+  adminFieldCreate: (col) -> @.showAdminPage new pages.admin.fields.CreateDataField({col})
+  adminFieldEdit: (col, dbName) -> @.showAdminPage new pages.admin.fields.EditDataField({col,dbName})
 
   #Functional routes
-  process: () ->
-    console.log 'Process route hit'
-
-  query: () ->
-    console.log 'Query route hit'
-
-  experiments: () ->
-    console.log 'Experiments route hit'
-
-  subjects: () ->
-    console.log 'Subjects route hit'
+  process: () -> console.log 'Process route hit'
+  query: () -> console.log 'Query route hit'
+  experiments: () -> console.log 'Experiments route hit'
+  subjects: () -> @.showPage new pages.subjects.Index()
 
   #Catch all other routes and head back to home
   catchAll: () ->

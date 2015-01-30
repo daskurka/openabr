@@ -1,0 +1,42 @@
+div
+    h2 Fields Administration&nbsp;
+        small(data-hook='collection-name')
+    ul.nav.nav-pills(data-hook='fields-nav')
+        li(role='presentation')
+            a(href='/admin/fields') Help
+        li(role='presentation').subject-li
+            a(href='/admin/fields/subject') Subject
+        li(role='presentation').experiment-li
+            a(href='/admin/fields/experiment') Experiment
+        li(role='presentation').abr-li
+            a(href='/admin/fields/abr') ABR
+        li(role='presentation').abr-group-li
+            a(href='/admin/fields/abr-group') ABR Group
+        li(role='presentation').abr-set-li
+            a(href='/admin/fields/abr-set') ABR Set
+        li(role='presentation').abr-reading-li
+            a(href='/admin/fields/abr-reading') ABR Reading
+
+    hr
+    h3 Fixed Fields
+    table.table.table-hover
+        thead
+            th Name
+            th Type
+            th Database Name
+            th Required
+            th Description
+        tbody(data-hook='fixed-fields-table')
+    hr
+    h3 User Fields&nbsp;
+        small: button.btn.btn-primary.btn-sm(data-hook='add-user-field') Add new
+    table.table.table-hover
+        thead
+            th Name
+            th Type
+            th Database Name
+            th Required
+            th Creator
+            th Description
+        tbody(data-hook='fields-table')
+

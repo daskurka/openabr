@@ -19,6 +19,8 @@
     templatizer["includes"]["navbar"] = {};
     templatizer["pages"]["admin"] = {};
     templatizer["pages"]["profile"] = {};
+    templatizer["pages"]["subjects"] = {};
+    templatizer["pages"]["admin"]["fields"] = {};
     templatizer["pages"]["admin"]["users"] = {};
 
     // body.jade compiled template
@@ -36,6 +38,11 @@
         return '<div class="confirmButton"><div data-hook="main-section" style="" class="mainSection"><button data-hook="main-button" type="button" style="width: 140px;" class="btn btn-primary"></button>&nbsp;&nbsp;<span data-hook="main-message"></span></div><div data-hook="confirm-section" style="" class="confirmSection"><div class="confirmMessage"><div class="btn-group"><button data-hook="confirm-button" type="button" style="width: 70px;" class="btn btn-warning">Confirm</button><button data-hook="cancel-button" type="button" style="width: 70px;" class="btn btn-default">Cancel</button></div>&nbsp;&nbsp;<span data-hook="confirm-message"></span></div></div></div>';
     };
 
+    // includes\form\checkbox.jade compiled template
+    templatizer["includes"]["form"]["checkbox"] = function tmpl_includes_form_checkbox() {
+        return '<div class="form-group"><label data-hook="label"></label><input type="checkbox" class="form-control"/><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div></div>';
+    };
+
     // includes\form\input.jade compiled template
     templatizer["includes"]["form"]["input"] = function tmpl_includes_form_input() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
@@ -46,9 +53,24 @@
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input data-hook="password-input" type="password" class="form-control"/><label data-hook="label-confirm"></label><input data-hook="password-input-confirm" type="password" class="form-control"/></div>';
     };
 
+    // includes\form\select.jade compiled template
+    templatizer["includes"]["form"]["select"] = function tmpl_includes_form_select() {
+        return '<div class="form-group select"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><select class="form-control"></select></div>';
+    };
+
     // includes\form\users.jade compiled template
     templatizer["includes"]["form"]["users"] = function tmpl_includes_form_users() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
+    };
+
+    // includes\items\dataField.jade compiled template
+    templatizer["includes"]["items"]["dataField"] = function tmpl_includes_items_dataField() {
+        return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
+    };
+
+    // includes\items\fixedDataField.jade compiled template
+    templatizer["includes"]["items"]["fixedDataField"] = function tmpl_includes_items_fixedDataField() {
+        return '<tr data-hook="fixed-field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="description"></td></tr>';
     };
 
     // includes\items\user.jade compiled template
@@ -65,7 +87,7 @@
         (function(isAdmin, user) {
             buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/process">Upload ABR</a></li><li><a href="/query">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
             if (isAdmin) {
-                buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/users">Users</a></li></ul></li>');
+                buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/users">Users</a></li><li><a href="/admin/fields">Fields</a></li></ul></li>');
             }
             buf.push('<li><a href="/logout">Logout</a></li></ul><p class="navbar-text navbar-right"><a href="/profile">' + jade.escape((jade_interp = user.name) == null ? "" : jade_interp) + "</a></p>");
         }).call(this, "isAdmin" in locals_for_with ? locals_for_with.isAdmin : typeof isAdmin !== "undefined" ? isAdmin : undefined, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
@@ -102,6 +124,26 @@
         return '<div class="container"><h2>About OpenABR</h2><img src="/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an cloud-hosted tool for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster collection and analysis of ABRs. Additionalty it is hoped that by collecting various ABRS from other organisations and pooling the data better models and analysis processes can be developed.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
+    // pages\admin\fields\createDataField.jade compiled template
+    templatizer["pages"]["admin"]["fields"]["createDataField"] = function tmpl_pages_admin_fields_createDataField() {
+        return '<div class="container"><h2>Create New Data Field&nbsp;<small data-hook="collection-name"></small></h2><form data-hook="field-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
+    };
+
+    // pages\admin\fields\editDataField.jade compiled template
+    templatizer["pages"]["admin"]["fields"]["editDataField"] = function tmpl_pages_admin_fields_editDataField() {
+        return '<div class="container"><h2>Edit Data Field&nbsp;<small data-hook="collection-name"></small></h2><form data-hook="data-field-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="panel panel-default"><div class="panel-heading"><div class="panel-title">Actions</div></div><div class="panel-body"><div data-hook="delete-confirm"></div></div></div></div>';
+    };
+
+    // pages\admin\fields\index.jade compiled template
+    templatizer["pages"]["admin"]["fields"]["index"] = function tmpl_pages_admin_fields_index() {
+        return '<div><h2>Fields Administration&nbsp;<small>Help</small></h2><ul class="nav nav-pills"><li role="presentation" class="active"><a href="/admin/fields">Help</a></li><li role="presentation"><a href="/admin/fields/subject">Subject</a></li><li role="presentation"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation"><a href="/admin/fields/abr">ABR</a></li><li role="presentation"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><p>The fillowing section will eventually explain how all of this fields marlarky works, not today bob.</p></div>';
+    };
+
+    // pages\admin\fields\list.jade compiled template
+    templatizer["pages"]["admin"]["fields"]["list"] = function tmpl_pages_admin_fields_list() {
+        return '<div><h2>Fields Administration&nbsp;<small data-hook="collection-name"></small></h2><ul data-hook="fields-nav" class="nav nav-pills"><li role="presentation"><a href="/admin/fields">Help</a></li><li role="presentation" class="subject-li"><a href="/admin/fields/subject">Subject</a></li><li role="presentation" class="experiment-li"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation" class="abr-li"><a href="/admin/fields/abr">ABR</a></li><li role="presentation" class="abr-group-li"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation" class="abr-set-li"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation" class="abr-reading-li"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><hr/><h3>Fixed Fields</h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Description</th></thead><tbody data-hook="fixed-fields-table"></tbody></table><hr/><h3>User Fields&nbsp;<small><button data-hook="add-user-field" class="btn btn-primary btn-sm">Add new</button></small></h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Creator</th><th>Description</th></thead><tbody data-hook="fields-table"></tbody></table></div>';
+    };
+
     // pages\admin\users\create.jade compiled template
     templatizer["pages"]["admin"]["users"]["create"] = function tmpl_pages_admin_users_create() {
         return '<div class="container"><h2>Create User</h2><form data-hook="user-form"><fieldset data-hook="field-container"></fieldset><div class="alert alert-info"><strong>Please Note&nbsp;</strong>A password will be automatically generated and displayed post submission.</div><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div>';
@@ -119,7 +161,7 @@
 
     // pages\admin\users\users.jade compiled template
     templatizer["pages"]["admin"]["users"]["users"] = function tmpl_pages_admin_users_users() {
-        return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><hr/><table class="table table-hover"><thead><td>Name</td><td>Email</td><td>Position</td></thead><tbody data-hook="users-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+        return '<div class="container"><h2>Users</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newUser" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new user</button></div></div><hr/><table class="table table-hover"><thead><th>Name</th><th>Email</th><th>Position</th></thead><tbody data-hook="users-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
     // pages\contact.jade compiled template
@@ -155,6 +197,11 @@
     // pages\status.jade compiled template
     templatizer["pages"]["status"] = function tmpl_pages_status() {
         return '<div class="container"><h2>Welcome to OpenABR</h2><p>You are logged in!</p></div>';
+    };
+
+    // pages\subjects\index.jade compiled template
+    templatizer["pages"]["subjects"]["index"] = function tmpl_pages_subjects_index() {
+        return '<div><p>I am the subjects page, fear my wrath</p><div id="display">No data yet</div></div>';
     };
 
     return templatizer;

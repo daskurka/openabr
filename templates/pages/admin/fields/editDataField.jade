@@ -1,0 +1,15 @@
+.container
+    h2 Edit Data Field&nbsp;
+        small(data-hook='collection-name')
+    form(data-hook="data-field-form")
+        fieldset(data-hook="field-container")
+        .btn-group
+            button.btn.btn-primary(data-hook="reset", type="submit") Submit
+            button.btn.btn-default(data-hook='cancel', type='button') Cancel
+
+    hr
+    .panel.panel-default
+        .panel-heading
+            .panel-title Actions
+        .panel-body
+            div(data-hook='delete-confirm')

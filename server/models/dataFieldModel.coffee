@@ -6,7 +6,6 @@ dataFieldSchema = new Schema
   type: String
   name: String
   dbName: String
-  suffix: String
   description: String
   required: Boolean
   creator: Schema.Types.ObjectId

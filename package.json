@@ -13,6 +13,7 @@
     "ampersand-model": "^4.0.0",
     "ampersand-rest-collection": "^2.0.4",
     "ampersand-router": "^1.0.6",
+    "ampersand-select-view": "^2.3.0",
     "ampersand-state": "^4.3.15",
     "ampersand-version": "^1.0.2",
     "ampersand-view": "^7.1.5",
@@ -32,6 +33,7 @@
     "helmet": "^0.5.2",
     "jquery": "^2.1.1",
     "jwt-simple": "^0.2.0",
+    "lodash": "^2.4.1",
     "mongoose": "3.8.x",
     "moonboots-express": "^2.0.0",
     "pbkdf2-sha256": "^1.0.1",
@@ -43,7 +45,6 @@
     "underscore": "^1.7.0",
     "url": "^0.10.1"
   },
-  "devDependencies": {},
   "main": "start.js",
   "engines": {
     "node": "0.10.32",
@@ -52,5 +53,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/daskurka/openabr"
+  },
+  "devDependencies": {
+    "mocha": "^2.0.1",
+    "should": "^4.4.1",
+    "sinon": "^1.12.2"
   }
 }

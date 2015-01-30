@@ -1,6 +1,7 @@
 authenticate = require './utils/authenticate'
 userAdmin = require './controllers/userAdminController'
-subject = require './controllers/subjectController.coffee'
+subject = require './controllers/subjectController'
+dataField = require './controllers/dataFieldController'
 profile = require './controllers/profileController'
 
 
@@ -32,3 +33,11 @@ module.exports = (server) ->
   server.put '/api/subjects/:id', authenticate.user, subject.update
   server.delete '/api/subjects/:id', authenticate.user, subject.remove
   server.get '/api/subjects', authenticate.user, subject.query
+
+  #data field routes
+  server.post '/api/data-fields', authenticate.admin, dataField.create
+  server.get '/api/data-fields/check', authenticate.admin, dataField.checkDbName
+  server.get '/api/data-fields/:id', authenticate.user, dataField.read
+  server.put '/api/data-fields/:id', authenticate.admin, dataField.update
+  server.delete '/api/data-fields/:id', authenticate.admin, dataField.remove
+  server.get '/api/data-fields', authenticate.user, dataField.query
