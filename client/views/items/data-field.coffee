@@ -10,8 +10,13 @@ module.exports = View.extend
     'model.type': '[data-hook~=type]'
     'model.dbName': '[data-hook~=dbName]'
     'model.required': '[data-hook~=required]'
-    'model.creator': '[data-hook~=creator]'
+    'researcher': '[data-hook~=creator]'
     'model.description': '[data-hook~=description]'
+
+  derived:
+    researcher:
+      deps: ['model.creator']
+      fn: () -> return app.lookup.user(@.model.creator).name
 
   events:
     'click [data-hook~=field-row]': 'handleDataFieldRowClick'

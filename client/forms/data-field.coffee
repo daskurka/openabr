@@ -54,6 +54,7 @@ module.exports = FormView.extend
         label: 'Number Unit (e.g. g or Hz)'
         name: 'unit'
         value: @.model and @.model.config and @.model.config.unit
+        required: no
         parent: @
     ,
       new InputView

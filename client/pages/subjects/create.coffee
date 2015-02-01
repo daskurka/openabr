@@ -22,6 +22,7 @@ module.exports = PageView.extend
     fieldViews: 'array'
     fixedFieldNames: 'array'
     userFieldNames: 'array'
+    availableFields: 'object'
 
   subviews:
     form:
@@ -50,6 +51,7 @@ module.exports = PageView.extend
 
   events:
     'click [data-hook="cancel"]': 'cancel'
+    'click [data-hook="field-option"]': 'addField'
 
   cancel: () ->
     app.navigate('subjects')
@@ -60,33 +62,57 @@ module.exports = PageView.extend
       fixedFields = new FixedDataFieldsCollection()
       fixedFields.addFixedFields 'subject'
 
+      @.availableFields = {}
       fieldViews = []
       fixedFieldNames = []
       userFieldNames = []
       fixedFields.forEach (field) ->
         if field.autoPop then return
-        addView(fieldViews, field.type, field.name, field.dbName, field.required, field.config)
+        view = buildView(field.type, field.name, field.dbName, field.required, field.config)
+        if view isnt null then fieldViews.push view
         fixedFieldNames.push field.dbName
-      dataFields.forEach (field) ->
-        addView(fieldViews, field.type, field.name, field.dbName, field.required, field.config)
+      dataFields.forEach (field) =>
+        if not field.required
+          @.availableFields[field.dbName] = field
+          return
+
+        view = buildView(field.type, field.name, field.dbName, field.required, field.config)
+        if view isnt null then fieldViews.push view
         userFieldNames.push field.dbName
 
       @.fixedFieldNames = fixedFieldNames
       @.userFieldNames = userFieldNames
       @.fieldViews = fieldViews
 
+      do @.renderFieldOptions
 
-  addView = (fieldViews, type, name, dbName, required, config) ->
+  renderFieldOptions: () ->
+    html = ''
+    for field of @.availableFields
+      obj = @.availableFields[field]
+      html += "<button type='button' data-hook='field-option' class='btn btn-default' data='#{obj.dbName}'>#{obj.name}</span>"
+    $('#fieldArea').html(html)
+
+  addField: (event) ->
+    dbName = event.target.attributes['data'].value
+    field = @.availableFields[dbName]
+    view = buildView(field.type, field.name, field.dbName, field.required, field.config)
+    @._subviews[0].addField(view)
+    delete @.availableFields[dbName]
+    do @.renderFieldOptions
+
+
+  buildView = (type, name, dbName, required, config) ->
     switch type
       when 'string'
-        fieldViews.push new InputView
+        return new InputView
           label: name
           name: dbName
           value: null
           placeholder: name
           required: required
       when 'number'
-        fieldViews.push new NumberView
+        return new NumberView
           label: name
           name: dbName
           value: null
@@ -96,10 +122,12 @@ module.exports = PageView.extend
           unit: config.unit
           type: 'number'
       when 'date'
-        fieldViews.push new InputView
+        return new InputView
           label: name
           name: dbName
           value: null
           placeholder: name
           required: required
           type: 'date'
+      else
+        return null
