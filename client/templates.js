@@ -216,7 +216,7 @@
 
     // pages\subjects\detail.jade compiled template
     templatizer["pages"]["subjects"]["detail"] = function tmpl_pages_subjects_detail() {
-        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Subject Detail</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div></div>';
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Subject Detail</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
     };
 
     // pages\subjects\index.jade compiled template
