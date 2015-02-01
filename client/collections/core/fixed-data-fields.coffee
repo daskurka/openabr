@@ -18,7 +18,7 @@ module.exports = Collection.extend
     addField(@,'subject','experiments','Experiments','experiments', null,false,null,'Related experiments for this subject.')
     addField(@,'subject','user','Creator','creator', null,true,null,'Creator / Owner of this subject.')
     addField(@,'subject','date','Created','created', null,true,null,'Creation date of subject.')
-    addField(@,'subject','date','Date of Birth','dob', null,false,null,'Subjects date of birth.')
+    addField(@,'subject','date','Date of Birth','dob', null,true,null,'Subjects date of birth.')
     addField(@,'subject','date','Date of Death','dod', null,false,null,'Subjects date of death.')
     addField(@,'subject','string','Reference','reference', null,true,null,'User reference for this subject.')
     addField(@,'subject','string','Strain','strain', null,true,null,'Strain of Subject.')

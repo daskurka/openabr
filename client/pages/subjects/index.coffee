@@ -1,11 +1,14 @@
+CollectionView = require 'ampersand-collection-view'
+
 PageView = require '../base.coffee'
 templates = require '../../templates'
 
 SubjectModel = require '../../models/core/subject.coffee'
+SubjectsCollection = require '../../collections/core/subjects.coffee'
+SubjectView = require '../../views/items/subject.coffee'
 
-#PagerView = require '../../../views/pager.coffee'
-#PagerState = require '../../../configurations/pager.coffee'
-
+PagerView = require '../../views/pager.coffee'
+PagerState = require '../../configurations/pager.coffee'
 
 after = (ms, cb) -> setTimeout cb, ms
 
@@ -15,42 +18,28 @@ module.exports = PageView.extend
   template: templates.pages.subjects.index
 
   initialize: () ->
-
-    subject = new SubjectModel
-      experiments: []
-      creator: app.me.user.id
-      reference: 'ABC1'
-      strain: 'CBA'
-      species: 'Mouse'
-      dob: Date.now()
-      fields:
-        hello: 'there'
-        there: 'hello'
-        why: 1
-        current: Date.now()
-
-    #subject.save (stuff) ->
-      #console.log stuff
-
-
-    #@.collection = new UsersCollection()
-    #@.pager = new PagerView(model: new PagerState(collection: @.collection))
+    @.collection = new SubjectsCollection()
 
   events:
-    'click #newUser': 'newUser'
-    'keyup [data-hook~=filter]': 'filterUsers'
+    'click #newSubject': 'newSubject'
+    'keyup [data-hook~=filter]': 'filterSubjects'
 
-  render: () ->
-    #render everything
-    @.renderWithTemplate(@)
-    #@.renderCollection(@.collection, UserView, @.queryByHook('users-table'))
-    #@.renderSubview(@.pager, @.queryByHook('pagination-control'))
+  subviews:
+    subjects:
+      hook: 'subjects-table'
+      waitFor: 'collection'
+      prepareView: (el) ->
+        view = new CollectionView(el: el, collection: @.collection, view: SubjectView)
+        @.filterSubjects()
+        return view
+    pager:
+      hook: 'pagination-control'
+      waitFor: 'collection'
+      prepareView: (el) ->
+        return new PagerView(model: new PagerState(collection: @.collection))
 
-    #after 500, () => @.filterUsers()
-    #return @
+  newSubject: () ->
+    app.navigate('/subjects/create')
 
-  newUser: () ->
-    app.navigate('admin/users/create')
-
-  filterUsers: () ->
+  filterSubjects: () ->
     @.collection.query @.queryByHook('filter').value

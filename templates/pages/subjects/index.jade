@@ -1,4 +1,21 @@
-div
-    p I am the subjects page, fear my wrath
-
-    #display No data yet
+.container
+    h2 Subjects
+    .row
+        .col-sm-9
+            input.form-control(data-hook='filter')
+        .col-sm-3
+            button.btn.btn-primary#newSubject
+                span.glyphicon.glyphicon-plus
+                | &nbsp;new subject
+    hr
+    table.table.table-hover
+        thead
+            th Ref
+            th Strain
+            th Species
+            th DOB
+            th DOD
+            th Experiments
+        tbody(data-hook='subjects-table')
+    hr
+    .row(data-hook='pagination-control')
