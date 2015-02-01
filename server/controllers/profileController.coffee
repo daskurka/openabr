@@ -39,6 +39,19 @@ exports.update = (req, res) ->
       else
         res.send user
 
+exports.users = (req, res) ->
+  line.debug 'Profile Controller', 'Loading user name list'
+
+  query = User.find()
+  query.select('id name position')
+  query.exec (err, users) ->
+    if err?
+      return handle.error req, res, err, 'Error querying profile', 'profileController.users'
+    else
+      res.send users
+
+
+
 exports.changePassword = (req, res) ->
   isCurrentUser req, res, () ->
     line.debug 'Profile Controller', 'Changing user password: ', req.params.id

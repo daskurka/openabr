@@ -7,6 +7,9 @@ module.exports = State.extend
 
   typeAttribute: 'currentState'
 
+  props:
+    users: 'object'
+
   children:
     user: User
 
@@ -22,7 +25,13 @@ module.exports = State.extend
     #store the user, find accounts and pick the current account
     @.user = user
     @.isAdmin = isAdmin
-    callback(null)
+
+    $.get '/api/profile/users', (users) =>
+      @.users = {}
+      for user in users
+        @.users[user.id] = user
+
+      callback(null)
 
   loginUserId: (userId, callback) ->
     #this assumes that server token is already added allowing us to use the api

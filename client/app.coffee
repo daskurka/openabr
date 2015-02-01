@@ -91,6 +91,20 @@ module.exports =
     url = if page.charAt(0) is '/' then page.slice(1) else page
     @.router.history.navigate url, {trigger: yes}
 
+  #lookup user
+  lookup:
+    user: (id) ->
+      found = app.me.users[id]
+      if found is null
+        return {
+          name: 'Unknown User'
+          id: id
+          position: 'Please contact your administrator.'
+        }
+      return found
+
+
+
 #configure ajax (ampersand models and collections are configured themselves)
 configureAjax = () ->
   #all ajax request should have token attached if it exists

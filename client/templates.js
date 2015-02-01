@@ -80,7 +80,7 @@
 
     // includes\items\subject.jade compiled template
     templatizer["includes"]["items"]["subject"] = function tmpl_includes_items_subject() {
-        return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="experiments"></td></tr>';
+        return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
     };
 
     // includes\items\user.jade compiled template
@@ -216,12 +216,12 @@
 
     // pages\subjects\detail.jade compiled template
     templatizer["pages"]["subjects"]["detail"] = function tmpl_pages_subjects_detail() {
-        return "<!--Created by Samuel on 1/02/2015.-->";
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Subject Detail</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div></div>';
     };
 
     // pages\subjects\index.jade compiled template
     templatizer["pages"]["subjects"]["index"] = function tmpl_pages_subjects_index() {
-        return '<div class="container"><h2>Subjects</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newSubject" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new subject</button></div></div><hr/><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Experiments</th></thead><tbody data-hook="subjects-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+        return '<div class="container"><h2>Subjects</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newSubject" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new subject</button></div></div><hr/><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Researcher</th><th>Experiments</th></thead><tbody data-hook="subjects-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
     return templatizer;

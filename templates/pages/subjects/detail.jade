@@ -1,3 +1,8 @@
-//
-   Created by Samuel on 1/02/2015.
-
+.container
+    .col-md-offset-2.col-md-8
+        h2 Subject Detail
+        form(data-hook="subject-form")
+            fieldset(data-hook="field-container")
+            .btn-group
+                button.btn.btn-primary(data-hook="reset", type="submit") Update
+                button.btn.btn-default(data-hook='cancel', type='button') Cancel
