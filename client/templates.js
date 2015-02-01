@@ -48,6 +48,11 @@
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';
     };
 
+    // includes\form\number.jade compiled template
+    templatizer["includes"]["form"]["number"] = function tmpl_includes_form_number() {
+        return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><div class="row"><div class="col-sm-11"><input step="any" class="form-control"/></div><div class="col-sm-1"><div data-hook="unit-prefix" class="numberUnitAndPrefix"></div></div></div></div>';
+    };
+
     // includes\form\password.jade compiled template
     templatizer["includes"]["form"]["password"] = function tmpl_includes_form_password() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input data-hook="password-input" type="password" class="form-control"/><label data-hook="label-confirm"></label><input data-hook="password-input-confirm" type="password" class="form-control"/></div>';
@@ -202,6 +207,16 @@
     // pages\status.jade compiled template
     templatizer["pages"]["status"] = function tmpl_pages_status() {
         return '<div class="container"><h2>Welcome to OpenABR</h2><p>You are logged in!</p></div>';
+    };
+
+    // pages\subjects\create.jade compiled template
+    templatizer["pages"]["subjects"]["create"] = function tmpl_pages_subjects_create() {
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Create Subject</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div></div>';
+    };
+
+    // pages\subjects\detail.jade compiled template
+    templatizer["pages"]["subjects"]["detail"] = function tmpl_pages_subjects_detail() {
+        return "<!--Created by Samuel on 1/02/2015.-->";
     };
 
     // pages\subjects\index.jade compiled template

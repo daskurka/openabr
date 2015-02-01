@@ -9,7 +9,7 @@ module.exports = State.extend
     type: 'string'
     name: 'string'
     dbName: 'string'
-    suffix: 'string'
+    autoPop: 'boolean'
     description: 'string'
     required: 'boolean'
     config: 'object'

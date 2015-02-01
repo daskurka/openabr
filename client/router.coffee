@@ -30,8 +30,13 @@ module.exports = Router.extend
     'query': 'query'
     'experiments': 'experiments'
     'treatments': 'experiments'
+
     'subjects': 'subjects'
     'patients': 'subjects'
+    'subjects/create': 'subjectCreate'
+    'patients/create': 'subjectCreate'
+    'subjects/:id/detail': 'subjectDetail'
+    'patients/:id/detail': 'subjectDetail'
 
     '(*path)': 'catchAll'
 
@@ -86,7 +91,10 @@ module.exports = Router.extend
   process: () -> console.log 'Process route hit'
   query: () -> console.log 'Query route hit'
   experiments: () -> console.log 'Experiments route hit'
+
   subjects: () -> @.showPage new pages.subjects.Index()
+  subjectCreate: () -> @.showPage new pages.subjects.Create()
+  subjectDetail: (id) -> @.showPage new pages.subjects.Detail({id})
 
   #Catch all other routes and head back to home
   catchAll: () ->

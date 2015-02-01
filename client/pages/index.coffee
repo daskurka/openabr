@@ -29,3 +29,5 @@ module.exports =
     ChangePassword: require './profile/change-password.coffee'
   subjects:
     Index: require './subjects/index.coffee'
+    Create: require './subjects/create.coffee'
+    Detail: require './subjects/detail.coffee'
