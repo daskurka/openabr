@@ -9,7 +9,7 @@ module.exports = View.extend
     age:
       deps: ['model.dob','model.dod']
       fn: () ->
-        current = if @.model.dod? then @.model.dod else Date.now()
+        current = if @.model.dod? and @.model.dod.getTime() isnt 0 then @.model.dod else Date.now()
         diff = current - @.model.dob.getTime()
         weeks = Math.ceil(diff / 604800000)
         return weeks
