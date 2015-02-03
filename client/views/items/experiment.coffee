@@ -5,11 +5,15 @@ module.exports = View.extend
 
   template: templates.includes.items.experiment
 
+  props:
+    subjects: 'number'
+
   initialize: () ->
     #load subject count
     url = '/api/subjects/count'
     query = {experiments: @.model.id}
     $.get url, query, (response) =>
+      @.subjects = response.found
       @.queryByHook('subjects').innerHTML = response.found
 
   derived:
