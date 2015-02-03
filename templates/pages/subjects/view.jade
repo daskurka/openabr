@@ -5,12 +5,14 @@
             | &nbsp;
             small(data-hook='subtitle')
     .row
-        .col-lg-8 Graph here
+        .col-lg-8
+            .row
+               p Graph here
+            .row
+                div(data-hook='experiments')
+            .row
+                p history here
         .col-lg-4
             h4 Subject Details&nbsp;
                 button.btn.btn-primary.btn-sm(data-hook='edit') edit subject
             div(data-hook='details')
-    .row
-        .col-lg-12 experiments here
-    .row
-        .col-lg-12 history here

@@ -273,7 +273,19 @@
 
     // pages\subjects\view.jade compiled template
     templatizer["pages"]["subjects"]["view"] = function tmpl_pages_subjects_view() {
-        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8">Graph here</div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div><div class="row"><div class="col-lg-12">experiments here</div></div><div class="row"><div class="col-lg-12">history here</div></div></div>';
+        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div class="row"><p>history here</p></div></div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div></div>';
+    };
+
+    // views\subjects\selectSubjectExperiments.jade compiled template
+    templatizer["views"]["subjects"]["selectSubjectExperiments"] = function tmpl_views_subjects_selectSubjectExperiments(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(model) {
+            buf.push('<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Experiments</h5></div><div class="panel-body"><input' + jade.attr("value", model.experiments.join(","), true, false) + ' class="form-control"/></div></div>');
+        }).call(this, "model" in locals_for_with ? locals_for_with.model : typeof model !== "undefined" ? model : undefined);
+        return buf.join("");
     };
 
     // views\subjects\subjectRow.jade compiled template

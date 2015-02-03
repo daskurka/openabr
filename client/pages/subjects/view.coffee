@@ -8,6 +8,8 @@ DetailListView = require '../../views/detail-list-view.coffee'
 DataFieldsCollection = require '../../collections/core/data-fields.coffee'
 FixedDataFieldsCollection = require '../../collections/core/fixed-data-fields.coffee'
 
+SelectSubjectExperimentsView = require '../../views/subject/select-subject-experiments-view.coffee'
+
 module.exports = PageView.extend
 
   pageTitle: 'Subject View'
@@ -38,6 +40,12 @@ module.exports = PageView.extend
     'subtitle': '[data-hook~=subtitle]'
 
   subviews:
+    experiments:
+      hook: 'experiments'
+      waitFor: 'model'
+      prepareView: (el) ->
+        return new SelectSubjectExperimentsView(el: el, model: @.model)
+
     details:
       hook: 'details'
       waitFor: 'model'
