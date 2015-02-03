@@ -90,9 +90,8 @@ module.exports = Router.extend
   adminFieldEdit: (col, dbName) -> @.showAdminPage new pages.admin.fields.EditDataField({col,dbName})
 
   #Functional routes
-  process: () -> console.log 'Process route hit'
+  process: () -> @.showPage new pages.Upload()
   query: () -> console.log 'Query route hit'
-  experiments: () -> console.log 'Experiments route hit'
 
   subjects: () -> @.showPage new pages.subjects.Index()
   subjectCreate: () -> @.showPage new pages.subjects.Create()

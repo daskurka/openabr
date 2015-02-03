@@ -12,6 +12,7 @@ module.exports =
   FourOhFour: require './404.coffee'
   FourOhOne: require './401.coffee'
   Status: require './status.coffee'
+  Upload: require './upload.coffee'
   admin:
     users:
       Users: require './admin/users/users.coffee'

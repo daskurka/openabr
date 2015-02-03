@@ -23,6 +23,7 @@
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["views"]["subjects"] = {};
+    templatizer["views"]["upload"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
     templatizer["pages"]["admin"]["users"] = {};
 
@@ -281,6 +282,11 @@
         return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div class="row"><p>history here</p></div></div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div></div>';
     };
 
+    // pages\upload.jade compiled template
+    templatizer["pages"]["upload"] = function tmpl_pages_upload() {
+        return '<div class="container"><h2>Upload ABR(s)</h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
+    };
+
     // views\subjects\selectSubjectExperiments.jade compiled template
     templatizer["views"]["subjects"]["selectSubjectExperiments"] = function tmpl_views_subjects_selectSubjectExperiments(locals) {
         var buf = [];
@@ -296,6 +302,16 @@
     // views\subjects\subjectRow.jade compiled template
     templatizer["views"]["subjects"]["subjectRow"] = function tmpl_views_subjects_subjectRow() {
         return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
+    };
+
+    // views\upload\sigGen.jade compiled template
+    templatizer["views"]["upload"]["sigGen"] = function tmpl_views_upload_sigGen() {
+        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">SigGen File</h4></div><div class="panel-body"><p>stuff will go here...</p></div></div>';
+    };
+
+    // views\upload\unkownFile.jade compiled template
+    templatizer["views"]["upload"]["unkownFile"] = function tmpl_views_upload_unkownFile() {
+        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Unknown Format</h4></div><div class="panel-body"><p>The signature of the file you have selected is unknown. It may not be supported.</p><textarea cols="55" data-hook="lines-dump"></textarea></div></div>';
     };
 
     return templatizer;
