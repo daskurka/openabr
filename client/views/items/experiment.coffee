@@ -5,26 +5,22 @@ module.exports = View.extend
 
   template: templates.includes.items.experiment
 
+  initialize: () ->
+    #load subject count
+    url = '/api/subjects/count'
+    query = {experiments: @.model.id}
+    $.get url, query, (response) =>
+      @.queryByHook('subjects').innerHTML = response.found
+
   derived:
-    subjects:
-      deps: ['model.id']
-      fn: () ->
-        return 'N/A'
-    abrs:
-      deps: ['model.id']
-      fn: () ->
-        return 'N/A'
     researcher:
       deps: ['model.creator']
       fn: () -> return app.lookup.user(@.model.creator).name
-
 
   bindings:
     'model.name': '[data-hook~=name]'
     'model.description': '[data-hook~=description]'
     'researcher': '[data-hook~=researcher]'
-    'subjects': '[data-hook~=subjects]'
-    'abrs': '[data-hook~=abrs]'
 
   events:
     'click [data-hook~=experiment-row]': 'handleRowClick'

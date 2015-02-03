@@ -107,7 +107,7 @@
 
     // includes\items\experiment.jade compiled template
     templatizer["includes"]["items"]["experiment"] = function tmpl_includes_items_experiment() {
-        return '<tr data-hook="experiment-row"><td data-hook="name"></td><td data-hook="description"></td><td data-hook="researcher"></td><td data-hook="subjects"></td><td data-hook="abrs"></td></tr>';
+        return '<tr data-hook="experiment-row"><td data-hook="name"></td><td data-hook="description"></td><td data-hook="researcher"></td><td data-hook="subjects"><img src="/img/spinner.gif"/></td><td data-hook="abrs"><img src="/img/spinner.gif"/></td></tr>';
     };
 
     // includes\items\fixedDataField.jade compiled template

@@ -63,3 +63,15 @@ exports.query = (req, res) ->
         else
           pager.attachResponseHeaders(res, totalFound)
           res.send subjects
+
+exports.count = (req, res) ->
+  line.debug 'Subject Controller', 'Counting subjects: no params'
+
+  #direct count query, anything is acceptable
+  query = req.params
+
+  Subject.count query, (err, found) ->
+    if err?
+      return handle.error req, res, err, 'Error counting subjects', 'subjectController.query'
+    else
+      res.send {found}

@@ -31,6 +31,7 @@ module.exports = (server) ->
 
   #subject routes
   server.post '/api/subjects', authenticate.user, subject.create
+  server.get '/api/subjects/count', authenticate.user, subject.count
   server.get '/api/subjects/:id', authenticate.user, subject.read
   server.put '/api/subjects/:id', authenticate.user, subject.update
   server.delete '/api/subjects/:id', authenticate.user, subject.remove
