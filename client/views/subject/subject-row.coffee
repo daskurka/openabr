@@ -16,7 +16,7 @@ module.exports = View.extend
     isAlive:
       deps: ['model.dod']
       fn: () ->
-        return not @.model.dod?
+        return not @.model.dod? or @.model.dod.getTime() is 0
     textDob:
       deps: ['model.dob','age','isAlive']
       fn: () ->

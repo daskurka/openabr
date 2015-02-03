@@ -38,13 +38,19 @@ module.exports = PageView.extend
               if data[name] is '' then data[name] = null
 
             for field in @.fixedFieldNames
-              if @.model[field] isnt data[field]
+              if not field of data or data[field] is null
+                @.model[field] = null
+              else if @.model[field] isnt data[field]
                 @.model[field] = data[field]
 
             if not @.model.fields? then @.model.fields = {}
             for field in @.userFieldNames
-              if @.model.fields[field] isnt data[field] or not @.model.fields[field]?
+              if not field of data or data[field] is null
+                delete @.model.fields[field]
+              else if @.model.fields[field] isnt data[field] or not @.model.fields[field]?
                 @.model.fields[field] = data[field]
+
+            console.log @.model
 
             @.model.save null,
               success: (model, response, options) ->
@@ -133,7 +139,7 @@ module.exports = PageView.extend
         return new InputView
           label: name
           name: dbName
-          value: value and value.toISOString().split('T')[0]
+          value: value and value.getTime() isnt 0 and value.toISOString().split('T')[0]
           placeholder: name
           required: required
           type: 'date'

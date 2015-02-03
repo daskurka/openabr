@@ -10,7 +10,10 @@ tr
     else if model.type == 'date'
         td(align='right')
             strong= model.name
-        td= model.value.toISOString().split('T')[0]
+        if (model.value == null || model.value.getTime() == 0)
+            td —
+        else
+            td= model.value.toISOString().split('T')[0]
     else if model.type == 'user'
         td(align='right')
             strong= model.name
