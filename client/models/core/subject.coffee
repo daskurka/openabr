@@ -19,4 +19,7 @@ module.exports = Base.extend
   derived:
     editUrl:
       deps: ['id']
-      fn: () -> 'subjects/' + @.id + '/detail'
+      fn: () -> "subjects/#{@.id}/edit"
+    viewUrl:
+      deps: ['id']
+      fn: () -> "subjects/#{@.id}/view"

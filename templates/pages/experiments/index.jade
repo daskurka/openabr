@@ -1,22 +1,20 @@
 .container
-    h2 Subjects
+    h2 Experiments
     .row
         .col-sm-9
             input.form-control(data-hook='filter')
         .col-sm-3
-            button.btn.btn-primary#newSubject
+            button.btn.btn-primary#newItem
                 span.glyphicon.glyphicon-plus
-                | &nbsp;new subject
+                | &nbsp;new experiment
     hr
     table.table.table-hover
         thead
-            th Ref
-            th Strain
-            th Species
-            th DOB
-            th DOD
+            th Name
+            th Description
             th Researcher
-            th # Experiments
-        tbody(data-hook='subjects-table')
+            th # Subjects
+            th # ABRs
+        tbody(data-hook='experiments-table')
     hr
     .row(data-hook='pagination-control')

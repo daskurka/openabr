@@ -30,4 +30,8 @@ module.exports =
   subjects:
     Index: require './subjects/index.coffee'
     Create: require './subjects/create.coffee'
-    Detail: require './subjects/detail.coffee'
+    Edit: require './subjects/edit.coffee'
+  experiments:
+    Index: require './experiments/index.coffee'
+    Create: require './experiments/create.coffee'
+    Edit: require './experiments/edit.coffee'

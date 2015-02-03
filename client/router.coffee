@@ -28,15 +28,16 @@ module.exports = Router.extend
 
     'process': 'process'
     'query': 'query'
+
     'experiments': 'experiments'
     'treatments': 'experiments'
+    'experiments/create': 'experimentCreate'
+    'experiments/:id/edit': 'experimentEdit'
 
     'subjects': 'subjects'
     'patients': 'subjects'
     'subjects/create': 'subjectCreate'
-    'patients/create': 'subjectCreate'
-    'subjects/:id/detail': 'subjectDetail'
-    'patients/:id/detail': 'subjectDetail'
+    'subjects/:id/edit': 'subjectEdit'
 
     '(*path)': 'catchAll'
 
@@ -94,7 +95,11 @@ module.exports = Router.extend
 
   subjects: () -> @.showPage new pages.subjects.Index()
   subjectCreate: () -> @.showPage new pages.subjects.Create()
-  subjectDetail: (id) -> @.showPage new pages.subjects.Detail({id})
+  subjectEdit: (id) -> @.showPage new pages.subjects.Edit({id})
+
+  experiments: () -> @.showPage new pages.experiments.Index()
+  experimentCreate: () -> @.showPage new pages.experiments.Create()
+  experimentEdit: (id) -> @.showPage new pages.experiments.Edit({id})
 
   #Catch all other routes and head back to home
   catchAll: () ->

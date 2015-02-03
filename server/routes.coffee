@@ -1,6 +1,7 @@
 authenticate = require './utils/authenticate'
 userAdmin = require './controllers/userAdminController'
 subject = require './controllers/subjectController'
+experiment = require './controllers/experimentController'
 dataField = require './controllers/dataFieldController'
 profile = require './controllers/profileController'
 
@@ -34,6 +35,13 @@ module.exports = (server) ->
   server.put '/api/subjects/:id', authenticate.user, subject.update
   server.delete '/api/subjects/:id', authenticate.user, subject.remove
   server.get '/api/subjects', authenticate.user, subject.query
+
+  #experiment routes
+  server.post '/api/experiments', authenticate.user, experiment.create
+  server.get '/api/experiments/:id', authenticate.user, experiment.read
+  server.put '/api/experiments/:id', authenticate.user, experiment.update
+  server.delete '/api/experiments/:id', authenticate.user, experiment.remove
+  server.get '/api/experiments', authenticate.user, experiment.query
 
   #data field routes
   server.post '/api/data-fields', authenticate.admin, dataField.create

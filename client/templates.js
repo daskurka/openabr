@@ -18,6 +18,7 @@
     templatizer["includes"]["items"] = {};
     templatizer["includes"]["navbar"] = {};
     templatizer["pages"]["admin"] = {};
+    templatizer["pages"]["experiments"] = {};
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
@@ -71,6 +72,16 @@
     // includes\items\dataField.jade compiled template
     templatizer["includes"]["items"]["dataField"] = function tmpl_includes_items_dataField() {
         return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
+    };
+
+    // includes\items\emptyRowView.jade compiled template
+    templatizer["includes"]["items"]["emptyRowView"] = function tmpl_includes_items_emptyRowView() {
+        return "<tr>No records found...</tr>";
+    };
+
+    // includes\items\experiment.jade compiled template
+    templatizer["includes"]["items"]["experiment"] = function tmpl_includes_items_experiment() {
+        return '<tr data-hook="experiment-row"><td data-hook="name"></td><td data-hook="description"></td><td data-hook="researcher"></td><td data-hook="subjects"></td><td data-hook="abrs"></td></tr>';
     };
 
     // includes\items\fixedDataField.jade compiled template
@@ -179,6 +190,21 @@
         return '<div class="container"><h2>Contact</h2><p>The system currently is invite only, please send an email to join to chat about this possibility if you are interested.</p><ul><li>To join please email join (at) openabr (dot) com</li><li>To report problems with the service please email admin (at) openabr (dot) com</li></ul></div>';
     };
 
+    // pages\experiments\create.jade compiled template
+    templatizer["pages"]["experiments"]["create"] = function tmpl_pages_experiments_create() {
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Create Experiment</h2><form data-hook="experiment-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
+    };
+
+    // pages\experiments\edit.jade compiled template
+    templatizer["pages"]["experiments"]["edit"] = function tmpl_pages_experiments_edit() {
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Edit Experiment</h2><form data-hook="experiment-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
+    };
+
+    // pages\experiments\index.jade compiled template
+    templatizer["pages"]["experiments"]["index"] = function tmpl_pages_experiments_index() {
+        return '<div class="container"><h2>Experiments</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newItem" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new experiment</button></div></div><hr/><table class="table table-hover"><thead><th>Name</th><th>Description</th><th>Researcher</th><th># Subjects</th><th># ABRs</th></thead><tbody data-hook="experiments-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+    };
+
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
         return '<div class="container"><h2>Welcome to OpenABR</h2><p>This site is still in development, any news will be posted here. If you are interested in becoming an early adopter please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
@@ -214,14 +240,14 @@
         return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Create Subject</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
     };
 
-    // pages\subjects\detail.jade compiled template
-    templatizer["pages"]["subjects"]["detail"] = function tmpl_pages_subjects_detail() {
-        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Subject Detail</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
+    // pages\subjects\edit.jade compiled template
+    templatizer["pages"]["subjects"]["edit"] = function tmpl_pages_subjects_edit() {
+        return '<div class="container"><div class="col-md-offset-2 col-md-8"><h2>Edit Subject</h2><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Update</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form><hr/><div class="row"><div class="col-sm-12"><h4>Include Other Fields</h4><div id="fieldArea"></div></div></div></div></div>';
     };
 
     // pages\subjects\index.jade compiled template
     templatizer["pages"]["subjects"]["index"] = function tmpl_pages_subjects_index() {
-        return '<div class="container"><h2>Subjects</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newSubject" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new subject</button></div></div><hr/><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Researcher</th><th>Experiments</th></thead><tbody data-hook="subjects-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+        return '<div class="container"><h2>Subjects</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newSubject" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new subject</button></div></div><hr/><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Researcher</th><th># Experiments</th></thead><tbody data-hook="subjects-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
     return templatizer;

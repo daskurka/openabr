@@ -8,15 +8,15 @@ FieldCollection = require '../../collections/field-collection.coffee'
 DataFieldsCollection = require '../../collections/core/data-fields.coffee'
 FixedDataFieldsCollection = require '../../collections/core/fixed-data-fields.coffee'
 
-SubjectModel = require '../../models/core/subject.coffee'
+ExperimentModel = require '../../models/core/experiment.coffee'
 
 InputView = require '../../forms/controls/input.coffee'
 NumberView = require '../../forms/controls/number.coffee'
 
 module.exports = PageView.extend
 
-  pageTitle: 'Subject Detail'
-  template: templates.pages.subjects.detail
+  pageTitle: 'Create Subject'
+  template: templates.pages.experiments.create
 
   props:
     fieldViews: 'array'
@@ -26,71 +26,65 @@ module.exports = PageView.extend
 
   subviews:
     form:
-      hook: 'subject-form'
+      hook: 'experiment-form'
       waitFor: 'fieldViews'
       prepareView: (el) ->
         return new FormView
           el: el
-          model: @.model
           fields: @.fieldViews
           submitCallback: (data) =>
             for name of data
               if data[name] is '' then data[name] = null
 
+            experiment = new ExperimentModel
             for field in @.fixedFieldNames
-              if @.model[field] isnt data[field]
-                @.model[field] = data[field]
-
+              experiment[field] = data[field]
+            experiment.creator = app.me.user.id
+            experiment.created = new Date()
+            experiment.fields = {}
             for field in @.userFieldNames
-              if @.model.fields[field] isnt data[field]
-                @.model.fields[field] = data[field]
+              experiment.fields[field] = data[field]
 
-            @.model.save null,
+            experiment.save null,
               success: (model, response, options) ->
-                app.navigate("subjects")
+                app.navigate("experiments/#{model.id}/edit")
 
   events:
     'click [data-hook="cancel"]': 'cancel'
     'click [data-hook="field-option"]': 'addField'
 
   cancel: () ->
-    app.navigate('subjects')
+    app.navigate('experiments')
 
-  initialize: (spec) ->
+  initialize: () ->
     dataFields = new DataFieldsCollection()
-    dataFields.loadFields 'subject', () =>
+    dataFields.loadFields 'experiment', () =>
       fixedFields = new FixedDataFieldsCollection()
-      fixedFields.addFixedFields 'subject'
+      fixedFields.addFixedFields 'experiment'
 
-      subject = new SubjectModel(id: spec.id)
-      subject.fetch
-        success: (model, response, options) =>
-          @.model = model
+      @.availableFields = {}
+      fieldViews = []
+      fixedFieldNames = []
+      userFieldNames = []
+      fixedFields.forEach (field) ->
+        if field.autoPop then return
+        view = buildView(field.type, field.name, field.dbName, field.required, field.config)
+        if view isnt null then fieldViews.push view
+        fixedFieldNames.push field.dbName
+      dataFields.forEach (field) =>
+        if not field.required
+          @.availableFields[field.dbName] = field
+          return
 
-          @.availableFields = {}
-          fieldViews = []
-          fixedFieldNames = []
-          userFieldNames = []
-          fixedFields.forEach (field) ->
-            if field.autoPop then return
-            view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get(field.dbName))
-            if view isnt null then fieldViews.push view
-            fixedFieldNames.push field.dbName
-          dataFields.forEach (field) =>
-            if not field.required
-              if not model.fields[field.dbName]? or model.fields[field.dbName] is null
-                @.availableFields[field.dbName] = field
-                return
+        view = buildView(field.type, field.name, field.dbName, field.required, field.config)
+        if view isnt null then fieldViews.push view
+        userFieldNames.push field.dbName
 
-            view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get('fields')[field.dbName])
-            if view isnt null then fieldViews.push view
-            userFieldNames.push field.dbName
+      @.fixedFieldNames = fixedFieldNames
+      @.userFieldNames = userFieldNames
+      @.fieldViews = fieldViews
 
-          @.fixedFieldNames = fixedFieldNames
-          @.userFieldNames = userFieldNames
-          @.fieldViews = fieldViews #this triggers form render
-
-          do @.renderFieldOptions
+      do @.renderFieldOptions
 
   renderFieldOptions: () ->
     html = ''
@@ -105,23 +99,23 @@ module.exports = PageView.extend
     view = buildView(field.type, field.name, field.dbName, field.required, field.config)
     @._subviews[0].addField(view)
     delete @.availableFields[dbName]
-    @.userFieldNames.push dbName
     do @.renderFieldOptions
 
-  buildView = (type, name, dbName, required, config, value) ->
+
+  buildView = (type, name, dbName, required, config) ->
     switch type
       when 'string'
         return new InputView
           label: name
           name: dbName
-          value: value
+          value: null
           placeholder: name
           required: required
       when 'number'
         return new NumberView
           label: name
           name: dbName
-          value: value
+          value: null
           placeholder: name
           required: required
           prefix: config.prefix
@@ -131,7 +125,7 @@ module.exports = PageView.extend
         return new InputView
           label: name
           name: dbName
-          value: value and value.toISOString().split('T')[0]
+          value: null
           placeholder: name
           required: required
           type: 'date'

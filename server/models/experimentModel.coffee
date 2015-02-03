@@ -5,6 +5,7 @@ experimentSchema = new Schema
   name: String
   description: String
   creator: Schema.Types.ObjectId
+  created: Date
   fields: Schema.Types.Mixed
 
 experimentSchema.set 'toObject', {virtuals: yes}

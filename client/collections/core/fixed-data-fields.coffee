@@ -28,4 +28,4 @@ module.exports = Collection.extend
     addField(@,'experiment','string','Name','name', no,true,null,'Name of the experiment.')
     addField(@,'experiment','string','Description','description', no,false,null,'Description of the experiment.')
     addField(@,'experiment','user','Creator','creator', yes,true,null,'Creator / Owner of this experiment.')
-
+    addField(@,'subject','date','Created','created', yes,true,null,'Creation date of this experiment.')

@@ -25,8 +25,14 @@ module.exports = View.extend
     textDod:
       deps: ['model.dod','age','isAlive']
       fn: () ->
-        datePart = @.model.dob.toISOString().split('T')[0]
-        return if @.isAlive then '—' else "#{datePart} (#{@.age} weeks)"
+        if @.isAlive
+          return '—'
+        else
+          datePart = @.model.dod.toISOString().split('T')[0]
+          return "#{datePart} (#{@.age} weeks)"
+    experimentsCount:
+      deps: ['model.experiments']
+      fn: () -> return @.model.experiments?.length
     researcher:
       deps: ['model.creator']
       fn: () -> return app.lookup.user(@.model.creator).name
@@ -38,7 +44,7 @@ module.exports = View.extend
     'model.species': '[data-hook~=species]'
     'textDob': '[data-hook~=dob]'
     'textDod': '[data-hook~=dod]'
-    'model.experiments': '[data-hook~=experiments]'
+    'experimentsCount': '[data-hook~=experiments]'
     'researcher': '[data-hook~=researcher]'
 
   events:
