@@ -1,0 +1,23 @@
+tr
+    if (model.type == 'string')
+        td(align='right')
+            strong= model.name
+        td= model.value
+    else if model.type == 'number'
+        td(align='right')
+            strong= model.name
+        td= formattedNumber
+    else if model.type == 'date'
+        td(align='right')
+            strong= model.name
+        td= model.value.toISOString().split('T')[0]
+    else if model.type == 'user'
+        td(align='right')
+            strong= model.name
+        td= researcher
+    else
+        td(align='right')
+            strong= model.name
+        td= model.value
+
+

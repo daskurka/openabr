@@ -14,6 +14,7 @@
     var templatizer = {};
     templatizer["includes"] = {};
     templatizer["pages"] = {};
+    templatizer["views"] = {};
     templatizer["includes"]["form"] = {};
     templatizer["includes"]["items"] = {};
     templatizer["includes"]["navbar"] = {};
@@ -21,6 +22,7 @@
     templatizer["pages"]["experiments"] = {};
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
+    templatizer["views"]["subjects"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
     templatizer["pages"]["admin"]["users"] = {};
 
@@ -74,6 +76,30 @@
         return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
     };
 
+    // includes\items\detailListItem.jade compiled template
+    templatizer["includes"]["items"]["detailListItem"] = function tmpl_includes_items_detailListItem(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(model, formattedNumber, researcher) {
+            buf.push("<tr>");
+            if (model.type == "string") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = model.value) ? "" : jade_interp) + "</td>");
+            } else if (model.type == "number") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = formattedNumber) ? "" : jade_interp) + "</td>");
+            } else if (model.type == "date") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = model.value.toISOString().split("T")[0]) ? "" : jade_interp) + "</td>");
+            } else if (model.type == "user") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = researcher) ? "" : jade_interp) + "</td>");
+            } else {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = model.value) ? "" : jade_interp) + "</td>");
+            }
+            buf.push("</tr>");
+        }).call(this, "model" in locals_for_with ? locals_for_with.model : typeof model !== "undefined" ? model : undefined, "formattedNumber" in locals_for_with ? locals_for_with.formattedNumber : typeof formattedNumber !== "undefined" ? formattedNumber : undefined, "researcher" in locals_for_with ? locals_for_with.researcher : typeof researcher !== "undefined" ? researcher : undefined);
+        return buf.join("");
+    };
+
     // includes\items\emptyRowView.jade compiled template
     templatizer["includes"]["items"]["emptyRowView"] = function tmpl_includes_items_emptyRowView() {
         return "<tr>No records found...</tr>";
@@ -87,11 +113,6 @@
     // includes\items\fixedDataField.jade compiled template
     templatizer["includes"]["items"]["fixedDataField"] = function tmpl_includes_items_fixedDataField() {
         return '<tr data-hook="fixed-field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="description"></td></tr>';
-    };
-
-    // includes\items\subject.jade compiled template
-    templatizer["includes"]["items"]["subject"] = function tmpl_includes_items_subject() {
-        return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
     };
 
     // includes\items\user.jade compiled template
@@ -248,6 +269,16 @@
     // pages\subjects\index.jade compiled template
     templatizer["pages"]["subjects"]["index"] = function tmpl_pages_subjects_index() {
         return '<div class="container"><h2>Subjects</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newSubject" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new subject</button></div></div><hr/><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Researcher</th><th># Experiments</th></thead><tbody data-hook="subjects-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+    };
+
+    // pages\subjects\view.jade compiled template
+    templatizer["pages"]["subjects"]["view"] = function tmpl_pages_subjects_view() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8">Graph here</div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div><div class="row"><div class="col-lg-12">experiments here</div></div><div class="row"><div class="col-lg-12">history here</div></div></div>';
+    };
+
+    // views\subjects\subjectRow.jade compiled template
+    templatizer["views"]["subjects"]["subjectRow"] = function tmpl_views_subjects_subjectRow() {
+        return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
     };
 
     return templatizer;

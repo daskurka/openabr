@@ -38,6 +38,7 @@ module.exports = Router.extend
     'patients': 'subjects'
     'subjects/create': 'subjectCreate'
     'subjects/:id/edit': 'subjectEdit'
+    'subjects/:id/view': 'subjectView'
 
     '(*path)': 'catchAll'
 
@@ -96,6 +97,7 @@ module.exports = Router.extend
   subjects: () -> @.showPage new pages.subjects.Index()
   subjectCreate: () -> @.showPage new pages.subjects.Create()
   subjectEdit: (id) -> @.showPage new pages.subjects.Edit({id})
+  subjectView: (id) -> @.showPage new pages.subjects.View({id})
 
   experiments: () -> @.showPage new pages.experiments.Index()
   experimentCreate: () -> @.showPage new pages.experiments.Create()

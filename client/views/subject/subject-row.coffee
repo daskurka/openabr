@@ -3,7 +3,7 @@ templates = require '../../templates'
 
 module.exports = View.extend
 
-  template: templates.includes.items.subject
+  template: templates.views.subjects.subjectRow
 
   derived:
     age:
@@ -51,4 +51,4 @@ module.exports = View.extend
     'click [data-hook~=subject-row]': 'handleRowClick'
 
   handleRowClick: () ->
-    app.navigate(@.model.editUrl)
+    app.navigate(@.model.viewUrl)

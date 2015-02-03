@@ -48,14 +48,14 @@ module.exports = PageView.extend
 
             @.model.save null,
               success: (model, response, options) ->
-                app.navigate("subjects")
+                app.navigate(model.viewUrl)
 
   events:
     'click [data-hook="cancel"]': 'cancel'
     'click [data-hook="field-option"]': 'addField'
 
   cancel: () ->
-    app.navigate('subjects')
+    app.navigate(@.model.viewUrl)
 
   initialize: (spec) ->
     dataFields = new DataFieldsCollection()

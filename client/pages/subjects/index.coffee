@@ -5,7 +5,7 @@ templates = require '../../templates'
 
 SubjectModel = require '../../models/core/subject.coffee'
 SubjectsCollection = require '../../collections/core/subjects.coffee'
-SubjectView = require '../../views/items/subject.coffee'
+SubjectView = require '../../views/subject/subject-row.coffee'
 
 PagerView = require '../../views/pager.coffee'
 PagerState = require '../../configurations/pager.coffee'
