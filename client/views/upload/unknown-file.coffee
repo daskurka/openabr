@@ -7,6 +7,3 @@ module.exports = View.extend
 
   props:
     lines: 'array'
-
-  bindings:
-    'lines': '[data-hook~=lines-dump]'

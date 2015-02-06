@@ -22,6 +22,7 @@
     templatizer["pages"]["experiments"] = {};
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
+    templatizer["pages"]["upload"] = {};
     templatizer["views"]["subjects"] = {};
     templatizer["views"]["upload"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
@@ -282,9 +283,9 @@
         return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div class="row"><p>history here</p></div></div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div></div>';
     };
 
-    // pages\upload.jade compiled template
-    templatizer["pages"]["upload"] = function tmpl_pages_upload() {
-        return '<div class="container"><h2>Upload ABR(s)</h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
+    // pages\upload\selectData.jade compiled template
+    templatizer["pages"]["upload"]["selectData"] = function tmpl_pages_upload_selectData() {
+        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 1: Select Raw Data</small></h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
     };
 
     // views\subjects\selectSubjectExperiments.jade compiled template
@@ -304,9 +305,19 @@
         return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
     };
 
+    // views\upload\groupView.jade compiled template
+    templatizer["views"]["upload"]["groupView"] = function tmpl_views_upload_groupView() {
+        return '<div class="row"><div class="col-md-12"><h3>Group&nbsp;<span data-hook="group-number"></span>&nbsp;<small data-hook="sub-name"></small></h3><div data-hook="sets-area"></div></div></div>';
+    };
+
+    // views\upload\setView.jade compiled template
+    templatizer["views"]["upload"]["setView"] = function tmpl_views_upload_setView() {
+        return '<div class="col-sm-6 col-md-4"><div data-hook="set-click-area" class="thumbnail"><div data-hook="mini-set-graph"></div><div class="caption"><h4 data-hook="name"></h4><p><span data-hook="reading-count"></span>&nbsp;readings</p><p><div id="is-selected" class="set-selector"><span class="glyphicon glyphicon-ok"></span>&nbsp;Selected</div><div id="not-selected" class="set-selector"><span class="glyphicon glyphicon-remove"></span>&nbsp;Not Selected</div></p></div></div></div>';
+    };
+
     // views\upload\sigGen.jade compiled template
     templatizer["views"]["upload"]["sigGen"] = function tmpl_views_upload_sigGen() {
-        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">SigGen File</h4></div><div class="panel-body"><p>stuff will go here...</p></div></div>';
+        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">SigGen File</h4></div><div class="panel-body form-horizontal"><div class="col-md-4 form-group"><label class="col-xs-4 control-label">ABR Date</label><div class="col-xs-8"><input type="date" data-hook="abr-date" class="form-control"/></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Upload Date</label><div class="col-xs-8"><p data-hook="upload-date" class="form-control-static">loading...</p></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Uploader</label><div class="col-xs-8"><p data-hook="upload-user" class="form-control-static">loading...</p></div></div></div><div class="panel-body"><div class="row"><div data-hook="subject-select" class="col-md-12"><p>subject select will go here</p></div><div data-hook="experiments-select" class="col-md-12"><p>experiment select will go here</p></div></div></div><div data-hook="groups-display" class="panel-body"></div><div class="panel-body"><p>Select analysis here</p></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step</button></div></div>';
     };
 
     // views\upload\unkownFile.jade compiled template

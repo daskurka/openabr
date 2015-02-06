@@ -1,5 +1,29 @@
 .panel.panel-default
     .panel-heading
         h4.panel-title SigGen File
+    .panel-body.form-horizontal
+        .col-md-4.form-group
+            label.col-xs-4.control-label ABR Date
+            .col-xs-8
+                input(type='date',data-hook='abr-date').form-control
+        .col-md-4.form-group
+            label.col-xs-4.control-label Upload Date
+            .col-xs-8
+                p(data-hook='upload-date').form-control-static loading...
+        .col-md-4.form-group
+            label.col-xs-4.control-label Uploader
+            .col-xs-8
+                p(data-hook='upload-user').form-control-static loading...
     .panel-body
-        p stuff will go here...
+        .row
+            .col-md-12(data-hook='subject-select')
+                p subject select will go here
+            .col-md-12(data-hook='experiments-select')
+                p experiment select will go here
+    .panel-body(data-hook='groups-display')
+    .panel-body
+        p Select analysis here
+    .panel-footer
+        button.btn.btn-default(data-hook='cancel') Cancel
+        | &nbsp;&nbsp;
+        button.btn.btn-primary(data-hook='next') Next Step

@@ -1,0 +1,15 @@
+.col-sm-6.col-md-4
+    .thumbnail(data-hook='set-click-area')
+        div(data-hook='mini-set-graph')
+        .caption
+            h4(data-hook='name')
+            p
+                span(data-hook='reading-count')
+                | &nbsp;readings
+            p
+                div#is-selected.set-selector
+                    span.glyphicon.glyphicon-ok
+                    | &nbsp;Selected
+                div#not-selected.set-selector
+                    span.glyphicon.glyphicon-remove
+                    | &nbsp;Not Selected

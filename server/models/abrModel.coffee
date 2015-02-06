@@ -4,15 +4,18 @@ Schema = mongoose.Schema
 abrSchema = new Schema
   state: String
   experiments: [Schema.Types.ObjectId]
-  uploader: Schema.Types.ObjectId
-  uploaded: {type: Date, default: Date.now}
+  creator: Schema.Types.ObjectId
+  created: {type: Date, default: Date.now}
   subject: {
     id: Schema.Types.ObjectId
     reference: String
     strain: String
     species: String
   }
+  date: {type: Date, default: Date.now}
+  source: String #SigGen, push, can be anything but must be consistant
   groups: [{
+    dateTime: {type: Date, default: Date.now}
     sets: [{
       readings: [{
         fields: Schema.Types.Mixed
