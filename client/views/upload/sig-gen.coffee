@@ -17,7 +17,7 @@ DataFieldModel = require '../../models/core/data-field.coffee'
 AbrGroupModel = require '../../models/core/abr-group.coffee'
 AbrSetModel = require '../../models/core/abr-set.coffee'
 AbrReadingModel = require '../../models/core/abr-reading.coffee'
-SigGenModel = require '../../models/upload/sig-gen.coffee'
+UploadState = require '../../models/upload/upload-state.coffee'
 
 AbrGroupCollection = require '../../collections/core/abr-groups.coffee'
 AbrSetCollection = require '../../collections/core/abr-sets.coffee'
@@ -99,9 +99,21 @@ module.exports = View.extend
     for group in @.model.groups.models
       for set in group.sets.models
         if set.selected then count++
-    if count <= 0 then $('#sets-alert').show() else $('#sets-alert').hide()
+    if count <= 0 then return $('#sets-alert').show() else $('#sets-alert').hide()
 
+    #now remove all unselected sets and groups
+    removeGroupList = []
+    for group in @.model.groups.models
+      removeSetList = []
+      for set in group.sets.models
+        if not set.selected then removeSetList.push set
+      group.sets.remove removeSetList
+      if group.sets.length <= 0
+        removeGroupList.push group
+    @.model.groups.remove removeGroupList
 
+    #next step!
+    app.router.uploadThresholdAnalysis(@.model)
 
   initialize: () ->
     reader = new DataStream(@.array)
@@ -109,7 +121,7 @@ module.exports = View.extend
     #we need to max sure all the sig-gen fields are there, this can run parallel
     ensureSigGenFieldsConfigured()
 
-    model = new SigGenModel()
+    model = new UploadState()
     model.source = 'BioSig Arf File'
     model.creator = app.me.user.id
     model.created = new Date()

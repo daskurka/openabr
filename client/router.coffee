@@ -26,7 +26,8 @@ module.exports = Router.extend
     'admin/fields/:col/create': 'adminFieldCreate'
     'admin/fields/:col/:dbName/edit': 'adminFieldEdit'
 
-    'process': 'process'
+    'upload': 'uploadSelectData'
+
     'query': 'query'
 
     'experiments': 'experiments'
@@ -43,14 +44,9 @@ module.exports = Router.extend
     '(*path)': 'catchAll'
 
   #helpers
-  showPage: (page) ->
-    @.trigger 'page', page
-
-  showUserPage: (page) ->
-    if app.me.isLoggedIn then @.showPage page else do @.login
-
-  showAdminPage: (page) ->
-    if app.me.isAdmin then @.showUserPage page else do @.unauthorized
+  showPage: (page) -> @.trigger 'page', page
+  showUserPage: (page) -> if app.me.isLoggedIn then @.showPage page else do @.login
+  showAdminPage: (page) -> if app.me.isAdmin then @.showUserPage page else do @.unauthorized
 
   #Basic route handlers
   about: () -> @.showPage new pages.About()
@@ -89,8 +85,12 @@ module.exports = Router.extend
   adminFieldCreate: (col) -> @.showAdminPage new pages.admin.fields.CreateDataField({col})
   adminFieldEdit: (col, dbName) -> @.showAdminPage new pages.admin.fields.EditDataField({col,dbName})
 
-  #Functional routes
-  process: () -> @.showPage new pages.Upload()
+  #Upload routes - only first should be nav-able with url
+  uploadSelectData: () -> @.showPage new pages.upload.SelectData()
+  uploadThresholdAnalysis: (uploadModel) -> @.showPage new pages.upload.ThresholdAnalysis(model: uploadModel)
+
+
+
   query: () -> console.log 'Query route hit'
 
   subjects: () -> @.showPage new pages.subjects.Index()

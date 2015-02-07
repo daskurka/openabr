@@ -7,7 +7,7 @@ UnknownFileView = require '../../views/upload/unknown-file.coffee'
 
 module.exports = PageView.extend
 
-  pageTitle: 'About'
+  pageTitle: 'Select Data'
   template: templates.pages.upload.selectData
 
   events:

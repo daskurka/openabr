@@ -135,7 +135,7 @@
         var jade_interp;
         var locals_for_with = locals || {};
         (function(isAdmin, user) {
-            buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/process">Upload ABR</a></li><li><a href="/query">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
+            buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/upload">Upload ABR</a></li><li><a href="/query">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
             if (isAdmin) {
                 buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/users">Users</a></li><li><a href="/admin/fields">Fields</a></li></ul></li>');
             }
@@ -287,6 +287,11 @@
     // pages\upload\selectData.jade compiled template
     templatizer["pages"]["upload"]["selectData"] = function tmpl_pages_upload_selectData() {
         return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 1: Select Raw Data</small></h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
+    };
+
+    // pages\upload\thresholdAnalysis.jade compiled template
+    templatizer["pages"]["upload"]["thresholdAnalysis"] = function tmpl_pages_upload_thresholdAnalysis() {
+        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 2: Threshold Analysis</small></h2><div class="row"><div data-hook="analysis-area"></div></div></div>';
     };
 
     // views\experiments\selectAbrExperiments.jade compiled template

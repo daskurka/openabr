@@ -12,7 +12,9 @@ module.exports =
   FourOhFour: require './404.coffee'
   FourOhOne: require './401.coffee'
   Status: require './status.coffee'
-  Upload: require './upload/select-data.coffee'
+  upload:
+    SelectData: require './upload/select-data.coffee'
+    ThresholdAnalysis: require './upload/threshold-analysis.coffee'
   admin:
     users:
       Users: require './admin/users/users.coffee'
