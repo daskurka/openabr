@@ -12,6 +12,7 @@ dataFieldSchema = new Schema
   created: { type: Date, default: Date.now}
   config: Schema.Types.Mixed
   locked: Boolean
+  autoPop: Boolean
 
 dataFieldSchema.set 'toObject', {virtuals: yes}
 dataFieldSchema.set 'toJSON', {virtuals: yes}

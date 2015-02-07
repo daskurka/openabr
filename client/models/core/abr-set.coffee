@@ -1,15 +1,22 @@
-State = require 'ampersand-state'
+Base = require '../base.coffee'
 _ = require 'lodash'
+
 AbrReadingsCollection = require '../../collections/core/abr-readings.coffee'
 
-module.exports = State.extend
+module.exports = Base.extend
 
   typeAttribute: 'abrSetModel'
+  urlRoot: '/api/abr/sets'
 
   props:
-    fields: 'object'
     isClick: 'boolean'
-    frequency: 'number'
+    freq: 'number'
+
+    analysis: 'object'
+    fields: 'object'
+
+    groupId: 'any' #link to group
+    subjectId: 'any'  #link to subject
 
   session:
     selected: 'boolean'

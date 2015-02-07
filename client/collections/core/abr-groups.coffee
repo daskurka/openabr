@@ -1,6 +1,7 @@
-Collection = require 'ampersand-collection'
+PagedCollection = require '../paged.coffee'
 AbrGroup = require '../../models/core/abr-group.coffee'
 
-module.exports = Collection.extend
+module.exports = PagedCollection.extend
   model: AbrGroup
+  url: '/api/abr/groups'
   typeAttribute: 'abrGroupsCollection'

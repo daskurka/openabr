@@ -4,6 +4,12 @@ module.exports = Base.extend
 
   typeAttribute: 'pagedCollection'
 
+  query: (query) ->
+    @.fetch
+      data: query
+      success: (collection, response, options) ->
+        collection.trigger 'query:loaded'
+
   queryPaged: (pageIndex, pageSize, data) ->
 
     data = {pager: {pageIndex, pageSize}, query: data}

@@ -42,6 +42,7 @@ module.exports = PageView.extend
             data.creator = app.me.user.id
             data.created = new Date()
             data.locked = false
+            data.autoPop = false
 
             #handle number
             if data.type is 'number'

@@ -18,7 +18,6 @@ ViewModel = State.extend
         switch @.col
           when 'subject' then return 'Subject'
           when 'experiment' then return 'Experiment'
-          when 'abr' then return 'ABR'
           when 'abr-group' then return 'ABR Group'
           when 'abr-set' then return 'ABR Set'
           when 'abr-reading' then return 'ABR Reading'

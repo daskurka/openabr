@@ -5,11 +5,11 @@ abrGroupSchema = new Schema
   name: String
   number: Number
   ear: String
-  date: Schema.Types.Date
+  date: { type: Date, default: Date.now}
   source: String
   experiments: [Schema.Types.ObjectId] #links to experiments
   creator: Schema.Types.ObjectId #link to user
-  created: Schema.Types.Date
+  created: { type: Date, default: Date.now}
 
   analysis: Schema.Types.Mixed
   fields: Schema.Types.Mixed

@@ -75,7 +75,7 @@
 
     // includes\items\dataField.jade compiled template
     templatizer["includes"]["items"]["dataField"] = function tmpl_includes_items_dataField() {
-        return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
+        return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td style="text-align: center;"><span data-hook="required" class="glyphicon glyphicon-ok"></span></td><td><span data-hook="autoPop" class="glyphicon glyphicon-ok"></span></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
     };
 
     // includes\items\detailListItem.jade compiled template
@@ -119,7 +119,7 @@
 
     // includes\items\fixedDataField.jade compiled template
     templatizer["includes"]["items"]["fixedDataField"] = function tmpl_includes_items_fixedDataField() {
-        return '<tr data-hook="fixed-field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td data-hook="required"></td><td data-hook="description"></td></tr>';
+        return '<tr data-hook="fixed-field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td><span data-hook="required" class="glyphicon glyphicon-ok"></span></td><td><span data-hook="autoPop" class="glyphicon glyphicon-ok"></span></td><td data-hook="description"></td></tr>';
     };
 
     // includes\items\user.jade compiled template
@@ -185,12 +185,12 @@
 
     // pages\admin\fields\index.jade compiled template
     templatizer["pages"]["admin"]["fields"]["index"] = function tmpl_pages_admin_fields_index() {
-        return '<div><h2>Fields Administration&nbsp;<small>Help</small></h2><ul class="nav nav-pills"><li role="presentation" class="active"><a href="/admin/fields">Help</a></li><li role="presentation"><a href="/admin/fields/subject">Subject</a></li><li role="presentation"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation"><a href="/admin/fields/abr">ABR</a></li><li role="presentation"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><p>The fillowing section will eventually explain how all of this fields marlarky works, not today bob.</p></div>';
+        return '<div><h2>Fields Administration&nbsp;<small>Help</small></h2><ul class="nav nav-pills"><li role="presentation" class="active"><a href="/admin/fields">Help</a></li><li role="presentation"><a href="/admin/fields/subject">Subject</a></li><li role="presentation"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><p>The fillowing section will eventually explain how all of this fields marlarky works, not today bob.</p></div>';
     };
 
     // pages\admin\fields\list.jade compiled template
     templatizer["pages"]["admin"]["fields"]["list"] = function tmpl_pages_admin_fields_list() {
-        return '<div><h2>Fields Administration&nbsp;<small data-hook="collection-name"></small></h2><ul data-hook="fields-nav" class="nav nav-pills"><li role="presentation"><a href="/admin/fields">Help</a></li><li role="presentation" class="subject-li"><a href="/admin/fields/subject">Subject</a></li><li role="presentation" class="experiment-li"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation" class="abr-li"><a href="/admin/fields/abr">ABR</a></li><li role="presentation" class="abr-group-li"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation" class="abr-set-li"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation" class="abr-reading-li"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><hr/><h3>Fixed Fields</h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Description</th></thead><tbody data-hook="fixed-fields-table"></tbody></table><hr/><h3>User Fields&nbsp;<small><button data-hook="add-user-field" class="btn btn-primary btn-sm">Add new</button></small></h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Creator</th><th>Description</th></thead><tbody data-hook="fields-table"></tbody></table></div>';
+        return '<div><h2>Fields Administration&nbsp;<small data-hook="collection-name"></small></h2><ul data-hook="fields-nav" class="nav nav-pills"><li role="presentation"><a href="/admin/fields">Help</a></li><li role="presentation" class="subject-li"><a href="/admin/fields/subject">Subject</a></li><li role="presentation" class="experiment-li"><a href="/admin/fields/experiment">Experiment</a></li><li role="presentation" class="abr-group-li"><a href="/admin/fields/abr-group">ABR Group</a></li><li role="presentation" class="abr-set-li"><a href="/admin/fields/abr-set">ABR Set</a></li><li role="presentation" class="abr-reading-li"><a href="/admin/fields/abr-reading">ABR Reading</a></li></ul><hr/><h3>Fixed Fields</h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Automatic</th><th>Description</th></thead><tbody data-hook="fixed-fields-table"></tbody></table><hr/><h3>User Fields&nbsp;<small><button data-hook="add-user-field" class="btn btn-primary btn-sm">Add new</button></small></h3><table class="table table-hover"><thead><th>Name</th><th>Type</th><th>Database Name</th><th>Required</th><th>Automatic</th><th>Creator</th><th>Description</th></thead><tbody data-hook="fields-table"></tbody></table></div>';
     };
 
     // pages\admin\users\create.jade compiled template

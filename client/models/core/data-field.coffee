@@ -16,6 +16,7 @@ module.exports = Base.extend
     created: 'date'
     config: 'object'
     locked: 'boolean'
+    autoPop: 'boolean'
 
   derived:
     editUrl:

@@ -6,7 +6,6 @@ DataStream = require '../../utils/data-stream'
 templates = require '../../templates'
 GroupView = require './group-view.coffee'
 
-AbrModel = require '../../models/core/abr.coffee'
 AbrGroupModel = require '../../models/core/abr-group.coffee'
 AbrSetModel = require '../../models/core/abr-set.coffee'
 AbrReadingModel = require '../../models/core/abr-reading.coffee'
@@ -49,7 +48,6 @@ module.exports = View.extend
 
     model = new AbrModel()
     model.source = 'BioSig Arf File'
-    model.state = 'new'
     model.creator = app.me.user.id
     model.created = new Date()
     model.fields = {}

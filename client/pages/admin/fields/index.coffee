@@ -11,8 +11,3 @@ module.exports = PageView.extend
   events:
     'click #newUser': 'newUser'
     'keyup [data-hook~=filter]': 'filterUsers'
-
-  render: () ->
-    #render everything
-    @.renderWithTemplate(@)
-    return @

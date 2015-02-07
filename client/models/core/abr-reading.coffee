@@ -1,19 +1,23 @@
-State = require 'ampersand-state'
+Base = require '../base.coffee'
 
-module.exports = State.extend
+module.exports = Base.extend
 
   typeAttribute: 'abrReadingModel'
-
-  session:
-    values: 'array'
+  urlRoot: '/api/abr/readings'
 
   props:
-    fields: 'object'
     freq: 'number'
     level: 'number'
     duration: 'number'
     sampleRate: 'number'
     numberSamples: 'number'
+
     valueMax: 'number'
     valueMin: 'number'
-    valuesId: 'any' #objectId
+    values: 'array'
+
+    analysis: 'object'
+    fields: 'object'
+
+    setId: 'any' #link to set
+    subjectId: 'any'  #link to subject

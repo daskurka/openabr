@@ -1,16 +1,27 @@
-State = require 'ampersand-state'
+Base = require '../base.coffee'
 _ = require 'lodash'
+
 AbrSetsCollection = require '../../collections/core/abr-sets.coffee'
 
-module.exports = State.extend
+module.exports = Base.extend
 
   typeAttribute: 'abrGroupModel'
+  urlRoot: '/api/abr/groups'
 
   props:
-    fields: 'object'
     name: 'string'
     number: 'number'
     ear: 'string'
+    date: 'date'
+    source: 'string' #source of this abr record
+    experiments: 'array' #objectId link to experiments
+    creator: 'any' #link to user
+    created: 'date'
+
+    analysis: 'object'
+    fields: 'object'
+
+    subjectId: 'any' #link to subject
 
   derived:
     maxFreq:

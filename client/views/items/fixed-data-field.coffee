@@ -9,7 +9,12 @@ module.exports = View.extend
     'model.name': '[data-hook~=name]'
     'model.type': '[data-hook~=type]'
     'model.dbName': '[data-hook~=dbName]'
-    'model.required': '[data-hook~=required]'
+    'model.required':
+      type: 'toggle'
+      hook: 'required'
+    'model.autoPop':
+      type: 'toggle'
+      hook: 'autoPop'
     'model.description': '[data-hook~=description]'
 
   events:
