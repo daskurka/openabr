@@ -44,7 +44,9 @@ module.exports = View.extend
   bindings:
     'researcher': '[data-hook~=upload-user]'
     'uploadDate': '[data-hook~=upload-date]'
-    'model.date': '[data-hook~=abr-date]'
+    'model.ear':
+      type: 'value'
+      hook: 'ear'
 
   props:
       array: 'object' #ArrayBuffer
@@ -215,6 +217,15 @@ module.exports = View.extend
 
       model.groups.add group
       model.evidence = _.uniq(evidence)
+
+      #find ear
+      for item in model.evidence
+        switch item
+          when 'L','l','left','Left','LEFT'
+            model.ear = 'Left'
+          when 'R','r','right','Right','RIGHT'
+            model.ear = 'Right'
+      if not model.ear? then model.ear = '-'
 
     @.model = model
 

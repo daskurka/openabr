@@ -9,6 +9,7 @@ module.exports = State.extend
     created: 'date'
     date: 'date'
     filename: 'string'
+    ear: 'string'
 
   collections:
     groups: AbrGroupCollection

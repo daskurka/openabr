@@ -2,17 +2,24 @@
     .panel-heading
         h4.panel-title SigGen File
     .panel-body.form-horizontal
-        .col-md-4.form-group
-            label.col-xs-4.control-label ABR Date
+        .col-sm-3.col-md-6.form-group
+            label.col-xs-4.control-label Ear
             .col-xs-8
+                select.form-control(data-hook='ear')
+                    option(value='-') -
+                    option(value='Left') Left
+                    option(value='Right') Right
+        .col-sm-3.col-md-6.form-group
+            label.col-xs-5.control-label ABR Date
+            .col-xs-7
                 input(type='date',data-hook='abr-date').form-control
-        .col-md-4.form-group
-            label.col-xs-4.control-label Upload Date
-            .col-xs-8
+        .col-sm-3.col-md-6.form-group
+            label.col-xs-5.control-label Upload Date
+            .col-xs-7
                 p(data-hook='upload-date').form-control-static loading...
-        .col-md-4.form-group
-            label.col-xs-4.control-label Uploader
-            .col-xs-8
+        .col-sm-3.col-md-6.form-group
+            label.col-xs-5.control-label Uploader
+            .col-xs-7
                 p(data-hook='upload-user').form-control-static loading...
     .panel-body
         .row
