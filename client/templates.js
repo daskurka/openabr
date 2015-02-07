@@ -23,6 +23,7 @@
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["pages"]["upload"] = {};
+    templatizer["views"]["experiments"] = {};
     templatizer["views"]["subjects"] = {};
     templatizer["views"]["upload"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
@@ -286,6 +287,18 @@
     // pages\upload\selectData.jade compiled template
     templatizer["pages"]["upload"]["selectData"] = function tmpl_pages_upload_selectData() {
         return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 1: Select Raw Data</small></h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
+    };
+
+    // views\experiments\selectAbrExperiments.jade compiled template
+    templatizer["views"]["experiments"]["selectAbrExperiments"] = function tmpl_views_experiments_selectAbrExperiments(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(experiments) {
+            buf.push('<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Experiments</h5></div><div class="panel-body"><input' + jade.attr("value", experiments.join(","), true, false) + ' class="form-control"/></div></div>');
+        }).call(this, "experiments" in locals_for_with ? locals_for_with.experiments : typeof experiments !== "undefined" ? experiments : undefined);
+        return buf.join("");
     };
 
     // views\subjects\createSubject.jade compiled template

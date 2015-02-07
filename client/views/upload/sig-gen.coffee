@@ -9,6 +9,7 @@ templates = require '../../templates'
 GroupView = require './group-view.coffee'
 
 SubjectSelector = require '../../views/subject/subject-selector.coffee'
+ExperimentsSelector = require '../../views/experiment/select-abr-experiments.coffee'
 
 DataFieldCollection = require '../../collections/core/data-fields.coffee'
 DataFieldModel = require '../../models/core/data-field.coffee'
@@ -224,7 +225,12 @@ module.exports = View.extend
       hook: 'subject-select'
       waitFor: 'model'
       prepareView: (el) ->
-        return new SubjectSelector(el: el, evidence: @.model.evidence)
+        return new SubjectSelector(el: el, evidence: @.model.evidence, parent: @)
+    experiments:
+      hook: 'experiments-select'
+      waitFor: 'model'
+      prepareView: (el) ->
+        return new ExperimentsSelector(el: el, parent: @)
 
   ensureSigGenFieldsConfigured = () ->
     abrReadingFields = new DataFieldCollection()

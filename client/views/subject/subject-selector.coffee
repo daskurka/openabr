@@ -51,13 +51,16 @@ module.exports = View.extend
   showSelectView: () ->
     selectView = if @.subject? then new SelectSubjectView(model: @.subject) else new SelectSubjectView()
     selectView.on 'create:subject', () => @.showCreateView()
-    selectView.on 'subject:selected', (subject) => @.subject = subject
+    selectView.on 'subject:selected', (subject) =>
+      @.subject = subject
+      @.parent.trigger 'subject-selector:subject:selected', @.subject
     @.switcher.set selectView
 
   showCreateView: () ->
     createView = new CreateSubjectView()
     createView.on 'subject:created', (subject) =>
       @.subject = subject
+      @.parent.trigger 'subject-selector:subject:selected', @.subject
       @.showSelectView()
     createView.on 'cancelled', () => @.showSelectView()
     @.switcher.set createView

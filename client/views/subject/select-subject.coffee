@@ -34,10 +34,8 @@ module.exports = View.extend
         cache: true
       initSelection: (element, callback) =>
         id = element[0].value
-        console.log id
         query = {_id: id}
         $.get @.url, query, (response) ->
-          console.log response
           results = []
           for subject in response
             results.push {id: subject.id, text: subject.reference, value: subject}
