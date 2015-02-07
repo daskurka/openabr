@@ -1,0 +1,12 @@
+.panel.panel-default
+    .panel-heading
+        h5.panel-title Subject
+    .panel-body
+        .row
+            .col-xs-9
+                - val = ''
+                - if (model != null)
+                -   val = model.id
+                input.form-control(value=val)
+            .col-xs-3
+                button.btn.btn-primary.btn-block(data-hook='create-subject') Create

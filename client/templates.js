@@ -288,6 +288,26 @@
         return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 1: Select Raw Data</small></h2><div class="row"><div class="panel panel-default"><div class="panel-body"><input type="file" data-hook="upload-file" name="file"/></div></div></div><div class="row"><div data-hook="parse-area"></div></div></div>';
     };
 
+    // views\subjects\createSubject.jade compiled template
+    templatizer["views"]["subjects"]["createSubject"] = function tmpl_views_subjects_createSubject() {
+        return '<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Create Subject</h5></div><div class="panel-body"><form data-hook="subject-form"><fieldset data-hook="field-container"></fieldset><div class="btn-group"><button data-hook="reset" type="submit" class="btn btn-primary">Submit</button><button data-hook="cancel" type="button" class="btn btn-default">Cancel</button></div></form></div></div>';
+    };
+
+    // views\subjects\selectSubject.jade compiled template
+    templatizer["views"]["subjects"]["selectSubject"] = function tmpl_views_subjects_selectSubject(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(model, val) {
+            buf.push('<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Subject</h5></div><div class="panel-body"><div class="row"><div class="col-xs-9">');
+            val = "";
+            if (model != null) val = model.id;
+            buf.push("<input" + jade.attr("value", val, true, false) + ' class="form-control"/></div><div class="col-xs-3"><button data-hook="create-subject" class="btn btn-primary btn-block">Create</button></div></div></div></div>');
+        }).call(this, "model" in locals_for_with ? locals_for_with.model : typeof model !== "undefined" ? model : undefined, "val" in locals_for_with ? locals_for_with.val : typeof val !== "undefined" ? val : undefined);
+        return buf.join("");
+    };
+
     // views\subjects\selectSubjectExperiments.jade compiled template
     templatizer["views"]["subjects"]["selectSubjectExperiments"] = function tmpl_views_subjects_selectSubjectExperiments(locals) {
         var buf = [];
@@ -305,6 +325,11 @@
         return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="researcher"></td><td data-hook="experiments"></td></tr>';
     };
 
+    // views\subjects\subjectSelector.jade compiled template
+    templatizer["views"]["subjects"]["subjectSelector"] = function tmpl_views_subjects_subjectSelector() {
+        return '<div data-hook="area"></div>';
+    };
+
     // views\upload\groupView.jade compiled template
     templatizer["views"]["upload"]["groupView"] = function tmpl_views_upload_groupView() {
         return '<div class="row"><div class="col-md-12"><h3>Group&nbsp;<span data-hook="group-number"></span>&nbsp;<small data-hook="sub-name"></small></h3><div data-hook="sets-area"></div></div></div>';
@@ -317,7 +342,7 @@
 
     // views\upload\sigGen.jade compiled template
     templatizer["views"]["upload"]["sigGen"] = function tmpl_views_upload_sigGen() {
-        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">SigGen File</h4></div><div class="panel-body form-horizontal"><div class="col-md-4 form-group"><label class="col-xs-4 control-label">ABR Date</label><div class="col-xs-8"><input type="date" data-hook="abr-date" class="form-control"/></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Upload Date</label><div class="col-xs-8"><p data-hook="upload-date" class="form-control-static">loading...</p></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Uploader</label><div class="col-xs-8"><p data-hook="upload-user" class="form-control-static">loading...</p></div></div></div><div class="panel-body"><div class="row"><div data-hook="subject-select" class="col-md-12"><p>subject select will go here</p></div><div data-hook="experiments-select" class="col-md-12"><p>experiment select will go here</p></div></div></div><div data-hook="groups-display" class="panel-body"></div><div class="panel-body"><p>Select analysis here</p></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step</button></div></div>';
+        return '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">SigGen File</h4></div><div class="panel-body form-horizontal"><div class="col-md-4 form-group"><label class="col-xs-4 control-label">ABR Date</label><div class="col-xs-8"><input type="date" data-hook="abr-date" class="form-control"/></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Upload Date</label><div class="col-xs-8"><p data-hook="upload-date" class="form-control-static">loading...</p></div></div><div class="col-md-4 form-group"><label class="col-xs-4 control-label">Uploader</label><div class="col-xs-8"><p data-hook="upload-user" class="form-control-static">loading...</p></div></div></div><div class="panel-body"><div class="row"><div class="col-lg-6 col-md-12"><div data-hook="subject-select"></div></div><div class="col-lg-6 col-md-12"><div data-hook="experiments-select"></div></div></div></div><div data-hook="groups-display" class="panel-body"></div><div class="panel-body"><p>Select analysis here</p></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step</button></div></div>';
     };
 
     // views\upload\unkownFile.jade compiled template

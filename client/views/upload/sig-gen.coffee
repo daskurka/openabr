@@ -1,10 +1,14 @@
 View = require 'ampersand-view'
 CollectionView = require 'ampersand-collection-view'
+
 _ = require 'lodash'
 select2 = require 'select2'
+
 DataStream = require '../../utils/data-stream'
 templates = require '../../templates'
 GroupView = require './group-view.coffee'
+
+SubjectSelector = require '../../views/subject/subject-selector.coffee'
 
 DataFieldCollection = require '../../collections/core/data-fields.coffee'
 DataFieldModel = require '../../models/core/data-field.coffee'
@@ -49,8 +53,7 @@ module.exports = View.extend
     reader = new DataStream(@.array)
 
     #we need to max sure all the sig-gen fields are there, this can run parallel
-    do ensureSigGenFieldsConfigured
-
+    ensureSigGenFieldsConfigured()
 
     model = new SigGenModel()
     model.source = 'BioSig Arf File'
@@ -81,28 +84,23 @@ module.exports = View.extend
 
     model.groups = new AbrGroupCollection()
 
+    evidence = [] #TODO Process filename for evidence and leave here...
+
     for groupCount in [0...numberGroups]
       group = new AbrGroupModel()
-
-      groupEvidence = []
 
       group.fields = {}
       group.number = reader.readInt16()
       reader.readInt16() #frecn
       reader.readInt16() #nrecs
-      groupEvidence.push group.fields.sg_sbjid = reader.readString(16).replace(/\0/g,'')
-      groupEvidence.push group.fields.sg_ref1 = reader.readString(16).replace(/\0/g,'')
-      groupEvidence.push group.fields.sg_ref2 = reader.readString(16).replace(/\0/g,'')
-      groupEvidence.push group.fields.sg_memo = reader.readString(50).replace(/\0/g,'')
+      evidence.push group.fields.sg_sbjid = reader.readString(16).replace(/\0/g,'')
+      evidence.push group.fields.sg_ref1 = reader.readString(16).replace(/\0/g,'')
+      evidence.push group.fields.sg_ref2 = reader.readString(16).replace(/\0/g,'')
+      evidence.push group.fields.sg_memo = reader.readString(50).replace(/\0/g,'')
       startTime = reader.readString(8)
       endTime = reader.readString(8)
-      groupEvidence.push group.fields.sg_fn1 = reader.readString(100).replace(/\0/g,'')
-      groupEvidence.push group.fields.sg_fn2 = reader.readString(100).replace(/\0/g,'')
-
-      console.log groupEvidence
-
-      #console.log 'Start Time: ' + startTime
-      #console.log 'End Time: ' + endTime
+      evidence.push group.fields.sg_fn1 = reader.readString(100).replace(/\0/g,'')
+      evidence.push group.fields.sg_fn2 = reader.readString(100).replace(/\0/g,'')
 
       variableIndex = new Array(MaxVariables)
       isClickGroup = yes
@@ -212,6 +210,7 @@ module.exports = View.extend
         group.name = "Tone - #{group.minFreq/1000} kHz to #{group.maxFreq/1000} kHz"
 
       model.groups.add group
+      model.evidence = _.uniq(evidence)
 
     @.model = model
 
@@ -221,6 +220,11 @@ module.exports = View.extend
       waitFor: 'model'
       prepareView: (el) ->
         return new CollectionView(el: el, collection: @.model.groups, view: GroupView)
+    subject:
+      hook: 'subject-select'
+      waitFor: 'model'
+      prepareView: (el) ->
+        return new SubjectSelector(el: el, evidence: @.model.evidence)
 
   ensureSigGenFieldsConfigured = () ->
     abrReadingFields = new DataFieldCollection()
