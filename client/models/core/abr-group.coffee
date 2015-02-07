@@ -26,10 +26,10 @@ module.exports = Base.extend
   derived:
     maxFreq:
       deps: ['sets']
-      fn: () ->_.max(@.sets.map (set) -> set.frequency)
+      fn: () ->_.max(@.sets.map (set) -> set.freq)
     minFreq:
       deps: ['sets']
-      fn: () -> _.min(@.sets.map (set) -> set.frequency)
+      fn: () -> _.min(@.sets.map (set) -> set.freq)
 
   collections:
     sets: AbrSetsCollection

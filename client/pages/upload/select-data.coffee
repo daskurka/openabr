@@ -39,8 +39,6 @@ module.exports = PageView.extend
     @.lastFile = event.target.files[0]
     ext = /(?:\.([^.]+))?$/.exec(@.lastFile.name)[1]
 
-    console.log ext
-
     if not ext? then ext = null
 
     switch ext

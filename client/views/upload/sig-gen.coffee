@@ -6,9 +6,13 @@ DataStream = require '../../utils/data-stream'
 templates = require '../../templates'
 GroupView = require './group-view.coffee'
 
+DataFieldCollection = require '../../collections/core/data-fields.coffee'
+DataFieldModel = require '../../models/core/data-field.coffee'
+
 AbrGroupModel = require '../../models/core/abr-group.coffee'
 AbrSetModel = require '../../models/core/abr-set.coffee'
 AbrReadingModel = require '../../models/core/abr-reading.coffee'
+SigGenModel = require '../../models/upload/sig-gen.coffee'
 
 AbrGroupCollection = require '../../collections/core/abr-groups.coffee'
 AbrSetCollection = require '../../collections/core/abr-sets.coffee'
@@ -44,15 +48,17 @@ module.exports = View.extend
   initialize: () ->
     reader = new DataStream(@.array)
 
-    #todo check and update user fields for SigGen
+    #we need to max sure all the sig-gen fields are there, this can run parallel
+    do ensureSigGenFieldsConfigured
 
-    model = new AbrModel()
+
+    model = new SigGenModel()
     model.source = 'BioSig Arf File'
     model.creator = app.me.user.id
     model.created = new Date()
-    model.fields = {}
-    model.fields.sg_ftype = reader.readInt16()
-    model.fields.filename = @.filename
+
+    reader.readInt16() #ftype (file type)
+    model.filename = @.filename
 
     numberGroups = reader.readInt16()
     numberRecordings = reader.readInt16()
@@ -78,18 +84,22 @@ module.exports = View.extend
     for groupCount in [0...numberGroups]
       group = new AbrGroupModel()
 
+      groupEvidence = []
+
       group.fields = {}
-      group.number = group.fields.sg_grpn = reader.readInt16()
+      group.number = reader.readInt16()
       reader.readInt16() #frecn
-      group.fields.sg_nrecs = reader.readInt16()
-      group.fields.sg_sbjid = reader.readString(16)
-      group.fields.sg_ref1 = reader.readString(16)
-      group.fields.sg_ref2 = reader.readString(16)
-      group.fields.sg_memo = reader.readString(50)
+      reader.readInt16() #nrecs
+      groupEvidence.push group.fields.sg_sbjid = reader.readString(16).replace(/\0/g,'')
+      groupEvidence.push group.fields.sg_ref1 = reader.readString(16).replace(/\0/g,'')
+      groupEvidence.push group.fields.sg_ref2 = reader.readString(16).replace(/\0/g,'')
+      groupEvidence.push group.fields.sg_memo = reader.readString(50).replace(/\0/g,'')
       startTime = reader.readString(8)
       endTime = reader.readString(8)
-      group.fields.sg_fn1 = reader.readString(100)
-      group.fields.sg_fn2 = reader.readString(100)
+      groupEvidence.push group.fields.sg_fn1 = reader.readString(100).replace(/\0/g,'')
+      groupEvidence.push group.fields.sg_fn2 = reader.readString(100).replace(/\0/g,'')
+
+      console.log groupEvidence
 
       #console.log 'Start Time: ' + startTime
       #console.log 'End Time: ' + endTime
@@ -110,7 +120,7 @@ module.exports = View.extend
       group.fields.sg_cctyp = reader.readInt32()
       group.fields.sg_ver = reader.readInt16()
       group.fields.sg_postp = reader.readInt32()
-      group.fields.sg_dump = reader.readString(92)
+      group.fields.sg_dump = reader.readString(92).replace(/\0/g,'')
 
       group.sets = new AbrSetCollection()
 
@@ -141,10 +151,10 @@ module.exports = View.extend
         reading.fields.sg_sgi = reader.readInt16()
         reading.fields.sg_chan = reader.readString(1)
         reading.fields.sg_rtype = reader.readString(1)
-        reading.numberSamples = reading.fields.sg_npts = reader.readInt16()
+        reading.numberSamples = reader.readInt16()
         reading.fields.sg_osdel = reader.readFloat32()
-        reading.duration = reading.fields.sg_dur = reader.readFloat32()
-        reading.sampleRate = reading.fields.sg_srate = reader.readFloat32()
+        reading.duration = reader.readFloat32()
+        reading.sampleRate = reader.readFloat32()
         reader.readFloat32() #skip arthresh
         reader.readFloat32() #skip gain
         reader.readInt16() #skip accouple
@@ -196,7 +206,7 @@ module.exports = View.extend
         for freq in frequencies
           freqSet = new AbrSetModel()
           freqSet.readings = readings.filter (reading) -> reading.freq is freq
-          freqSet.frequency = freq
+          freqSet.freq = freq
           freqSet.isClick = no
           group.sets.add freqSet
         group.name = "Tone - #{group.minFreq/1000} kHz to #{group.maxFreq/1000} kHz"
@@ -211,6 +221,73 @@ module.exports = View.extend
       waitFor: 'model'
       prepareView: (el) ->
         return new CollectionView(el: el, collection: @.model.groups, view: GroupView)
+
+  ensureSigGenFieldsConfigured = () ->
+    abrReadingFields = new DataFieldCollection()
+    abrReadingFields.loadFields 'abr-reading', () ->
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_recn')
+        addNewDataField('abr-reading','number','SigGen Reading Number','sg_recn','SigGen reading number.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_sgi')
+        addNewDataField('abr-reading','number','SigGen Index','sg_sgi','SigGen index.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_chan')
+        addNewDataField('abr-reading','string','SigGen Channel','sg_chan','SigGen channel.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_rtype')
+        addNewDataField('abr-reading','string','SigGen Recording Type','sg_rtype','SigGen recording type.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_osdel')
+        addNewDataField('abr-reading','number','SigGen Onset Delay','sg_osdel','SigGen onset delay.',{prefix: 'm', unit: 's'})
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_navgs')
+        addNewDataField('abr-reading','number','SigGen Averages','sg_navgs','SigGen number of averages.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_narts')
+        addNewDataField('abr-reading','number','SigGen Artefacts','sg_narts','SigGen number of artefacts.',null)
+      if not abrReadingFields.any((f) -> f.dbName is 'sg_phase')
+        addNewDataField('abr-reading','number','SigGen Phase','sg_phase','SigGen Phase.',{prefix: '', unit: 'deg'})
+
+    abrGroupFields = new DataFieldCollection()
+    abrGroupFields.loadFields 'abr-group', () ->
+      if not abrGroupFields.any((f) -> f.dbName is 'filename')
+        addNewDataField('abr-group','string','Upload Filename','filename','Name of file used to upload this ABR Group',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_sbjid')
+        addNewDataField('abr-group','string','SigGen SubjectId','sg_sbjid','SigGen SubjectId',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_ref1')
+        addNewDataField('abr-group','string','SigGen Reference1','sg_ref1','SigGen Reference1',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_ref2')
+        addNewDataField('abr-group','string','SigGen Reference2','sg_ref2','SigGen Reference2',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_memo')
+        addNewDataField('abr-group','string','SigGen Memo','sg_memo','SigGen Memo',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_fn1')
+        addNewDataField('abr-group','string','SigGen Filename1','sg_fn1','SigGen Filename1',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_fn2')
+        addNewDataField('abr-group','string','SigGen Filename2','sg_fn2','SigGen Filename2',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_dump')
+        addNewDataField('abr-group','string','SigGen Dump','sg_dump','SigGen Dump',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_srate')
+        addNewDataField('abr-group','number','SigGen Group Sample Rate','sg_srate','SigGen Group Sample Rate',{unit: 's', prefix: 'm'})
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_cctyp')
+        addNewDataField('abr-group','number','SigGen CCType','sg_cctyp','SigGen CCType',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_ver')
+        addNewDataField('abr-group','number','SigGen Version','sg_ver','SigGen Version',null)
+      if not abrGroupFields.any((f) -> f.dbName is 'sg_postp')
+        addNewDataField('abr-group','number','SigGen Post Processing','sg_postp','SigGen Post Processing',null)
+
+  addNewDataField = (col, type, name, dbName, desc, config) ->
+    data =
+      col: col
+      type: type
+      name: name
+      dbName: dbName
+      description: desc
+      required: yes
+      creator: app.me.user.id
+      created: new Date()
+      config: config
+      locked: yes
+      autoPop: yes
+    newField = new DataFieldModel(data)
+    newField.save data,
+      success: () ->
+        console.log 'SigGen field created for '+ col + ': ' + dbName
+      error: () ->
+        console.log 'Warning: Error creating field - ' + dbName
 
   getRecordingsInGroup = (group, totalGroups, groupPositions, recordingPositions) ->
     groupSeekPosition = groupPositions[group]

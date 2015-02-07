@@ -75,7 +75,7 @@
 
     // includes\items\dataField.jade compiled template
     templatizer["includes"]["items"]["dataField"] = function tmpl_includes_items_dataField() {
-        return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td style="text-align: center;"><span data-hook="required" class="glyphicon glyphicon-ok"></span></td><td><span data-hook="autoPop" class="glyphicon glyphicon-ok"></span></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
+        return '<tr data-hook="field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td><span data-hook="required" class="glyphicon glyphicon-ok"></span></td><td><span data-hook="autoPop" class="glyphicon glyphicon-ok"></span></td><td data-hook="creator"></td><td data-hook="description"></td></tr>';
     };
 
     // includes\items\detailListItem.jade compiled template

@@ -38,7 +38,7 @@ module.exports = Base.extend
       deps: ['maxLevel','minLevel','isClick','frequency']
       fn: () ->
         if @.isClick then return "Click #{@.maxLevel} dB - #{@.minLevel} dB"
-        return "Tone #{@.maxLevel} dB - #{@.minLevel} dB @ #{@.frequency/1000} kHz"
+        return "Tone #{@.maxLevel} dB - #{@.minLevel} dB @ #{@.freq/1000} kHz"
 
   collections:
     readings: AbrReadingsCollection
