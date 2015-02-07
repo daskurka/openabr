@@ -23,6 +23,20 @@ AbrGroupCollection = require '../../collections/core/abr-groups.coffee'
 AbrSetCollection = require '../../collections/core/abr-sets.coffee'
 AbrReadingCollection = require '../../collections/core/abr-readings.coffee'
 
+#go go first year comp science
+#yes this is a hack, and yes it has limitations
+#but for getting the seconds since 1970 it works!
+byteArrayToNumber = (byteArray) ->
+  value = 0
+  for i in [7..0]
+    value = (value * 256) + byteArray[i]
+  return value
+
+getDateFromUTCEpochTime = (seconds) ->
+  date = new Date(0)
+  date.setUTCSeconds(seconds)
+  return date
+
 module.exports = View.extend
 
   template: templates.views.upload.sigGen
@@ -40,10 +54,16 @@ module.exports = View.extend
     uploadDate:
       deps: ['model.created']
       fn: () -> return @.model.created.toISOString().split('T')[0]
+    modelDate:
+      deps: ['model.date']
+      fn: () -> return @.model.date.toISOString().split('T')[0]
 
   bindings:
     'researcher': '[data-hook~=upload-user]'
     'uploadDate': '[data-hook~=upload-date]'
+    'modelDate':
+      type: 'value'
+      hook: 'abr-date'
     'model.ear':
       type: 'value'
       hook: 'ear'
@@ -103,8 +123,8 @@ module.exports = View.extend
       evidence.push group.fields.sg_ref1 = reader.readString(16).replace(/\0/g,'')
       evidence.push group.fields.sg_ref2 = reader.readString(16).replace(/\0/g,'')
       evidence.push group.fields.sg_memo = reader.readString(50).replace(/\0/g,'')
-      startTime = reader.readString(8)
-      endTime = reader.readString(8)
+      model.date = getDateFromUTCEpochTime(byteArrayToNumber(reader.readUint8Array(8)))
+      reader.readUint8Array(8) #end time skip
       evidence.push group.fields.sg_fn1 = reader.readString(100).replace(/\0/g,'')
       evidence.push group.fields.sg_fn2 = reader.readString(100).replace(/\0/g,'')
 
