@@ -72,6 +72,6 @@ exports.count = (req, res) ->
 
   Subject.count query, (err, found) ->
     if err?
-      return handle.error req, res, err, 'Error counting subjects', 'subjectController.query'
+      return handle.error req, res, err, 'Error counting subjects', 'subjectController.count'
     else
       res.send {found}

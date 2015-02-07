@@ -11,4 +11,6 @@ module.exports = (server) ->
   require('./models/dataFieldModel')
   require('./models/experimentModel')
   require('./models/subjectModel')
-  require('./models/abrModel')
+  require('./models/abrGroupModel')
+  require('./models/abrSetModel')
+  require('./models/abrReadingModel')
