@@ -40,6 +40,7 @@ module.exports = View.extend
             s = new SubjectCollection()
             s.on 'page:loaded',() =>
               @.subject = s.models[0]
+              @.parent.trigger 'subject-selector:subject:selected', @.subject
               @.showSelectView()
             s.query result
           else

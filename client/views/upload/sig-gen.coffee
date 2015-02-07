@@ -57,6 +57,12 @@ module.exports = View.extend
     modelDate:
       deps: ['model.date']
       fn: () -> return @.model.date.toISOString().split('T')[0]
+    noDate:
+      deps: ['model.date']
+      fn: () -> return @.model.date.toString() is (new Date(0).toString())
+    noSubject:
+      deps: ['model.subject']
+      fn: () -> return not @.model.subject?
 
   bindings:
     'researcher': '[data-hook~=upload-user]'
@@ -64,13 +70,38 @@ module.exports = View.extend
     'modelDate':
       type: 'value'
       hook: 'abr-date'
+    'noDate':
+      type: 'toggle'
+      selector: '#abr-date-alert'
+    'noSubject':
+      type: 'toggle'
+      selector: '#subject-alert'
     'model.ear':
       type: 'value'
       hook: 'ear'
 
+  events:
+    'click [data-hook~=cancel]': 'cancel'
+    'click [data-hook~=next]': 'next'
+    'click #modalQuit': 'quit'
+    'change [data-hook~=abr-date]': 'abrDateChange'
+
   props:
       array: 'object' #ArrayBuffer
       filename: 'string'
+
+  abrDateChange: (event) -> @.model.date = event.target.valueAsDate
+  cancel: () -> $('#leaveModal').modal('show')
+  quit: () -> app.navigate('')
+  next: () ->
+    #validate that at least one set has been selected
+    count = 0
+    for group in @.model.groups.models
+      for set in group.sets.models
+        if set.selected then count++
+    if count <= 0 then $('#sets-alert').show() else $('#sets-alert').hide()
+
+
 
   initialize: () ->
     reader = new DataStream(@.array)
@@ -246,6 +277,9 @@ module.exports = View.extend
           when 'R','r','right','Right','RIGHT'
             model.ear = 'Right'
       if not model.ear? then model.ear = '-'
+
+    #plugin subject event
+    @.on 'subject-selector:subject:selected', (subject) => @.model.subject = subject
 
     @.model = model
 
