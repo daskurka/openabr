@@ -85,7 +85,10 @@ module.exports = View.extend
 
     model.groups = new AbrGroupCollection()
 
-    evidence = [] #TODO Process filename for evidence and leave here...
+
+    #break apart filename and use as initial evidence
+    splitRegex = /[\s,\-_.]+/
+    evidence = @.filename.split(splitRegex)
 
     for groupCount in [0...numberGroups]
       group = new AbrGroupModel()
