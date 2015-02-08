@@ -12,6 +12,7 @@ module.exports = State.extend
     filename: 'string'
     ear: 'string'
     subject: 'object'
+    experiments: 'array'
 
   collections:
     groups: AbrGroupCollection

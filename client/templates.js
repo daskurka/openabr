@@ -23,6 +23,7 @@
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["pages"]["upload"] = {};
+    templatizer["views"]["analysis"] = {};
     templatizer["views"]["experiments"] = {};
     templatizer["views"]["subjects"] = {};
     templatizer["views"]["upload"] = {};
@@ -291,7 +292,17 @@
 
     // pages\upload\thresholdAnalysis.jade compiled template
     templatizer["pages"]["upload"]["thresholdAnalysis"] = function tmpl_pages_upload_thresholdAnalysis() {
-        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 2: Threshold Analysis</small></h2><div class="row"><div data-hook="analysis-area"></div></div></div>';
+        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 2: Threshold Analysis</small></h2><div class="row"><ul data-hook="group-select-list" class="nav nav-pills"></ul><hr/></div><div class="row"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Group Threshold Analysis</h4></div><div data-hook="analysis-area" class="panel-body"></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step</button></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="leaveModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Are You Sure?</h4></div><div class="modal-body"><p>Any and all work done on importing this ABR will be lost. You will have to start the process from the beginning if you leave now.</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modalQuit" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="notCompletedAnalysisModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">You have not completed this step.</h4></div><div class="modal-body"><p>If you skip this step you may have to come back and do it later! Are you sure you want to continue?</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modelNext" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div></div>';
+    };
+
+    // views\analysis\groupThreshold.jade compiled template
+    templatizer["views"]["analysis"]["groupThreshold"] = function tmpl_views_analysis_groupThreshold() {
+        return '<div class="row"><div class="col-md-12"><div class="row"><div class="col-md-9"><h4 data-hook="name"></h4></div><div class="col-md-3"><button data-hook="auto-threshold-group" class="btn btn-primary btn-block">Auto Threshold</button></div><div class="col-md-12"><hr/></div></div><div class="row"><div class="col-md-9"><div data-hook="analysis-area"></div></div><div class="col-md-3"><ul data-hook="set-select-list" class="list-group"></ul></div></div></div></div>';
+    };
+
+    // views\analysis\setThreshold.jade compiled template
+    templatizer["views"]["analysis"]["setThreshold"] = function tmpl_views_analysis_setThreshold() {
+        return '<div class="well"><div class="row"><div class="col-sm-4"><h4>Set:&nbsp;<span data-hook="name"></span></h4></div><div class="col-sm-3"><div class="btn-group"><button data-hook="clear" class="btn btn-warning">Clear</button><button data-hook="no-response" class="btn btn-info">No Response</button></div></div><div class="col-sm-5"><button data-hook="use-automatic" class="btn btn-info btn-block"></button></div></div><div class="row"><hr style="border-color: black;"/></div><div class="row"><div data-hook="levels" class="col-sm-3 list-group"></div><div id="abrSetGraph" class="col-sm-9"></div></div></div>';
     };
 
     // views\experiments\selectAbrExperiments.jade compiled template
@@ -348,9 +359,19 @@
         return '<div data-hook="area"></div>';
     };
 
+    // views\upload\groupPillView.jade compiled template
+    templatizer["views"]["upload"]["groupPillView"] = function tmpl_views_upload_groupPillView() {
+        return '<li data-hook="group-list-item" style="cursor: pointer;"><a><span data-hook="name"></span>&nbsp;&nbsp;<span data-hook="group-ready" class="glyphicon glyphicon-ok"></span></a></li>';
+    };
+
     // views\upload\groupView.jade compiled template
     templatizer["views"]["upload"]["groupView"] = function tmpl_views_upload_groupView() {
         return '<div class="row"><div class="col-md-12"><h3 style="margin-top:0px;">Group&nbsp;<span data-hook="group-number"></span>&nbsp;<small data-hook="sub-name"></small></h3><div data-hook="sets-area"></div></div></div>';
+    };
+
+    // views\upload\setListView.jade compiled template
+    templatizer["views"]["upload"]["setListView"] = function tmpl_views_upload_setListView() {
+        return '<a data-hook="list-group-item" class="list-group-item"><span data-hook="set-ready" class="badge"><span class="glyphicon glyphicon-ok"></span></span><span data-hook="name"></span></a>';
     };
 
     // views\upload\setView.jade compiled template

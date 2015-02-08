@@ -88,7 +88,7 @@ module.exports = Router.extend
   #Upload routes - only first should be nav-able with url
   uploadSelectData: () -> @.showPage new pages.upload.SelectData()
   uploadThresholdAnalysis: (uploadModel) -> @.showPage new pages.upload.ThresholdAnalysis(model: uploadModel)
-
+  uploadLatencyAnalysis: (uploadModel) -> console.log 'hit'
 
 
   query: () -> console.log 'Query route hit'

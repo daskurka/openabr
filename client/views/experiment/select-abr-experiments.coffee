@@ -20,6 +20,8 @@ module.exports = View.extend
     @.model = new ExperimentsState(experiments: [])
     @.parent.on 'subject-selector:subject:selected', (subject) =>
       @.model.experiments = subject.experiments
+      @.experiments = subject.experiments
+      @.parent.trigger 'experiments-selector:experiments:selected', @.experiments
       $(@.input).select2('val', '')
       if subject.experiments.length > 0
         @.loadExperimentsFromObjectIdArray @.model.experiments, (results) =>
@@ -56,6 +58,7 @@ module.exports = View.extend
 
   handleInputChanged: (event) ->
     @.experiments = event.val
+    @.parent.trigger 'experiments-selector:experiments:selected', @.experiments
 
   loadExperimentsFromObjectIdArray: (array, callback) ->
     query = {_id: {$in: array}}

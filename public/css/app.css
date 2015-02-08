@@ -1,3 +1,78 @@
+.graph-line-green {
+  fill: none;
+  stroke: #008000;
+  stroke-width: 1.5px;
+  opacity: 1;
+}
+.graph-line-grey {
+  fill: none;
+  stroke: #a9a9a9;
+  stroke-width: 1.5px;
+  opacity: 1;
+}
+.graph-line-opacity {
+  fill: none;
+  stroke: #a9a9a9;
+  stroke-width: 1.5px;
+  opacity: 0.2;
+}
+.graph-line-highlighted {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+  opacity: 1;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.line {
+  fill: none;
+  stroke: #f00;
+  stroke-width: 2px;
+}
+.axisText {
+  font-family: "Verdana";
+  font-size: 16px;
+  fill: #000;
+}
+.axis g text,
+#xAxisTickText,
+#yAxisTickText {
+  font-family: "Verdana";
+  font-size: 14px;
+  fill: #000;
+}
+.peakCursors text {
+  font-family: "Verdana";
+  font-size: 12px;
+  fill: #000;
+  font-weight: bold;
+  text-anchor: middle;
+}
+.peakCursors text.troughText {
+  font-style: italic;
+}
+.boxPeakLabel {
+  font-family: "Verdana";
+  font-size: 14px;
+  font-weight: bolder;
+  fill: #000;
+}
+.boxPeakNumber {
+  font-family: "Verdana";
+  font-size: 14px;
+  fill: #000;
+  font-weight: bold;
+}
+.boxPeakValue {
+  font-family: "Verdana";
+  font-size: 12px;
+  fill: #000;
+  font-weight: normal;
+}
 .push20 {
   margin-top: 20px;
 }

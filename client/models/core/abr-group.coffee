@@ -14,7 +14,6 @@ module.exports = Base.extend
     ear: 'string'
     date: 'date'
     source: 'string' #source of this abr record
-    experiments: 'array' #objectId link to experiments
     creator: 'any' #link to user
     created: 'date'
 
@@ -22,6 +21,10 @@ module.exports = Base.extend
     fields: 'object'
 
     subjectId: 'any' #link to subject
+    experiments: 'array' #objectId link to experiments
+
+  session:
+    selected: 'boolean'
 
   derived:
     maxFreq:

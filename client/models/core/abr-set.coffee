@@ -17,6 +17,7 @@ module.exports = Base.extend
 
     groupId: 'any' #link to group
     subjectId: 'any'  #link to subject
+    experiments: 'array' #objectId link to experiments
 
   session:
     selected: 'boolean'
@@ -24,21 +25,28 @@ module.exports = Base.extend
   derived:
     maxLevel:
       deps: ['readings']
-      fn: () ->_.max(@.readings.map (reading) -> reading.level)
+      fn: () -> return _.max(@.readings.map (reading) -> reading.level)
     minLevel:
       deps: ['readings']
       fn: () -> _.min(@.readings.map (reading) -> reading.level)
     maxAmpl:
       deps: ['readings']
-      fn: () -> _.max(@.readings.map (reading) -> reading.maxValue)
+      fn: () -> _.max(@.readings.map (reading) -> reading.valueMax)
     minAmpl:
       deps: ['readings']
-      fn: () -> _.min(@.readings.map (reading) -> reading.minValue)
+      fn: () -> _.min(@.readings.map (reading) -> reading.valueMin)
     name:
       deps: ['maxLevel','minLevel','isClick','frequency']
       fn: () ->
         if @.isClick then return "Click #{@.maxLevel} dB - #{@.minLevel} dB"
         return "Tone #{@.maxLevel} dB - #{@.minLevel} dB @ #{@.freq/1000} kHz"
+    nameHtml:
+      deps: ['freq','isClick','readings']
+      fn: () ->
+        if @.isClick
+          return "Click - <strong>#{@.readings.length}</strong> readings"
+        else
+          return "Tone - <strong>#{@.readings.length}</strong> readings @ <strong>#{@.freq/1000}</strong> kHz"
 
   collections:
     readings: AbrReadingsCollection

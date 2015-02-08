@@ -85,12 +85,14 @@ module.exports = View.extend
     'click [data-hook~=next]': 'next'
     'click #modalQuit': 'quit'
     'change [data-hook~=abr-date]': 'abrDateChange'
+    'change [data-hook~=ear]': 'earChange'
 
   props:
       array: 'object' #ArrayBuffer
       filename: 'string'
 
   abrDateChange: (event) -> @.model.date = event.target.valueAsDate
+  earChange: (event) -> @.model.ear = event.target.value
   cancel: () -> $('#leaveModal').modal('show')
   quit: () -> app.navigate('')
   next: () ->
@@ -112,6 +114,25 @@ module.exports = View.extend
         removeGroupList.push group
     @.model.groups.remove removeGroupList
 
+    #update all groups and sets
+    @.model.groups.each (group) =>
+      group.source = @.model.source
+      group.ear = @.model.ear
+      group.date = @.model.date
+      group.creator = @.model.creator
+      group.created = @.model.created
+      group.fields.filename = @.model.filename
+      group.analysis = {}
+      group.selected = no
+      group.subjectId = @.model.subject.id
+      group.experiments = @.model.experiments
+      group.sets.each (set) =>
+        set.subjectId = @.model.subject.id
+        set.experiments = @.model.experiments
+        set.readings.each (reading) =>
+          reading.experiments = @.model.experiments
+          reading.subjectId = @.model.subject.id
+
     #next step!
     app.router.uploadThresholdAnalysis(@.model)
 
@@ -125,6 +146,7 @@ module.exports = View.extend
     model.source = 'BioSig Arf File'
     model.creator = app.me.user.id
     model.created = new Date()
+    model.experiments = []
 
     reader.readInt16() #ftype (file type)
     model.filename = @.filename
@@ -234,9 +256,9 @@ module.exports = View.extend
           switch variableIndex[i]
             when 'Freq'
               reading.freq = reader.readFloat32()
-            when 'Level'
+            when 'Level', 'Levelon'
               reading.level = reader.readFloat32()
-            when 'Phase'
+            when 'Phase', 'PhaseA'
               reading.fields.sg_phase = reader.readFloat32()
             when 'Duration','GateTime','Atten-A'
               reader.readFloat32() #skip
@@ -257,13 +279,15 @@ module.exports = View.extend
         for i in [0...reading.numberSamples]
           reading.values[i] = reader.readFloat32()
 
-        reading.maxValue = _.max(reading.values)
-        reading.minValue = _.min(reading.values)
+        reading.valueMax = _.max(reading.values)
+        reading.valueMin = _.min(reading.values)
+        reading.analysis = {}
 
         readings.add reading
 
       if isClickGroup
         clickSet = new AbrSetModel()
+        clickSet.analysis = clickSet.fields = {}
         clickSet.readings = readings
         clickSet.isClick = yes
         group.sets.add clickSet
@@ -272,26 +296,29 @@ module.exports = View.extend
         frequencies = _.uniq(readings.map((reading) -> reading.freq))
         for freq in frequencies
           freqSet = new AbrSetModel()
-          freqSet.readings = readings.filter (reading) -> reading.freq is freq
+          freqSet.analysis = freqSet.fields = {}
+          freqSet.readings = new AbrReadingCollection(readings.filter((reading) -> reading.freq is freq))
           freqSet.freq = freq
           freqSet.isClick = no
           group.sets.add freqSet
-        group.name = "Tone - #{group.minFreq/1000} kHz to #{group.maxFreq/1000} kHz"
+        group.name = "Tone - #{group.minFreq/1000} kHz to #{group.maxFreq/1000} kHz - #{group.sets.length} Set(s)"
 
       model.groups.add group
-      model.evidence = _.uniq(evidence)
+      model.evidence = _.union(model.evidence,evidence)
 
-      #find ear
-      for item in model.evidence
-        switch item
-          when 'L','l','left','Left','LEFT'
-            model.ear = 'Left'
-          when 'R','r','right','Right','RIGHT'
-            model.ear = 'Right'
-      if not model.ear? then model.ear = '-'
+    #find ear
+    for item in model.evidence
+      switch item
+        when 'L','l','left','Left','LEFT'
+          model.ear = 'Left'
+        when 'R','r','right','Right','RIGHT'
+          model.ear = 'Right'
+    if not model.ear? then model.ear = '-'
 
     #plugin subject event
     @.on 'subject-selector:subject:selected', (subject) => @.model.subject = subject
+    @.on 'experiments-selector:experiments:selected', (experiments) =>
+      @.model.experiments = experiments
 
     @.model = model
 

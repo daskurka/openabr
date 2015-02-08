@@ -1,0 +1,16 @@
+.well
+    .row
+        .col-sm-4
+            h4(data-hook='name')
+        .col-sm-3
+            div.btn-group
+                button.btn.btn-warning(data-hook='clear') Clear
+                button.btn.btn-info(data-hook='no-response') No Response
+        .col-sm-5
+            button.btn.btn-info.btn-block(data-hook='use-automatic')
+    .row
+        hr(style='border-color: black;')
+    .row
+        .col-sm-3.list-group(data-hook='levels')
+        .col-sm-9#abrSetGraph
+

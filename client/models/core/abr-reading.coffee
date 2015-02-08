@@ -21,3 +21,4 @@ module.exports = Base.extend
 
     setId: 'any' #link to set
     subjectId: 'any'  #link to subject
+    experiments: 'array' #objectId link to experiments
