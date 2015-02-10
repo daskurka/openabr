@@ -1,66 +1,39 @@
 PageView = require './../base.coffee'
 templates = require '../../templates'
 
-ViewSwitcher = require 'ampersand-view-switcher'
-GroupThresholdAnalysisView = require '../../views/analysis/group-threshold.coffee'
-
-CollectionView = require 'ampersand-collection-view'
-GroupPillView = require '../../views/upload/group-pill-view.coffee'
+async = require 'async'
 
 module.exports = PageView.extend
 
-  pageTitle: 'Threshold Analysis'
-  template: templates.pages.upload.thresholdAnalysis
-
-  initialize: () ->
-    #mark first selected model
-    @.model.groups.models[0].selected = yes
-
-    #catch change group event
-    @.on 'group-pill:clicked', (group) ->
-      @.switcher.set new GroupThresholdAnalysisView(model: group)
-
-  render: () ->
-    @.renderWithTemplate()
-
-    #we have to wait for render template before adding the switcher
-    @.switcher = new ViewSwitcher(@.queryByHook('analysis-area'))
-
-    #show first index
-    @.switcher.set new GroupThresholdAnalysisView(model: @.model.groups.models[0])
-
-    return @
+  pageTitle: 'Review and Commit'
+  template: templates.pages.upload.reviewAndCommit
 
   events:
     'click [data-hook~=cancel]': 'cancel'
     'click [data-hook~=next]': 'next'
     'click #modalQuit': 'quit'
-    'click #modelNext': 'goNextStep'
 
   cancel: () -> $('#leaveModal').modal('show')
   quit: () -> app.navigate('')
   next: () ->
-    setCount = 0
-    analysedCount = 0
+
+    #commiting to database top down,
     @.model.groups.each (group) ->
-      group.sets.each (set) ->
-        setCount++
-        if set.analysis.thresholdAnalysis?
-          analysedCount++
 
-    if setCount isnt analysedCount
-      $('#notCompletedAnalysisModal').modal('show')
-    else
-      do @.goNextStep
-  goNextStep: () -> app.router.uploadLatencyAnalysis(@.model)
-
-  subviews:
-    groupSelector:
-      hook: 'group-select-list'
-      waitFor: 'model'
-      prepareView: (el) ->
-        return new CollectionView
-          el: el
-          collection: @.model.groups
-          view: GroupPillView
-          viewOptions: {ready: 'thresholdAnalysis', routeEventsTo: @}
+      group.quicksave
+        success: (groupModel) ->
+          groupId = groupModel.id
+          groupModel.sets.each (set) ->
+            set.groupId = groupId
+            set.quicksave
+              success: (setModel) ->
+                setId = setModel.id
+                setModel.readings.each (reading) ->
+                  reading.setId = setId
+                  reading.save null,
+                    error: () ->
+                      console.log 'error saving a reading'
+              error: () ->
+                console.log 'error saving a set'
+        error: () ->
+          console.log 'there was an error saving the group!'

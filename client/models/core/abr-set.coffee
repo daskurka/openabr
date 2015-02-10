@@ -50,3 +50,14 @@ module.exports = Base.extend
 
   collections:
     readings: AbrReadingsCollection
+
+  quicksave: (callbacks) ->
+    tempReadings = @.readings
+    @.readings = new AbrReadingsCollection()
+    @.save null,
+      success: (model, xhr, options) ->
+        model.readings = tempReadings
+        callbacks.success(model,xhr,options)
+      error: (model, xhr, options) ->
+        model.readings = tempReadings
+        callback.error(model,xhr,options)

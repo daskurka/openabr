@@ -42,3 +42,14 @@ module.exports = Base.extend
 
   collections:
     sets: AbrSetsCollection
+
+  quicksave: (callbacks) ->
+    tempSets = @.sets
+    @.sets = new AbrSetsCollection()
+    @.save null,
+      success: (model, xhr, options) ->
+        model.sets = tempSets
+        callbacks.success(model,xhr,options)
+      error: (model, xhr, options) ->
+        model.sets = tempSets
+        callback.error(model,xhr,options)

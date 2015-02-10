@@ -292,7 +292,7 @@
 
     // pages\upload\reviewAndCommit.jade compiled template
     templatizer["pages"]["upload"]["reviewAndCommit"] = function tmpl_pages_upload_reviewAndCommit() {
-        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 4: Review and Commit</small></h2><div class="row"><p>one day...</p></div></div>';
+        return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 4: Review and Commit</small></h2><div class="row"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Review ABRs For Upload</h4></div><div data-hook="review-area" class="panel-body"><p>To be implemented....</p></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Commit to Database<span class="glyphicon glyphicon-step-forward"></span></button></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="leaveModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Are You Sure?</h4></div><div class="modal-body"><p>Any and all work done on importing this ABR will be lost. You will have to start the process from the beginning if you leave now.</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modalQuit" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div></div>';
     };
 
     // pages\upload\selectData.jade compiled template
