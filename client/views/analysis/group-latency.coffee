@@ -77,7 +77,7 @@ module.exports = View.extend
   switchReading: (reading) ->
     @.currentSet.readings.each (reading) -> reading.selected = no
     reading.selected = yes
-    @.readingSwitcher.set new ReadingLatencyAnalysisView(model: reading, parent: @, currentSet: @.currentSet)
+    @.readingSwitcher.set new ReadingLatencyAnalysisView(model: reading, parent: @, currentSet: @.currentSet, currentGroup: @.model)
 
   switchReadingList: () ->
     collectionView = new CollectionView

@@ -60,7 +60,9 @@ module.exports = View.extend
     delete @.model.analysis.thresholdAnalysis
     @.model.trigger('change:analysis')
 
-  initialize: () ->
+  initialize: (spec) ->
+    @.currentGroup = spec.currentGroup
+
     if @.model.analysis and @.model.analysis.thresholdAnalysis
       @.initialLevel = @.model.analysis.thresholdAnalysis.level
     @.levels = @.model.readings.map (reading) -> reading.level
@@ -113,7 +115,7 @@ module.exports = View.extend
   renderGraph: () ->
     @.grapher = new AbrSetGraph(440, 597) #todo make this responsive
     graphEl = @.query('#abrSetGraph')
-    @.grapher.drawGraph(graphEl, @.model.readings, @.model.maxAmpl, @.model.minAmpl, @.initialLevel)
+    @.grapher.drawGraph(graphEl, @.model.readings, @.currentGroup.maxAmpl, @.currentGroup.minAmpl, @.initialLevel)
 
   hoverLevelItem: (event) ->
     console.log event.type

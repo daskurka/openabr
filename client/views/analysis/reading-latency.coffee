@@ -2,7 +2,7 @@ View = require 'ampersand-view'
 templates = require '../../templates'
 CollectionView = require 'ampersand-collection-view'
 
-AbrLatencyAnalysisGraph = require '../../graphs/abr-latency-analysis-graph.coffee'
+AbrLatencyAnalysisGraph = require '../../graphs/abr-latency-graph.coffee'
 
 module.exports = View.extend
 
@@ -33,6 +33,9 @@ module.exports = View.extend
 
   initialize: (spec) ->
     @.currentSet = spec.currentSet
+    @.currentGroup = spec.currentGroup
+    console.log spec
+    console.log @.currentGroup
 
     #check if complete
     @.complete = @.model.analysis? and @.model.analysis.latency? and @.model.analysis.latency.complete
@@ -78,11 +81,12 @@ module.exports = View.extend
       {number: -5, circleId: 'trCircle5', boxId: 'trBox5', label: '-V', isMarked: no, type: 'trough'}
     ]
 
-    setMaxVoltage = @.currentSet.maxAmpl
-    setMinVoltage = @.currentSet.minAmpl
+    setMaxVoltage = @.currentGroup.maxAmpl
+    setMinVoltage = @.currentGroup.minAmpl
 
     graphEl = @.query('#abrGraph')
-    @.graph = new AbrLatencyAnalysisGraph(@.model.values,830,550,margin,setMaxVoltage,setMinVoltage,peakData)
+    @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,830,550,margin,setMaxVoltage,setMinVoltage,peakData)
+    @.graph.render(graphEl)
 
     return @
 

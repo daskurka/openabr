@@ -22,7 +22,7 @@ module.exports = View.extend
 
     #catch change set event
     @.on 'set-list-item:clicked', (group) ->
-      @.switcher.set new SetThresholdAnalysisView(model: group)
+      @.switcher.set new SetThresholdAnalysisView(model: group, currentGroup: @.model)
 
     #catch updates from sets
     @.on 'change:ready', () ->
@@ -38,7 +38,7 @@ module.exports = View.extend
     @.switcher = new ViewSwitcher(@.queryByHook('analysis-area'))
 
     #show first index
-    @.switcher.set new SetThresholdAnalysisView(model: @.model.sets.models[0])
+    @.switcher.set new SetThresholdAnalysisView(model: @.model.sets.models[0], currentGroup: @.model)
 
     return @
 

@@ -33,6 +33,12 @@ module.exports = Base.extend
     minFreq:
       deps: ['sets']
       fn: () -> _.min(@.sets.map (set) -> set.freq)
+    maxAmpl:
+      deps: ['sets']
+      fn: () -> _.max(@.sets.map (set) -> set.maxAmpl)
+    minAmpl:
+      deps: ['sets']
+      fn: () -> _.min(@.sets.map (set) -> set.minAmpl)
 
   collections:
     sets: AbrSetsCollection
