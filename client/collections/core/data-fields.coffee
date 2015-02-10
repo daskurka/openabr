@@ -10,3 +10,5 @@ module.exports = BaseCollection.extend
     @.fetch
       data: {col: collectionName}
       success: (collection, response, options) -> callback(null)
+      error: (collection, response, options) ->
+        if response.status is 401 then app.logout()

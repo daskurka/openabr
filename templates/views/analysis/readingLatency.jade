@@ -1,0 +1,32 @@
+div
+    .panel.panel-default
+        .panel-heading
+            h4.panel-title ABR Latency Analyser
+        .panel-body
+            div#abrGraph
+        .panel-footer
+            .btn-toolbar
+                .btn-group
+                    button.btn.btn-primary(type='button')#mark-peaks
+                        span.glyphicon.glyphicon-screenshot
+                        | &nbsp; Mark Peaks
+                    button.btn.btn-default.mark-peak(type='button') I
+                    button.btn.btn-default.mark-peak(type='button') II
+                    button.btn.btn-default.mark-peak(type='button') III
+                    button.btn.btn-default.mark-peak(type='button') IV
+                    button.btn.btn-default.mark-peak(type='button') V
+
+                button.btn.btn-info.btn-svg-as-png(type='button',data-containerId='abrGraph',data-filename=model.imageFilename)
+                    | Save as PNG
+
+                button.btn.btn-default.pull-right(type='button')#mark-complete
+                    span.glyphicon.glyphicon-ok
+                    | &nbsp; Mark Complete
+
+                button.btn.btn-warning.pull-right(type='button')#clear-complete
+                    span.glyphicon.glyphicon-remove
+                    | &nbsp; Clear Complete
+
+                button.btn.btn-primary(type='button')#complete-and-next
+                    span.glyphicon.glyphicon-repeat
+                    | &nbsp; Complete & Next

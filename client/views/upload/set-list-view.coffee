@@ -14,12 +14,29 @@ module.exports = View.extend
 
   derived:
     showReady:
-      deps: ['ready','model.analysis']
+      deps: ['ready','model.analysis','model.readings']
       fn: () ->
         if @.ready is '' then return false #not using it
-        @.routeEventsTo.trigger 'change:ready'
-        return @.model.analysis[@.ready]?
-
+        @.routeEventsTo.trigger 'change:set:ready'
+        if @.ready.indexOf(':') is -1
+          return @.model.analysis[@.ready]?
+        else
+          bits = @.ready.split(':')
+          if bits.length is 2
+            [part1, part2] = bits
+            if not @.model.analysis[part1]? then return no
+            return @.model.analysis[part1][part2] #for two part we assume the part2 two should be truthy
+          else
+            #for now this will always be 'readings' as it is the only collection
+            [part1, part2, part3] = bits
+            if @.model.readings.length <= 0 then return no
+            totalCount = 0
+            truthCount = 0
+            @.model.readings.each (reading) ->
+              totalCount++
+              if reading.analysis[part2]? and reading.analysis[part2][part3]? and reading.analysis[part2][part3]
+                truthCount++
+            return totalCount is truthCount
 
   bindings:
     'model.nameHtml':

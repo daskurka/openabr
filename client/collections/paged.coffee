@@ -9,6 +9,8 @@ module.exports = Base.extend
       data: query
       success: (collection, response, options) ->
         collection.trigger 'query:loaded'
+      error: (collection, response, options) ->
+        if response.status is 401 then app.logout()
 
   queryPaged: (pageIndex, pageSize, data) ->
 
@@ -23,6 +25,8 @@ module.exports = Base.extend
           #this is for any listening pagination views
           totalRecords = options.xhr.headers['total-records-found']
           collection.trigger 'page:loaded', {pageIndex, pageSize, totalCount: Number(totalRecords)}
+      error: (collection, response, options) ->
+        if response.status is 401 then app.logout()
 
   changePage: (pageIndex) ->
 

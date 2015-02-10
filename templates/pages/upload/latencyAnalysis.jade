@@ -1,0 +1,33 @@
+.container
+    h2 Upload ABR(s)&nbsp;
+        small STEP 3: Latency Analysis
+    .row
+        ul.nav.nav-pills(data-hook='group-select-list')
+        hr
+    .row(data-hook='analysis-area')
+    .row
+        .panel.panel-default
+            .panel-footer
+                button.btn.btn-default(data-hook='cancel') Cancel
+                | &nbsp;&nbsp;
+                button.btn.btn-primary(data-hook='next') Next Step
+    .modal.fade(tabindex=-1,role='dialog',aria-hidden='true')#leaveModal
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title Are You Sure?
+                .modal-body
+                    p Any and all work done on importing this ABR will be lost. You will have to start the process from the beginning if you leave now.
+                .modal-footer
+                    button.btn.btn-default(data-dismiss='modal') No, take me back.
+                    button.btn.btn-primary#modalQuit Yes i'm sure.
+    .modal.fade(tabindex=-1,role='dialog',aria-hidden='true')#notCompletedAnalysisModal
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title You have not completed this step.
+                .modal-body
+                    p If you skip this step you may have to come back and do it later! Are you sure you want to continue?
+                .modal-footer
+                    button.btn.btn-default(data-dismiss='modal') No, take me back.
+                    button.btn.btn-primary#modelNext Yes i'm sure.

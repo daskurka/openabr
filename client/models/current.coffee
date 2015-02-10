@@ -9,6 +9,7 @@ module.exports = State.extend
 
   props:
     users: 'object'
+    isLoggedIn: ['boolean',yes,no]
 
   children:
     user: User
@@ -16,16 +17,13 @@ module.exports = State.extend
   session:
     isAdmin: { type: 'boolean', default: no, required: yes }
 
-  derived:
-    isLoggedIn:
-      deps: ['user']
-      fn: () -> return @.user?
-
   login: (user, isAdmin, callback) ->
     #store the user, find accounts and pick the current account
     @.user = user
     @.isAdmin = isAdmin
+    @.isLoggedIn = yes
 
+    #user list for name lookups
     $.get '/api/profile/users', (users) =>
       @.users = {}
       for user in users
@@ -45,3 +43,4 @@ module.exports = State.extend
   logout: () ->
     @.user = null
     @.isAdmin = no
+    @.isLoggedIn = no

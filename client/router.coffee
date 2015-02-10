@@ -86,21 +86,24 @@ module.exports = Router.extend
   adminFieldEdit: (col, dbName) -> @.showAdminPage new pages.admin.fields.EditDataField({col,dbName})
 
   #Upload routes - only first should be nav-able with url
-  uploadSelectData: () -> @.showPage new pages.upload.SelectData()
-  uploadThresholdAnalysis: (uploadModel) -> @.showPage new pages.upload.ThresholdAnalysis(model: uploadModel)
-  uploadLatencyAnalysis: (uploadModel) -> console.log 'hit'
+  uploadSelectData: () -> @.showUserPage new pages.upload.SelectData()
+  uploadThresholdAnalysis: (uploadModel) -> @.showUserPage new pages.upload.ThresholdAnalysis(model: uploadModel)
+  uploadLatencyAnalysis: (uploadModel) -> @.showUserPage new pages.upload.LatencyAnalysis(model: uploadModel)
+  uploadReviewAndCommit: (uploadModel) -> @.showUserPage new pages.upload.ReviewAndCommit(model: uploadModel)
 
 
   query: () -> console.log 'Query route hit'
 
-  subjects: () -> @.showPage new pages.subjects.Index()
-  subjectCreate: () -> @.showPage new pages.subjects.Create()
-  subjectEdit: (id) -> @.showPage new pages.subjects.Edit({id})
-  subjectView: (id) -> @.showPage new pages.subjects.View({id})
+  #subject routes
+  subjects: () -> @.showUserPage new pages.subjects.Index()
+  subjectCreate: () -> @.showUserPage new pages.subjects.Create()
+  subjectEdit: (id) -> @.showUserPage new pages.subjects.Edit({id})
+  subjectView: (id) -> @.showUserPage new pages.subjects.View({id})
 
-  experiments: () -> @.showPage new pages.experiments.Index()
-  experimentCreate: () -> @.showPage new pages.experiments.Create()
-  experimentEdit: (id) -> @.showPage new pages.experiments.Edit({id})
+  #experiment routes
+  experiments: () -> @.showUserPage new pages.experiments.Index()
+  experimentCreate: () -> @.showUserPage new pages.experiments.Create()
+  experimentEdit: (id) -> @.showUserPage new pages.experiments.Edit({id})
 
   #Catch all other routes and head back to home
   catchAll: () ->

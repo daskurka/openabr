@@ -45,8 +45,6 @@ module.exports =
       else
         @.startRouter()
 
-
-
   #logout the current user from anywhere
   logout: () ->
     @.me.logout()
@@ -54,7 +52,7 @@ module.exports =
     Cookies.expire 'serverToken'
     Cookies.expire 'userId'
     @.view.trigger 'logout'
-    @.navigate ''
+    @.navigate 'login'
 
   #login a new user from anywhere
   login: (email, password, remember, callback) ->

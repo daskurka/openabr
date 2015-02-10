@@ -15,6 +15,8 @@ module.exports =
   upload:
     SelectData: require './upload/select-data.coffee'
     ThresholdAnalysis: require './upload/threshold-analysis.coffee'
+    LatencyAnalysis: require './upload/latency-analysis.coffee'
+    ReviewAndCommit: require './upload/review-and-commit.coffee'
   admin:
     users:
       Users: require './admin/users/users.coffee'

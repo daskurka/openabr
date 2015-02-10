@@ -28,13 +28,20 @@ exports.deserialise = (req, res, next) ->
 
   req.auth = {}
   if req.headers.token?
-    req.auth.token = jwt.decode req.headers.token, secret
 
-    if req.auth.token? and req.auth.token.userId?
-      req.auth.authenticated = yes
-    else
+    if req.headers.token is 'undefined'
+      #likely is the cookie has been expired or deleted
       req.auth.authenticated = no
-      req.auth.error = 'Malformed token'
+      req.auth.error = 'Expired token'
+    else
+      #token seems good, lets proceed
+      req.auth.token = jwt.decode req.headers.token, secret
+
+      if req.auth.token? and req.auth.token.userId?
+        req.auth.authenticated = yes
+      else
+        req.auth.authenticated = no
+        req.auth.error = 'Malformed token'
   else
     req.auth.authenticated = no
     req.auth.error = 'No token'

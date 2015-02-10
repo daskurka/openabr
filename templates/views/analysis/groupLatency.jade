@@ -1,0 +1,20 @@
+.row
+    .col-lg-12
+        .alert.alert-info(hidden='hidden')#infoAlert Info Alert
+        .alert.alert-success(hidden='hidden')#successAlert Success Alert
+    .col-lg-12
+        .row
+            .col-md-9(data-hook='analysis-area')
+            .col-md-3
+                .panel.panel-default
+                    .panel-heading
+                        h4.panel-title Readings
+                    .panel-body
+                        ul.list-group(style='display: none;')
+                        ul.list-group(data-hook='reading-select-list')
+
+                .panel.panel-default
+                    .panel-heading
+                        h4.panel-title Sets
+                    .panel-body
+                        ul.list-group(data-hook='set-select-list')
