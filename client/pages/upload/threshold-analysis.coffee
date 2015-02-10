@@ -34,6 +34,7 @@ module.exports = PageView.extend
   events:
     'click [data-hook~=cancel]': 'cancel'
     'click [data-hook~=next]': 'next'
+    'click [data-hook~=autonext]': 'automaticAndNextStep'
     'click #modalQuit': 'quit'
     'click #modelNext': 'goNextStep'
 
@@ -53,6 +54,11 @@ module.exports = PageView.extend
     else
       do @.goNextStep
   goNextStep: () -> app.router.uploadLatencyAnalysis(@.model)
+  automaticAndNextStep: () ->
+    @.model.groups.each (group) ->
+      tempView = new GroupThresholdAnalysisView(model: group)
+      tempView.autoThresholdAllSets()
+    do @.goNextStep
 
   subviews:
     groupSelector:

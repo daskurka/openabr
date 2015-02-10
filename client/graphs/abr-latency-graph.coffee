@@ -23,6 +23,8 @@ toRomanNumber = (peakNumber) ->
 
 class AbrLatencyAnalyser
 
+  self = null
+
   constructor: (@rawValues, @sampleRate, @containerWidth, @containerHeight,
                 @margin, @setMaxVoltage, @setMinVoltage, @peakData) ->
 
@@ -49,23 +51,24 @@ class AbrLatencyAnalyser
     @interpolator = new MonotonicCubicSpline(timeValues, amplitudeValues)
 
     @svg = null
+    self = @
 
   render: (graphEl) ->
 
     $(graphEl).html('')
 
-    x = d3.scale.linear().range([0, @width])
-    y = d3.scale.linear().range([@height, 0])
+    @x = d3.scale.linear().range([0, @width])
+    @y = d3.scale.linear().range([@height, 0])
 
-    xAxis = d3.svg.axis().tickFormat(timeFormatter).scale(x).orient('bottom')
-    yAxis = d3.svg.axis().tickFormat(voltageFormatter).scale(y).orient('left')
+    xAxis = d3.svg.axis().tickFormat(timeFormatter).scale(@x).orient('bottom')
+    yAxis = d3.svg.axis().tickFormat(voltageFormatter).scale(@y).orient('left')
 
-    x.domain([0, @duration])
-    y.domain([@setMinVoltage * 1.2, @setMaxVoltage * 1.2])
+    @x.domain([0, @duration])
+    @y.domain([@setMinVoltage * 1.2, @setMaxVoltage * 1.2])
 
     line = d3.svg.line().interpolate('monotone')
-      .x((d) -> x(d.time))
-      .y((d) -> y(d.amplitude))
+      .x((d) -> self.x(d.time))
+      .y((d) -> self.y(d.amplitude))
 
     @svg = d3.select(graphEl)
       .append('svg')
@@ -281,10 +284,53 @@ class AbrLatencyAnalyser
         .text((d) -> if d.isMarked then return d.time else return '???')
 
   mouseMoveGraph: () ->
+    [x,y] = d3.mouse(this)
+
+    #cursor is locked to the mouse in the x-axis (time)
+    #but follows the graph values for y-axis (amplitude)
+
+    rawTime = self.x.invert(x)
+    time = timeFormatter(rawTime)
+    $('#xAxisTickText').text(time)
+    $('#xAxisTick').attr('transform',"translate(#{x},#{self.height + 6})")
+
+    rawVoltage = self.interpolator.interpolate(rawTime)
+    voltagePosition = self.y(rawVoltage)
+
+    voltage = voltageFormatter(rawVoltage)
+    $('#yAxisTickText').text(voltage)
+    $('#yAxisTick').attr('transform',"translate(0,#{voltagePosition})")
+
+    if self.markPeakMode
+      peak = self.peakData[self.currentPeak-1]
+      self.showPeak(peak.circleId, peak.boxId, rawVoltage, rawTime, x, voltagePosition)
+    else
+      $('#cursorCircle').attr('cx',x)
+      $('#cursorCircle').attr('cy',voltagePosition)
 
   mouseOutGraph: () ->
+    $('.x.axis g').css('opacity',1)
+    $('.y.axis g').css('opacity',1)
+    $('#xAxisTick').css('opacity',0)
+    $('#yAxisTick').css('opacity',0)
+
+    if self.markPeakMode
+      peak = self.peakData[self.currentPeak-1]
+      if not peak.isMarked then self.hidePeak(peak.id)
+    else
+      $('#cursorCircle').css('opacity',0)
 
   mouseEnterGraph: () ->
+    $('.x.axis g').css('opacity',0.2)
+    $('.y.axis g').css('opacity',0.2)
+    $('#xAxisTick').css('opacity',1)
+    $('#yAxisTick').css('opacity',1)
+
+    if self.markPeakMode
+      peak = self.peakData[self.currentPeak-1]
+      $("##{peak.id}").css('opacity',1)
+    else
+      $('#cursorCircle').css('opacity',1)
 
   mouseLeftClickGraph: () ->
 

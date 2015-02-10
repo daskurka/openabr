@@ -66,7 +66,7 @@ module.exports = View.extend
     @.renderWithTemplate()
 
     #graph
-    margin = { top: 20, right: 30, bottom: 130, left: 50 }
+    margin = { top: 20, right: 20, bottom: 130, left: 50 }
 
     peakData = [
       {number: 1, circleId: 'pkCircle1', boxId: 'pkBox1', label: 'I', isMarked: no, type: 'peak'}
