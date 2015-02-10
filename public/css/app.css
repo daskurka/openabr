@@ -33,6 +33,11 @@
   stroke: #f00;
   stroke-width: 2px;
 }
+.domain {
+  fill: none;
+  stroke: #000;
+  width: 1px;
+}
 .axisText {
   font-family: "Verdana";
   font-size: 16px;

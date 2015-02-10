@@ -30,20 +30,29 @@ module.exports = View.extend
     'click #mark-complete': 'markComplete'
     'click #clear-complete': 'clearComplete'
     'click #complete-and-next': 'markCompleteAndNext'
+    'click .mark-peak': 'markPeak'
+    'click #mark-peaks': 'markPeaks'
 
   initialize: (spec) ->
     @.currentSet = spec.currentSet
     @.currentGroup = spec.currentGroup
-    console.log spec
-    console.log @.currentGroup
 
     #check if complete
     @.complete = @.model.analysis? and @.model.analysis.latency? and @.model.analysis.latency.complete
 
+    #catch when the peaks change
+    @.on 'change:latency', (latency) =>
+      if not @.model.analysis? then @.model.analysis = {}
+      if not @.model.analysis.latency? then @.model.analysis.latency = {}
+      analysis = @.model.analysis
+      analysis.latency.peaks = latency.peaks
+      @.model.set('analysis',analysis)
+      @.model.trigger('change:analysis')
+
   markComplete: () ->
     @.complete = yes
     if not @.model.analysis? then @.model.analysis = {}
-    if not @.model.analysis.latencyAnalysis? then @.model.analysis.latency = {}
+    if not @.model.analysis.latency? then @.model.analysis.latency = {}
     analysis = @.model.analysis
     analysis.latency.complete = yes
     @.model.set('analysis',analysis)
@@ -85,10 +94,17 @@ module.exports = View.extend
     setMinVoltage = @.currentGroup.minAmpl
 
     graphEl = @.query('#abrGraph')
-    @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,830,550,margin,setMaxVoltage,setMinVoltage,peakData)
+    @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,830,550,margin,
+                                          setMaxVoltage,setMinVoltage,peakData,@)
     @.graph.render(graphEl)
 
     return @
+
+  markPeak: (event) ->
+    peak = parseInt(event.target.attributes['data'].value)
+    @.graph.markPeak(peak)
+
+  markPeaks: () -> @.graph.markPeaks()
 
 
 
