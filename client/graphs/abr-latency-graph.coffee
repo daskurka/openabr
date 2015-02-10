@@ -40,11 +40,29 @@ class AbrLatencyAnalyser
   self = null
 
   constructor: (@rawValues, @sampleRate, @containerWidth, @containerHeight,
-                @margin, @setMaxVoltage, @setMinVoltage, @peakConfig, @parent) ->
+                @margin, @setMaxVoltage, @setMinVoltage, @parent) ->
 
     #calculate sizes
     @width = @containerWidth - @margin.left - @margin.right
     @height = @containerHeight - @margin.top - @margin.bottom
+
+    #peak config
+    @peakConfig = {
+      peak1: {number: 1, circleId: 'pkCircle1', boxId: 'pkBox1', label: 'I', isMarked: no, type: 'peak', amplitude: null, time: null}
+      peak2: {number: 2, circleId: 'pkCircle2', boxId: 'pkBox2', label: 'II', isMarked: no, type: 'peak', amplitude: null, time: null}
+      peak3: {number: 3, circleId: 'pkCircle3', boxId: 'pkBox3', label: 'III', isMarked: no, type: 'peak', amplitude: null, time: null}
+      peak4: {number: 4, circleId: 'pkCircle4', boxId: 'pkBox4', label: 'IV', isMarked: no, type: 'peak', amplitude: null, time: null}
+      peak5: {number: 5, circleId: 'pkCircle5', boxId: 'pkBox5', label: 'V', isMarked: no, type: 'peak', amplitude: null, time: null}
+      trough1: {number: -1, circleId: 'trCircle1', boxId: 'trBox1', label: '-I', isMarked: no, type: 'trough', amplitude: null, time: null}
+      trough2: {number: -2, circleId: 'trCircle2', boxId: 'trBox2', label: '-II', isMarked: no, type: 'trough', amplitude: null, time: null}
+      trough3: {number: -3, circleId: 'trCircle3', boxId: 'trBox3', label: '-III', isMarked: no, type: 'trough', amplitude: null, time: null}
+      trough4: {number: -4, circleId: 'trCircle4', boxId: 'trBox4', label: '-IV', isMarked: no, type: 'trough', amplitude: null, time: null}
+      trough5: {number: -5, circleId: 'trCircle5', boxId: 'trBox5', label: '-V', isMarked: no, type: 'trough', amplitude: null, time: null}
+    }
+
+    @peakDataArray = []
+    for peak of @peakConfig
+      @peakDataArray.push @peakConfig[peak]
 
     #get some stats from the data
     @sampleCount = @rawValues.length
@@ -68,10 +86,12 @@ class AbrLatencyAnalyser
     @svg = null
     @x = null
     @y = null
+    @graphEl
 
     #state machine modes
     @multiplePeaks = yes
     @currentPeak = 1
+    @isPeak = yes
     @markPeakMode = no
 
     #hack because of d3
@@ -81,8 +101,8 @@ class AbrLatencyAnalyser
     @latency = {peaks: []}
 
   render: (graphEl) ->
-
     $(graphEl).html('')
+    @.graphEl = graphEl
 
     @x = d3.scale.linear().range([0, @width])
     @y = d3.scale.linear().range([@height, 0])
@@ -182,12 +202,12 @@ class AbrLatencyAnalyser
 
     #circles for each peak
     circleGroup = @svg.selectAll('peakCursors')
-      .data(@peakConfig)
+      .data(@peakDataArray)
       .enter()
       .append('g')
       .attr('class','peakCursors')
       .attr('id', (d) -> return d.circleId)
-      .style('opacity',0)
+      .style('opacity', (d) -> if d.isMarked then 1 else 0)
     circleGroup.append('circle')
       .style('fill','black')
       .attr('cy',0)
@@ -279,7 +299,7 @@ class AbrLatencyAnalyser
         .attr('y',75)
         .text('ms')
 
-      allBoxes = @peakConfig
+      allBoxes = @peakDataArray
       allBoxes.push {boxId: 'delta1', type: 'delta', number: 1, isMarked: no}
       allBoxes.push {boxId: 'delta2', type: 'delta', number: 2, isMarked: no}
       allBoxes.push {boxId: 'delta3', type: 'delta', number: 3, isMarked: no}
@@ -310,6 +330,9 @@ class AbrLatencyAnalyser
         .attr('y',75)
         .text((d) -> if d.isMarked then return d.time else return '???')
 
+  getCurrentPeakId: () -> return if self.isPeak then "peak#{self.currentPeak}" else "trough#{self.currentPeak}"
+  getNextPeakId: () -> return if self.isPeak then "trough#{self.currentPeak+1}" else "peak#{self.currentPeak+1}"
+
   mouseMoveGraph: () ->
     [x,y] = d3.mouse(this)
 
@@ -318,46 +341,43 @@ class AbrLatencyAnalyser
 
     rawTime = self.x.invert(x)
     time = timeFormatter(rawTime)
-    $('#xAxisTickText').text(time)
-    $('#xAxisTick').attr('transform',"translate(#{x},#{self.height + 6})")
+    $('#xAxisTickText', @graphEl).text(time)
+    $('#xAxisTick', @graphEl).attr('transform',"translate(#{x},#{self.height + 6})")
 
     rawVoltage = self.interpolator.interpolate(rawTime)
     voltagePosition = self.y(rawVoltage)
 
     voltage = voltageFormatter(rawVoltage)
-    $('#yAxisTickText').text(voltage)
-    $('#yAxisTick').attr('transform',"translate(0,#{voltagePosition})")
+    $('#yAxisTickText', @graphEl).text(voltage)
+    $('#yAxisTick', @graphEl).attr('transform',"translate(0,#{voltagePosition})")
 
     if self.markPeakMode
-      peak = self.peakConfig[self.currentPeak-1]
+      peak = self.peakConfig[self.getCurrentPeakId()]
       self.showPeak(peak.circleId, peak.boxId, rawVoltage, rawTime, x, voltagePosition)
     else
-      $('#cursorCircle').attr('cx',x)
-      $('#cursorCircle').attr('cy',voltagePosition)
+      $('#cursorCircle', @graphEl).attr('cx',x)
+      $('#cursorCircle', @graphEl).attr('cy',voltagePosition)
 
   mouseOutGraph: () ->
-    $('.x.axis g').css('opacity',1)
-    $('.y.axis g').css('opacity',1)
-    $('#xAxisTick').css('opacity',0)
-    $('#yAxisTick').css('opacity',0)
+    $('.x.axis g', @graphEl).css('opacity',1)
+    $('.y.axis g', @graphEl).css('opacity',1)
+    $('#xAxisTick', @graphEl).css('opacity',0)
+    $('#yAxisTick', @graphEl).css('opacity',0)
 
     if self.markPeakMode
-      peak = self.peakConfig[self.currentPeak-1]
-      if not peak.isMarked then self.hidePeak(peak.id)
+      peak = self.peakConfig[self.getCurrentPeakId()]
+      if not peak.isMarked then self.hidePeak(peak.circleId, peak.boxId)
     else
       $('#cursorCircle').css('opacity',0)
 
   mouseEnterGraph: () ->
-    $('.x.axis g').css('opacity',0.2)
-    $('.y.axis g').css('opacity',0.2)
-    $('#xAxisTick').css('opacity',1)
-    $('#yAxisTick').css('opacity',1)
+    $('.x.axis g', @graphEl).css('opacity',0.2)
+    $('.y.axis g', @graphEl).css('opacity',0.2)
+    $('#xAxisTick', @graphEl).css('opacity',1)
+    $('#yAxisTick', @graphEl).css('opacity',1)
 
-    if self.markPeakMode
-      peak = self.peakConfig[self.currentPeak-1]
-      $("##{peak.id}").css('opacity',1)
-    else
-      $('#cursorCircle').css('opacity',1)
+    if not self.markPeakMode
+      $('#cursorCircle', @graphEl).css('opacity',1)
 
   mouseLeftClickGraph: () ->
     [x,y] = d3.mouse(this)
@@ -369,15 +389,15 @@ class AbrLatencyAnalyser
     #build set peak data
     {rawTime, rawVoltage} = self.mouseToValues(x,y)
 
-    self.recordPeak(self.peakConfig[self.currentPeak-1].number, rawTime, rawVoltage)
+    self.recordPeak(self.getCurrentPeakId(), rawTime, rawVoltage)
 
     #two modes of operation,
     #for single peak we cancel, for mulitple we move to next
     if self.multiplePeaks
       self.moveToNextPeak(x,y)
     else
-      #if we are single peak but still on positive number then move to negative number
-      if self.currentPeak <= 5
+      #if we are single peak but still technical on the 'peak' and not the trough we must continue
+      if self.isPeak
         self.moveToNextPeak(x,y)
       else
         #todo: refresh everything?
@@ -396,13 +416,13 @@ class AbrLatencyAnalyser
       return
 
     #undo current peak
-    self.clearPeak(self.peakConfig[self.currentPeak-1].number)
+    self.clearPeak(self.getCurrentPeakId())
 
     #for single peak we end and for mulitple we move to next
     if self.multiplePeaks
       self.moveToNextPeak(x,y)
     else
-      #todo: cancel current peak
+      #todo: cancel current peak?
 
       #come out of peak mode we are done
       self.markPeakMode = no
@@ -423,30 +443,32 @@ class AbrLatencyAnalyser
 
   showPeak: (circleId, boxId, amplitude, time, positionX, positionY) ->
     #make visable and show at correct coordinates
-    $("##{circleId}").css('opacity',1)
-    $("##{circleId}").attr('transform',"translate(#{positionX},#{positionY})")
+    circleSelector = "##{circleId}"
+    $(circleSelector, @graphEl).css('opacity',1)
+    $(circleSelector, @graphEl).attr('transform',"translate(#{positionX},#{positionY})")
 
     #show voltage and time in correct format
     voltage = voltageFormatter(amplitude)
     latency = timeFormatter(time)
-    $("##{boxId} .amplitudeValue").text(voltage)
-    $("##{boxId} .timeValue").text(latency)
+    boxSelector = "##{boxId}"
+    $("#{boxSelector} .amplitudeValue", @graphEl).text(voltage)
+    $("#{boxSelector} .timeValue", @graphEl).text(latency)
 
   hidePeak: (circleId, boxId) ->
     #just make the peak invisable
-    $("##{circleId}").css('opacity',0)
-    $("##{boxId} .amplitudeValue").text('???')
-    $("##{boxId} .timeValue").text('???')
+    $("##{circleId}", @graphEl).css('opacity',0)
+    $("##{boxId} .amplitudeValue", @graphEl).text('???')
+    $("##{boxId} .timeValue", @graphEl).text('???')
 
   hideDelta: (peak) ->
-    $("#delta#{peak} .amplitudeValue").text('???')
-    $("#delta#{peak} .timeValue").text('???')
+    $("#delta#{peak} .amplitudeValue", @graphEl).text('???')
+    $("#delta#{peak} .timeValue", @graphEl).text('???')
 
   calculateDelta: (peak) ->
-    amplPositive = self.peakConfig[peak-1].amplitude
-    timePositive = self.peakConfig[peak-1].time
-    amplNegative = self.peakConfig[peak+4].amplitude
-    timeNegative = self.peakConfig[peak+4].time
+    amplPositive = self.peakConfig["peak#{peak}"].amplitude
+    timePositive = self.peakConfig["peak#{peak}"].time
+    amplNegative = self.peakConfig["trough#{peak}"].amplitude
+    timeNegative = self.peakConfig["trough#{peak}"].time
 
     amplDelta = if amplNegative > 0 then amplNegative - amplPositive else Math.abs(amplNegative) + amplPositive
     timeDelta = timeNegative - timePositive
@@ -458,61 +480,69 @@ class AbrLatencyAnalyser
     #get mouse values for updating last positions
     mouseValues = self.mouseToValues(x,y)
 
-    if self.currentPeak isnt 10
-      #hide and reposition current peak
-      oldPeak = self.peakConfig[self.currentPeak-1]
-      if not oldPeak.isMarked
-        self.hidePeak(oldPeak.circleId, oldPeak.boxId)
-      else
-        positionX = self.x(oldPeak.time)
-        positionY = self.y(oldPeak.amplitude)
-        console.log 'hi1'
-        console.log oldPeak
-        self.showPeak(oldPeak.circleId, oldPeak.boxId, oldPeak.amplitude, oldPeak.time, positionX, positionY)
-
-      #increment and switch to new peak
-      if self.currentPeak <= 5
-        #do trough next so add 5
-        self.currentPeak = self.currentPeak + 5
-      else
-        #do peak next so subtract 4
-        self.currentPeak = self.currentPeak - 4
-
-      #show and position the next peak
-      newPeak = self.peakConfig[self.currentPeak-1]
-      console.log 'hi2'
-      console.log newPeak
-      positionX = self.x(newPeak.time)
-      positionY = self.y(newPeak.amplitude)
-      self.showPeak(newPeak.circleId, newPeak.boxId, newPeak.amplitude, newPeak.time, positionX, positionY)
-    else
+    if self.currentPeak is 5 and not self.isPeak
+      #all done, exiting
       #come out of peak mode we are done
       self.markPeakMode = no
 
       #hide last peak if not marked
-      peak = self.peakConfig[self.currentPeak-1]
+      peak = self.peakConfig[self.getCurrentPeakId()]
       if not peak.isMarked
         self.hidePeak(peak.circleId, peak.boxId)
       else
         positionX = self.x(peak.time)
         positionY = self.y(peak.amplitude)
-        console.log 'hi3'
-        console.log peak
         self.showPeak(peak.circleId, peak.boxId, peak.amplitude, peak.time, positionX, positionY)
 
       #hide info alert
       do hideInfoAlert
 
       #show cursor
-      $('#cursorCircle').css('opacity',1)
-      $('#cursorCircle').attr('cx',mouseValues.x)
-      $('#cursorCircle').attr('cy',mouseValues.y)
+      $('#cursorCircle', @graphEl).css('opacity',1)
+      $('#cursorCircle', @graphEl).attr('cx',mouseValues.x)
+      $('#cursorCircle', @graphEl).attr('cy',mouseValues.y)
+
+    else if self.isPeak
+      peak = self.peakConfig[self.getCurrentPeakId()]
+      if not peak.isMarked
+        self.hidePeak(peak.circleId, peak.boxId)
+      else
+        positionX = self.x(peak.time)
+        positionY = self.y(peak.amplitude)
+        self.showPeak(peak.circleId, peak.boxId, peak.amplitude, peak.time, positionX, positionY)
+
+      #trough comes next - same number
+      self.isPeak = no
+
+      peak = self.peakConfig[self.getCurrentPeakId()]
+      positionX = self.x(peak.time)
+      positionY = self.y(peak.amplitude)
+      self.showPeak(peak.circleId, peak.boxId, peak.amplitude, peak.time, positionX, positionY)
+
+    else
+      peak = self.peakConfig[self.getCurrentPeakId()]
+      if not peak.isMarked
+        self.hidePeak(peak.circleId, peak.boxId)
+      else
+        positionX = self.x(peak.time)
+        positionY = self.y(peak.amplitude)
+        self.showPeak(peak.circleId, peak.boxId, peak.amplitude, peak.time, positionX, positionY)
+
+      #peak next and incremenet count
+      self.isPeak = yes
+      self.currentPeak++
+
+      peak = self.peakConfig[self.getCurrentPeakId()]
+      positionX = self.x(peak.time)
+      positionY = self.y(peak.amplitude)
+      self.showPeak(peak.circleId, peak.boxId, peak.amplitude, peak.time, positionX, positionY)
 
   markPeaks: () ->
     #start from peak 1 and mark each one in sequence
     @multiplePeaks = yes
     @currentPeak = 1
     @markPeakMode = yes
+    @isPeak = yes
 
     #show info alert
     showInfoAlert('Mark Peaks & Troughs', '<i>Left Click</i> to mark the peak/trough on the graph and move to next, <i>Right Click</i> to skip/remove the current peak/trough and move to next.')
@@ -522,6 +552,7 @@ class AbrLatencyAnalyser
     @multiplePeaks = no
     @currentPeak = peakNumber
     @markPeakMode = yes
+    @isPeak = yes
 
     #convert to roman number
     romanNumber = toRomanNumber(peakNumber)
@@ -529,97 +560,66 @@ class AbrLatencyAnalyser
     #show info alert
     showInfoAlert("Mark Peak & Trough'#{romanNumber}' (#{peakNumber})", '<i>Left Click</i> to mark the peak then the trough on the graph, <i>Right Click</i> to remove the current peak/trough marking.')
 
-  setPeaks: (latency) ->
-    @.latency = latency
+  checkPartnerPeaks: (peakId) ->
+    peak = self.peakConfig[peakId]
 
-    if not latency? or not latency.peaks? then return #empty so do nothing
-
-    #hide everything
-    for peak in self.peakConfig
-      self.hidePeak(peak.circleId, peak.boxId)
-      self.hideDelta(Math.abs(peak.number))
-      peak.isMarked = no
-
-    #load peaks that exist
-    for peak in latency.peaks
-
-      #mark peak in config and get config
-      for pc,i in @.peakConfig
-        if pc.number is peak.number
-          @.peakConfig.isMarked = yes
-          @.peakConfig[i].time = peak.time
-          @.peakConfig[i].amplitude = peak.amplitude
-
-      peakConfig = _.filter(self.peakConfig, (pd) -> pd.number is peak.number)[0]
-
-      positionX = self.x(peak.time)
-      positionY = self.y(peak.amplitude)
-
-      #this function shows all information for the circle point and box
-      self.showPeak(peakConfig.circleId, peakConfig.boxId, peak.amplitude, peak.time, positionX, positionY)
-
-      #check for both peak and trough so we can caluclate delta
-      @.checkPartnerPeaks(peak.number, peakConfig.type, peakConfig.isMarked)
-
-  checkPartnerPeaks: (peakNumber, peakType, isMarked) ->
     partnerPeak = null
-    if peakType is 'peak'
-      partnerPeak = self.peakConfig.filter((pc) -> pc.number is (-peakNumber))[0]
+    if peak.type is 'peak'
+      partnerPeak = self.peakConfig["trough#{peak.number}"]
     else
-      partnerPeak = self.peakConfig.filter((pc) -> pc.number is Math.abs(peakNumber))[0]
+      partnerPeak = self.peakConfig["peak#{Math.abs(peak.number)}"]
 
-    if isMarked
-      self.calculateDelta(Math.abs(peakNumber))
+    if partnerPeak.isMarked
+      self.calculateDelta(Math.abs(peak.number))
     else
-      self.hideDelta(Math.abs(peakNumber))
+      self.hideDelta(Math.abs(peak.number))
 
-  recordPeak: (peakNumber, time, amplitude) ->
-    if @.latency.peaks? then @.latency.peaks = []
-
-    for pc,i in @.peakConfig
-      if pc.number is peakNumber
-        @.peakConfig.isMarked = yes
-        @.peakConfig[i].time = time
-        @.peakConfig[i].amplitude = amplitude
-    peakConfig = _.filter(self.peakConfig, (pd) -> pd.number is peakNumber)[0]
+  recordPeak: (peakId, time, amplitude) ->
+    @.peakConfig[peakId].time = time
+    @.peakConfig[peakId].amplitude = amplitude
+    @.peakConfig[peakId].isMarked = yes
 
     #this shows the circle and the box
     positionX = self.x(time)
     positionY = self.y(amplitude)
-    self.showPeak(peakConfig.circleId, peakConfig.boxId, amplitude, time, positionX, positionY)
+    self.showPeak(@.peakConfig[peakId].circleId, @.peakConfig[peakId].boxId, amplitude, time, positionX, positionY)
 
-    @.checkPartnerPeaks(peakNumber,peakConfig.type,peakConfig.isMarked)
+    @.checkPartnerPeaks(peakId)
 
-    foundPeak = no
-    for peak,i in @.latency.peaks
-      if peak.number is peakNumber
-        @.latency.peaks[i].time = time
-        @.latency.peaks[i].amplitude = amplitude
-        foundPeak = yes
+    @.parent.trigger 'change:peaks', @.peakConfig
 
-    if not foundPeak
-      @.latency.peaks.push {number: peakNumber, time, amplitude}
+  clearPeak: (peakId) ->
+    @.peakConfig[peakId].time = null
+    @.peakConfig[peakId].amplitude = null
+    @.peakConfig[peakId].isMarked = no
 
-    @.parent.trigger 'change:latency', @.latency
+    @.hidePeak(@.peakConfig[peakId].circleId, @.peakConfig[peakId].boxId)
+    @.hideDelta(Math.abs(@.peakConfig[peakId].number))
 
-  clearPeak: (peakNumber) ->
-    if @.latency.peaks? then @.latency.peaks = []
+    @.checkPartnerPeaks(peakId)
 
-    _.each(self.peakConfig, (pc) -> if pc.number is peakNumber then pc.isMarked = no)
-    peakConfig = _.filter(self.peakConfig, (pd) -> pd.number is peakNumber)[0]
+  setPeaks: (peakData) ->
+    if peakData is null then return
 
-    @.hidePeak(peakConfig.circleId, peakConfig.boxId)
-    @.hideDelta(Math.abs(peakNumber))
+    peaksToShow = []
+    for peak in peakData
+      peakId = "peak#{peak.number}"
+      troughId = "trough#{peak.number}"
+      if peak.peakAmpl?
+        @.peakConfig[peakId].amplitude = peak.peakAmpl
+        @.peakConfig[peakId].time = peak.peakTime
+        @.peakConfig[peakId].isMarked = yes
+        peaksToShow.push peakId
+      if peak.troughAmpl?
+        @.peakConfig[troughId].amplitude = peak.troughAmpl
+        @.peakConfig[troughId].time = peak.troughTime
+        @.peakConfig[troughId].isMarked = yes
+        peaksToShow.push troughId
 
-    @.checkPartnerPeaks(peakNumber,peakConfig.type,peakConfig.isMarked)
-
-    peaks = []
-    for peak in @.latency.peaks
-      if peak.number isnt peakNumber
-        peaks.push peak
-    @.latency.peaks = peaks
-
-  getPeaks: () ->
-    return @.latency
+    for id in peaksToShow
+      config = @.peakConfig[id]
+      positionX = self.x(config.time)
+      positionY = self.y(config.amplitude)
+      @.showPeak(config.circleId, config.boxId, config.amplitude, config.time, positionX, positionY)
 
 module.exports = AbrLatencyAnalyser

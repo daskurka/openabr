@@ -41,11 +41,20 @@ module.exports = View.extend
     @.complete = @.model.analysis? and @.model.analysis.latency? and @.model.analysis.latency.complete
 
     #catch when the peaks change
-    @.on 'change:latency', (latency) =>
+    @.on 'change:peaks', (peakConfig) =>
       if not @.model.analysis? then @.model.analysis = {}
-      if not @.model.analysis.latency? then @.model.analysis.latency = {}
+      if not @.model.analysis.latency? then @.model.analysis.latency = {complete: no}
       analysis = @.model.analysis
-      analysis.latency.peaks = latency.peaks
+      analysis.latency.peaks = []
+      for i in [1..5]
+        item = {number: i, peakAmpl: null, peakTime: null, troughAmpl: null, troughTime: null}
+        if peakConfig["peak#{i}"].isMarked
+          item.peakAmpl = peakConfig["peak#{i}"].amplitude
+          item.peakTime = peakConfig["peak#{i}"].time
+        if peakConfig["trough#{i}"].isMarked
+          item.troughAmpl = peakConfig["trough#{i}"].amplitude
+          item.troughTime = peakConfig["trough#{i}"].time
+        analysis.latency.peaks.push item
       @.model.set('analysis',analysis)
       @.model.trigger('change:analysis')
 
@@ -77,26 +86,16 @@ module.exports = View.extend
     #graph
     margin = { top: 20, right: 20, bottom: 130, left: 50 }
 
-    peakData = [
-      {number: 1, circleId: 'pkCircle1', boxId: 'pkBox1', label: 'I', isMarked: no, type: 'peak'}
-      {number: 2, circleId: 'pkCircle2', boxId: 'pkBox2', label: 'II', isMarked: no, type: 'peak'}
-      {number: 3, circleId: 'pkCircle3', boxId: 'pkBox3', label: 'III', isMarked: no, type: 'peak'}
-      {number: 4, circleId: 'pkCircle4', boxId: 'pkBox4', label: 'IV', isMarked: no, type: 'peak'}
-      {number: 5, circleId: 'pkCircle5', boxId: 'pkBox5', label: 'V', isMarked: no, type: 'peak'}
-      {number: -1, circleId: 'trCircle1', boxId: 'trBox1', label: '-I', isMarked: no, type: 'trough'}
-      {number: -2, circleId: 'trCircle2', boxId: 'trBox2', label: '-II', isMarked: no, type: 'trough'}
-      {number: -3, circleId: 'trCircle3', boxId: 'trBox3', label: '-III', isMarked: no, type: 'trough'}
-      {number: -4, circleId: 'trCircle4', boxId: 'trBox4', label: '-IV', isMarked: no, type: 'trough'}
-      {number: -5, circleId: 'trCircle5', boxId: 'trBox5', label: '-V', isMarked: no, type: 'trough'}
-    ]
-
     setMaxVoltage = @.currentGroup.maxAmpl
     setMinVoltage = @.currentGroup.minAmpl
 
     graphEl = @.query('#abrGraph')
     @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,830,550,margin,
-                                          setMaxVoltage,setMinVoltage,peakData,@)
+                                          setMaxVoltage,setMinVoltage,@)
     @.graph.render(graphEl)
+
+    if @.model.analysis?.latency?.peaks?
+      @.graph.setPeaks(@.model.analysis.latency.peaks)
 
     return @
 
