@@ -114,11 +114,6 @@
         return "<tr>No records found...</tr>";
     };
 
-    // includes\items\experiment.jade compiled template
-    templatizer["includes"]["items"]["experiment"] = function tmpl_includes_items_experiment() {
-        return '<tr data-hook="experiment-row"><td data-hook="name"></td><td data-hook="description"></td><td data-hook="researcher"></td><td data-hook="subjects"><img src="/img/spinner.gif"/></td><td data-hook="abrs"><img src="/img/spinner.gif"/></td></tr>';
-    };
-
     // includes\items\fixedDataField.jade compiled template
     templatizer["includes"]["items"]["fixedDataField"] = function tmpl_includes_items_fixedDataField() {
         return '<tr data-hook="fixed-field-row"><td data-hook="name"></td><td data-hook="type"></td><td data-hook="dbName"></td><td><span data-hook="required" class="glyphicon glyphicon-ok"></span></td><td><span data-hook="autoPop" class="glyphicon glyphicon-ok"></span></td><td data-hook="description"></td></tr>';
@@ -330,6 +325,11 @@
     // views\analysis\setThreshold.jade compiled template
     templatizer["views"]["analysis"]["setThreshold"] = function tmpl_views_analysis_setThreshold() {
         return '<div class="well"><div class="row"><div class="col-sm-4"><h4 data-hook="name"></h4></div><div class="col-sm-3"><div class="btn-group"><button data-hook="clear" class="btn btn-warning">Clear</button><button data-hook="no-response" class="btn btn-info">No Response</button></div></div><div class="col-sm-5"><button data-hook="use-automatic" class="btn btn-info btn-block"></button></div></div><div class="row"><hr style="border-color: black;"/></div><div class="row"><div data-hook="levels" class="col-sm-3 list-group"></div><div id="abrSetGraph" class="col-sm-9"></div></div></div>';
+    };
+
+    // views\experiments\experimentRow.jade compiled template
+    templatizer["views"]["experiments"]["experimentRow"] = function tmpl_views_experiments_experimentRow() {
+        return '<tr data-hook="experiment-row"><td data-hook="name"></td><td data-hook="description"></td><td data-hook="researcher"></td><td data-hook="subjects"><img src="/img/spinner.gif"/></td><td data-hook="abrs"><img src="/img/spinner.gif"/></td></tr>';
     };
 
     // views\experiments\selectAbrExperiments.jade compiled template

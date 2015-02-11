@@ -5,7 +5,7 @@ templates = require '../../templates'
 
 ExperimentModel = require '../../models/core/experiment.coffee'
 ExperimentsCollection = require '../../collections/core/experiments.coffee'
-ExperimentView = require '../../views/items/experiment.coffee'
+ExperimentView = require '../../views/experiment/experiment-row.coffee'
 
 EmptyRowView = require '../../views/items/empty-row-view.coffee'
 

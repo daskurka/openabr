@@ -18,6 +18,9 @@ abrReadingSchema = new Schema
 
   setId: Schema.Types.ObjectId
   subjectId: Schema.Types.ObjectId
+  experiments: [Schema.Types.ObjectId] #links to experiments
+
+  tags: [String]
 
 abrReadingSchema.set 'toObject', {virtuals: yes}
 abrReadingSchema.set 'toJSON', {virtuals: yes}

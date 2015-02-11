@@ -23,6 +23,8 @@ module.exports = Base.extend
     subjectId: 'any' #link to subject
     experiments: 'array' #objectId link to experiments
 
+    tags: ['array', no, () -> []]
+
   session:
     selected: 'boolean'
 

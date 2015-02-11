@@ -3,18 +3,23 @@ templates = require '../../templates'
 
 module.exports = View.extend
 
-  template: templates.includes.items.experiment
+  template: templates.views.experiments.experimentRow
 
   props:
     subjects: 'number'
+    abrs: 'number'
 
   initialize: () ->
     #load subject count
-    url = '/api/subjects/count'
+    subjectUrl = '/api/subjects/count'
+    abrUrl = '/api/abr/readings/count'
     query = {experiments: @.model.id}
-    $.get url, query, (response) =>
+    $.get subjectUrl, query, (response) =>
       @.subjects = response.found
       @.queryByHook('subjects').innerHTML = response.found
+    $.get abrUrl, query, (response) =>
+      @.abrs = response.found
+      @.queryByHook('abrs').innerHTML = response.found
 
   derived:
     researcher:
