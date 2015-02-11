@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 jwt = require 'jwt-simple'
-_ = require 'underscore'
+_ = require 'lodash'
 pbkdf2 = require 'pbkdf2-sha256'
 crypto = require 'crypto'
 

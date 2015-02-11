@@ -1,6 +1,6 @@
 InputView = require 'ampersand-input-view'
 templates = require '../../templates'
-_ = require 'underscore'
+_ = require 'lodash'
 
 module.exports = InputView.extend
   template: templates.includes.form.number

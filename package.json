@@ -44,7 +44,6 @@
     "serve-static": "^1.7.1",
     "stylizer": "^2.0.0",
     "templatizer": "^1.0.1",
-    "underscore": "^1.7.0",
     "url": "^0.10.1"
   },
   "main": "start.js",
