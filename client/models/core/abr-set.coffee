@@ -23,6 +23,7 @@ module.exports = Base.extend
 
   session:
     selected: 'boolean'
+    abrGroup: 'object'
 
   derived:
     maxLevel:
@@ -66,5 +67,7 @@ module.exports = Base.extend
 
   lazyLoadReadings: (callback) ->
     @.readings = new AbrReadingsCollection()
-    @.readings.on 'query:loaded', callback
+    @.readings.on 'query:loaded', () =>
+      @.readings.each (reading) => reading.abrSet = @
+      callback()
     @.readings.query {setId: @.model.id}

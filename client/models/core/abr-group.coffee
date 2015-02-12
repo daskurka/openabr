@@ -1,6 +1,8 @@
 Base = require '../base.coffee'
 _ = require 'lodash'
 
+async = require 'async'
+
 AbrSetsCollection = require '../../collections/core/abr-sets.coffee'
 AbrReadingCollection = require '../../collections/core/abr-readings.coffee'
 
@@ -60,18 +62,26 @@ module.exports = Base.extend
 
   lazyLoadSets: (callback) ->
     @.sets = new AbrSetsCollection()
-    @.sets.on 'query:loaded', callback
+    @.sets.on 'query:loaded', () =>
+      @.sets.each (set) => set.abrGroup = @
+      callback()
     @.sets.query {groupId: @.id}
 
+  lazyLoadAll: (callback) ->
+    @.lazyLoadSets: () ->
+      async.each @.sets,
+        (set, cb) -> set.lazyLoadReadings(cb)
+        , callback
+
   getReadings: (callback) ->
-    @.lazyLoadSets () =>
-      setIds = @.sets.map((set) -> return set.id)
-      collection = new AbrReadingCollection()
-      collection.on 'query:loaded', () =>
-        #now assign set models to the readings
-        collection.each (reading) =>
-          @.sets.each (set) ->
-            if reading.setId is set.id
-              reading.abrSet = set
-        callback(null, collection)
-      collection.query {setId: {$in: setIds}}
+    setIds = @.sets.map((set) -> return set.id)
+    collection = new AbrReadingCollection()
+    collection.on 'query:loaded', () =>
+      #now assign set models to the readings
+      collection.each (reading) =>
+        @.sets.each (set) ->
+          if reading.setId is set.id
+            reading.abrSet = set
+      callback(null, collection)
+    collection.query {setId: {$in: setIds}}
+
