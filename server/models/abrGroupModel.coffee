@@ -3,6 +3,7 @@ Schema = mongoose.Schema
 
 abrGroupSchema = new Schema
 
+  type: String
   name: String
   number: Number
   ear: String

@@ -292,6 +292,7 @@ module.exports = View.extend
         clickSet.isClick = yes
         group.sets.add clickSet
         group.name = "Click - #{group.sets.length} Set(s)"
+        group.type = 'click'
       else
         frequencies = _.uniq(readings.map((reading) -> reading.freq))
         for freq in frequencies
@@ -302,6 +303,7 @@ module.exports = View.extend
           freqSet.isClick = no
           group.sets.add freqSet
         group.name = "Tone - #{group.minFreq/1000} kHz to #{group.maxFreq/1000} kHz - #{group.sets.length} Set(s)"
+        group.type = 'tone'
 
       model.groups.add group
       model.evidence = _.union(model.evidence,evidence)

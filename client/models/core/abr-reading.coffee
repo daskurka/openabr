@@ -1,5 +1,8 @@
 Base = require '../base.coffee'
 
+SubjectModel = require './subject.coffee'
+SetModel = require './abr-set.coffee'
+
 module.exports = Base.extend
 
   typeAttribute: 'abrReadingModel'
@@ -27,8 +30,16 @@ module.exports = Base.extend
 
   session:
     selected: ['boolean', no, no]
+    subject: 'object'
+    abrSet: 'object'
 
   derived:
+    editUrl:
+      deps: ['id']
+      fn: () -> "abr-reading/#{@.id}/edit"
+    viewUrl:
+      deps: ['id']
+      fn: () -> "abr-reading/#{@.id}/view"
     name:
       deps: ['freq','level']
       fn: () ->
@@ -47,3 +58,16 @@ module.exports = Base.extend
         type = if @.freq? then 'tone' else 'click'
         return "#{todayDate}_#{@.subjectId}_#{type}_#{@.freq}Hz_#{@.level}dB"
 
+  lazyLoadSubject: (cb) ->
+    if @.subject? then return cb(null, @.subject)
+    @.subject = new SubjectModel(id: @.subjectId)
+    @.subject.fetch
+      success: () ->
+        cb(null, @.subject)
+
+  lazyLoadSet: (cb) ->
+    if @.abrSet? then return cb(null, @.abrSet)
+    @.abrSet = new AbrSetModel(id: @.setId)
+    @.abrSet.fetch
+      success: () ->
+        cb(null, @.abrSet)

@@ -2,6 +2,7 @@ Base = require '../base.coffee'
 _ = require 'lodash'
 
 AbrSetsCollection = require '../../collections/core/abr-sets.coffee'
+AbrReadingCollection = require '../../collections/core/abr-readings.coffee'
 
 module.exports = Base.extend
 
@@ -9,6 +10,7 @@ module.exports = Base.extend
   urlRoot: '/api/abr/groups'
 
   props:
+    type: 'string' #click, tone
     name: 'string'
     number: 'number'
     ear: 'string'
@@ -55,3 +57,21 @@ module.exports = Base.extend
       error: (model, xhr, options) ->
         model.sets = tempSets
         callback.error(model,xhr,options)
+
+  lazyLoadSets: (callback) ->
+    @.sets = new AbrSetsCollection()
+    @.sets.on 'query:loaded', callback
+    @.sets.query {groupId: @.id}
+
+  getReadings: (callback) ->
+    @.lazyLoadSets () =>
+      setIds = @.sets.map((set) -> return set.id)
+      collection = new AbrReadingCollection()
+      collection.on 'query:loaded', () =>
+        #now assign set models to the readings
+        collection.each (reading) =>
+          @.sets.each (set) ->
+            if reading.setId is set.id
+              reading.abrSet = set
+        callback(null, collection)
+      collection.query {setId: {$in: setIds}}

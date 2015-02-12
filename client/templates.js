@@ -23,6 +23,8 @@
     templatizer["pages"]["profile"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["pages"]["upload"] = {};
+    templatizer["views"]["abrGroups"] = {};
+    templatizer["views"]["abrReadings"] = {};
     templatizer["views"]["analysis"] = {};
     templatizer["views"]["experiments"] = {};
     templatizer["views"]["subjects"] = {};
@@ -277,7 +279,7 @@
 
     // pages\subjects\view.jade compiled template
     templatizer["pages"]["subjects"]["view"] = function tmpl_pages_subjects_view() {
-        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div class="row"><p>history here</p></div></div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div></div>';
+        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div data-hook="timeline" class="row"></div><div data-hook="group-show" class="row"></div></div><div class="col-lg-4"><h4>Subject Details&nbsp;<button data-hook="edit" class="btn btn-primary btn-sm">edit subject</button></h4><div data-hook="details"></div></div></div></div>';
     };
 
     // pages\upload\latencyAnalysis.jade compiled template
@@ -298,6 +300,21 @@
     // pages\upload\thresholdAnalysis.jade compiled template
     templatizer["pages"]["upload"]["thresholdAnalysis"] = function tmpl_pages_upload_thresholdAnalysis() {
         return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 2: Threshold Analysis</small></h2><div class="row"><ul data-hook="group-select-list" class="nav nav-pills"></ul><hr/></div><div class="row"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Group Threshold Analysis</h4></div><div data-hook="analysis-area" class="panel-body"></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step&nbsp;<span class="glyphicon glyphicon-step-forward"></span></button>&nbsp;&nbsp;<button data-hook="autonext" class="btn btn-primary"><strong>Use Automatic Thresholds&nbsp;</strong><span class="glyphicon glyphicon-fast-forward"></span></button></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="leaveModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Are You Sure?</h4></div><div class="modal-body"><p>Any and all work done on importing this ABR will be lost. You will have to start the process from the beginning if you leave now.</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modalQuit" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="notCompletedAnalysisModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">You have not completed this step.</h4></div><div class="modal-body"><p>If you skip this step you may have to come back and do it later! Are you sure you want to continue?</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modelNext" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div></div>';
+    };
+
+    // views\abrGroups\show.jade compiled template
+    templatizer["views"]["abrGroups"]["show"] = function tmpl_views_abrGroups_show() {
+        return '<div><hr/><h4><span data-hook="title"></span>&nbsp;<small><span>Selected Group:</span>&nbsp;<span data-hook="subtitle"></span></small></h4><div role="tabpanel"><ul role="tablist" class="nav nav-tabs"><li role="presentation" class="active"><a href="#threshold" role="tab" data-toggle="tab">Threshold Analysis</a></li><li role="presentation"><a href="#latency" role="tab" data-toggle="tab">Latency Analysis</a></li><li role="presentation"><a href="#sets" role="tab" data-toggle="tab">Sets\n&nbsp;<div data-hook="sets-count" class="badge">...</div></a></li><li role="presentation"><a href="#readings" role="tab" data-toggle="tab">Readings\n&nbsp;<div data-hook="readings-count" class="badge">...</div></a></li></ul><div class="tab-content"><div id="threshold" role="tabpanel" class="tab-pane active"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="threshold-analysis">loading threshold analysis...</div></div></div></div><div id="latency" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="latency-analysis">loading latency analysis...</div></div></div></div><div id="sets" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="sets-list">loading sets list...</div></div></div></div><div id="readings" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="readings-list">loading reading list...</div></div></div></div></div></div></div>';
+    };
+
+    // views\abrReadings\list.jade compiled template
+    templatizer["views"]["abrReadings"]["list"] = function tmpl_views_abrReadings_list() {
+        return '<div><div>giant list of readings.....</div><table class="table table-hover table-condensed"><thead><th>Freq (kHz)</th><th>Level (dB)</th><th>Pk1</th><th>Pk2</th><th>Pk3</th><th>Pk4</th><th>Pk5</th></thead><tbody data-hook="reading-list"></tbody></table></div>';
+    };
+
+    // views\abrReadings\readingRow.jade compiled template
+    templatizer["views"]["abrReadings"]["readingRow"] = function tmpl_views_abrReadings_readingRow() {
+        return '<tr data-hook="reading-row"><td data-hook="freq"></td><td data-hook="level"></td><td data-hook="latency1"></td><td data-hook="latency2"></td><td data-hook="latency3"></td><td data-hook="latency4"></td><td data-hook="latency5"></td></tr>';
     };
 
     // views\analysis\groupLatency.jade compiled template

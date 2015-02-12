@@ -63,3 +63,8 @@ module.exports = Base.extend
       error: (model, xhr, options) ->
         model.readings = tempReadings
         callback.error(model,xhr,options)
+
+  lazyLoadReadings: (callback) ->
+    @.readings = new AbrReadingsCollection()
+    @.readings.on 'query:loaded', callback
+    @.readings.query {setId: @.model.id}

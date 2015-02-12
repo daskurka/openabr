@@ -1,0 +1,41 @@
+div
+    hr
+    h4
+        span(data-hook='title')
+        | &nbsp;
+        small
+            span Selected Group:
+            | &nbsp;
+            span(data-hook='subtitle')
+    div(role='tabpanel')
+        ul.nav.nav-tabs(role='tablist')
+            li.active(role='presentation')
+                a(href='#threshold',role='tab',data-toggle='tab') Threshold Analysis
+            li(role='presentation')
+                a(href='#latency',role='tab',data-toggle='tab') Latency Analysis
+            li(role='presentation')
+                a(href='#sets',role='tab',data-toggle='tab') Sets
+                    | &nbsp;
+                    .badge(data-hook='sets-count') ...
+            li(role='presentation')
+                a(href='#readings',role='tab',data-toggle='tab') Readings
+                    | &nbsp;
+                    .badge(data-hook='readings-count') ...
+
+        .tab-content
+            .tab-pane.active#threshold(role='tabpanel')
+                .panel.panel-default.panel-tab
+                    .panel-body
+                        div(data-hook='threshold-analysis') loading threshold analysis...
+            .tab-pane#latency(role='tabpanel')
+                .panel.panel-default.panel-tab
+                    .panel-body
+                        div(data-hook='latency-analysis') loading latency analysis...
+            .tab-pane#sets(role='tabpanel')
+                .panel.panel-default.panel-tab
+                    .panel-body
+                        div(data-hook='sets-list') Coming Soon!
+            .tab-pane#readings(role='tabpanel')
+                .panel.panel-default.panel-tab
+                    .panel-body
+                        div(data-hook='readings-list') loading reading list...
