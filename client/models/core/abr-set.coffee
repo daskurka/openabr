@@ -70,4 +70,4 @@ module.exports = Base.extend
     @.readings.on 'query:loaded', () =>
       @.readings.each (reading) => reading.abrSet = @
       callback()
-    @.readings.query {setId: @.model.id}
+    @.readings.query {setId: @.id}

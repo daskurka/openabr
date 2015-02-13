@@ -68,20 +68,17 @@ module.exports = Base.extend
     @.sets.query {groupId: @.id}
 
   lazyLoadAll: (callback) ->
-    @.lazyLoadSets: () ->
-      async.each @.sets,
-        (set, cb) -> set.lazyLoadReadings(cb)
-        , callback
+    @.lazyLoadSets () =>
+      async.each( @.sets,
+        (set, cb) ->set.lazyLoadReadings(cb)
+      , callback)
 
   getReadings: (callback) ->
-    setIds = @.sets.map((set) -> return set.id)
-    collection = new AbrReadingCollection()
-    collection.on 'query:loaded', () =>
-      #now assign set models to the readings
-      collection.each (reading) =>
-        @.sets.each (set) ->
-          if reading.setId is set.id
-            reading.abrSet = set
-      callback(null, collection)
-    collection.query {setId: {$in: setIds}}
+    myCollection = new AbrReadingCollection()
+    @.lazyLoadAll () =>
+      @.sets.each (set) ->
+        console.log set.readings
+        set.readings.each (reading) ->
+          myCollection.add reading
+      callback(null, myCollection)
 

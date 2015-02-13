@@ -40,6 +40,7 @@ module.exports = Router.extend
     'subjects/create': 'subjectCreate'
     'subjects/:id/edit': 'subjectEdit'
     'subjects/:id/view': 'subjectView'
+    'subjects/:id/remove': 'subjectRemove'
 
     '(*path)': 'catchAll'
 
@@ -99,6 +100,7 @@ module.exports = Router.extend
   subjectCreate: () -> @.showUserPage new pages.subjects.Create()
   subjectEdit: (id) -> @.showUserPage new pages.subjects.Edit({id})
   subjectView: (id) -> @.showUserPage new pages.subjects.View({id})
+  subjectRemove: (id) -> @.showUserPage new pages.subjects.Remove({id})
 
   #experiment routes
   experiments: () -> @.showUserPage new pages.experiments.Index()

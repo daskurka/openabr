@@ -102,6 +102,10 @@ module.exports = PageView.extend
   events:
     'click [data-hook="return"]': 'return'
     'click [data-hook="edit"]': 'edit'
+    'click [data-hook="remove"]': 'showRemove'
+
+  showRemove: () ->
+    app.navigate(@.model.removeUrl)
 
   return: () ->
     app.navigate('subjects')
