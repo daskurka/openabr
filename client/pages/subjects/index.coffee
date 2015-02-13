@@ -42,4 +42,4 @@ module.exports = PageView.extend
     app.navigate('/subjects/create')
 
   filterSubjects: () ->
-    @.collection.query @.queryByHook('filter').value
+    @.collection.queryText @.queryByHook('filter').value

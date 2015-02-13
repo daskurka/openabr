@@ -6,6 +6,6 @@ module.exports = PagedCollection.extend
   url: '/api/subjects'
   typeAttribute: 'subjectsCollection'
 
-  query: (textSearch) ->
+  queryText: (textSearch) ->
     data = {reference: {$regex: "#{textSearch}", $options: 'i'} }
     @.queryPaged(1,15,data)

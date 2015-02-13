@@ -232,6 +232,11 @@
         return '<div class="container"><h2>Experiments</h2><div class="row"><div class="col-sm-9"><input data-hook="filter" class="form-control"/></div><div class="col-sm-3"><button id="newItem" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;new experiment</button></div></div><hr/><table class="table table-hover"><thead><th>Name</th><th>Description</th><th>Researcher</th><th># Subjects</th><th># ABRs</th></thead><tbody data-hook="experiments-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
     };
 
+    // pages\experiments\view.jade compiled template
+    templatizer["pages"]["experiments"]["view"] = function tmpl_pages_experiments_view() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle">Experiment</small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><div class="panel panel-default"><div data-hook="description" class="panel-body"></div></div></div><div class="row"><p>Graphs here</p></div><div class="row"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Experiment Subjects</h4></div><div class="panel-body"><table class="table table-hover"><thead><th>Ref</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>ABRs</th></thead><tbody data-hook="subjects"></tbody></table></div></div></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Experiment Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
+    };
+
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
         return '<div class="container"><h2>Welcome to OpenABR</h2><p>This site is still in development, any news will be posted here. If you are interested in becoming an early adopter please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
@@ -396,6 +401,11 @@
             buf.push('<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Experiments</h5></div><div class="panel-body"><input' + jade.attr("value", model.experiments.join(","), true, false) + ' class="form-control"/></div></div>');
         }).call(this, "model" in locals_for_with ? locals_for_with.model : typeof model !== "undefined" ? model : undefined);
         return buf.join("");
+    };
+
+    // views\subjects\shortSubjectRow.jade compiled template
+    templatizer["views"]["subjects"]["shortSubjectRow"] = function tmpl_views_subjects_shortSubjectRow() {
+        return '<tr data-hook="subject-row"><td data-hook="reference"></td><td data-hook="strain"></td><td data-hook="species"></td><td data-hook="dob"></td><td data-hook="dod"></td><td data-hook="abr-details"></td></tr>';
     };
 
     // views\subjects\subjectRow.jade compiled template

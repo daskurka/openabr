@@ -47,7 +47,7 @@ module.exports = PageView.extend
 
             experiment.save null,
               success: (model, response, options) ->
-                app.navigate("experiments/#{model.id}/edit")
+                app.navigate(model.viewUrl)
 
   events:
     'click [data-hook="cancel"]': 'cancel'

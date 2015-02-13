@@ -34,6 +34,8 @@ module.exports = Router.extend
     'treatments': 'experiments'
     'experiments/create': 'experimentCreate'
     'experiments/:id/edit': 'experimentEdit'
+    'experiments/:id/view': 'experimentView'
+    'experiments/:id/remove': 'experimentRemove'
 
     'subjects': 'subjects'
     'patients': 'subjects'
@@ -106,6 +108,8 @@ module.exports = Router.extend
   experiments: () -> @.showUserPage new pages.experiments.Index()
   experimentCreate: () -> @.showUserPage new pages.experiments.Create()
   experimentEdit: (id) -> @.showUserPage new pages.experiments.Edit({id})
+  experimentView: (id) -> @.showUserPage new pages.experiments.View({id})
+  experimentRemove: (id) -> console.log "I am stub for experiment remove - you sent id: #{id}"
 
   #Catch all other routes and head back to home
   catchAll: () ->

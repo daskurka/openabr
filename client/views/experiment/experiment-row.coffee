@@ -35,4 +35,4 @@ module.exports = View.extend
     'click [data-hook~=experiment-row]': 'handleRowClick'
 
   handleRowClick: () ->
-    app.navigate(@.model.editUrl)
+    app.navigate(@.model.viewUrl)
