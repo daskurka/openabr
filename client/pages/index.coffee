@@ -43,3 +43,4 @@ module.exports =
     Create: require './experiments/create.coffee'
     Edit: require './experiments/edit.coffee'
     View: require './experiments/view.coffee'
+    Remove: require './experiments/remove.coffee'

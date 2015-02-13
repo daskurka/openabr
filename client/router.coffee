@@ -109,7 +109,7 @@ module.exports = Router.extend
   experimentCreate: () -> @.showUserPage new pages.experiments.Create()
   experimentEdit: (id) -> @.showUserPage new pages.experiments.Edit({id})
   experimentView: (id) -> @.showUserPage new pages.experiments.View({id})
-  experimentRemove: (id) -> console.log "I am stub for experiment remove - you sent id: #{id}"
+  experimentRemove: (id) -> @showUserPage new pages.experiments.Remove({id})
 
   #Catch all other routes and head back to home
   catchAll: () ->
