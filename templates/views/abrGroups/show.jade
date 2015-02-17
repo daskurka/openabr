@@ -8,7 +8,7 @@ div
         small
             span(data-hook='subtitle')
     div(role='tabpanel')
-        ul.nav.nav-tabs(role='tablist')
+        ul.nav.nav-tabs(role='tablist')#groupTabs
             li.active(role='presentation')
                 a(href='#threshold',role='tab',data-toggle='tab') Threshold Analysis
             li(role='presentation')
@@ -26,11 +26,11 @@ div
             .tab-pane.active#threshold(role='tabpanel')
                 .panel.panel-default.panel-tab
                     .panel-body
-                        div(data-hook='threshold-analysis') loading threshold analysis...
+                        div(data-hook='threshold-analysis-graph') loading threshold analysis...
             .tab-pane#latency(role='tabpanel')
                 .panel.panel-default.panel-tab
                     .panel-body
-                        div(data-hook='latency-analysis') loading latency analysis...
+                        div(data-hook='latency-analysis-graph') loading latency analysis...
             .tab-pane#sets(role='tabpanel')
                 .panel.panel-default.panel-tab
                     .panel-body

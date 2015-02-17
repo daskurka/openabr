@@ -1,0 +1,10 @@
+div(data-hook='config-area')
+    h4 Threshold Graph Configuration
+    .form-group
+        label Mode
+        p.form-control-static(data-hook='mode')
+    .form-group
+        label Group By
+        select.form-control(data-hook='group-by')
+            option(value='date-simple') Actual Date
+            option(value='date-monthly') Coalesce to Monthly (4,8,12 etc)

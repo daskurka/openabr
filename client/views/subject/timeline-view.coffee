@@ -58,7 +58,7 @@ module.exports = View.extend
           tEvents = @.toneGroups.map (toneGroup) ->
             return {id: toneGroup.id, date: toneGroup.date, name: toneGroup.name, type: 'tone'}
           cb(null, tEvents)
-        @.toneGroups.query {subjectId: @.model.subjectId, type: 'tone'}
+        @.toneGroups.query {subjectId: @.model.id, type: 'tone'}
 
       clickEvents: (cb) =>
         @.clickGroups = new AbrGroupCollection()
@@ -66,7 +66,7 @@ module.exports = View.extend
           cEvents = @.clickGroups.map (clickGroup) ->
             return {id: clickGroup.id, date: clickGroup.date, name: clickGroup.name, type: 'click'}
           cb(null, cEvents)
-        @.clickGroups.query {subjectId: @.model.subjectId, type: 'click'}
+        @.clickGroups.query {subjectId: @.model.id, type: 'click'}
     , (err, results) =>
         events = []
         events.push event for event in results.clickEvents

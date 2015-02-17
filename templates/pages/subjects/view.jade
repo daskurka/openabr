@@ -6,8 +6,17 @@
             small(data-hook='subtitle')
     .row
         .col-lg-8
-            .row
-               p Graph here
+            .row(role='tabpanel')
+                ul.nav.nav-tabs(role='tablist')#graphTabs
+                    li.active(role='presentation')
+                        a(href='#threshold-analysis-tab',role='tab',data-toggle='tab') Threshold Analysis
+                    li(role='presentation')
+                        a(href='#latency-analysis-tab',role='tab',data-toggle='tab') Latency Analysis
+                .tab-content
+                    .tab-pane.active#threshold-analysis-tab(role='tabpanel')
+                        div(data-hook='threshold-analysis-graph')
+                    .tab-pane#latency-analysis-tab(role='tabpanel')
+                        div(data-hook='latency-analysis-graph')
             .row
                 div(data-hook='experiments')
             .row(data-hook='timeline')

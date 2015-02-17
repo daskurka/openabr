@@ -17,6 +17,9 @@ SelectSubjectExperimentsView = require '../../views/subject/select-subject-exper
 TimelineView = require '../../views/subject/timeline-view.coffee'
 AbrGroupShowView = require '../../views/abr-group/show.coffee'
 
+ThresholdGraphView = require '../../views/graphs/threshold/main.coffee'
+LatencyGraphView = require '../../views/graphs/latency/main.coffee'
+
 module.exports = PageView.extend
 
   pageTitle: 'Subject View'
@@ -98,6 +101,20 @@ module.exports = PageView.extend
                 col.addField(field, @.model.fields[field.dbName] ? null)
 
         return new DetailListView(el: el, collection: col)
+
+    latencyGraph:
+      hook: 'latency-analysis-graph'
+      waitFor: 'model'
+      prepareView: (el) ->
+        $('#graphTabs a[href="#latency-analysis-tab"]').tab('show')
+        return new LatencyGraphView(el: el, type: 'subject', subject: @.model)
+
+    thresholdGraph:
+      hook: 'threshold-analysis-graph'
+      waitFor: 'model'
+      prepareView: (el) ->
+        $('#graphTabs a[href="#threshold-analysis-tab"]').tab('show')
+        return new ThresholdGraphView(el: el, type: 'subject', subject: @.model)
 
   events:
     'click [data-hook="return"]': 'return'

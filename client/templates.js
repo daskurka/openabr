@@ -27,10 +27,13 @@
     templatizer["views"]["abrReadings"] = {};
     templatizer["views"]["analysis"] = {};
     templatizer["views"]["experiments"] = {};
+    templatizer["views"]["graphs"] = {};
     templatizer["views"]["subjects"] = {};
     templatizer["views"]["upload"] = {};
     templatizer["pages"]["admin"]["fields"] = {};
     templatizer["pages"]["admin"]["users"] = {};
+    templatizer["views"]["graphs"]["latency"] = {};
+    templatizer["views"]["graphs"]["threshold"] = {};
 
     // body.jade compiled template
     templatizer["body"] = function tmpl_body() {
@@ -294,7 +297,7 @@
 
     // pages\subjects\view.jade compiled template
     templatizer["pages"]["subjects"]["view"] = function tmpl_pages_subjects_view() {
-        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><p>Graph here</p></div><div class="row"><div data-hook="experiments"></div></div><div data-hook="timeline" class="row"></div><div data-hook="group-show" class="row"></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Subject Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
+        return '<div class="container"><div class="row"><h2><span data-hook="title"></span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div role="tabpanel" class="row"><ul role="tablist" id="graphTabs" class="nav nav-tabs"><li role="presentation" class="active"><a href="#threshold-analysis-tab" role="tab" data-toggle="tab">Threshold Analysis</a></li><li role="presentation"><a href="#latency-analysis-tab" role="tab" data-toggle="tab">Latency Analysis</a></li></ul><div class="tab-content"><div id="threshold-analysis-tab" role="tabpanel" class="tab-pane active"><div data-hook="threshold-analysis-graph"></div></div><div id="latency-analysis-tab" role="tabpanel" class="tab-pane"><div data-hook="latency-analysis-graph"></div></div></div></div><div class="row"><div data-hook="experiments"></div></div><div data-hook="timeline" class="row"></div><div data-hook="group-show" class="row"></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Subject Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
     };
 
     // pages\upload\latencyAnalysis.jade compiled template
@@ -319,7 +322,7 @@
 
     // views\abrGroups\show.jade compiled template
     templatizer["views"]["abrGroups"]["show"] = function tmpl_views_abrGroups_show() {
-        return '<div><hr/><h4><span>Selected Group:</span>&nbsp;<strong data-hook="title"></strong>&nbsp;<small><span data-hook="subtitle"></span></small></h4><div role="tabpanel"><ul role="tablist" class="nav nav-tabs"><li role="presentation" class="active"><a href="#threshold" role="tab" data-toggle="tab">Threshold Analysis</a></li><li role="presentation"><a href="#latency" role="tab" data-toggle="tab">Latency Analysis</a></li><li role="presentation"><a href="#sets" role="tab" data-toggle="tab">Sets\n&nbsp;<div data-hook="sets-count" class="badge">...</div></a></li><li role="presentation"><a href="#readings" role="tab" data-toggle="tab">Readings\n&nbsp;<div data-hook="readings-count" class="badge">...</div></a></li></ul><div class="tab-content"><div id="threshold" role="tabpanel" class="tab-pane active"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="threshold-analysis">loading threshold analysis...</div></div></div></div><div id="latency" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="latency-analysis">loading latency analysis...</div></div></div></div><div id="sets" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="sets-list">Coming Soon!</div></div></div></div><div id="readings" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="readings-list">loading reading list...</div></div></div></div></div></div></div>';
+        return '<div><hr/><h4><span>Selected Group:</span>&nbsp;<strong data-hook="title"></strong>&nbsp;<small><span data-hook="subtitle"></span></small></h4><div role="tabpanel"><ul role="tablist" id="groupTabs" class="nav nav-tabs"><li role="presentation" class="active"><a href="#threshold" role="tab" data-toggle="tab">Threshold Analysis</a></li><li role="presentation"><a href="#latency" role="tab" data-toggle="tab">Latency Analysis</a></li><li role="presentation"><a href="#sets" role="tab" data-toggle="tab">Sets\n&nbsp;<div data-hook="sets-count" class="badge">...</div></a></li><li role="presentation"><a href="#readings" role="tab" data-toggle="tab">Readings\n&nbsp;<div data-hook="readings-count" class="badge">...</div></a></li></ul><div class="tab-content"><div id="threshold" role="tabpanel" class="tab-pane active"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="threshold-analysis-graph">loading threshold analysis...</div></div></div></div><div id="latency" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="latency-analysis-graph">loading latency analysis...</div></div></div></div><div id="sets" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="sets-list">Coming Soon!</div></div></div></div><div id="readings" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="readings-list">loading reading list...</div></div></div></div></div></div></div>';
     };
 
     // views\abrReadings\list.jade compiled template
@@ -374,6 +377,46 @@
             buf.push('<div class="panel panel-default"><div class="panel-heading"><h5 class="panel-title">Experiments</h5></div><div class="panel-body"><input' + jade.attr("value", experiments.join(","), true, false) + ' class="form-control"/></div></div>');
         }).call(this, "experiments" in locals_for_with ? locals_for_with.experiments : typeof experiments !== "undefined" ? experiments : undefined);
         return buf.join("");
+    };
+
+    // views\graphs\latency\config.jade compiled template
+    templatizer["views"]["graphs"]["latency"]["config"] = function tmpl_views_graphs_latency_config() {
+        return "<p>config view</p>";
+    };
+
+    // views\graphs\latency\data.jade compiled template
+    templatizer["views"]["graphs"]["latency"]["data"] = function tmpl_views_graphs_latency_data() {
+        return "<p>data view</p>";
+    };
+
+    // views\graphs\latency\graph.jade compiled template
+    templatizer["views"]["graphs"]["latency"]["graph"] = function tmpl_views_graphs_latency_graph() {
+        return "<p>graph view</p>";
+    };
+
+    // views\graphs\latency\main.jade compiled template
+    templatizer["views"]["graphs"]["latency"]["main"] = function tmpl_views_graphs_latency_main() {
+        return '<div><ul class="nav nav-pills"><li role="presentation" class="active"><a id="showGraphPill" style="cursor: pointer;">Graph</a></li><li role="presentation"><a id="showConfigPill" style="cursor: pointer;">Config</a></li><li role="presentation"><a id="showDataPill" style="cursor: pointer;">Data</a></li></ul><div data-hook="switch-area"></div></div>';
+    };
+
+    // views\graphs\threshold\config.jade compiled template
+    templatizer["views"]["graphs"]["threshold"]["config"] = function tmpl_views_graphs_threshold_config() {
+        return '<div data-hook="config-area"><h4>Threshold Graph Configuration</h4><div class="form-group"><label>Mode</label><p data-hook="mode" class="form-control-static"></p></div><div class="form-group"><label>Group By</label><select data-hook="group-by" class="form-control"><option value="date-simple">Actual Date</option><option value="date-monthly">Coalesce to Monthly (4,8,12 etc)</option></select></div></div>';
+    };
+
+    // views\graphs\threshold\data.jade compiled template
+    templatizer["views"]["graphs"]["threshold"]["data"] = function tmpl_views_graphs_threshold_data() {
+        return '<div><h4>Threshold Graph Raw Data</h4><table class="table table-condensed"><thead data-hook="table-headers"></thead><tbody data-hook="raw-data-table"></tbody></table><div class="btn-group"><button data-hook="export-csv" class="btn btn-default">Export To CSV File</button><button data-hook="export-json" class="btn btn-default">Export To JSON File</button></div></div>';
+    };
+
+    // views\graphs\threshold\graph.jade compiled template
+    templatizer["views"]["graphs"]["threshold"]["graph"] = function tmpl_views_graphs_threshold_graph() {
+        return '<div><h4>Threshold Analysis Graph</h4><div data-hook="threshold-analysis-graph">loading...</div></div>';
+    };
+
+    // views\graphs\threshold\main.jade compiled template
+    templatizer["views"]["graphs"]["threshold"]["main"] = function tmpl_views_graphs_threshold_main() {
+        return '<div><ul class="nav nav-pills"><li role="presentation" class="active"><a id="showGraphPill" style="cursor: pointer;">Graph</a></li><li role="presentation"><a id="showConfigPill" style="cursor: pointer;">Config</a></li><li role="presentation"><a id="showDataPill" style="cursor: pointer;">Data</a></li></ul><div data-hook="switch-area"></div></div>';
     };
 
     // views\subjects\createSubject.jade compiled template

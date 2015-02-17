@@ -29,20 +29,21 @@ module.exports = View.extend
 
     @.evidence = @.evidence.filter((item) -> item isnt '')
 
+    console.log @.evidence
     if @.evidence? and @.evidence.length > 0
       async.detect(@.evidence, (item, cb) ->
         sc = new SubjectCollection()
-        sc.on 'page:loaded', () ->
+        sc.on 'query:loaded', () ->
           if sc.length > 0 then cb(yes) else cb(no)
-        sc.query item
+        sc.query {reference: item}
       , (result) =>
           if result?
             s = new SubjectCollection()
-            s.on 'page:loaded',() =>
+            s.on 'query:loaded',() =>
               @.subject = s.models[0]
               @.parent.trigger 'subject-selector:subject:selected', @.subject
               @.showSelectView()
-            s.query result
+            s.query {reference: result}
           else
             @.showSelectView()
       )

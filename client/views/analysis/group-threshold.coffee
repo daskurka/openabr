@@ -51,7 +51,7 @@ module.exports = View.extend
           el: el
           collection: @.model.sets
           view: SetListView
-          viewOptions: {ready: 'thresholdAnalysis', routeEventsTo: @}
+          viewOptions: {ready: 'threshold', routeEventsTo: @}
 
   autoThresholdAllSets: () ->
     @.model.sets.each (set) ->
@@ -59,7 +59,7 @@ module.exports = View.extend
       level = if abr is null then -1 else abr.level
       if not set.analysis? then set.analysis = {}
       analysis = set.analysis
-      analysis.thresholdAnalysis = {level, auto: yes, method: 'Bogaerts et al (2009)'}
+      analysis.threshold = {level, auto: yes, method: 'Bogaerts et al (2009)'}
       set.set('analysis',analysis)
       set.trigger 'change:analysis'
     @.model.trigger 'change:sets'

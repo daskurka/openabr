@@ -77,7 +77,6 @@ module.exports = Base.extend
     myCollection = new AbrReadingCollection()
     @.lazyLoadAll () =>
       @.sets.each (set) ->
-        console.log set.readings
         set.readings.each (reading) ->
           myCollection.add reading
       callback(null, myCollection)

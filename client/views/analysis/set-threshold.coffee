@@ -51,20 +51,20 @@ module.exports = View.extend
   setThreshold: (level, auto, method) ->
     if not @.model.analysis? then @.model.analysis = {}
     analysis = @.model.analysis
-    analysis.thresholdAnalysis = {level, auto, method}
+    analysis.threshold = {level, auto, method}
     @.model.set('analysis',analysis)
     @.model.trigger('change:analysis')
 
   clearThreshold: () ->
     if not @.model.analysis? then @.model.analysis = {}
-    delete @.model.analysis.thresholdAnalysis
+    delete @.model.analysis.threshold
     @.model.trigger('change:analysis')
 
   initialize: (spec) ->
     @.currentGroup = spec.currentGroup
 
-    if @.model.analysis and @.model.analysis.thresholdAnalysis
-      @.initialLevel = @.model.analysis.thresholdAnalysis.level
+    if @.model.analysis and @.model.analysis.threshold
+      @.initialLevel = @.model.analysis.threshold.level
     @.levels = @.model.readings.map (reading) -> reading.level
 
   render: () ->
@@ -74,8 +74,8 @@ module.exports = View.extend
     @.renderGraph()
 
     @.model.on 'change:analysis', () =>
-      if @.model.analysis.thresholdAnalysis?
-        level = @.model.analysis.thresholdAnalysis.level
+      if @.model.analysis.threshold?
+        level = @.model.analysis.threshold.level
         $('.level-item').removeClass('list-group-item-success') #if already existed
         $('.level-item[data="' + level + '"]').addClass('list-group-item-success')
         $("path[level]").attr('class','graph-line graph-line-opacity')
