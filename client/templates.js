@@ -401,7 +401,7 @@
 
     // views\graphs\threshold\config.jade compiled template
     templatizer["views"]["graphs"]["threshold"]["config"] = function tmpl_views_graphs_threshold_config() {
-        return '<div data-hook="config-area"><h4>Threshold Graph Configuration</h4><div class="form-group"><label>Mode</label><p data-hook="mode" class="form-control-static"></p></div><div class="form-group"><label>Group By</label><select data-hook="group-by" class="form-control"><option value="date-simple">Actual Date</option><option value="date-monthly">Coalesce to Monthly (4,8,12 etc)</option></select></div></div>';
+        return '<div data-hook="config-area"><h4>Threshold Graph Configuration</h4><div class="form-group"><label>Mode</label><p data-hook="mode" class="form-control-static"></p></div><div id="groupBySection" class="form-group"><label>Group By</label><select data-hook="group-by" class="form-control"><option value="date-simple">Actual Date</option><option value="date-monthly">Coalesce to Monthly (4,8,12 etc)</option></select></div></div>';
     };
 
     // views\graphs\threshold\data.jade compiled template
