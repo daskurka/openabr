@@ -44,11 +44,13 @@ module.exports = View.extend
       collection = new GroupRowCollection()
       @.dataView = GroupRowView
 
-      #TODO: fix the cause of this (upload not saving date likely)
-      groups = _.filter(@.model.data.groups, (g) -> return g isnt '1970-01-01')
+
 
       switch @.model.groupBy
         when 'date-simple'
+          #TODO: fix the cause of this (upload not saving date likely)
+          groups = _.filter(@.model.data.groups, (g) -> return g isnt '1970-01-01')
+
           for group in groups
             if @.model.data.toneData[group]?
               for key of @.model.data.toneData[group]
@@ -63,6 +65,14 @@ module.exports = View.extend
                 groupActual: group
                 type: 'Click'
                 level: @.model.data.clickData[group][0]
+        when 'age-monthly'
+          for group of @.model.data
+            for item in @.model.data[group]
+              collection.add new GroupDataRowModel
+                group: group
+                groupActual: "#{item.subject}-#{item.age} weeks(#{item.date})"
+                type: if item.freq? then "#{parseInt(item.freq) / 1000}" else 'Click'
+                level: item.level
 
     @.rawDataCollection = collection
 

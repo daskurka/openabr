@@ -269,6 +269,154 @@ class AbrThresholdAnalysisGraph
         .attr('cy', () -> y(clickLevel))
         .style('fill', 'red')
 
+  renderAgeHist: (graphEl, data) ->
+    $(graphEl).html('')
+
+    margin = { top: 20, right: 20, bottom: 20, left: 160 }
+
+    #calculate sizes
+    width = @containerWidth - margin.left - margin.right
+    height = @containerHeight - margin.top - margin.bottom
+
+    columns = ['Click']
+    lineData = []
+    pointData = []
+    groups = []
+
+    for group in data
+      if group.length <= 0
+        continue
+
+      #frequency part of the chart
+      groupName = "#{group.x}-weeks"
+      groupData = []
+      groups.push groupName
+      for set in group
+        if set.freq?
+          columnName = "#{parseInt(set.freq) / 1000}"
+          columns.push columnName
+          groupData.push
+            column: columnName
+            level: set.level
+            name: groupName #for dots
+        else
+          pointData.push
+            column: 'Click'
+            level: set.level
+            name: groupName
+      if groupData.length > 0
+        lineData.push
+          name: groupName
+          values: groupData
+
+    columns = _.uniq(columns)
+
+    x = d3.scale.ordinal()
+      .rangePoints([0, width], 1)
+      .domain(columns)
+
+    y = d3.scale.linear()
+      .range([height, 0])
+      .domain([0,120])
+
+    colour = d3.scale.category10()
+    colour.domain(groups)
+
+    splFormatter = (rawValue) -> if rawValue is 120 then return 'No Response' else rawValue
+    xAxis = d3.svg.axis().scale(x).orient('bottom')
+    yAxis = d3.svg.axis().tickFormat(splFormatter).scale(y).orient('left')
+
+    line = d3.svg.line()
+      .x((d) -> x(d.column))
+      .y((d) -> y(d.level))
+
+    svg = d3.select(graphEl)
+      .append('svg')
+      .attr('id','svgGraph')
+      .attr('width', @containerWidth)
+      .attr('height', @containerHeight)
+      .append('g')
+      .attr('transform',"translate(#{margin.left},#{margin.top})")
+
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', "translate(0,#{height})")
+      .call(xAxis)
+      .append('text')
+      .attr('class', 'axisText')
+      .attr('x', width)
+      .attr('y', -6)
+      .style('text-anchor', 'end')
+      .text('Frequency (kHz)')
+
+    svg.append('g')
+      .attr('class', 'y axis')
+      .call(yAxis)
+      .append('text')
+      .attr('class', 'axisText')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 6)
+      .attr('dy','.71em')
+      .style('text-anchor', 'end')
+      .text('Threshold (dB SPL)')
+
+    tline = svg.selectAll(".threshold-line")
+      .data(lineData)
+      .enter().append("g")
+      .attr("class", (d) -> "threshold-line threshold-feature group-#{d.name}")
+
+    tline.append("path")
+      .attr('class','line')
+      .attr("d", (d) -> line(d.values))
+      .style('stroke', (d) -> colour(d.name))
+
+    for toneLine in lineData
+      toneDot = svg.selectAll(".threshold-tone-dot.group-#{toneLine.name}")
+        .data(toneLine.values)
+        .enter().append('g')
+        .attr('class', "threshold-tone-dot threshold-feature group-#{toneLine.name}")
+
+      toneDot.append('circle')
+        .attr('class','threshold-dot')
+        .attr('r',3)
+        .attr('cx', (d) -> x(d.column))
+        .attr('cy', (d) -> y(d.level))
+        .style('fill', (d) -> colour(d.name))
+
+    pointDot = svg.selectAll('.threshold-click-dot')
+      .data(pointData)
+      .enter().append('g')
+      .attr('class', (d) -> "threshold-click-dot threshold-feature group-#{d.name}")
+
+    pointDot.append('circle')
+      .attr('class', 'threshold-dot')
+      .attr('r',3)
+      .attr('cx', (d) -> x(d.column))
+      .attr('cy', (d) -> y(d.level))
+      .style('fill', (d) -> colour(d.name))
+
+    legend = svg.selectAll('.legend')
+      .data(colour.domain())
+      .enter().append('g')
+      .attr('class','legend')
+      .attr('transform', (d,i) -> "translate(#{10 - margin.left},#{(i*30)+30})")
+      .attr('data-group', (d) -> 'group-' + d)
+      .on('mouseout', @mouseOutLegend)
+      .on('mouseenter', @mouseEnterLegend)
+
+    legend.append('rect')
+      .attr('x', 0)
+      .attr('width', 18)
+      .attr('height', 18)
+      .style('fill', colour)
+
+    legend.append('text')
+      .attr('x', 24)
+      .attr('y', 9)
+      .attr('dy', '.35em')
+      .style('text-anchor','start')
+      .text((d) -> d.replace('-',' '))
+
   mouseOutLegend: () ->
     d3.selectAll('.threshold-feature').style('opacity',1)
 

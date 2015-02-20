@@ -23,16 +23,22 @@ module.exports = PageView.extend
       group.quicksave
         success: (groupModel) ->
           groupId = groupModel.id
+          groupDate = groupModel.date
           groupModel.sets.each (set) ->
             set.groupId = groupId
+            set.date = groupDate
             set.quicksave
               success: (setModel) ->
                 setId = setModel.id
                 setModel.readings.each (reading) ->
                   reading.setId = setId
+                  reading.date = groupDate
                   reading.save null,
                     error: () ->
                       console.log 'error saving a reading'
+                    success: () ->
+                      console.log 'save complete...'
+                      app.navigate('subjects')
               error: () ->
                 console.log 'error saving a set'
         error: () ->

@@ -18,6 +18,7 @@ module.exports = Base.extend
     groupId: 'any' #link to group
     subjectId: 'any'  #link to subject
     experiments: 'array' #objectId link to experiments
+    date: 'date' #duplicate of group date for faster searching
 
     tags: ['array', no, () -> []]
 

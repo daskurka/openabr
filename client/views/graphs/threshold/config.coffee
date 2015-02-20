@@ -17,7 +17,7 @@ module.exports = View.extend
   derived:
     groupable:
       deps: ['model.groupBy']
-      fn: () -> if @.model.groupBy is 'N/A' then no else yes
+      fn: () -> if @.model.groupBy is 'N-A' then no else yes
 
   events:
     'change [data-hook~=group-by]': 'groupByChanged'

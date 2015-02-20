@@ -19,6 +19,7 @@ abrReadingSchema = new Schema
   setId: Schema.Types.ObjectId
   subjectId: Schema.Types.ObjectId
   experiments: [Schema.Types.ObjectId] #links to experiments
+  date: { type: Date, default: Date.now} #duplicate of group date for faster searching
 
   tags: [String]
 
