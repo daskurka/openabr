@@ -341,6 +341,12 @@ class AbrThresholdAnalysisGraph
             column: subGroup.name
             level: subGroup.values[0]
             name: groupName
+        else if subGroup.name isnt 'Click' #if freq (line data) we always want the line even if showing the box plot
+          groupData.push
+            column: subGroup.name
+            level: d3.mean(subGroup.values) #mean is the centre of the box plot
+            name: groupName
+          subGroupsToKeep.push subGroup
         else
           subGroupsToKeep.push subGroup
 
@@ -411,15 +417,6 @@ class AbrThresholdAnalysisGraph
       .style('text-anchor', 'end')
       .text('Threshold (dB SPL)')
 
-    for bData in boxData
-      svg.selectAll('.box.threshold-box.group-' + bData.name)
-        .data(bData.data)
-        .enter().append('g')
-        .attr('class', "box threshold-box threshold-feature group-#{bData.name}")
-        .attr('transform', (d) -> "translate(#{x(d.name)},#{margin.top})")
-        .style('fill',colour(bData.name))
-        .call(chart)
-
     tline = svg.selectAll(".threshold-line")
       .data(lineData)
       .enter().append("g")
@@ -454,6 +451,15 @@ class AbrThresholdAnalysisGraph
       .attr('cx', (d) -> x(d.column))
       .attr('cy', (d) -> y(d.level))
       .style('fill', (d) -> colour(d.name))
+
+    for bData in boxData
+      svg.selectAll('.box.threshold-box.group-' + bData.name)
+        .data(bData.data)
+        .enter().append('g')
+        .attr('class', "box threshold-box threshold-feature group-#{bData.name}")
+        .attr('transform', (d) -> "translate(#{x(d.name)-3},0)")
+        .style('fill',colour(bData.name))
+        .call(chart)
 
     legend = svg.selectAll('.legend')
       .data(colour.domain())
