@@ -70,7 +70,7 @@ module.exports = View.extend
             for item in @.model.data[group]
               collection.add new GroupDataRowModel
                 group: group
-                groupActual: "#{item.subject}-#{item.age} weeks(#{item.date})"
+                groupActual: "#{item.subject}-#{item.age} weeks(#{item.date.toISOString().split('T')[0]})"
                 type: if item.freq? then "#{parseInt(item.freq) / 1000}" else 'Click'
                 level: item.level
 

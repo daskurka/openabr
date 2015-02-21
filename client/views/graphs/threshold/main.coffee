@@ -65,6 +65,7 @@ module.exports = View.extend
     switch @.model.mode
       when 'subject' then @.model.groupBy = 'date-simple'
       when 'group' then @.model.groupBy = 'N-A'
+      when 'sets' then @.model.groupBy = 'age-monthly'
 
     do @.showGraphView
     return @

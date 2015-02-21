@@ -17,6 +17,13 @@ module.exports = PageView.extend
   quit: () -> app.navigate('')
   next: () ->
 
+    #save subject if updated
+    @.model.subject.save
+      success: () ->
+        console.log 'subject save complete'
+      error: () ->
+        console.log 'error saving subject'
+
     #commiting to database top down,
     @.model.groups.each (group) ->
 

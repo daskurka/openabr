@@ -133,6 +133,12 @@ module.exports = View.extend
           reading.experiments = @.model.experiments
           reading.subjectId = @.model.subject.id
 
+    #we need to ensure subject has any new experiments
+    for experiment in @.model.experiments
+      hasExperiment = _.contains(@.model.subject.experiments, experiment)
+      if not hasExperiment
+        @.model.subject.experiments.push experiment
+
     #next step!
     app.router.uploadThresholdAnalysis(@.model)
 

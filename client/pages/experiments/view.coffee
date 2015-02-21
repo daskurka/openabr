@@ -15,6 +15,10 @@ SubjectCollection = require '../../collections/core/subjects.coffee'
 CollectionView = require 'ampersand-collection-view'
 ShortSubjectRow = require '../../views/subject/short-subject-row.coffee'
 
+AbrSetCollection = require '../../collections/core/abr-sets.coffee'
+ThresholdGraphView = require '../../views/graphs/threshold/main.coffee'
+LatencyGraphView = require '../../views/graphs/latency/main.coffee'
+
 module.exports = PageView.extend
 
   pageTitle: 'Subject View'
@@ -24,6 +28,7 @@ module.exports = PageView.extend
     timelineValues: 'array'
     groupView: 'object'
     subjectCollection: 'object'
+    abrSetCollection: 'object'
 
   initialize: (spec) ->
     #load experiments
@@ -36,6 +41,10 @@ module.exports = PageView.extend
         subjects = new SubjectCollection()
         subjects.on 'query:loaded', () => @.subjectCollection = subjects
         subjects.query {experiments: @.model.id }
+
+        abrSets = new AbrSetCollection()
+        abrSets.on 'query:loaded', () => @.abrSetCollection = abrSets
+        abrSets.query {experiments: @.model.id}
 
   bindings:
     'model.name': '[data-hook~=title]'
@@ -71,6 +80,20 @@ module.exports = PageView.extend
       waitFor: 'subjectCollection'
       prepareView: (el) ->
         return new CollectionView(el: el, view: ShortSubjectRow, collection: @.subjectCollection)
+
+    latencyGraph:
+      hook: 'latency-analysis-graph'
+      waitFor: 'abrSetCollection'
+      prepareView: (el) ->
+        $('#graphTabs a[href="#latency-analysis-tab"]').tab('show')
+        return new LatencyGraphView(el: el, type: 'sets', sets: @.abrSetCollection)
+
+    thresholdGraph:
+      hook: 'threshold-analysis-graph'
+      waitFor: 'abrSetCollection'
+      prepareView: (el) ->
+        $('#graphTabs a[href="#threshold-analysis-tab"]').tab('show')
+        return new ThresholdGraphView(el: el, type: 'sets', sets: @.abrSetCollection)
 
 
   events:

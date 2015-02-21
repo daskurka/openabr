@@ -91,6 +91,22 @@ path.domain {
   fill: #000;
   font-weight: normal;
 }
+.box {
+  font: 10px sans-serif;
+}
+.box line,
+.box rect,
+.box circle {
+  stroke: #000;
+  stroke-width: 1px;
+}
+.box .center {
+  stroke-dasharray: 3, 3;
+}
+.box .outlier {
+  fill: none;
+  stroke: #000;
+}
 .push20 {
   margin-top: 20px;
 }

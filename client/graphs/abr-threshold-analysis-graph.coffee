@@ -1,4 +1,7 @@
 d3 = require 'd3'
+require('../utils/box')(d3) #box plot for d3
+
+iqr = require '../utils/iqr'
 _ = require 'lodash'
 
 #formatters
@@ -278,38 +281,86 @@ class AbrThresholdAnalysisGraph
     width = @containerWidth - margin.left - margin.right
     height = @containerHeight - margin.top - margin.bottom
 
+    #we need pre-size columns
     columns = ['Click']
-    lineData = []
-    pointData = []
-    groups = []
-
     for group in data
       if group.length <= 0
         continue
-
-      #frequency part of the chart
-      groupName = "#{group.x}-weeks"
-      groupData = []
-      groups.push groupName
       for set in group
         if set.freq?
           columnName = "#{parseInt(set.freq) / 1000}"
           columns.push columnName
-          groupData.push
-            column: columnName
-            level: set.level
-            name: groupName #for dots
-        else
+    columns = _.uniq(columns)
+
+    groups = []
+
+    boxData = []
+    for group in data
+      if group.length <= 0
+        continue
+
+      #different groups here
+      groupName = "#{group.x}-weeks"
+      groups.push groupName
+      groupData = []
+      for column, i in columns
+        groupData[i] =
+          name: column
+          values: []
+
+      for set in group
+        columnName = if set.freq? then "#{parseInt(set.freq) / 1000}" else 'Click'
+        groupDataIndex = _.indexOf(columns, columnName)
+        groupData[groupDataIndex].values.push set.level
+
+      boxData.push
+        name: groupName
+        data: groupData
+
+    lineData = []
+    pointData = []
+
+    boxGroupsToKeep = []
+    for groupBox,i in boxData
+      groupName = groupBox.name
+      subGroupsToKeep = []
+      groupData = []
+      for subGroup,i in groupBox.data
+        if subGroup.values.length <= 0
+          continue
+
+        #click part of the chart
+        if subGroup.name is 'Click' and subGroup.values.length <= 1
           pointData.push
             column: 'Click'
-            level: set.level
+            level: subGroup.values[0]
             name: groupName
+        #frequency part of the chart
+        else if subGroup.values.length <= 1
+          groupData.push
+            column: subGroup.name
+            level: subGroup.values[0]
+            name: groupName
+        else
+          subGroupsToKeep.push subGroup
+
       if groupData.length > 0
         lineData.push
           name: groupName
           values: groupData
 
-    columns = _.uniq(columns)
+      if subGroupsToKeep.length > 0
+        groupBox.data = subGroupsToKeep
+        boxGroupsToKeep.push groupBox
+
+    boxData = boxGroupsToKeep
+
+    chart = d3.box()
+      .whiskers(iqr(1.5))
+      .height(height)
+      .domain([0, 120])
+      .width(6)
+      .value((d) -> d.values)
 
     x = d3.scale.ordinal()
       .rangePoints([0, width], 1)
@@ -359,6 +410,15 @@ class AbrThresholdAnalysisGraph
       .attr('dy','.71em')
       .style('text-anchor', 'end')
       .text('Threshold (dB SPL)')
+
+    for bData in boxData
+      svg.selectAll('.box.threshold-box.group-' + bData.name)
+        .data(bData.data)
+        .enter().append('g')
+        .attr('class', "box threshold-box threshold-feature group-#{bData.name}")
+        .attr('transform', (d) -> "translate(#{x(d.name)},#{margin.top})")
+        .style('fill',colour(bData.name))
+        .call(chart)
 
     tline = svg.selectAll(".threshold-line")
       .data(lineData)

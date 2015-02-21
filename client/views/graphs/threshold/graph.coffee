@@ -5,6 +5,7 @@ async = require 'async'
 _ = require 'lodash'
 d3 = require 'd3'
 
+SubjectModel = require '../../../models/core/subject.coffee'
 AbrThresholdAnalysisGraph = require '../../../graphs/abr-threshold-analysis-graph.coffee'
 
 module.exports = View.extend
@@ -38,8 +39,8 @@ module.exports = View.extend
       when 'subject-age-monthly' then do @.prepareDataSubjectAgeMonthly
       when 'subject-date-simple' then do @.prepareDataSubjectSimpleDate
       when 'group-N-A' then do @.prepareDataSingleGroup
-      when 'sets-age-monthly' then @.prepareDataSetsAgeMonthly
-      when 'sets-date-simple' then @.prepareDataSetsDateSimple
+      when 'sets-age-monthly' then do @.prepareDataSetsAgeMonthly
+      when 'sets-date-simple' then do @.prepareDataSetsDateSimple
 
   #for graphing reasons I am treating 120 as no response which allows for averaging up to their from 100.
   handleNoResponse = (level) ->
@@ -144,17 +145,56 @@ module.exports = View.extend
   prepareDataSetsAgeMonthly: () ->
     @.model.groupBy = 'age-monthly'
 
-    console.log 'data sets age monbthly hit....'
-
     #make list of subject ids
     sets = @.model.model
-
+    if sets.length <= 0
+      console.log 'No sets in this experiment...'
+      return
 
     #query subjects and extract reference and id into a lookup table
+    subjectIds = sets.map((d) -> d.subjectId)
+    subjectIds = _.uniq(subjectIds)
+    subjectLookup = {}
+    async.forEach subjectIds, (sid, cb) ->
+      sub = new SubjectModel({id: sid})
+      sub.fetch
+        success: () ->
+          subjectLookup[sid] = {name: sub.reference, dob: sub.dob, id: sid}
+          do cb
+    , () =>
+      #go through sets adding data entries.
+      data = []
+      sets.each (set) ->
+        if set.analysis?.threshold?.level?
+          setDate = new Date(set.date)
+          age = calculateAgeInWeeks(subjectLookup[set.subjectId].dob.getTime(), setDate.getTime())
+          data.push
+            age: age
+            date: setDate
+            subject: subjectLookup[set.subjectId].name
+            freq: if set.isClick then null else set.freq
+            level: handleNoResponse(set.analysis.threshold.level)
 
-    #go through sets adding data entries.
+      maxAge = _.max(_.pluck(data,(d) -> d.age))
+
+      domain = []
+      for weeks in [0..12000] by 4
+        domain.push weeks
+        if weeks > maxAge
+          break
+
+      hist = d3.layout.histogram()
+        .range([0,maxAge])
+        .bins(domain)
+        .value((d) -> d.age)
+
+      @.model.data = hist(data)
+      @.trigger 'model:ready'
 
   prepareDataSetsDateSimple: () ->
     @.model.groupBy = 'date-simple'
 
-    console.log 'data sets date simple hit'
+    console.log('not supported yet...')
+
+    do @.prepareDataSetsAgeMonthly
+
