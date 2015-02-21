@@ -40,40 +40,30 @@ module.exports = PageView.extend
     'click [data-hook~=cancel]': 'cancel'
 
   removeExperiment: () ->
+
+    removeFromCollection = (collection, experimentId) ->
+      collection.each (item) ->
+        item.experiments = _.filter(item.experiments, (id) -> id isnt experimentId)
+        do item.save
+
     #abr-readings
     abrReadings = new AbrReadingCollection()
-    abrReadings.on 'query:loaded', () =>
-      models = abrReadings.models
-      for model in models
-        model.experiments = _.filter(model.experiments, (v) => v isnt @.model.id)
-        do model.save
+    abrReadings.on 'query:loaded', () => removeFromCollection(abrReadings, @.model.id)
     abrReadings.query {experiments: @.model.id}
 
     #abr-sets
     abrSets = new AbrSetCollection()
-    abrSets.on 'query:loaded', () =>
-      models = abrSets.models
-      for model in models
-        model.experiments = _.filter(model.experiments, (v) => v isnt @.model.id)
-        do model.save
+    abrSets.on 'query:loaded', () => removeFromCollection(abrSets, @.model.id)
     abrSets.query {experiments: @.model.id}
 
     #abr-groups
     abrGroups = new AbrGroupCollection()
-    abrGroups.on 'query:loaded', () =>
-      models = abrGroups.models
-      for model in models
-        model.experiments = _.filter(model.experiments, (v) => v isnt @.model.id)
-        do model.save
+    abrGroups.on 'query:loaded', () => removeFromCollection(abrGroups, @.model.id)
     abrGroups.query {experiments: @.model.id}
 
     #subjects
     subjects = new SubjectCollection()
-    subjects.on 'query:loaded', () =>
-      models = subjects.models
-      for model in models
-        model.experiments = _.filter(model.experiments, (v) => v isnt @.model.id)
-        do model.save
+    subjects.on 'query:loaded', () => removeFromCollection(subjects, @.model.id)
     subjects.query {experiments: @.model.id}
 
     #subject
