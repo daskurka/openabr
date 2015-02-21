@@ -2,6 +2,10 @@ View = require 'ampersand-view'
 templates = require '../../templates'
 select2 = require 'select2'
 
+AbrReadingCollection = require '../../collections/core/abr-readings.coffee'
+AbrSetCollection = require '../../collections/core/abr-sets.coffee'
+AbrGroupCollection = require '../../collections/core/abr-groups.coffee'
+
 module.exports = View.extend
 
   template: templates.views.subjects.selectSubjectExperiments
@@ -42,6 +46,23 @@ module.exports = View.extend
 
     return @
 
+  updateExperimentsForCollection = (collection, experiments) ->
+    collection.each (item) ->
+      item.experiments = experiments
+      do item.save
+
   handleInputChanged: (event) ->
     @.model.experiments = event.val
-    do @.model.save
+    @.model.save null,
+      success: (subject) ->
+        abrGroups = new AbrGroupCollection()
+        abrGroups.on 'query:loaded', () -> updateExperimentsForCollection(abrGroups, event.val)
+        abrGroups.query {subjectId: subject.id}
+
+        abrSets = new AbrSetCollection()
+        abrSets.on 'query:loaded', () -> updateExperimentsForCollection(abrSets, event.val)
+        abrSets.query {subjectId: subject.id}
+
+        abrReadings = new AbrReadingCollection()
+        abrReadings.on 'query:loaded', () -> updateExperimentsForCollection(abrReadings, event.val)
+        abrReadings.query {subjectId: subject.id}
