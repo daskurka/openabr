@@ -249,7 +249,7 @@
 
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
-        return '<div class="container"><h2>Welcome to OpenABR</h2><p>This site is still in development, any news will be posted here. If you are interested in becoming an early adopter please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p><a href="about">About</a><a href="contact">Contact</a><a href="login">Login</a></div>';
+        return "<div class=\"container\"><h2>Welcome to OpenABR</h2><p>Please contact your administrator for access, or select 'login' to get started!</p></div>";
     };
 
     // pages\login.jade compiled template
@@ -289,7 +289,7 @@
 
     // pages\status.jade compiled template
     templatizer["pages"]["status"] = function tmpl_pages_status() {
-        return '<div class="container"><h2>Welcome to OpenABR</h2><p>You are logged in!</p></div>';
+        return '<div class="container"><h2>Welcome to OpenABR</h2><div class="row"><div class="col-md-6"><h4>Your Subjects</h4><table class="table table-hover table-condensed"><thead><th>Reference</th><th>Strain</th><th>Species</th><th>DOB</th><th>DOD</th><th>Researcher</th><th>Experiments</th></thead><tbody data-hook="subject-table"></tbody></table></div><div class="col-md-6"><h4>Your Experiments</h4><table class="table table-hover table-condensed"><thead><th>Name</th><th>Description</th><th>Researcher</th><th>Subjects</th><th>Abr</th></thead><tbody data-hook="experiment-table"></tbody></table></div></div></div>';
     };
 
     // pages\subjects\create.jade compiled template
@@ -349,7 +349,7 @@
 
     // views\abrReadings\list.jade compiled template
     templatizer["views"]["abrReadings"]["list"] = function tmpl_views_abrReadings_list() {
-        return '<div><div>giant list of readings.....</div><table class="table table-hover table-condensed"><thead><th>Freq (kHz)</th><th>Level (dB)</th><th>Pk1</th><th>Pk2</th><th>Pk3</th><th>Pk4</th><th>Pk5</th></thead><tbody data-hook="reading-list"></tbody></table></div>';
+        return '<div><table class="table table-hover table-condensed"><thead><th>Freq (kHz)</th><th>Level (dB)</th><th>Pk1</th><th>Pk2</th><th>Pk3</th><th>Pk4</th><th>Pk5</th></thead><tbody data-hook="reading-list"></tbody></table></div>';
     };
 
     // views\abrReadings\readingQueryRow.jade compiled template

@@ -1,5 +1,28 @@
 .container
    h2 Welcome to OpenABR
 
-   p You are logged in!
+   .row
+       .col-md-6
+           h4 Your Subjects
+           table.table.table-hover.table-condensed
+               thead
+                   th Reference
+                   th Strain
+                   th Species
+                   th DOB
+                   th DOD
+                   th Researcher
+                   th Experiments
+               tbody(data-hook='subject-table')
+       .col-md-6
+           h4 Your Experiments
+           table.table.table-hover.table-condensed
+               thead
+                   th Name
+                   th Description
+                   th Researcher
+                   th Subjects
+                   th Abr
+               tbody(data-hook='experiment-table')
+
 
