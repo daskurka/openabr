@@ -28,7 +28,10 @@ module.exports = Router.extend
 
     'upload': 'uploadSelectData'
 
-    'query': 'query'
+    'query': 'queryReadings'
+    'query/readings': 'queryReadings'
+    'query/sets': 'querySets'
+    'query/groups': 'queryGroups'
 
     'experiments': 'experiments'
     'treatments': 'experiments'
@@ -94,8 +97,10 @@ module.exports = Router.extend
   uploadLatencyAnalysis: (uploadModel) -> @.showUserPage new pages.upload.LatencyAnalysis(model: uploadModel)
   uploadReviewAndCommit: (uploadModel) -> @.showUserPage new pages.upload.ReviewAndCommit(model: uploadModel)
 
-
-  query: () -> console.log 'Query route hit'
+  #query routes
+  queryReadings: () -> @.showUserPage new pages.query.Readings()
+  querySets: () -> @.showUserPage new pages.query.Sets()
+  queryGroups: () -> @.showUserPage new pages.query.Groups()
 
   #subject routes
   subjects: () -> @.showUserPage new pages.subjects.Index()

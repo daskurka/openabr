@@ -36,7 +36,7 @@ module.exports = PageView.extend
       hook: 'pagination-control'
       waitFor: 'collection'
       prepareView: (el) ->
-        return new PagerView(model: new PagerState(collection: @.collection))
+        return new PagerView(el: el, model: new PagerState(collection: @.collection))
 
   newSubject: () ->
     app.navigate('/subjects/create')

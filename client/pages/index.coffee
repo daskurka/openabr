@@ -44,3 +44,7 @@ module.exports =
     Edit: require './experiments/edit.coffee'
     View: require './experiments/view.coffee'
     Remove: require './experiments/remove.coffee'
+  query:
+    Readings: require './query/readings.coffee'
+    Sets: require './query/sets.coffee'
+    Groups: require './query/groups.coffee'

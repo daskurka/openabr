@@ -10,7 +10,13 @@ MainView = require './views/main.coffee'
 Current = require './models/current.coffee'
 User = require './models/user.coffee'
 
+ExperimentService = require './services/experiment.coffee'
+SubjectService = require './services/subject.coffee'
+
 module.exports =
+
+  #empty services container
+  services: {}
 
   #i have to get the sequence correct for this
   startRouter: () ->
@@ -22,6 +28,9 @@ module.exports =
     #configure globals
     window.app = @
     do configureAjax #setup ajax calls
+
+    #setup services
+    do @.setupServices
 
     #waits for page to fully load then shows first view
     domReady () =>
@@ -44,6 +53,11 @@ module.exports =
           @.startRouter()
       else
         @.startRouter()
+
+  setupServices: () ->
+    @.services = {}
+    @.services.experiment = new ExperimentService()
+    @.services.subject = new SubjectService()
 
   #logout the current user from anywhere
   logout: () ->
@@ -89,7 +103,7 @@ module.exports =
     url = if page.charAt(0) is '/' then page.slice(1) else page
     @.router.history.navigate url, {trigger: yes}
 
-  #lookup user
+  #lookup user,experiment,subject
   lookup:
     user: (id) ->
       found = app.me.users[id]

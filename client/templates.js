@@ -21,10 +21,12 @@
     templatizer["pages"]["admin"] = {};
     templatizer["pages"]["experiments"] = {};
     templatizer["pages"]["profile"] = {};
+    templatizer["pages"]["query"] = {};
     templatizer["pages"]["subjects"] = {};
     templatizer["pages"]["upload"] = {};
     templatizer["views"]["abrGroups"] = {};
     templatizer["views"]["abrReadings"] = {};
+    templatizer["views"]["abrSets"] = {};
     templatizer["views"]["analysis"] = {};
     templatizer["views"]["experiments"] = {};
     templatizer["views"]["graphs"] = {};
@@ -136,7 +138,7 @@
         var jade_interp;
         var locals_for_with = locals || {};
         (function(isAdmin, user) {
-            buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/upload">Upload ABR</a></li><li><a href="/query">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
+            buf.push('<div class="navbar-header"><a href="/" class="navbar-brand">OpenABR</a></div><ul class="nav navbar-nav"><li><a href="/upload">Upload ABR</a></li><li><a href="/query/readings">Query ABRs</a></li><li><a href="/experiments">Experiments</a></li><li><a href="/subjects">Subjects</a></li></ul><ul class="nav navbar-nav navbar-right">');
             if (isAdmin) {
                 buf.push('<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin&nbsp;<span class="caret"></span></a><ul role="menu" class="dropdown-menu"><li><a href="/admin/users">Users</a></li><li><a href="/admin/fields">Fields</a></li></ul></li>');
             }
@@ -270,6 +272,21 @@
         return '<div class="container"><div class="row"><h1>Profile</h1></div><div class="row"><div class="col-md-3"><strong>Name:</strong></div><div data-hook="name" class="col-md-9"></div><div class="col-md-3"><strong>Email:</strong></div><div data-hook="email" class="col-md-9"></div><div class="col-md-3"><strong>Position:</strong></div><div data-hook="position" class="col-md-9"></div><div class="col-md-3"><strong>Unique Id:</strong></div><div data-hook="id" class="col-md-9"></div></div><div class="row push20"><div class="col-md-3"><strong>Profile:</strong></div><div class="col-md-9"><button id="edit" class="btn btn-default">Edit</button></div></div><div class="row push20"><div class="col-md-3"><strong>Change:</strong></div><div class="col-md-9"><button id="changePassword" class="btn btn-default">Password</button></div></div></div>';
     };
 
+    // pages\query\groups.jade compiled template
+    templatizer["pages"]["query"]["groups"] = function tmpl_pages_query_groups() {
+        return '<div class="container"><h2>Query<small>&nbsp;ABR Groups</small>&nbsp;&nbsp;<small><a href="/query/sets" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Sets</a></small>&nbsp;&nbsp;<small><a href="/query/readings" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Readings</a></small></h2><div class="row"><div class="col-sm-6"><input id="subjects" class="form-control"/></div><div class="col-sm-6"><input id="experiments" class="form-control"/></div></div><hr/><table class="table table-hover"><thead><th>Date</th><th>Subject</th><th>Experiments</th><th>Tags</th><th>Type</th><th>Ear</th><th>Source</th><th>Uploaded</th><th>Uploader</th></thead><tbody data-hook="groups-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+    };
+
+    // pages\query\readings.jade compiled template
+    templatizer["pages"]["query"]["readings"] = function tmpl_pages_query_readings() {
+        return '<div class="container"><h2>Query<small>&nbsp;ABR Readings</small>&nbsp;&nbsp;<small><a href="/query/sets" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Sets</a></small>&nbsp;&nbsp;<small><a href="/query/groups" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Groups</a></small></h2><div class="row"><div class="col-sm-6"><input id="subjects" class="form-control"/></div><div class="col-sm-6"><input id="experiments" class="form-control"/></div></div><hr/><table class="table table-hover"><thead><th>Date</th><th>Subject</th><th>Experiments</th><th>Tags</th><th>Freq (kHz)</th><th>Level (dB)</th><th>Latency?</th><th>Duration (ms)</th><th>Sample Rate</th><th>Samples</th><th>Max (uV)</th><th>Min (uV)</th></thead><tbody data-hook="readings-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+    };
+
+    // pages\query\sets.jade compiled template
+    templatizer["pages"]["query"]["sets"] = function tmpl_pages_query_sets() {
+        return '<div class="container"><h2>Query<small>&nbsp;ABR Sets</small>&nbsp;&nbsp;<small><a href="/query/readings" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Readings</a></small>&nbsp;&nbsp;<small><a href="/query/groups" class="query-subtitle-link"><span class="glyphicon glyphicon-share-alt"></span>&nbsp;ABR Groups</a></small></h2><div class="row"><div class="col-sm-6"><input id="subjects" class="form-control"/></div><div class="col-sm-6"><input id="experiments" class="form-control"/></div></div><hr/><table class="table table-hover"><thead><th>Date</th><th>Subject</th><th>Experiments</th><th>Tags</th><th>Type</th><th>Freq (kHz)</th><th>Threshold</th></thead><tbody data-hook="sets-table"></tbody></table><hr/><div data-hook="pagination-control" class="row"></div></div>';
+    };
+
     // pages\status.jade compiled template
     templatizer["pages"]["status"] = function tmpl_pages_status() {
         return '<div class="container"><h2>Welcome to OpenABR</h2><p>You are logged in!</p></div>';
@@ -320,6 +337,11 @@
         return '<div class="container"><h2>Upload ABR(s)&nbsp;<small>STEP 2: Threshold Analysis</small></h2><div class="row"><ul data-hook="group-select-list" class="nav nav-pills"></ul><hr/></div><div class="row"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Group Threshold Analysis</h4></div><div data-hook="analysis-area" class="panel-body"></div><div class="panel-footer"><button data-hook="cancel" class="btn btn-default">Cancel</button>&nbsp;&nbsp;<button data-hook="next" class="btn btn-primary">Next Step&nbsp;<span class="glyphicon glyphicon-step-forward"></span></button>&nbsp;&nbsp;<button data-hook="autonext" class="btn btn-primary"><strong>Use Automatic Thresholds&nbsp;</strong><span class="glyphicon glyphicon-fast-forward"></span></button></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="leaveModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Are You Sure?</h4></div><div class="modal-body"><p>Any and all work done on importing this ABR will be lost. You will have to start the process from the beginning if you leave now.</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modalQuit" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div><div tabindex="-1" role="dialog" aria-hidden="true" id="notCompletedAnalysisModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">You have not completed this step.</h4></div><div class="modal-body"><p>If you skip this step you may have to come back and do it later! Are you sure you want to continue?</p></div><div class="modal-footer"><button data-dismiss="modal" class="btn btn-default">No, take me back.</button><button id="modelNext" class="btn btn-primary">Yes i\'m sure.</button></div></div></div></div></div>';
     };
 
+    // views\abrGroups\groupQueryRow.jade compiled template
+    templatizer["views"]["abrGroups"]["groupQueryRow"] = function tmpl_views_abrGroups_groupQueryRow() {
+        return '<tr data-hook="group-row"><td data-hook="date"></td><td data-hook="subject"></td><td data-hook="experiments"></td><td data-hook="tags"></td><td data-hook="type"></td><td data-hook="ear"></td><td data-hook="source"></td><td data-hook="created"></td><td data-hook="creator"></td></tr>';
+    };
+
     // views\abrGroups\show.jade compiled template
     templatizer["views"]["abrGroups"]["show"] = function tmpl_views_abrGroups_show() {
         return '<div><hr/><h4><span>Selected Group:</span>&nbsp;<strong data-hook="title"></strong>&nbsp;<small><span data-hook="subtitle"></span></small></h4><div role="tabpanel"><ul role="tablist" id="groupTabs" class="nav nav-tabs"><li role="presentation" class="active"><a href="#threshold" role="tab" data-toggle="tab">Threshold Analysis</a></li><li role="presentation"><a href="#latency" role="tab" data-toggle="tab">Latency Analysis</a></li><li role="presentation"><a href="#sets" role="tab" data-toggle="tab">Sets\n&nbsp;<div data-hook="sets-count" class="badge">...</div></a></li><li role="presentation"><a href="#readings" role="tab" data-toggle="tab">Readings\n&nbsp;<div data-hook="readings-count" class="badge">...</div></a></li></ul><div class="tab-content"><div id="threshold" role="tabpanel" class="tab-pane active"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="threshold-analysis-graph">loading threshold analysis...</div></div></div></div><div id="latency" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="latency-analysis-graph">loading latency analysis...</div></div></div></div><div id="sets" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="sets-list">Coming Soon!</div></div></div></div><div id="readings" role="tabpanel" class="tab-pane"><div class="panel panel-default panel-tab"><div class="panel-body"><div data-hook="readings-list">loading reading list...</div></div></div></div></div></div></div>';
@@ -330,9 +352,19 @@
         return '<div><div>giant list of readings.....</div><table class="table table-hover table-condensed"><thead><th>Freq (kHz)</th><th>Level (dB)</th><th>Pk1</th><th>Pk2</th><th>Pk3</th><th>Pk4</th><th>Pk5</th></thead><tbody data-hook="reading-list"></tbody></table></div>';
     };
 
+    // views\abrReadings\readingQueryRow.jade compiled template
+    templatizer["views"]["abrReadings"]["readingQueryRow"] = function tmpl_views_abrReadings_readingQueryRow() {
+        return '<tr data-hook="reading-row"><td data-hook="date"></td><td data-hook="subject"></td><td data-hook="experiments"></td><td data-hook="tags"></td><td data-hook="freq"></td><td data-hook="level"></td><td><span data-hook="latency" class="glyphicon glyphicon-ok"></span></td><td data-hook="duration"></td><td data-hook="sampleRate"></td><td data-hook="numberSamples"></td><td data-hook="valueMax"></td><td data-hook="valueMin"></td></tr>';
+    };
+
     // views\abrReadings\readingRow.jade compiled template
     templatizer["views"]["abrReadings"]["readingRow"] = function tmpl_views_abrReadings_readingRow() {
         return '<tr data-hook="reading-row"><td data-hook="freq"></td><td data-hook="level"></td><td data-hook="latency1"></td><td data-hook="latency2"></td><td data-hook="latency3"></td><td data-hook="latency4"></td><td data-hook="latency5"></td></tr>';
+    };
+
+    // views\abrSets\setQueryRow.jade compiled template
+    templatizer["views"]["abrSets"]["setQueryRow"] = function tmpl_views_abrSets_setQueryRow() {
+        return '<tr data-hook="set-row"><td data-hook="date"></td><td data-hook="subject"></td><td data-hook="experiments"></td><td data-hook="tags"></td><td data-hook="type"></td><td data-hook="freq"></td><td data-hook="threshold"></td></tr>';
     };
 
     // views\analysis\groupLatency.jade compiled template

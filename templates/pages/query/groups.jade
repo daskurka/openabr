@@ -1,0 +1,32 @@
+.container
+    h2 Query
+        small &nbsp;ABR Groups
+        | &nbsp;&nbsp;
+        small: a(href='/query/sets').query-subtitle-link
+            span.glyphicon.glyphicon-share-alt
+            | &nbsp;ABR Sets
+        | &nbsp;&nbsp;
+        small: a(href='/query/readings').query-subtitle-link
+            span.glyphicon.glyphicon-share-alt
+            | &nbsp;ABR Readings
+    .row
+        .col-sm-6
+            input.form-control#subjects
+        .col-sm-6
+            input.form-control#experiments
+    hr
+    table.table.table-hover
+        thead
+            th Date
+            th Subject
+            th Experiments
+            th Tags
+            th Type
+            th Ear
+            th Source
+            th Uploaded
+            th Uploader
+        tbody(data-hook='groups-table')
+    hr
+    .row(data-hook='pagination-control')
+

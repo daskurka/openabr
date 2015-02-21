@@ -1,0 +1,30 @@
+.container
+    h2 Query
+        small &nbsp;ABR Sets
+        | &nbsp;&nbsp;
+        small: a(href='/query/readings').query-subtitle-link
+            span.glyphicon.glyphicon-share-alt
+            | &nbsp;ABR Readings
+        | &nbsp;&nbsp;
+        small: a(href='/query/groups').query-subtitle-link
+            span.glyphicon.glyphicon-share-alt
+            | &nbsp;ABR Groups
+    .row
+        .col-sm-6
+            input.form-control#subjects
+        .col-sm-6
+            input.form-control#experiments
+    hr
+    table.table.table-hover
+        thead
+            th Date
+            th Subject
+            th Experiments
+            th Tags
+            th Type
+            th Freq (kHz)
+            th Threshold
+        tbody(data-hook='sets-table')
+    hr
+    .row(data-hook='pagination-control')
+
