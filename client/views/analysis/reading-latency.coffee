@@ -2,6 +2,8 @@ View = require 'ampersand-view'
 templates = require '../../templates'
 CollectionView = require 'ampersand-collection-view'
 
+_ = require 'lodash'
+
 AbrLatencyAnalysisGraph = require '../../graphs/abr-latency-graph.coffee'
 
 module.exports = View.extend
@@ -11,6 +13,7 @@ module.exports = View.extend
   session:
     complete: ['boolean',yes,no]
     graph: 'object'
+    singleMode: 'boolean'
 
   derived:
     notComplete:
@@ -25,6 +28,9 @@ module.exports = View.extend
     'notComplete':
       type: 'toggle'
       selector: '#mark-complete, #complete-and-next'
+    'singleMode':
+      type: 'toggle'
+      selector: '#complete-and-next'
 
   events:
     'click #mark-complete': 'markComplete'
@@ -34,8 +40,12 @@ module.exports = View.extend
     'click #mark-peaks': 'markPeaks'
 
   initialize: (spec) ->
-    @.currentSet = spec.currentSet
-    @.currentGroup = spec.currentGroup
+    if spec.singleMode?
+      @.singleMode = yes
+    else
+      @.singleMode = no
+      @.currentSet = spec.currentSet
+      @.currentGroup = spec.currentGroup
 
     #check if complete
     @.complete = @.model.analysis? and @.model.analysis.latency? and @.model.analysis.latency.complete
@@ -57,6 +67,7 @@ module.exports = View.extend
         analysis.latency.peaks.push item
       @.model.set('analysis',analysis)
       @.model.trigger('change:analysis')
+      if @.singleMode then do @.model.save
 
   markComplete: () ->
     @.complete = yes
@@ -66,6 +77,7 @@ module.exports = View.extend
     analysis.latency.complete = yes
     @.model.set('analysis',analysis)
     @.model.trigger('change:analysis')
+    if @.singleMode then do @.model.save
 
   markCompleteAndNext: () ->
     @.markComplete()
@@ -79,6 +91,7 @@ module.exports = View.extend
     analysis.latency.complete = no
     @.model.set('analysis',analysis)
     @.model.trigger('change:analysis')
+    if @.singleMode then do @.model.save
 
   render: () ->
     @.renderWithTemplate()
@@ -86,11 +99,20 @@ module.exports = View.extend
     #graph
     margin = { top: 20, right: 20, bottom: 130, left: 50 }
 
-    setMaxVoltage = @.currentGroup.maxAmpl
-    setMinVoltage = @.currentGroup.minAmpl
+    setMaxVoltage = null
+    setMinVoltage = null
+    width = null
+    if @.singleMode
+      setMaxVoltage = _.max(@.model.values)
+      setMinVoltage = _.min(@.model.values)
+      width = 770
+    else
+      setMaxVoltage = @.currentGroup.maxAmpl
+      setMinVoltage = @.currentGroup.minAmpl
+      width = 830
 
     graphEl = @.query('#abrGraph')
-    @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,830,550,margin,
+    @.graph = new AbrLatencyAnalysisGraph(@.model.values,@.model.sampleRate,width,550,margin,
                                           setMaxVoltage,setMinVoltage,@)
     @.graph.render(graphEl)
 

@@ -9,6 +9,8 @@ DetailListView = require '../../views/detail-list-view.coffee'
 DataFieldsCollection = require '../../collections/core/data-fields.coffee'
 FixedDataFieldsCollection = require '../../collections/core/fixed-data-fields.coffee'
 
+ReadingLatencyView = require '../../views/analysis/reading-latency.coffee'
+
 module.exports = PageView.extend
 
   pageTitle: 'ABR Reading View'
@@ -31,11 +33,16 @@ module.exports = PageView.extend
     app.navigate(@.model.editUrl)
 
   subviews:
+    latency:
+      hook: 'latency-analysis-area'
+      waitFor: 'model'
+      prepareView: (el) ->
+        return new ReadingLatencyView(el: el, model: @.model, singleMode: yes)
+
     details:
       hook: 'details'
       waitFor: 'model'
       prepareView: (el) ->
-
         #subject specific
         col = new DetailsCollection()
         dataFields = new DataFieldsCollection()

@@ -45,6 +45,7 @@ module.exports = Collection.extend
     addField(@,'abr-group','subject','Subject','subjectId', yes,true,null,'Subject this ABR Group belongs too.')
 
   addAbrSetFields: () ->
+    addField(@,'abr-set','date','Recording Date','date', no,true,null,'Date this ABR Set was recorded.')
     addField(@,'abr-set','boolean','Click Set?','isClick', yes,true,null,'Checked if this ABR Set is a click set.')
     addField(@,'abr-set','number','Frequency','freq', yes,false,{unit: 'Hz', prefix: ''},'ABR Set Frequency when a tone set.')
     addField(@,'abr-set','subject','Subject','subjectId', yes,true,null,'Subject this ABR Set belongs too.')
@@ -52,6 +53,7 @@ module.exports = Collection.extend
     addField(@,'abr-set','experiments','Experiments','experiments', no,false,null,'Related experiments for this ABR Set.')
 
   addAbrReadingFields: () ->
+    addField(@,'abr-reading','date','Recording Date','date', no,true,null,'Date this ABR Reading was recorded.')
     addField(@,'abr-reading','number','Frequency','freq', yes,false,{unit: 'Hz', prefix: ''},'ABR Reading frequency.')
     addField(@,'abr-reading','number','Level','level', yes,true,{unit: 'B', prefix: 'd'},'ABR Reading level.')
     addField(@,'abr-reading','number','Duration','duration', yes,false,{unit: 's', prefix: 'm'},'ABR Reading duration.')

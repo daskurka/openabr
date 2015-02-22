@@ -40,4 +40,5 @@ module.exports = View.extend
           if @.model.config.prefix? then suffix += @.model.config.prefix
           if @.model.config.unit? then suffix += @.model.config.unit
 
-        return if suffix.length > 0 then "#{@.model.value} #{suffix}" else @.model.value
+        value = if @.model.value? then @.model.value else '-'
+        return if suffix.length > 0 then "#{value} #{suffix}" else value
