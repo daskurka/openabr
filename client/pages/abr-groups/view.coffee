@@ -9,6 +9,9 @@ DetailListView = require '../../views/detail-list-view.coffee'
 DataFieldsCollection = require '../../collections/core/data-fields.coffee'
 FixedDataFieldsCollection = require '../../collections/core/fixed-data-fields.coffee'
 
+AbrSetRowView = require '../../views/abr-set/abr-set-query-row.coffee'
+CollectionView = require 'ampersand-collection-view'
+
 module.exports = PageView.extend
 
   pageTitle: 'ABR Group View'
@@ -18,7 +21,9 @@ module.exports = PageView.extend
     model = new AbrGroupModel(id: spec.id)
     model.fetch
       success: (model) =>
-        @.model = model
+        model.lazyLoadSets () =>
+          @.model = model
+          @.collection = model.sets
 
   events:
     'click [data-hook="edit"]': 'edit'
@@ -31,6 +36,12 @@ module.exports = PageView.extend
     app.navigate(@.model.editUrl)
 
   subviews:
+    sets:
+      hook: 'sets-list-area'
+      waitFor: 'collection'
+      prepareView: (el) ->
+        return new CollectionView(el: el, collection: @.collection, view: AbrSetRowView)
+
     details:
       hook: 'details'
       waitFor: 'model'

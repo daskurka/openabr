@@ -9,6 +9,8 @@ DetailListView = require '../../views/detail-list-view.coffee'
 DataFieldsCollection = require '../../collections/core/data-fields.coffee'
 FixedDataFieldsCollection = require '../../collections/core/fixed-data-fields.coffee'
 
+AbrSetThresholdView = require '../../views/analysis/set-threshold.coffee'
+
 module.exports = PageView.extend
 
   pageTitle: 'ABR Set View'
@@ -18,7 +20,13 @@ module.exports = PageView.extend
     model = new AbrSetModel(id: spec.id)
     model.fetch
       success: (model) =>
-        @.model = model
+        model.lazyLoadReadings () =>
+          @.model = model
+
+          html = ''
+          @.model.readings.each (reading) ->
+            html += "<a class='list-group-item' href='/#{reading.viewUrl}' style='text-align: center;'><strong>Reading #{reading.level} dB</strong></a>"
+          @.queryByHook('readings-list-area').innerHTML = html
 
   events:
     'click [data-hook="edit"]': 'edit'
@@ -31,6 +39,12 @@ module.exports = PageView.extend
     app.navigate(@.model.editUrl)
 
   subviews:
+    threshold:
+      hook: 'threshold-analysis-area'
+      waitFor: 'model'
+      prepareView: (el) ->
+        return new AbrSetThresholdView(el: el, model: @.model, singleMode: yes)
+
     details:
       hook: 'details'
       waitFor: 'model'

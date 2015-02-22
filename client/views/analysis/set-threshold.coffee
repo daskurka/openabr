@@ -21,6 +21,7 @@ module.exports = View.extend
   props:
     levels: 'array'
     initialLevel: 'number'
+    singleMode: 'boolean'
 
   derived:
     bogaertsReading:
@@ -54,14 +55,20 @@ module.exports = View.extend
     analysis.threshold = {level, auto, method}
     @.model.set('analysis',analysis)
     @.model.trigger('change:analysis')
+    if @.singleMode then do @.model.save
 
   clearThreshold: () ->
     if not @.model.analysis? then @.model.analysis = {}
     delete @.model.analysis.threshold
     @.model.trigger('change:analysis')
+    if @.singleMode then do @.model.save
 
   initialize: (spec) ->
-    @.currentGroup = spec.currentGroup
+    if spec.singleMode?
+      @singleMode = yes
+    else
+      @singleMode = no
+      @.currentGroup = spec.currentGroup
 
     if @.model.analysis and @.model.analysis.threshold
       @.initialLevel = @.model.analysis.threshold.level
@@ -113,9 +120,20 @@ module.exports = View.extend
     levelsEl.innerHTML = html
 
   renderGraph: () ->
-    @.grapher = new AbrSetGraph(440, 597) #todo make this responsive
+    width = if @.singleMode then 550 else 597
+    @.grapher = new AbrSetGraph(440, width) #todo make this responsive
     graphEl = @.query('#abrSetGraph')
-    @.grapher.drawGraph(graphEl, @.model.readings, @.currentGroup.maxAmpl, @.currentGroup.minAmpl, @.initialLevel)
+
+    maxAmpl = null
+    minAmpl = null
+    if @.singleMode
+      maxAmpl = @.model.maxAmpl
+      minAmpl = @.model.minAmpl
+    else
+      maxAmpl = @.currentGroup.maxAmpl
+      minAmpl = @.currentGroup.minAmpl
+
+    @.grapher.drawGraph(graphEl, @.model.readings, maxAmpl, minAmpl, @.initialLevel)
 
   hoverLevelItem: (event) ->
     console.log event.type

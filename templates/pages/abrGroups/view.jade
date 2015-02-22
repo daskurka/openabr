@@ -7,8 +7,16 @@
     .row
         .col-lg-8
             .row
-                div(data-hook='sets-list-area')
-                    p sets list goes here
+                table.table.table-hover
+                    thead
+                        th Date
+                        th Subject
+                        th Experiments
+                        th Tags
+                        th Type
+                        th Freq (kHz)
+                        th Threshold
+                    tbody(data-hook='sets-list-area')
         .col-lg-4
             .panel.panel-default
                 .panel-heading
