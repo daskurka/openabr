@@ -49,7 +49,7 @@ module.exports = View.extend
   derived:
     freqPart:
       deps: ['model.freq']
-      fn: () -> return if @.model.freq? then (@.modelfreq/1000) else "N/A"
+      fn: () -> return if @.model.freq? then (@.model.freq/1000) else "N/A"
     hasLatency:
       deps: ['model.analysis']
       fn: () -> if @.model.analysis? and @.model.analysis?.latency? then yes else no

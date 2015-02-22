@@ -1,9 +1,28 @@
 View = require 'ampersand-view'
 templates = require '../../templates'
 
+async = require 'async'
+
 module.exports = View.extend
 
   template: templates.includes.items.detailListItem
+
+  render: () ->
+    @.renderWithTemplate()
+
+    switch @.model.type
+      when 'subject'
+        app.services.subject.lookupName @.model.value, (err, name) =>
+          @.queryByHook('subject-anchor').innerHTML = name
+      when 'experiments'
+        experiments = @.model.value
+        async.map experiments, app.services.experiment.lookupName, (err, names) =>
+          html = ''
+          for experiment,i in experiments
+            html += "<a href='/experiments/#{experiment}/view'><span class='label label-default'>#{names[i]}</span></a>"
+          @.queryByHook('experiments-cell').innerHTML = html
+
+    return @
 
   derived:
     researcher:

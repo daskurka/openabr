@@ -18,6 +18,22 @@ tr
         td(align='right')
             strong= model.name
         td= researcher
+    else if model.type == 'abr-set'
+        td(align='right')
+            strong= model.name
+        td: a(href='/abr/sets/' + model.value + '/view') View Parent Set
+    else if model.type == 'abr-group'
+        td(align='right')
+            strong= model.name
+        td: a(href='/abr/groups/' + model.value + '/view') View Parent Group
+    else if model.type == 'subject'
+        td(align='right')
+            strong= model.name
+        td: a(href='/subjects/' + model.value + '/view', data-hook='subject-anchor') View Subject
+    else if model.type == 'experiments'
+        td(align='right')
+            strong= model.name
+        td(data-hook='experiments-cell') loading....
     else
         td(align='right')
             strong= model.name

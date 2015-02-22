@@ -49,6 +49,7 @@ module.exports = Collection.extend
     addField(@,'abr-set','number','Frequency','freq', yes,false,{unit: 'Hz', prefix: ''},'ABR Set Frequency when a tone set.')
     addField(@,'abr-set','subject','Subject','subjectId', yes,true,null,'Subject this ABR Set belongs too.')
     addField(@,'abr-set','abr-group','ABR Group','groupId', yes,true,null,'ABR Group this ABR Set belongs too.')
+    addField(@,'abr-set','experiments','Experiments','experiments', no,false,null,'Related experiments for this ABR Set.')
 
   addAbrReadingFields: () ->
     addField(@,'abr-reading','number','Frequency','freq', yes,false,{unit: 'Hz', prefix: ''},'ABR Reading frequency.')
@@ -61,5 +62,6 @@ module.exports = Collection.extend
     addField(@,'abr-reading','values','Raw ABR Values','values', yes,true,null,'Raw ABR Values.')
     addField(@,'abr-reading','subject','Subject','subjectId', yes,true,null,'Subject this ABR Reading belongs too.')
     addField(@,'abr-reading','abr-set','ABR Set','setId', yes,true,null,'ABR Set this ABR Reading belongs too.')
+    addField(@,'abr-reading','experiments','Experiments','experiments', no,false,null,'Related experiments for this ABR Reading.')
 
 

@@ -111,6 +111,14 @@
                 }
             } else if (model.type == "user") {
                 buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = researcher) ? "" : jade_interp) + "</td>");
+            } else if (model.type == "abr-set") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td><a" + jade.attr("href", "/abr/sets/" + model.value + "/view", true, false) + ">View Parent Set</a></td>");
+            } else if (model.type == "abr-group") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td><a" + jade.attr("href", "/abr/groups/" + model.value + "/view", true, false) + ">View Parent Group</a></td>");
+            } else if (model.type == "subject") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td><a" + jade.attr("href", "/subjects/" + model.value + "/view", true, false) + ' data-hook="subject-anchor">View Subject</a></td>');
+            } else if (model.type == "experiments") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + '</strong></td><td data-hook="experiments-cell">loading....</td>');
             } else {
                 buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = model.value) ? "" : jade_interp) + "</td>");
             }
