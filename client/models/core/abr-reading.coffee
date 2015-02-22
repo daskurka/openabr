@@ -41,6 +41,9 @@ module.exports = Base.extend
     viewUrl:
       deps: ['id']
       fn: () -> "abr/readings/#{@.id}/view"
+    removeUrl:
+      deps: ['id']
+      fn: () -> "abr/readings/#{@.id}/remove"
     name:
       deps: ['freq','level']
       fn: () ->

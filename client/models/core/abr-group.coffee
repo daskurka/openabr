@@ -39,6 +39,9 @@ module.exports = Base.extend
     viewUrl:
       deps: ['id']
       fn: () -> "abr/groups/#{@.id}/view"
+    removeUrl:
+      deps: ['id']
+      fn: () -> "abr/groups/#{@.id}/remove"
     maxFreq:
       deps: ['sets']
       fn: () ->_.max(@.sets.map (set) -> set.freq)

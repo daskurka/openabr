@@ -50,7 +50,10 @@ module.exports =
     Groups: require './query/groups.coffee'
   abrReadings:
     View: require './abr-readings/view.coffee'
+    Remove: require './abr-readings/remove.coffee'
   abrGroups:
     View: require './abr-groups/view.coffee'
+    Remove: require './abr-groups/remove.coffee'
   abrSets:
     View: require './abr-sets/view.coffee'
+    Remove: require './abr-sets/remove.coffee'

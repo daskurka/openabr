@@ -33,6 +33,9 @@ module.exports = Base.extend
     viewUrl:
       deps: ['id']
       fn: () -> "abr/sets/#{@.id}/view"
+    removeUrl:
+      deps: ['id']
+      fn: () -> "abr/sets/#{@.id}/remove"
     maxLevel:
       deps: ['readings']
       fn: () -> return _.max(@.readings.map (reading) -> reading.level)

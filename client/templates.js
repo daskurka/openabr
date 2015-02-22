@@ -188,14 +188,29 @@
         return '<div class="container"><h2>About OpenABR</h2><img src="/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an system for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster, consistent and objective; collection and analysis of ABRs.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining project and tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
     };
 
+    // pages\abrGroups\remove.jade compiled template
+    templatizer["pages"]["abrGroups"]["remove"] = function tmpl_pages_abrGroups_remove() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">Remove ABR Group</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><h1>Warning!</h1><p>Clicking remove below will&nbsp;<strong><u>remove all related ABR sets and ABR readings!</u></strong></p><p>If you are sure you know what you are doing click remove below to proceed.</p></div><div class="row"><div class="btn-group"><button data-hook="cancel" type="button" class="btn btn-default">Cancel&nbsp;<span class="glyphicon glyphicon-step-backward"></span></button><button data-hook="remove" type="button" class="btn btn-danger">Remove&nbsp;<span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
+    };
+
     // pages\abrGroups\view.jade compiled template
     templatizer["pages"]["abrGroups"]["view"] = function tmpl_pages_abrGroups_view() {
         return '<div class="container"><div class="row"><h2><span data-hook="title">ABR Group</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><table class="table table-hover"><thead><th>Date</th><th>Subject</th><th>Experiments</th><th>Tags</th><th>Type</th><th>Freq (kHz)</th><th>Threshold</th></thead><tbody data-hook="sets-list-area"></tbody></table></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">ABR Group Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
     };
 
+    // pages\abrReadings\remove.jade compiled template
+    templatizer["pages"]["abrReadings"]["remove"] = function tmpl_pages_abrReadings_remove() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">Remove ABR Reading</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><h1>Warning!</h1><p>Clicking remove below will&nbsp;<strong><u>remove this ABR reading and related analysis!</u></strong></p><p>If you are sure you know what you are doing click remove below to proceed.</p></div><div class="row"><div class="btn-group"><button data-hook="cancel" type="button" class="btn btn-default">Cancel&nbsp;<span class="glyphicon glyphicon-step-backward"></span></button><button data-hook="remove" type="button" class="btn btn-danger">Remove&nbsp;<span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
+    };
+
     // pages\abrReadings\view.jade compiled template
     templatizer["pages"]["abrReadings"]["view"] = function tmpl_pages_abrReadings_view() {
         return '<div class="container"><div class="row"><h2><span data-hook="title">ABR Reading</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><div data-hook="latency-analysis-area"><p>latency analysis tool?</p></div></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">ABR Reading Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
+    };
+
+    // pages\abrSets\remove.jade compiled template
+    templatizer["pages"]["abrSets"]["remove"] = function tmpl_pages_abrSets_remove() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">Remove ABR Set</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><h1>Warning!</h1><p>Clicking remove below will&nbsp;<strong><u>remove all related ABR readings!</u></strong></p><p>If you are sure you know what you are doing click remove below to proceed.</p></div><div class="row"><div class="btn-group"><button data-hook="cancel" type="button" class="btn btn-default">Cancel&nbsp;<span class="glyphicon glyphicon-step-backward"></span></button><button data-hook="remove" type="button" class="btn btn-danger">Remove&nbsp;<span class="glyphicon glyphicon-remove"></span></button></div></div></div>';
     };
 
     // pages\abrSets\view.jade compiled template
