@@ -1,0 +1,30 @@
+.container
+    .row
+        h2
+            span(data-hook='title') ABR Set
+            | &nbsp;
+            small(data-hook='subtitle')
+    .row
+        .col-lg-8
+            .row
+                div(data-hook='threshold-analysis-area')
+                    p threshold analysis tool?
+            .row
+                div(data-hook='readings-list-area')
+                    p readings list ghoes here
+        .col-lg-4
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title Actions
+                .panel-body
+                    .btn-group.btn-group-justified
+                        .btn-group
+                            button.btn.btn-primary(data-hook='edit') Edit Details
+                        .btn-group
+                            button.btn.btn-warning(data-hook='remove') Remove
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title ABR Set Details
+                .panel-body
+                    div(data-hook='details')
+

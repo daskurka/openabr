@@ -27,6 +27,12 @@ module.exports = Base.extend
     abrGroup: 'object'
 
   derived:
+    editUrl:
+      deps: ['id']
+      fn: () -> "abr/sets/#{@.id}/edit"
+    viewUrl:
+      deps: ['id']
+      fn: () -> "abr/sets/#{@.id}/view"
     maxLevel:
       deps: ['readings']
       fn: () -> return _.max(@.readings.map (reading) -> reading.level)

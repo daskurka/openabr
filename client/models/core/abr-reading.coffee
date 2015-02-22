@@ -37,10 +37,10 @@ module.exports = Base.extend
   derived:
     editUrl:
       deps: ['id']
-      fn: () -> "abr-reading/#{@.id}/edit"
+      fn: () -> "abr/readings/#{@.id}/edit"
     viewUrl:
       deps: ['id']
-      fn: () -> "abr-reading/#{@.id}/view"
+      fn: () -> "abr/readings/#{@.id}/view"
     name:
       deps: ['freq','level']
       fn: () ->

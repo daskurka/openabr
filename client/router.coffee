@@ -33,6 +33,18 @@ module.exports = Router.extend
     'query/sets': 'querySets'
     'query/groups': 'queryGroups'
 
+    'abr/readings/:id/view': 'abrReadingView'
+    'abr/readings/:id/edit': 'abrReadingEdit'
+    'abr/readings/:id/remove': 'abrReadingRemove'
+
+    'abr/sets/:id/view': 'abrSetView'
+    'abr/sets/:id/edit': 'abrSetEdit'
+    'abr/sets/:id/remove': 'abrSetRemove'
+
+    'abr/groups/:id/view': 'abrGroupView'
+    'abr/groups/:id/edit': 'abrGroupEdit'
+    'abr/groups/:id/remove': 'abrGroupRemove'
+
     'experiments': 'experiments'
     'treatments': 'experiments'
     'experiments/create': 'experimentCreate'
@@ -101,6 +113,21 @@ module.exports = Router.extend
   queryReadings: () -> @.showUserPage new pages.query.Readings()
   querySets: () -> @.showUserPage new pages.query.Sets()
   queryGroups: () -> @.showUserPage new pages.query.Groups()
+
+  #abr reading
+  abrReadingView: (id) -> @.showUserPage new pages.abrReadings.View({id})
+  abrReadingEdit: (id) -> console.log 'TBC'
+  abrReadingRemove: (id) -> console.log 'TBC'
+
+  #abr set
+  abrSetView: (id) -> @.showUserPage new pages.abrSets.View({id})
+  abrSetEdit: (id) -> console.log 'TBC'
+  abrSetRemove: (id) -> console.log 'TBC'
+
+  #abr group
+  abrGroupView: (id) -> @.showUserPage new pages.abrGroups.View({id})
+  abrGroupEdit: (id) -> console.log 'TBC'
+  abrGroupRemove: (id) -> console.log 'TBC'
 
   #subject routes
   subjects: () -> @.showUserPage new pages.subjects.Index()

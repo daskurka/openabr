@@ -1,0 +1,27 @@
+.container
+    .row
+        h2
+            span(data-hook='title') ABR Reading
+            | &nbsp;
+            small(data-hook='subtitle')
+    .row
+        .col-lg-8
+            .row
+                div(data-hook='latency-analysis-area')
+                    p latency analysis tool?
+        .col-lg-4
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title Actions
+                .panel-body
+                    .btn-group.btn-group-justified
+                        .btn-group
+                            button.btn.btn-primary(data-hook='edit') Edit Details
+                        .btn-group
+                            button.btn.btn-warning(data-hook='remove') Remove
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title ABR Reading Details
+                .panel-body
+                    div(data-hook='details')
+

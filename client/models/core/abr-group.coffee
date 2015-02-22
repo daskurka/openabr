@@ -33,6 +33,12 @@ module.exports = Base.extend
     selected: 'boolean'
 
   derived:
+    editUrl:
+      deps: ['id']
+      fn: () -> "abr/groups/#{@.id}/edit"
+    viewUrl:
+      deps: ['id']
+      fn: () -> "abr/groups/#{@.id}/view"
     maxFreq:
       deps: ['sets']
       fn: () ->_.max(@.sets.map (set) -> set.freq)

@@ -18,6 +18,9 @@
     templatizer["includes"]["form"] = {};
     templatizer["includes"]["items"] = {};
     templatizer["includes"]["navbar"] = {};
+    templatizer["pages"]["abrGroups"] = {};
+    templatizer["pages"]["abrReadings"] = {};
+    templatizer["pages"]["abrSets"] = {};
     templatizer["pages"]["admin"] = {};
     templatizer["pages"]["experiments"] = {};
     templatizer["pages"]["profile"] = {};
@@ -175,6 +178,21 @@
     // pages\about.jade compiled template
     templatizer["pages"]["about"] = function tmpl_pages_about() {
         return '<div class="container"><h2>About OpenABR</h2><img src="/img/abrexample.png" alt="Example of ABR waveform" class="img-rounded"/><p>OpenABR is an system for storing and analysing Auditory Brainstem Response (ABR) data. Its purpose is to provide hearing researchers faster, consistent and objective; collection and analysis of ABRs.</p><p>OpenABR was originally created by Samuel Kirkpatrick for the Ryugo Lab based at the Garvin Institute, Sydney Australia, as part of a Master of Engineering degree at University of Technology, Sydney (UTS). It is currently being developed with the goal of becoming an open-source self-sustaining project and tool for researchers.</p><p>Interested? Please see the&nbsp;<a href="contact">contact page</a>&nbsp;for more infomation.</p></div>';
+    };
+
+    // pages\abrGroups\view.jade compiled template
+    templatizer["pages"]["abrGroups"]["view"] = function tmpl_pages_abrGroups_view() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">ABR Group</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><div data-hook="sets-list-area"><p>sets list goes here</p></div></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">ABR Group Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
+    };
+
+    // pages\abrReadings\view.jade compiled template
+    templatizer["pages"]["abrReadings"]["view"] = function tmpl_pages_abrReadings_view() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">ABR Reading</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><div data-hook="latency-analysis-area"><p>latency analysis tool?</p></div></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">ABR Reading Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
+    };
+
+    // pages\abrSets\view.jade compiled template
+    templatizer["pages"]["abrSets"]["view"] = function tmpl_pages_abrSets_view() {
+        return '<div class="container"><div class="row"><h2><span data-hook="title">ABR Set</span>&nbsp;<small data-hook="subtitle"></small></h2></div><div class="row"><div class="col-lg-8"><div class="row"><div data-hook="threshold-analysis-area"><p>threshold analysis tool?</p></div></div><div class="row"><div data-hook="readings-list-area"><p>readings list ghoes here</p></div></div></div><div class="col-lg-4"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">Actions</h4></div><div class="panel-body"><div class="btn-group btn-group-justified"><div class="btn-group"><button data-hook="edit" class="btn btn-primary">Edit Details</button></div><div class="btn-group"><button data-hook="remove" class="btn btn-warning">Remove</button></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">ABR Set Details</h4></div><div class="panel-body"><div data-hook="details"></div></div></div></div></div></div>';
     };
 
     // pages\admin\fields\createDataField.jade compiled template

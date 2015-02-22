@@ -48,3 +48,9 @@ module.exports =
     Readings: require './query/readings.coffee'
     Sets: require './query/sets.coffee'
     Groups: require './query/groups.coffee'
+  abrReadings:
+    View: require './abr-readings/view.coffee'
+  abrGroups:
+    View: require './abr-groups/view.coffee'
+  abrSets:
+    View: require './abr-sets/view.coffee'
