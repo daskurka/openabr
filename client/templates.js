@@ -80,6 +80,16 @@
         return '<div class="form-group select"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><select class="form-control"></select></div>';
     };
 
+    // includes\form\staticInput.jade compiled template
+    templatizer["includes"]["form"]["staticInput"] = function tmpl_includes_form_staticInput() {
+        return '<div class="form-group"><label data-hook="label" class="control-label"></label><input readonly="readonly" type="text" data-hook="value" class="form-control"/></div>';
+    };
+
+    // includes\form\staticNumber.jade compiled template
+    templatizer["includes"]["form"]["staticNumber"] = function tmpl_includes_form_staticNumber() {
+        return '<div class="form-group"><label data-hook="label" class="control-label"></label><div class="row"><div class="col-sm-10"><input readonly="readonly" type="number" data-hook="value" class="form-control"/></div><div class="col-sm-2"><div data-hook="unit-prefix" class="numberUnitAndPrefix"></div></div></div></div>';
+    };
+
     // includes\form\users.jade compiled template
     templatizer["includes"]["form"]["users"] = function tmpl_includes_form_users() {
         return '<div class="form-group"><label data-hook="label"></label><div data-hook="message-container"><div data-hook="message-text" class="alert alert-danger"></div></div><input class="form-control"/></div>';

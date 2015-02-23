@@ -9,6 +9,8 @@ FixedDataFieldsCollection = require '../collections/core/fixed-data-fields.coffe
 
 InputView = require '../forms/controls/input.coffee'
 NumberView = require '../forms/controls/number.coffee'
+StaticInputView = require '../forms/controls/static-input.coffee'
+StaticNumberView = require '../forms/controls/static-number.coffee'
 
 module.exports = PageView.extend
 
@@ -82,13 +84,13 @@ module.exports = PageView.extend
       userFieldNames = []
       fixedFields.forEach (field) ->
         if field.autoPop then return
-        view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get(field.dbName))
+        view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get(field.dbName), field.autoPop)
         if view isnt null then fieldViews.push view
         fixedFieldNames.push field.dbName
       if model.fields?
         dataFields.forEach (field) =>
           if model.fields[field.dbName]? or field.required
-            view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get('fields')[field.dbName])
+            view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get('fields')[field.dbName], field.autoPop)
             if view isnt null then fieldViews.push view
             userFieldNames.push field.dbName
           else
@@ -118,33 +120,55 @@ module.exports = PageView.extend
     @.userFieldNames.push dbName
     do @.renderFieldOptions
 
-  buildView = (type, name, dbName, required, config, value) ->
+  buildView = (type, name, dbName, required, config, value, autoPop) ->
     if config is null then config = {}
-    switch type
-      when 'string'
-        return new InputView
-          label: name
-          name: dbName
-          value: value
-          placeholder: name
-          required: required
-      when 'number'
-        return new NumberView
-          label: name
-          name: dbName
-          value: parseFloat(value)
-          placeholder: name
-          required: no #all numbers must not be required else you cant use zero :|
-          prefix: config.prefix ? ''
-          unit: config.unit ? ''
-          type: 'number'
-      when 'date'
-        return new InputView
-          label: name
-          name: dbName
-          value: value and value.toISOString().split('T')[0]
-          placeholder: name
-          required: required
-          type: 'date'
-      else
-        return null
+    if autoPop
+      switch type
+        when 'string'
+          return new StaticInputView
+            label: name
+            name: dbName
+            value: value
+        when 'number'
+          return new StaticNumberView
+            label: name
+            name: dbName
+            value: parseFloat(value)
+            prefix: config.prefix ? ''
+            unit: config.unit ? ''
+        when 'date'
+          return new StaticInputView
+            label: name
+            name: dbName
+            value: value and value.toISOString().split('T')[0]
+        else
+          return null
+    else
+      switch type
+        when 'string'
+          return new InputView
+            label: name
+            name: dbName
+            value: value
+            placeholder: name
+            required: required
+        when 'number'
+          return new NumberView
+            label: name
+            name: dbName
+            value: parseFloat(value)
+            placeholder: name
+            required: no #all numbers must not be required else you cant use zero :|
+            prefix: config.prefix ? ''
+            unit: config.unit ? ''
+            type: 'number'
+        when 'date'
+          return new InputView
+            label: name
+            name: dbName
+            value: value and value.toISOString().split('T')[0]
+            placeholder: name
+            required: required
+            type: 'date'
+        else
+          return null
