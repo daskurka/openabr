@@ -45,7 +45,7 @@ exports.remove = (req, res) ->
       do res.send
 
 exports.query = (req, res) ->
-  line.debug 'DataField Controller', 'Querying dataFields: ', req.params.col
+  line.debug 'DataField Controller', 'Querying dataFields: ', req.params.col ? req.params.dbName
 
   #check for pagination
   {query, options, isPaged} = pager.filterQuery(req.params)

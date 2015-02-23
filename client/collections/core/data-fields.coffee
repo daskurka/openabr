@@ -9,6 +9,13 @@ module.exports = BaseCollection.extend
   loadFields: (collectionName, callback) ->
     @.fetch
       data: {col: collectionName}
-      success: (collection, response, options) -> callback(null)
-      error: (collection, response, options) ->
+      success: () -> callback(null)
+      error: (collection, response) ->
+        if response.status is 401 then app.logout()
+
+  queryDbName: (dbName, callback) ->
+    @.fetch
+      data: {dbName: dbName}
+      success: () -> callback(null)
+      error: (collection, response) ->
         if response.status is 401 then app.logout()

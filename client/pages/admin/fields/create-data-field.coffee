@@ -3,6 +3,8 @@ templates = require '../../../templates'
 DataFieldForm = require '../../../forms/data-field.coffee'
 DataField = require '../../../models/core/data-field.coffee'
 
+async = require 'async'
+
 module.exports = PageView.extend
 
   pageTitle: 'Create Data Field'
@@ -51,10 +53,38 @@ module.exports = PageView.extend
             delete data.prefix
             delete data.unit
 
-            newField = new DataField(data)
-            newField.save data,
-              success: () ->
-                app.navigate('admin/fields/' + data.col)
+            #speical condition, add for abr-reading, abr-group, abr-set adds for all
+            switch @.colName
+              when 'abr-reading','abr-set','abr-group'
+                async.parallel [
+                  (cb) ->
+                    reading = data
+                    reading.col = 'abr-reading'
+                    newField = new DataField(reading)
+                    newField.save reading,
+                      success: () -> do cb
+                ,
+                  (cb) ->
+                    group = data
+                    group.col = 'abr-group'
+                    newField = new DataField(group)
+                    newField.save group,
+                      success: () -> do cb
+                ,
+                  (cb) ->
+                    set = data
+                    set.col = 'abr-set'
+                    newField = new DataField(set)
+                    newField.save set,
+                      success: () -> do cb
+                ], (err) =>
+                  if err? then return console.log 'Error: ' + err
+                  app.navigate('admin/fields/' + @.colName )
+              else
+                newField = new DataField(data)
+                newField.save data,
+                  success: () ->
+                    app.navigate('admin/fields/' + data.col)
 
   asCollectionName = (colName) ->
     switch colName

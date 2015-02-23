@@ -4,6 +4,7 @@ DataFieldForm = require '../../../forms/data-field.coffee'
 ConfirmView = require '../../../views/confirm.coffee'
 ConfirmModel = require '../../../models/confirm.coffee'
 DataField = require '../../../models/core/data-field.coffee'
+FieldCollection = require '../../../collections/core/data-fields.coffee'
 
 module.exports = PageView.extend
 
@@ -37,10 +38,25 @@ module.exports = PageView.extend
     'collectionName': '[data-hook=collection-name]'
 
   removeField: () ->
-    #todo: only delete if no usages
+    #TODO, add option for thin delete (just remove this reference but leave data) or deep delete (this reference and data)
     colName = @.colName
-    @.model.destroy
-      success: () -> app.navigate('admin/fields/' + colName)
+    #speical condition, add for abr-reading, abr-group, abr-set adds for all
+    switch colName
+      when 'abr-reading','abr-set','abr-group'
+        abrFields = new FieldCollection()
+        abrFields.queryDbName @.dbName, () =>
+          fields = abrFields.models #todo: figure out what on eartht is going on here and why i cannot iterate correctly.
+          one = fields[0] ? null
+          two = fields[1] ? null
+          three = fields[2] ? null
+          one.destroy
+            success: () -> two.destroy
+              success: () -> three.destroy
+                success: () ->
+                  app.navigate('admin/fields/' + colName)
+      else
+        @.model.destroy
+          success: () -> app.navigate('admin/fields/' + colName)
 
   subviews:
     deleteConfirm:
@@ -79,11 +95,31 @@ module.exports = PageView.extend
             delete data.prefix
             delete data.unit
 
-            model.set data
-            model.save null,
-              wait: yes
-              success: () =>
-                app.navigate('admin/fields/' + @.colName)
+            #speical condition, add for abr-reading, abr-group, abr-set adds for all
+            switch @.colName
+              when 'abr-reading','abr-set','abr-group'
+                abrFields = new FieldCollection()
+                abrFields.queryDbName @.dbName, () =>
+                  fields = abrFields.models #todo: figure out what on earth is going on here and why i cannot iterate correctly.
+                  one = fields[0] ? null
+                  one.set data
+                  two = fields[1] ? null
+                  two.set data
+                  three = fields[2] ? null
+                  three.set data
+                  one.save null,
+                    success: () => two.save null,
+                      success: () => three.save null,
+                        success: () =>
+                          app.navigate('admin/fields/' + @.colName)
+              else
+                model.set data
+                model.save null,
+                  wait: yes
+                  success: () =>
+                    app.navigate('admin/fields/' + @.colName)
+
+
 
   asCollectionName = (colName) ->
     switch colName
