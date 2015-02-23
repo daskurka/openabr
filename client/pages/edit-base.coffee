@@ -43,12 +43,16 @@ module.exports = PageView.extend
               if data[name] is '' then data[name] = null
 
             for field in @.fixedFieldNames
-              if @.model[field] isnt data[field]
+              if not field of data or data[field] is null
+                @.model[field] = null
+              else if @.model[field] isnt data[field]
                 @.model[field] = data[field]
 
             if not @.model.fields? then @.model.fields = {}
             for field in @.userFieldNames
-              if @.model.fields[field] isnt data[field] or not @.model.fields[field]?
+              if not field of data or data[field] is null
+                delete @.model.fields[field]
+              else if @.model.fields[field] isnt data[field] or not @.model.fields[field]?
                 @.model.fields[field] = data[field]
 
             @.model.save null,
