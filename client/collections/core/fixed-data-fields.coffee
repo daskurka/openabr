@@ -34,8 +34,9 @@ module.exports = Collection.extend
     addField(@,'experiment','date','Created','created', yes,true,null,'Creation date of this experiment.')
 
   addAbrGroupFields: () ->
-    addField(@,'abr-group','string','Name','name', no,false,null,'Name of ABR Group.')
-    addField(@,'abr-group','number','Index Number','number', no,true,{unit: '', prefix: ''},'ABR Group index number.')
+    addField(@,'abr-group','string','Name','name', no,yes,null,'Name of ABR Group.')
+    addField(@,'abr-group','string','Type','type', no,false,null,'Type of ABR Group (Click or Tone etc).')
+    addField(@,'abr-group','number','Index Number','number', no,no,{unit: '', prefix: ''},'ABR Group index number.')
     addField(@,'abr-group','string','Ear','ear', no,true,null,'Ear of subject used in this ABR Group.')
     addField(@,'abr-group','date','Recording Date','date', no,true,null,'Date this ABR Group was recorded.')
     addField(@,'abr-group','string','Source','source', no,true,null,'Source of this ABR Group.')
@@ -43,6 +44,9 @@ module.exports = Collection.extend
     addField(@,'abr-group','user','Creator','creator', yes,true,null,'Creator / Owner of this ABR Group.')
     addField(@,'abr-group','date','Created','created', yes,true,null,'Creation date of this ABR Group.')
     addField(@,'abr-group','subject','Subject','subjectId', yes,true,null,'Subject this ABR Group belongs too.')
+    addField(@,'abr-group','experiments','Experiments','experiments', no,false,null,'Related experiments for this abr-group.')
+    addField(@,'abr-group','analysis','Analysis','analysis', yes,no,null,'Analysis for this ABR Group.')
+    addField(@,'abr-group','tags','Tags','tags', no,no,null,'Tags for this ABR Group')
 
   addAbrSetFields: () ->
     addField(@,'abr-set','date','Recording Date','date', no,true,null,'Date this ABR Set was recorded.')
@@ -51,6 +55,8 @@ module.exports = Collection.extend
     addField(@,'abr-set','subject','Subject','subjectId', yes,true,null,'Subject this ABR Set belongs too.')
     addField(@,'abr-set','abr-group','ABR Group','groupId', yes,true,null,'ABR Group this ABR Set belongs too.')
     addField(@,'abr-set','experiments','Experiments','experiments', no,false,null,'Related experiments for this ABR Set.')
+    addField(@,'abr-set','analysis','Analysis','analysis', yes,no,null,'Analysis for this ABR Set.')
+    addField(@,'abr-set','tags','Tags','tags', no,no,null,'Tags for this ABR Set')
 
   addAbrReadingFields: () ->
     addField(@,'abr-reading','date','Recording Date','date', no,true,null,'Date this ABR Reading was recorded.')
@@ -65,5 +71,7 @@ module.exports = Collection.extend
     addField(@,'abr-reading','subject','Subject','subjectId', yes,true,null,'Subject this ABR Reading belongs too.')
     addField(@,'abr-reading','abr-set','ABR Set','setId', yes,true,null,'ABR Set this ABR Reading belongs too.')
     addField(@,'abr-reading','experiments','Experiments','experiments', no,false,null,'Related experiments for this ABR Reading.')
+    addField(@,'abr-reading','analysis','Analysis','analysis', yes,no,null,'Analysis for this ABR Reading.')
+    addField(@,'abr-reading','tags','Tags','tags', no,no,null,'Tags for this ABR Reading.')
 
 

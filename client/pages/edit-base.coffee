@@ -83,7 +83,7 @@ module.exports = PageView.extend
       fixedFieldNames = []
       userFieldNames = []
       fixedFields.forEach (field) ->
-        if field.autoPop then return
+        #if field.autoPop then return
         view = buildView(field.type, field.name, field.dbName, field.required, field.config, model.get(field.dbName), field.autoPop)
         if view isnt null then fieldViews.push view
         fixedFieldNames.push field.dbName
@@ -142,6 +142,7 @@ module.exports = PageView.extend
             name: dbName
             value: value and value.toISOString().split('T')[0]
         else
+          console.log 'Undisplayed type: ' + type
           return null
     else
       switch type
@@ -171,4 +172,5 @@ module.exports = PageView.extend
             required: required
             type: 'date'
         else
+          console.log 'Undisplayed type: ' + type
           return null
