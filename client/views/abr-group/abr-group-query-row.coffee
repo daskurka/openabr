@@ -16,7 +16,9 @@ module.exports = View.extend
 
   bindings:
     'datePart': '[data-hook~=date]'
-    'joinedTags': '[data-hook~=tags]'
+    'joinedTags':
+      hook: 'tags'
+      type: 'innerHTML'
     'model.type': '[data-hook~=type]'
     'model.ear': '[data-hook~=ear]'
     'model.source': '[data-hook~=source]'
@@ -34,7 +36,7 @@ module.exports = View.extend
     async.map @.model.experiments, app.services.experiment.lookupName, (err, result) =>
       html = ''
       for exp in result
-        html += "<span class='label label-default'>#{exp}</span>"
+        html += "<span class='label label-default'>#{exp}</span> "
       @.queryByHook('experiments').innerHTML = html
 
     return @
@@ -42,7 +44,11 @@ module.exports = View.extend
   derived:
     joinedTags:
       deps: ['model.tags']
-      fn: () -> @.model.tags.join(', ')
+      fn: () ->
+        html = ''
+        for tag in @.model.tags
+          html += "<span class='label label-default'>#{tag}</span>"
+        return html
     datePart:
       deps: ['model.date']
       fn: () -> @.model.date.toISOString().split('T')[0]

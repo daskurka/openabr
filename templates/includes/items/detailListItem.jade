@@ -34,6 +34,10 @@ tr
         td(align='right')
             strong= model.name
         td(data-hook='experiments-cell') loading....
+    else if model.type == 'tags'
+        td(align='right')
+            strong= model.name
+        td(data-hook='tags-cell') loading....
     else
         td(align='right')
             strong= model.name

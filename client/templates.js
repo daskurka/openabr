@@ -129,6 +129,8 @@
                 buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td><a" + jade.attr("href", "/subjects/" + model.value + "/view", true, false) + ' data-hook="subject-anchor">View Subject</a></td>');
             } else if (model.type == "experiments") {
                 buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + '</strong></td><td data-hook="experiments-cell">loading....</td>');
+            } else if (model.type == "tags") {
+                buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + '</strong></td><td data-hook="tags-cell">loading....</td>');
             } else {
                 buf.push('<td align="right"><strong>' + jade.escape(null == (jade_interp = model.name) ? "" : jade_interp) + "</strong></td><td>" + jade.escape(null == (jade_interp = model.value) ? "" : jade_interp) + "</td>");
             }

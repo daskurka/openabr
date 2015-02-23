@@ -17,7 +17,9 @@ module.exports = View.extend
   bindings:
     'datePart': '[data-hook~=date]'
     'freqPart': '[data-hook~=freq]'
-    'joinedTags': '[data-hook~=tags]'
+    'joinedTags':
+      hook: 'tags'
+      type: 'innerHTML'
     'thresholdPart': '[data-hook~=threshold]'
     'typePart': '[data-hook~=type]'
 
@@ -32,7 +34,7 @@ module.exports = View.extend
     async.map @.model.experiments, app.services.experiment.lookupName, (err, result) =>
       html = ''
       for exp in result
-        html += "<span class='label label-default'>#{exp}</span>"
+        html += "<span class='label label-default'>#{exp}</span> "
       @.queryByHook('experiments').innerHTML = html
 
     return @
@@ -43,7 +45,11 @@ module.exports = View.extend
       fn: () -> return if @.model.freq? then (@.model.freq/1000) else "N/A"
     joinedTags:
       deps: ['model.tags']
-      fn: () -> @.model.tags.join(', ')
+      fn: () ->
+        html = ''
+        for tag in @.model.tags
+          html += "<span class='label label-default'>#{tag}</span>"
+        return html
     datePart:
       deps: ['model.date']
       fn: () -> @.model.date.toISOString().split('T')[0]

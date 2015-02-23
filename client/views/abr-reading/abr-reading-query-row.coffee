@@ -21,7 +21,9 @@ module.exports = View.extend
     'hasLatency':
       type: 'toggle'
       hook: 'latency'
-    'joinedTags': '[data-hook~=tags]'
+    'joinedTags':
+      hook: 'tags'
+      type: 'innerHTML'
     'model.subjectId': '[data-hook~=subject]'
     'model.experiments': '[data-hook~=experiments]'
     'durationPart': '[data-hook~=duration]'
@@ -41,7 +43,7 @@ module.exports = View.extend
     async.map @.model.experiments, app.services.experiment.lookupName, (err, result) =>
       html = ''
       for exp in result
-        html += "<span class='label label-default'>#{exp}</span>"
+        html += "<span class='label label-default'>#{exp}</span> "
       @.queryByHook('experiments').innerHTML = html
 
     return @
@@ -55,7 +57,11 @@ module.exports = View.extend
       fn: () -> if @.model.analysis? and @.model.analysis?.latency? then yes else no
     joinedTags:
       deps: ['model.tags']
-      fn: () -> @.model.tags.join(', ')
+      fn: () ->
+        html = ''
+        for tag in @.model.tags
+          html += "<span class='label label-default'>#{tag}</span>"
+        return html
     datePart:
       deps: ['model.date']
       fn: () -> @.model.date.toISOString().split('T')[0]

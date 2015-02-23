@@ -21,6 +21,11 @@ module.exports = View.extend
           for experiment,i in experiments
             html += "<a href='/experiments/#{experiment}/view'><span class='label label-default'>#{names[i]}</span></a>"
           @.queryByHook('experiments-cell').innerHTML = html
+      when 'tags'
+        html = ''
+        for tag in @.model.value
+          html += "<span class='label label-default'>#{tag}</span> "
+        @.queryByHook('tags-cell').innerHTML = html
 
     return @
 
