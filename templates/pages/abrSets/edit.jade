@@ -1,0 +1,13 @@
+.container
+    .col-md-offset-2.col-md-8
+        h2 Edit ABR Set
+        form(data-hook="edit-form")
+            fieldset(data-hook="field-container")
+            .btn-group
+                button.btn.btn-primary(data-hook="reset", type="submit") Update
+                button.btn.btn-default(data-hook='cancel', type='button') Cancel
+        hr
+        .row
+            .col-sm-12
+                h4 Include Other Fields
+                #fieldArea

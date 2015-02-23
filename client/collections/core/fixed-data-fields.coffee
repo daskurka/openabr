@@ -35,7 +35,7 @@ module.exports = Collection.extend
 
   addAbrGroupFields: () ->
     addField(@,'abr-group','string','Name','name', no,false,null,'Name of ABR Group.')
-    addField(@,'abr-group','number','Index Number','number', no,true,null,'ABR Group index number.')
+    addField(@,'abr-group','number','Index Number','number', no,true,{unit: '', prefix: ''},'ABR Group index number.')
     addField(@,'abr-group','string','Ear','ear', no,true,null,'Ear of subject used in this ABR Group.')
     addField(@,'abr-group','date','Recording Date','date', no,true,null,'Date this ABR Group was recorded.')
     addField(@,'abr-group','string','Source','source', no,true,null,'Source of this ABR Group.')
@@ -58,7 +58,7 @@ module.exports = Collection.extend
     addField(@,'abr-reading','number','Level','level', yes,true,{unit: 'B', prefix: 'd'},'ABR Reading level.')
     addField(@,'abr-reading','number','Duration','duration', yes,false,{unit: 's', prefix: 'm'},'ABR Reading duration.')
     addField(@,'abr-reading','number','Sample Rate','sampleRate', yes,true,{unit: 's', prefix: 'm'},'ABR Reading sample rate.')
-    addField(@,'abr-reading','number','Number Samples','numberSamples', yes,true,null,'ABR Reading sample count.')
+    addField(@,'abr-reading','number','Number Samples','numberSamples', yes,true,{unit: '', prefix: ''},'ABR Reading sample count.')
     addField(@,'abr-reading','number','Value Max','valueMax', yes,true,{unit: 'V', prefix: 'u'},'ABR Reading max amplitude.')
     addField(@,'abr-reading','number','Value Min','valueMin', yes,true,{unit: 'V', prefix: 'u'},'ABR Reading min amplitude.')
     addField(@,'abr-reading','values','Raw ABR Values','values', yes,true,null,'Raw ABR Values.')

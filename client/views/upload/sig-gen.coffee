@@ -401,7 +401,7 @@ module.exports = View.extend
       name: name
       dbName: dbName
       description: desc
-      required: yes
+      required: no #otherwise save on edit will not work as it is always added.
       creator: app.me.user.id
       created: new Date()
       config: config

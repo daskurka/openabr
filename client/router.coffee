@@ -116,17 +116,17 @@ module.exports = Router.extend
 
   #abr reading
   abrReadingView: (id) -> @.showUserPage new pages.abrReadings.View({id})
-  abrReadingEdit: (id) -> console.log 'TBC'
+  abrReadingEdit: (id) -> @.showUserPage new pages.abrReadings.Edit({id})
   abrReadingRemove: (id) -> @.showUserPage new pages.abrReadings.Remove({id})
 
   #abr set
   abrSetView: (id) -> @.showUserPage new pages.abrSets.View({id})
-  abrSetEdit: (id) -> console.log 'TBC'
+  abrSetEdit: (id) -> @.showUserPage new pages.abrSets.Edit({id})
   abrSetRemove: (id) -> @.showUserPage new pages.abrSets.Remove({id})
 
   #abr group
   abrGroupView: (id) -> @.showUserPage new pages.abrGroups.View({id})
-  abrGroupEdit: (id) -> console.log 'TBC'
+  abrGroupEdit: (id) -> @.showUserPage new pages.abrGroups.Edit({id})
   abrGroupRemove: (id) -> @.showUserPage new pages.abrGroups.Remove({id})
 
   #subject routes
