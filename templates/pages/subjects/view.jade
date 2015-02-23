@@ -6,19 +6,30 @@
             small(data-hook='subtitle')
     .row
         .col-lg-8
+            .row(data-hook='timeline')
+            hr
             .row(role='tabpanel')
                 ul.nav.nav-tabs(role='tablist')#graphTabs
                     li.active(role='presentation')
-                        a(href='#threshold-analysis-tab',role='tab',data-toggle='tab') Threshold Analysis
+                        a(href='#threshold-analysis-tab',role='tab',data-toggle='tab') Subject Threshold Analysis
                     li(role='presentation')
-                        a(href='#latency-analysis-tab',role='tab',data-toggle='tab') Latency Analysis
+                        a(href='#latency-analysis-tab',role='tab',data-toggle='tab') Subject Latency Analysis
+                    li(role='presentation')
+                        a(href='#group-view-tab',role='tab',data-toggle='tab') Group Snapshot
                 .tab-content
                     .tab-pane.active#threshold-analysis-tab(role='tabpanel')
-                        div(data-hook='threshold-analysis-graph')
+                        .panel.panel-default.panel-tab
+                            .panel-body
+                                div(data-hook='threshold-analysis-graph')
                     .tab-pane#latency-analysis-tab(role='tabpanel')
-                        div(data-hook='latency-analysis-graph')
-            .row(data-hook='timeline')
-            .row(data-hook='group-show')
+                        .panel.panel-default.panel-tab
+                            .panel-body
+                                div(data-hook='latency-analysis-graph')
+                    .tab-pane#group-view-tab(role='tabpanel')
+                        .panel.panel-default.panel-tab
+                            .panel-body
+                                div(data-hook='group-show')
+                                    | Please select a group first.
         .col-lg-4
             .panel.panel-default
                 .panel-heading

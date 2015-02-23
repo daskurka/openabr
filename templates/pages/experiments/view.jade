@@ -17,9 +17,13 @@
                         a(href='#latency-analysis-tab',role='tab',data-toggle='tab') Latency Analysis
                 .tab-content
                     .tab-pane.active#threshold-analysis-tab(role='tabpanel')
-                        div(data-hook='threshold-analysis-graph')
+                        .panel.panel-default.panel-tab
+                            .panel-body
+                                div(data-hook='threshold-analysis-graph')
                     .tab-pane#latency-analysis-tab(role='tabpanel')
-                        div(data-hook='latency-analysis-graph')
+                        .panel.panel-default.panel-tab
+                            .panel-body
+                                div(data-hook='latency-analysis-graph')
             .row
                 .panel.panel-default
                     .panel-heading
