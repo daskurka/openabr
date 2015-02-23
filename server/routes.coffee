@@ -7,6 +7,7 @@ profile = require './controllers/profileController'
 abrGroup = require './controllers/abrGroupController'
 abrSet = require './controllers/abrSetController'
 abrReading = require './controllers/abrReadingController'
+tagging = require './utils/tagging'
 
 
 module.exports = (server) ->
@@ -16,6 +17,9 @@ module.exports = (server) ->
 
   #authentication routes first
   server.get '/api/auth/login', authenticate.login
+
+  #util routes
+  server.get '/api/abr/tags', authenticate.user, tagging.getUniqueAbrTags
 
   #routes for managing user - only system admin
   server.post '/api/admin/users', authenticate.admin, userAdmin.create

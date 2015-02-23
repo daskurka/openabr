@@ -50,3 +50,31 @@ module.exports =
             results.push {id: subject.id, text: subject.reference, value: subject}
           callback(results[0])
     return config
+
+  buildAllAbrTag: (placeholder, multiple) ->
+    config =
+      placeholder: placeholder
+      multiple: multiple
+      ajax:
+        url: '/api/abr/tags'
+        dataType: 'json'
+        quietMillis: 250
+        results: (tags, page) ->
+          results = []
+          for tag in tags
+            results.push {id: tag, text: tag}
+          return {results: results}
+        cache: true
+      initSelection: (element, callback) =>
+        arr = element[0].value
+        tags = arr.split(',')
+        results = []
+        for tag in tags
+          results.push {id: tag, text: tag}
+        callback(results)
+      createSearchChoice: (term) ->
+        return {
+          id: term
+          text: term
+        }
+    return config

@@ -19,6 +19,9 @@ module.exports = View.extend
     notComplete:
       deps: ['complete']
       fn: () -> return not @.complete
+    notSingleMode:
+      deps: ['singleMode']
+      fn: () -> return not @.singleMode
 
   bindings:
     'model.name': '[data-hook~=name]'
@@ -28,7 +31,7 @@ module.exports = View.extend
     'notComplete':
       type: 'toggle'
       selector: '#mark-complete, #complete-and-next'
-    'singleMode':
+    'notSingleMode':
       type: 'toggle'
       selector: '#complete-and-next'
 

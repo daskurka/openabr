@@ -19,3 +19,10 @@ module.exports = BaseCollection.extend
       success: () -> callback(null)
       error: (collection, response) ->
         if response.status is 401 then app.logout()
+
+  loadFieldsForAbrForm: (callback) ->
+    @.fetch
+      data: {col: 'abr-group', autoPop: false}
+      success: () -> callback(null)
+      error: (collection, response) ->
+        if response.status is 401 then app.logout()

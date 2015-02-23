@@ -2,16 +2,31 @@
     h2 Upload ABR(s)&nbsp;
         small STEP 4: Review and Commit
     .row
-        .panel.panel-default
-            .panel-heading
-                h4.panel-title Review ABRs For Upload
-            .panel-body(data-hook='review-area')
-                p To be implemented....
-            .panel-footer
-                button.btn.btn-default(data-hook='cancel') Cancel
-                | &nbsp;&nbsp;
-                button.btn.btn-primary(data-hook='next') Commit to Database
-                    span.glyphicon.glyphicon-step-forward
+        .col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title Tag Results
+                .panel-body
+                    input(data-hook='tag-selector').form-control
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title Attach Futher Meta-Data
+                .panel-body
+                    p(data-hook='form-area') loading...
+        .col-md-6
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title Review ABRs For Upload
+                .panel-body
+                    p(data-hook='review-area') loading...
+    .row
+        .col-md-12
+            .panel.panel-default
+                .panel-footer
+                    button.btn.btn-default(data-hook='cancel') Cancel
+                    | &nbsp;&nbsp;
+                    button.btn.btn-primary(data-hook='next') Commit to Database
+                        span.glyphicon.glyphicon-step-forward
     .modal.fade(tabindex=-1,role='dialog',aria-hidden='true')#leaveModal
         .modal-dialog
             .modal-content
