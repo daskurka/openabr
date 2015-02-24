@@ -4,3 +4,12 @@ div
         li(role='presentation'): a#showConfigPill(style='cursor: pointer;') Config
         li(role='presentation'): a#showDataPill(style='cursor: pointer;') Data
     div(data-hook='switch-area')
+    .panel.panel-default
+        .panel-body
+            .btn-toolbar
+                .btn-group
+                    button.btn.btn-primary.btn-group-by(data-hook='do-not-group') No Grouping
+                    button.btn.btn-default.btn-group-by(data-hook='group-by-age') Group by Age Only
+                    button.btn.btn-default.btn-group-by(data-hook='group-by-strain') Group by Strain
+                .btn-group.pull-right
+                    button.btn.btn-success(data-hook='save-png') Save PNG

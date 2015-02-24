@@ -22,6 +22,9 @@ module.exports = View.extend
     'click #showGraphPill': 'showGraphView'
     'click #showDataPill': 'showDataView'
     'click #showConfigPill': 'showConfigView'
+    'click [data-hook~=group-by-age]': 'groupByAge'
+    'click [data-hook~=group-by-strain]': 'groupByStrain'
+    'click [data-hook~=do-not-group]': 'doNotGroup'
 
   showGraphView: () ->
     $('ul li', @.el).removeClass('active')
@@ -38,6 +41,24 @@ module.exports = View.extend
     $('#showConfigPill', @.el).parent().addClass('active')
     @.currentView = 'config'
     @.switcher.set new ConfigView(model: @.model, parent: @)
+
+  doNotGroup: () ->
+    @.model.groupBy = 'date-simple'
+
+    $('.btn-group-by').removeClass('btn-primary').addClass('btn-default')
+    $('[data-hook~=do-not-group]').addClass('btn-primary')
+
+  groupByAge: () ->
+    @.model.groupBy = 'age-monthly'
+
+    $('.btn-group-by').removeClass('btn-primary').addClass('btn-default')
+    $('[data-hook~=group-by-age]').addClass('btn-primary')
+
+  groupByStrain: () ->
+    @.model.groupBy = 'strain-age-monthly'
+
+    $('.btn-group-by').removeClass('btn-primary').addClass('btn-default')
+    $('[data-hook~=group-by-strain]').addClass('btn-primary')
 
   initialize: (spec) ->
     @.model = new ThresholdGraphModel()

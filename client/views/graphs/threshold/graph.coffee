@@ -32,7 +32,15 @@ module.exports = View.extend
             @.graph.renderDateSimple(@graphEl, @.model.data.toneData, @.model.data.clickData, @.model.data.groups)
           when 'age-monthly'
             @.graph.renderAgeHist(@graphEl, @.model.data)
+          when 'strain-age-monthly'
+            @.graph.renderStrainAgeHist(@graphEl, @.model.data)
 
+    @.model.on 'change', () =>
+      @.processData()
+
+    @.processData()
+
+  processData: () ->
     #start processing data
     #we need to process the data the correct way
     switch "#{@.model.mode}-#{@.model.groupBy}"
@@ -41,6 +49,8 @@ module.exports = View.extend
       when 'group-N-A' then do @.prepareDataSingleGroup
       when 'sets-age-monthly' then do @.prepareDataSetsAgeMonthly
       when 'sets-date-simple' then do @.prepareDataSetsDateSimple
+      when 'sets-strain-age-monthly' then do @.prepareDataSetsStrainAgeMonthly
+
 
   #for graphing reasons I am treating 120 as no response which allows for averaging up to their from 100.
   handleNoResponse = (level) ->
@@ -172,6 +182,56 @@ module.exports = View.extend
             age: age
             date: setDate
             subject: subjectLookup[set.subjectId].name
+            freq: if set.isClick then null else set.freq
+            level: handleNoResponse(set.analysis.threshold.level)
+
+      maxAge = _.max(_.pluck(data,(d) -> d.age))
+
+      domain = []
+      for weeks in [0..12000] by 4
+        domain.push weeks
+        if weeks > maxAge
+          break
+
+      hist = d3.layout.histogram()
+        .range([0,maxAge])
+        .bins(domain)
+        .value((d) -> d.age)
+
+      @.model.data = hist(data)
+      @.trigger 'model:ready'
+
+  prepareDataSetsStrainAgeMonthly: () ->
+    @.model.groupBy = 'strain-age-monthly'
+
+    #make list of subject ids
+    sets = @.model.model
+    if sets.length <= 0
+      console.log 'No sets in this experiment...'
+      return
+
+    #query subjects and extract reference and id into a lookup table
+    subjectIds = sets.map((d) -> d.subjectId)
+    subjectIds = _.uniq(subjectIds)
+    subjectLookup = {}
+    async.forEach subjectIds, (sid, cb) ->
+      sub = new SubjectModel({id: sid})
+      sub.fetch
+        success: () ->
+          subjectLookup[sid] = {name: sub.reference, dob: sub.dob, id: sid, strain: sub.strain}
+          do cb
+    , () =>
+      #go through sets adding data entries.
+      data = []
+      sets.each (set) ->
+        if set.analysis?.threshold?.level?
+          setDate = new Date(set.date)
+          age = calculateAgeInWeeks(subjectLookup[set.subjectId].dob.getTime(), setDate.getTime())
+          data.push
+            age: age
+            date: setDate
+            subject: subjectLookup[set.subjectId].name
+            strain: subjectLookup[set.subjectId].strain
             freq: if set.isClick then null else set.freq
             level: handleNoResponse(set.analysis.threshold.level)
 

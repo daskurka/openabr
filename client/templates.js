@@ -317,7 +317,7 @@
 
     // pages\home.jade compiled template
     templatizer["pages"]["home"] = function tmpl_pages_home() {
-        return "<div class=\"container\"><h2>Welcome to OpenABR</h2><p>Please contact your administrator for access, or select 'login' to get started!</p></div>";
+        return "<div class=\"container\"><h2>Welcome to OpenABR</h2><p>Select 'login' to get started! Or contact your administrator for access.</p></div>";
     };
 
     // pages\login.jade compiled template
@@ -501,7 +501,7 @@
 
     // views\graphs\threshold\config.jade compiled template
     templatizer["views"]["graphs"]["threshold"]["config"] = function tmpl_views_graphs_threshold_config() {
-        return '<div data-hook="config-area"><h4>Threshold Graph Configuration</h4><div class="form-group"><label>Mode</label><p data-hook="mode" class="form-control-static"></p></div><div id="groupBySection" class="form-group"><label>Group By</label><select data-hook="group-by" class="form-control"><option value="date-simple">Simple ABR Date</option><option value="age-monthly">Age Coalesced to Monthly (4,8,12 etc)</option></select></div></div>';
+        return '<div data-hook="config-area"><h4>Threshold Graph Configuration</h4><div class="form-group"><label>Mode</label><p data-hook="mode" class="form-control-static"></p></div><div id="groupBySection" class="form-group"><label>Group By</label><select data-hook="group-by" class="form-control"><option value="date-simple">Simple ABR Date</option><option value="age-monthly">Age Coalesced to Monthly (4,8,12 etc)</option><option value="strain-age-monthly">Strain then age coalesced to Monthy (4,8,12 etc)</option></select></div></div>';
     };
 
     // views\graphs\threshold\data.jade compiled template
@@ -511,12 +511,12 @@
 
     // views\graphs\threshold\graph.jade compiled template
     templatizer["views"]["graphs"]["threshold"]["graph"] = function tmpl_views_graphs_threshold_graph() {
-        return '<div><h4>Threshold Analysis Graph</h4><div data-hook="threshold-analysis-graph">loading...</div></div>';
+        return '<div><h4>Threshold Analysis Graph</h4><div data-hook="threshold-analysis-graph"><p>Not Loading? Have you checked if there are any ABR readings in this subject / group or experiment to analyse?</p></div></div>';
     };
 
     // views\graphs\threshold\main.jade compiled template
     templatizer["views"]["graphs"]["threshold"]["main"] = function tmpl_views_graphs_threshold_main() {
-        return '<div><ul class="nav nav-pills"><li role="presentation" class="active"><a id="showGraphPill" style="cursor: pointer;">Graph</a></li><li role="presentation"><a id="showConfigPill" style="cursor: pointer;">Config</a></li><li role="presentation"><a id="showDataPill" style="cursor: pointer;">Data</a></li></ul><div data-hook="switch-area"></div></div>';
+        return '<div><ul class="nav nav-pills"><li role="presentation" class="active"><a id="showGraphPill" style="cursor: pointer;">Graph</a></li><li role="presentation"><a id="showConfigPill" style="cursor: pointer;">Config</a></li><li role="presentation"><a id="showDataPill" style="cursor: pointer;">Data</a></li></ul><div data-hook="switch-area"></div><div class="panel panel-default"><div class="panel-body"><div class="btn-toolbar"><div class="btn-group"><button data-hook="do-not-group" class="btn btn-primary btn-group-by">No Grouping</button><button data-hook="group-by-age" class="btn btn-default btn-group-by">Group by Age Only</button><button data-hook="group-by-strain" class="btn btn-default btn-group-by">Group by Strain</button></div><div class="btn-group pull-right"><button data-hook="save-png" class="btn btn-success">Save PNG</button></div></div></div></div></div>';
     };
 
     // views\subjects\createSubject.jade compiled template
