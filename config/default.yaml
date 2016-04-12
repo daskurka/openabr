@@ -1,0 +1,12 @@
+
+
+couchdb:
+  host: "http://localhost"
+  port: 5984
+  username: "architect"
+  password: "P@ssw0rd"
+
+openabr:
+  logindb: "openabr-login"
+  appdb: "openabr"
+  admindb: "openabr-admin"

@@ -21,13 +21,16 @@ Installation
  - Run `npm install` to pull all project dependencies.
  - Run 'gulp deploy {host}' where `{host}` is host and port of the CouchDB installation, i.e. `http://localhost:5984`.
    - This will create an `architect` administration account, please take note of the password, it is used to manage users.
- - Install and configure a 'reverse proxy' to the route `http://localhost:5984/openabr/_design/app/_rewrite`.
-   - Application expects to be at root `/` although this can be configured.
-   - Proxy should forward from `/user/account` to `/openabr/_design/app/_rewrite/user/account`.
+ - Install and configure a 'reverse proxy' to forward two the three CouchDB endpoints.
+   - Application expects to be at root `/` must be forwarded too `http://localhost:5984/openabr/_design/app/_rewrite`.
+   - Administration expects to be at `/admin` must be forwarded too `http://localhost:5984/openabr-admin/_design/admin/_rewrite`.
+   - For authentication `/login` must be forwarded too `http://localhost:5984/openabr-login/_design/login/_rewrite`.
+   - For example: proxy should forward from `/user/account` to `/openabr/_design/app/_rewrite/user/account`.
 
 For Developers
 ==============
 
- - User Interface is a Single Page Application build using CoffeeScript, AmpersandJS and Webpack.
+ - Main application user interface is a Single Page Application build using CoffeeScript, AmpersandJS and Webpack.
+ - Login and Admin applications are both simple fixed HTML and CSS implementations.
  - Data persistence, user management, and validation is provided by CouchDB.
- - This is *not* a typical CouchApp, but makes use of many similar concepts.
+ - This is *not* a CouchApp project, but makes use of many similar concepts.
