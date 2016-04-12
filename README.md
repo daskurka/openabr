@@ -10,15 +10,24 @@ Waveform peak marking is not automated, however a interface is provided to vastl
 Requirements
 ============
 
-Requires Nodejs running on a computer (Windows, Linux or Mac are all fine).
-Requires MongoDB server (local or networked).
+ - CouchDB 1.6 or greater.
+ - A proxy such as [HAProxy](http://www.haproxy.org/)
+ - Nodejs (Windows, Linux or Mac are all fine) for deployment/upgrade of the application (dosen't have to be on same machine as CouchDB / Proxy).
 
 Installation
 ============
-TBC
 
+ - Install CouchDB and ensure it is in a 'Admin Party'.
+ - Run `npm install` to pull all project dependencies.
+ - Run 'gulp deploy {host}' where `{host}` is host and port of the CouchDB installation, i.e. `http://localhost:5984`.
+   - This will create an `architect` administration account, please take note of the password, it is used to manage users.
+ - Install and configure a 'reverse proxy' to the route `http://localhost:5984/openabr/_design/app/_rewrite`.
+   - Application expects to be at root `/` although this can be configured.
+   - Proxy should forward from `/user/account` to `/openabr/_design/app/_rewrite/user/account`.
 
 For Developers
 ==============
 
-Implemented using CoffeeScript (full stack), Jade for templating, Mongoose for MongoDB persistence. Front end is an AmpersandJS Single Page App. Moonboots is used to serve app and resources.
+ - User Interface is a Single Page Application build using CoffeeScript, AmpersandJS and Webpack.
+ - Data persistence, user management, and validation is provided by CouchDB.
+ - This is *not* a typical CouchApp, but makes use of many similar concepts.
