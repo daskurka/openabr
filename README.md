@@ -7,30 +7,43 @@ The system comprises a web-interface, server and database. The web-interface is 
 OpenABR uses Bogaerts, et al (2009) method for ABR set threshold detection with a configurable standard deviation level. The system still allows manual threshold selection if so desired.
 Waveform peak marking is not automated, however a interface is provided to vastly speed up the process. Exportable results include peak-to-peak latencies and amplitudes.
 
-Requirements
+Server Requirements
 ============
 
- - CouchDB 1.6 or greater.
- - A proxy such as [HAProxy](http://www.haproxy.org/)
- - Nodejs (Windows, Linux or Mac are all fine) for deployment/upgrade of the application (dosen't have to be on same machine as CouchDB / Proxy).
+ - [CouchDB](http://couchdb.apache.org/) v1.6 or greater (Windows, Linux or Mac)
+ - [Nodejs](https://nodejs.org/) v5.10 or greater (Windows, Linux or Mac)
 
 Installation
 ============
 
- - Install CouchDB and ensure it is in a 'Admin Party'.
- - Run `npm install` to pull all project dependencies.
- - Run 'gulp deploy {host}' where `{host}` is host and port of the CouchDB installation, i.e. `http://localhost:5984`.
-   - This will create an `architect` administration account, please take note of the password, it is used to manage users.
- - Install and configure a 'reverse proxy' to forward two the three CouchDB endpoints.
-   - Application expects to be at root `/` must be forwarded too `http://localhost:5984/openabr/_design/app/_rewrite`.
-   - Administration expects to be at `/admin` must be forwarded too `http://localhost:5984/openabr-admin/_design/admin/_rewrite`.
-   - For authentication `/login` must be forwarded too `http://localhost:5984/openabr-login/_design/login/_rewrite`.
-   - For example: proxy should forward from `/user/account` to `/openabr/_design/app/_rewrite/user/account`.
+ - Install [CouchDB](http://couchdb.apache.org/) and ensure it is in a 'Admin Party'.
+ - Install [Nodejs](http://nodejs.org/) and ensure running `node --version` gives a version greater than `5.10.x`.
+ - Install the program files from a package, or clone the github repository into an application folder.
+ - Run `npm install` to pull and install all project dependencies (requires internet connection).
+ - Verify that `config\defaults.yaml` details for your CouchDB installation are correct.
+   - If you have already set up a admin user for CouchDB enter the details here so `openabr` can be deployed.
+   - If you are installing the `proxy` on a different server you will need to ensure that `host` and `port` match this.
+ - Run 'gulp deploy' to install the application to CouchDB.
+   - If you don't want to use the default database names you can change them in the `default.yaml` configuration file - but remember to update the `proxy` targets.
+   - This will create an administration account if it dosen't already exist, please take note of the password as it is needed to manage/upgrade OpenABR.
+   - Once complete you can browse CouchDB to ensure that two databases have been created each with a `_design` document containing the applications.
+ - You will now need to setup the `proxy` service to forward to the correct application endpoints
+   - `node proxy` will run the provided proxy and use the configuration in `default.yaml`
+     - As a permanent solution you can use a node process manager like [PM2](http://github.com/Unitech/pm2) to monitor, restart and mangage the proxy process.
+   - If you want to use your own proxy then you will need to implement the rules in `proxy.js`
 
 For Developers
 ==============
 
- - Main application user interface is a Single Page Application build using CoffeeScript, AmpersandJS and Webpack.
- - Login and Admin applications are both simple fixed HTML and CSS implementations.
+ - User-portal and Admin-portal are both Single Page applications build using [CoffeeScript](http://coffeescript.org/), [AmpersandJS](https://ampersandjs.com/) and [Webpack](https://webpack.github.io/).
+   - They are *not* `CouchApp` projects, but are similar.
  - Data persistence, user management, and validation is provided by CouchDB.
- - This is *not* a CouchApp project, but makes use of many similar concepts.
+   - We use a `_design` document in each application
+   - We also use a `_security` document in each application
+   - Users are managed by CouchDB using `cookie` authentication
+
+Extending OpenABR / New Features
+================================
+ - Any proposal is always welcome, feel free to create an [issue](https://github.com/daskurka/openabr/issues) for new features, bugs or even related discussions.
+ - If you want to contribute to this project or anything more then get in touch I welcome all.
+ - Its open source of course, you can just modify it yourself, for yourself.
