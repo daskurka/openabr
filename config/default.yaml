@@ -1,12 +1,17 @@
-
-
 couchdb:
   host: "http://localhost"
   port: 5984
   username: "architect"
   password: "P@ssw0rd"
 
-openabr:
-  logindb: "openabr-login"
-  appdb: "openabr"
-  admindb: "openabr-admin"
+databases:
+  user: "openabr"
+  admin: "openabr-admin"
+
+proxy:
+  target:
+    user: http://localhost:5984/openabr/_design/openabr/_rewrite
+    admin: http://localhost:5984/openabr-admin/_design/admin/_rewrite
+    database: http://localhost:5984/openabr
+    server: http://localhost:5984
+  port: 8080

@@ -6,79 +6,86 @@ notifier = require 'node-notifier'
 path = require 'path'
 watch = require 'gulp-watch'
 
-#folders for app
-app =
-  src: path.resolve __dirname, "./app"
-  bin: path.resolve __dirname, "./bin/app"
+es = require 'event-stream'
+webpack = require 'webpack'
+gutil = require 'gulp-util'
+jade = require 'gulp-jade'
 
-#folder for login (fixed, is not built like the app)
-login =
-  src: path.resolve __dirname, "./login"
+#Folders for user-portal and admin-portal
+userPortal =
+  src: path.resolve __dirname, "./user-portal"
+  bin: path.resolve __dirname, "./bin/user-portal"
 
-admin =
-  src: path.resolve __dirname, "./admin"
-  bin: path.resolve __dirname, "./bin/admin"
+adminPortal =
+  src: path.resolve __dirname, "./admin-portal"
+  bin: path.resolve __dirname, "./bin/admin-portal"
 
-#main functions
-gulp.task "watch", ['watch-app', 'watch-login', 'watch-admin']
-gulp.task "build", ["build-app"]
+#main application and database build function
+buildApplication = (source, bin, filename, callback) ->
+  designDocument = gulp.src("#{source}/design-document/**/*")
+      .pipe(gulp.dest(bin))
 
-#Login
-gulp.task "dev-deploy-login", (callback) ->
-  notifier.notify({title: "login deployment", message: "starting login deployment"})
+  index = gulp.src("#{source}/index.jade")
+    .pipe(jade({locals: {}, pretty: yes}))
+    .pipe(gulp.dest("#{bin}/_attachments/statics"))
+
+  es.merge(designDocument,index).on 'end', () ->
+
+    #Configuration of webpack
+    webpackConfig =
+      cache: true
+      devtool: 'source-map'
+      entry:
+        preload: "#{source}/app/app.coffee"
+      output:
+        path: "#{bin}/_attachments/statics/js"
+        publicPath: '',
+        filename: filename
+      module:
+        loaders: [
+          { test: /\.coffee$/, loader: "coffee" },
+          { test: /\.jade$/, loader: 'jade'},
+          { test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' }
+        ]
+      resolve:
+        extensions: ["", ".web.coffee", ".web.js", ".coffee", ".js", ".pug", ".css", ".styl"]
+
+    #Exceuting webpack
+    webpack webpackConfig, (err, stats) ->
+      if err?
+        gutil.log err
+      else
+        gutil.log("[build-#{filename}]", stats.toString({colors: true}))
+        callback()
+
+  return null
+
+#main development deploy function
+deployApplication = (name, bin, callback) ->
+  notifier.notify({title: "#{name}-portal deployment", message: "starting #{name}-portal deployment"})
 
   #create database target with authentication in the string (basic couchdb authentication)
-  targetdb = "#{config.couchdb.host}:#{config.couchdb.port}/#{config.openabr.logindb}"
+  targetdb = "#{config.couchdb.host}:#{config.couchdb.port}/#{config.databases[name]}"
   targetdb = targetdb.replace("http://", "http://#{config.couchdb.username}:#{config.couchdb.password}@")
-  couchPush targetdb, login.src, {multipart: yes}, (err, resp) ->
+  couchPush targetdb, bin, {multipart: yes}, (err, resp) ->
     if err?
-      console.log "Unexpected error trying to deploy 'login' to #{targetdb}"
+      console.log "Unexpected error trying to deploy #{name}-portal to #{targetdb}"
       return callback(err)
 
-    notifier.notify({title: "login deployment", message: "login deployed to #{targetdb}"})
+    notifier.notify({title: "#{name}-portal deployment", message: "#{name}-portal deployed to #{targetdb}"})
     callback(null)
 
-gulp.task "watch-login", () ->
-  watch "#{login.src}/**/*", () -> gulp.start("dev-deploy-login")
+#gulp tasks
+gulp.task "watch", () ->
+  watch "#{userPortal.src}/**/*", () -> gulp.start("dev-deploy-user-portal")
+  watch "#{adminPortal.src}/**/*", () -> gulp.start("dev-deploy-admin-portal")
 
-#Admin
-gulp.task "dev-deploy-admin", (callback) ->
-  notifier.notify({title: "admin deployment", message: "starting admin deployment"})
+gulp.task "build", ["build-user-portal", "build-admin-portal"]
+gulp.task "build-user-portal", (callback) -> buildApplication userPortal.src, userPortal.bin, 'openabr.js', callback
+gulp.task "build-admin-portal", (callback) -> buildApplication adminPortal.src, adminPortal.bin, 'openabr-administration.js', callback
 
-  #create database target with authentication in the string (basic couchdb authentication)
-  targetdb = "#{config.couchdb.host}:#{config.couchdb.port}/#{config.openabr.admindb}"
-  targetdb = targetdb.replace("http://", "http://#{config.couchdb.username}:#{config.couchdb.password}@")
-  couchPush targetdb, admin.src, {multipart: yes}, (err, resp) ->
-    if err?
-      console.log "Unexpected error trying to deploy 'admin' to #{targetdb}"
-      return callback(err)
-
-    notifier.notify({title: "admin deployment", message: "admin deployed to #{targetdb}"})
-    callback(null)
-
-gulp.task "watch-admin", () ->
-  watch "#{admin.src}/**/*", () -> gulp.start("dev-deploy-admin")
-
-#App
-gulp.task "build-app", () ->
-  console.log 'nichts' #TODO
-
-gulp.task "dev-deploy-app", ["build-app"], (callback) ->
-  notifier.notify({title: "app deployment", message: "starting app deployment"})
-
-  #create database target with authentication in the string (basic couchdb authentication)
-  targetdb = "#{config.couchdb.host}:#{config.couchdb.port}/#{config.openabr.appdb}"
-  targetdb = target.replace("http://", "http://#{config.couchdb.username}:#{config.couchdb.password}@")
-  couchPush targetdb, app.bin, {multipart: yes}, (err, resp) ->
-    if err?
-      console.log "Unexpected error trying to deploy 'app' to #{targetdb}"
-      return callback(err)
-
-    notifier.notify({title: "app deployment", message: "app deployed to #{targetdb}"})
-    callback(null)
-
-gulp.task "watch-app", () ->
-  watch "#{app.src}/**/*", () -> gulp.start("dev-deploy-app")
+gulp.task "dev-deploy-user-portal", ["build-user-portal"], (callback) -> deployApplication 'user', userPortal.bin, callback
+gulp.task "dev-deploy-admin-portal", ["build-admin-portal"], (callback) -> deployApplication 'admin', adminPortal.bin, callback
 
 #deployment function
 gulp.task "deploy", () ->

@@ -1,0 +1,5 @@
+[
+  {"from": "", "to": "/statics/index.html"},
+  {"from": "/", "to": "/statics/index.html"},
+  {"from": "/statics/*", "to": "/statics/*"}
+]
