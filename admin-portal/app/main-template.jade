@@ -1,14 +1,14 @@
-section 
+section
   nav.navbar.navbar-default.navbar-inverse
     .container-fluid.navbar-content
       .navbar-header
-        a.navbar-brand(href='/') OpenABR Administration 
-        
+        a.navbar-brand(href='/') OpenABR Administration
+
       ul.nav.navbar-nav.navbar-left
+        li: a(href="/users") Users
+
+      ul.nav.navbar-nav.navbar-right
         li: a(href="/todo") Todo
 
-      ul.nav.navbar-nav.navbar-right    
-        li: a(href="/todo") Todo   
-  
-  
+
   div(data-hook="page-container")

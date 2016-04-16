@@ -1,0 +1,11 @@
+.container
+   h2 Create User
+
+   form(data-hook="user-form")
+      fieldset(data-hook="field-container")
+      .alert.alert-info
+         strong Please Note&nbsp;
+         | A password will be automatically generated and displayed post submission.
+      .btn-group
+         button.btn.btn-primary(data-hook="reset", type="submit") Submit
+         button.btn.btn-default(data-hook='cancel', type='button') Cancel
