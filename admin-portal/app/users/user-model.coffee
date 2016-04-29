@@ -8,8 +8,10 @@ module.exports = BaseModel.extend
   props:
     name: 'string'
     title: 'string'
-    roles: 'array'    
+    roles: 'array'
     userType: 'string'
+
+    password: 'string'
 
     derived_key: 'string'
     iterations: 'number'

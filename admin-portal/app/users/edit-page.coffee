@@ -64,6 +64,7 @@ module.exports = BasePage.extend
     'click [data-hook~=delete]': 'delete'
     'click [data-hook~=cancel]': 'cancel'
     'click [data-hook~=save]': 'save'
+    'click [data-hook~=reset-password]': 'resetPassword'
 
   delete: () ->
     if confirm("Are you absolutely sure you want to delete the user '#{@.model.name}'\nThis will orphan any records they have ownership of and remove the user from the system permanantly.")
@@ -96,3 +97,23 @@ module.exports = BasePage.extend
         error: (model, response) ->
           log.error "Unexpected error while trying to load model for for page."
           #TODO Handle errors
+
+  resetPassword: () ->
+    #generate password
+    #Inspirecd by http://stackoverflow.com/a/1349426
+    charactersToGenerate = 6
+    password = ""
+    charactersToUse = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+    for i in [0...charactersToGenerate]
+      password += charactersToUse.charAt(Math.floor(Math.random() * charactersToUse.length))
+
+    @.model.save {password},
+      success: (model) =>
+        #redirect to password page
+        passwordPage = new DisplayPasswordPage({username: @.model.name, password: password})
+        App.router.trigger 'page', passwordPage
+
+      error: (model, response) ->
+        log.error "Unexpected error while trying to load model for for page."
+        #TODO Handle errors
