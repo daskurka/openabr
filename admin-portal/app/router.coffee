@@ -25,9 +25,7 @@ module.exports = Router.extend
         log.error "Unexpected error while trying to load model for for page."
 
 
-  home: () ->
-    console.log 'home'
-
+  home: () -> @.showPage new (require('./home/page'))({})
   listUsers: () -> @.showPage new (require("./users/users-view"))({})
   createUser: () -> @.showPage new (require("./users/create-user-view"))({})
   editUser: (username) -> @.showPageWithModel require('./users/edit-page'), require("./users/user-model"), "org.couchdb.user:" + username
@@ -47,4 +45,4 @@ module.exports = Router.extend
         return @.redirectTo('')
       .done () ->
         log.info "User logged out"
-        window.location.href = '/#/'
+        window.location.href = App.baseUrl + "/#/"
