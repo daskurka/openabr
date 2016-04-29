@@ -74,8 +74,8 @@ module.exports = BasePage.extend
 
       $.ajax(options)
         .fail (data, response) ->
-          log.error "Unexpected error while trying to load model for for page."
-          #TODO error page
+          log.debug {response}, "Response for failed delete."
+          App.handleError '/users', yes, "Unexpected Error", "Couldn't delete user as requested."
 
         .done () ->
           alert("User has been deleted from the system successfully.")
@@ -95,8 +95,9 @@ module.exports = BasePage.extend
         success: (model) =>
           App.navigate "/users"
         error: (model, response) ->
-          log.error "Unexpected error while trying to load model for for page."
-          #TODO Handle errors
+          log.debug {response}, "Response for failed save."
+          App.handleError '/users', yes, "Unexpected Error", "Couldn't save user as requested."
+
 
   resetPassword: () ->
     #generate password
@@ -115,5 +116,5 @@ module.exports = BasePage.extend
         App.router.trigger 'page', passwordPage
 
       error: (model, response) ->
-        log.error "Unexpected error while trying to load model for for page."
-        #TODO Handle errors
+        log.debug {response}, "Response for failed password reset."
+        App.handleError '/users', yes, "Unexpected Error", "Couldn't reset user password as requested."

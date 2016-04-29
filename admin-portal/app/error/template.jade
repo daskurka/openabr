@@ -1,0 +1,30 @@
+.container
+  .row
+    h2 Uh Oh...&nbsp;
+      small An error has occured
+      
+    p These things happen, although we do our best to avoid them.
+      
+  .row
+    .panel.panel-default
+      .panel-heading
+        .panel-title Error Details
+        
+      .panel-body
+        dl.dl-horizontal
+          dt Error
+          dd= error
+          dt Reason
+          dd= reason
+          
+  .row(data-hook='report')
+    h3 Report Error
+    p The error you encountered was unexpected, if you want you can report this and maybe get it fixed.
+    p To do this you need to click the button below and send the error report to the development team or your administrator.
+    button.btn.btn-default(data-hook='generate-report') Generate Report
+          
+  .row
+    button.btn.btn-primary(data-hook='next') Go Back
+          
+          
+    

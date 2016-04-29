@@ -14,12 +14,16 @@ Application = require 'ampersand-app'
 MainView = require './main-view'
 Router = require './router'
 
+#error view
+ErrorPage = require './error/page'
+
 
 #global application container
 window.App = Application.extend
 
   router: new Router()
   baseUrl: "/admin"
+  logger: logger
 
   init: () ->
     log.trace "Starting app initialisation..."
@@ -36,6 +40,11 @@ window.App = Application.extend
     log.trace "Navigating to page: #{page}"
     url = if (page.charAt(0) is '/') then page.slice(1) else page
     @.router.history.navigate(url, {trigger: yes})
+
+  handleError: (redirect, report, error, reason) ->
+    log.trace "Handling error: #{error}"
+    page = new ErrorPage({error, reason, report, redirect})
+    @.router.trigger 'page', page
 
 #start the app
 do $.proxy(App.init,App)
