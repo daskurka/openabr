@@ -20,4 +20,6 @@ module.exports = BaseModel.extend
   derived:
     couchRoles:
       deps: ['roles']
-      fn: () -> return @.roles.join(', ')
+      fn: () ->
+        console.log @._values
+        return @.roles.join(', ')
