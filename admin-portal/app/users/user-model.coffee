@@ -3,7 +3,7 @@ BaseModel = require '../base-model'
 
 module.exports = BaseModel.extend
 
-  baseUrl: "/admin/data/_users"
+  urlRoot: App.baseUrl + "/data/_users"
 
   props:
     name: 'string'
@@ -20,6 +20,4 @@ module.exports = BaseModel.extend
   derived:
     couchRoles:
       deps: ['roles']
-      fn: () ->
-        console.log @._values
-        return @.roles.join(', ')
+      fn: () -> return @.roles.join(', ')

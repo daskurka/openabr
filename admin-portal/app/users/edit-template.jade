@@ -1,0 +1,15 @@
+.container
+  .row
+    h1
+      span= model.name
+      small Edit User
+      
+  .row
+    form.form(data-hook='edit-form')
+    
+  .row
+    .btn-toolbar
+      .btn-group: button.btn.btn-primary(data-hook='save') Save Changes
+      .btn-group: button.btn.btn-default(data-hook='cancel') Cancel Edit
+      .btn-group: button.btn.btn-danger(data-hook='delete') Delete User
+      

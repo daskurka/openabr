@@ -12,3 +12,9 @@ module.exports = View.extend
     'model.title': '[data-hook=title]'
     'model.name': '[data-hook=email]'
     'model.couchRoles': '[data-hook=roles]'
+
+  events:
+    'click [data-hook~=user-row]': 'editUser'
+
+  editUser: () ->
+    App.navigate "/users/#{@.model.name}"
