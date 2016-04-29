@@ -1,11 +1,12 @@
 .container
   .row
-    h1
-      span= model.name
-      small Edit User
+    h2
+      span Edit User
+      small= model.name
       
   .row
     form.form(data-hook='edit-form')
+      fieldset(data-hook="field-container")
     
   .row
     .btn-toolbar

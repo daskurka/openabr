@@ -1,12 +1,15 @@
 .container
-   h2 Users
-   button.btn.btn-primary#newUser
-      span.glyphicon.glyphicon-plus
-      | &nbsp;new user
-   hr
-   table.table.table-hover
-      thead
-         th Title
-         th Email
-         th Roles
-      tbody(data-hook='users-table')
+  .row
+    h2 Users
+  .row
+     button.btn.btn-primary#newUser
+        span.glyphicon.glyphicon-plus
+        | &nbsp;new user
+  .row
+     hr
+     table.table.table-hover
+        thead
+           th Title
+           th Email
+           th Roles
+        tbody(data-hook='users-table')
