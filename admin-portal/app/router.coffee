@@ -11,6 +11,8 @@ module.exports = Router.extend
     'users/create': 'createUser'
     'users/:username': 'editUser'
 
+    'logout': 'logout'
+
     '(*path)': 'fourOhFour'
 
   showPage: (page) -> @.trigger 'page', page
@@ -31,4 +33,18 @@ module.exports = Router.extend
   editUser: (username) -> @.showPageWithModel require('./users/edit-page'), require("./users/user-model"), "org.couchdb.user:" + username
 
   fourOhFour: () ->
-    console.log '404'
+    log.error "Requested unknown application path: #{window.href}"
+    log.trace "Redirecting to Home"
+    App.navigate '/'
+
+  logout: () ->
+    options =
+      url: App.baseUrl + "/data/_session"
+      method: "DELETE"
+    $.ajax(options)
+      .fail () ->
+        log.error "Error trying to logout user."
+        return @.redirectTo('')
+      .done () ->
+        log.info "User logged out"
+        window.location.href = '/#/'
